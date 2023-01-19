@@ -35,17 +35,9 @@ su ubuntu -c "source /home/ubuntu/.nvm/nvm.sh && sudo -E env 'PATH=$PATH' n 14.1
 # Install ffmpeg
 sudo apt install -y ffmpeg
 
-# ------------------------- Install venv with Poetry ------------------------- #
-echo "[SimBot] Set up virtual environment"
-su ubuntu -c "/home/ubuntu/.local/bin/poetry env use $(/home/ubuntu/.pyenv/bin/pyenv which python)"
-su ubuntu -c "/home/ubuntu/.local/bin/poetry install"
-
 # --------------------------- Prepare mission data --------------------------- #
 echo "[SimBot] Downloading arena mission data"
 su ubuntu -c 'sh ./scripts/fetch-arena-data.sh'
-
-echo "[SimBot] Preparing trajectory data"
-su ubuntu -c "/home/ubuntu/.local/bin/poetry run python -m simbot_offline_inference.prepare_trajectory_data"
 
 # ----------------------------------- Done ----------------------------------- #
 echo "[SimBot] Done!"
