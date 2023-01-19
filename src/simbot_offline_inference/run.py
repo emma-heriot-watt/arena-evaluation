@@ -30,7 +30,7 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
     evaluator = SimBotArenaEvaluator(arena_orchestrator, experience_hub_orchestrator)
 
     logger.info(f"Loading test data from {processed_trajectory_data}")
-    test_data = np.load(processed_trajectory_data)
+    test_data = np.load(processed_trajectory_data, allow_pickle=True)
     logger.debug(f"Loaded {len(test_data)} instances to evaluate")
 
     logger.info(f"Running evaluation on test data...")
