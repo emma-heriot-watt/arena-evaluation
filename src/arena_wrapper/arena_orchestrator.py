@@ -1,13 +1,13 @@
 import atexit
 import base64
 import json
-import logging
 import os
 import subprocess
 import time
 
 import cv2
 import numpy as np
+from loguru import logger
 
 from arena_wrapper.arena_controller import ArenaController
 from arena_wrapper.arena_request_builder import ArenaRequestBuilder
@@ -35,7 +35,7 @@ class ArenaOrchestrator:
         self.segmentation_color_to_object_id_map = {}
         self.subgoals_completion_indices = []
         self.subgoals_completion_ids = []
-        self.logger = logging.getLogger("Simbot.ArenaOrchestrator")
+        self.logger = logger
 
     def init_game(self, cdf):
         if self.init_unity_instance():
@@ -64,7 +64,7 @@ class ArenaOrchestrator:
             }
             for action in actions:
                 rg_compatible_action = self.arena_request_builder.get_request_json(action, params)
-                print("RG compatible action: " + str(rg_compatible_action))
+                logger.info("RG compatible action: " + str(rg_compatible_action))
                 if rg_compatible_action is not None:
                     rg_compatible_actions.append(rg_compatible_action)
         except Exception as e:
@@ -98,8 +98,8 @@ class ArenaOrchestrator:
                 self.kill_unity_instance()
                 time.sleep(1)
         except Exception as e:
-            print("Exception occurred while killing the RG unity instance.", e)
-        print("Starting unity instance...")
+            logger.info("Exception occurred while killing the RG unity instance.", e)
+        logger.info("Starting unity instance...")
         env = os.environ.copy()
         env["DISPLAY"] = ":" + str(self.x_display)
         try:
@@ -107,13 +107,15 @@ class ArenaOrchestrator:
                 self._get_unity_execution_command(), env=env, shell=True
             )
             (output, err) = self.unity_proc.communicate()
-            print(output)
-            print(err)
+            logger.info(output)
+            logger.info(err)
             self.unity_pid = proc.pid
-            print("Unity instance process ID: " + str(self.unity_pid))
+            logger.info("Unity instance process ID: " + str(self.unity_pid))
             atexit.register(lambda: self.unity_proc.poll() is None and self.unity_proc.kill())
         except Exception as e:
-            print("Exception occurred while opening the RG unity instance. Please start it. ", e)
+            logger.exception(
+                "Exception occurred while opening the RG unity instance. Please start it. ", e
+            )
             return False
         time.sleep(1)
         if not self.controller.get_connection_status():
@@ -144,10 +146,10 @@ class ArenaOrchestrator:
     def kill_unity_instance(self):
         try:
             os.system("kill -9 $(ps -A | grep SimbotChallenge | awk '{ print $1 }')")
-            print("Unity process killed successfully")
+            logger.info("Unity process killed successfully")
             return True
         except Exception as e:
-            print("Exception occurred while killing the RG unity instance.", e)
+            logger.info("Exception occurred while killing the RG unity instance.", e)
             return False
 
     def build_segmentation_color_to_object_id_map(self):
