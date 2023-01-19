@@ -1,9 +1,11 @@
 #! /bin/bash
 
+ROOT="/home/ubuntu/offline-inference"
+
 # ------------------ Create the directory for the ML Toolbox ----------------- #
 echo "[SimBot] Creating directory for the ML toolbox"
-su ubuntu -c 'mkdir -p /home/ubuntu/AlexaSimbotToolbox'
-cd /home/ubuntu/AlexaSimbotToolbox || exit 1
+su ubuntu -c "mkdir -p $ROOT"
+cd $ROOT || exit 1
 
 # ------------------- Clone the repository for the project ------------------- #
 echo "[SimBot] Cloning the ML Toolbox from the emma-simbot/simbot-offline-inference"
@@ -15,7 +17,7 @@ su ubuntu -c 'sh ./scripts/fetch-arena.sh'
 
 # --------------------------- Install dependencies --------------------------- #
 # Copy the files they want us to copy?
-sudo cp -r /home/ubuntu/AlexaSimbotToolbox/storage/arena/Dependencies/* /usr/lib/
+sudo cp -r $ROOT/storage/arena/Dependencies/* /usr/lib/
 sudo ldconfig
 
 # Install PostgreSQL
@@ -38,6 +40,14 @@ sudo apt install -y ffmpeg
 # --------------------------- Prepare mission data --------------------------- #
 echo "[SimBot] Downloading arena mission data"
 su ubuntu -c 'sh ./scripts/fetch-arena-data.sh'
+
+# ---------------------------- Preparing the arena --------------------------- #
+echo "[SimBot] Set permissions for the arena"
+sudo chmod -R 755 $ROOT/storage/arena/Linux
+chmod 777 $ROOT/storage/arena/Linux/SimbotChallenge.x86_64
+
+echo "[SimBot] Start XServer"
+su ubuntu -c 'sudo /usr/bin/X :1 &'
 
 # ----------------------------------- Done ----------------------------------- #
 echo "[SimBot] Done!"
