@@ -6,7 +6,7 @@ su ubuntu -c 'mkdir -p /home/ubuntu/AlexaSimbotToolbox'
 cd /home/ubuntu/AlexaSimbotToolbox || exit 1
 
 # ------------------- Clone the repository for the project ------------------- #
-echo "[SimBot] Cloning the ML Toolbox from the emma-simbot/simbot-ml-toolbox"
+echo "[SimBot] Cloning the ML Toolbox from the emma-simbot/simbot-offline-inference"
 su ubuntu -c 'git clone https://github.com/emma-simbot/simbot-offline-inference.git .'
 
 # ---------------------------- Download the arena ---------------------------- #
@@ -15,7 +15,7 @@ su ubuntu -c 'sh ./scripts/fetch-arena.sh'
 
 # --------------------------- Install dependencies --------------------------- #
 # Copy the files they want us to copy?
-sudo cp -r /home/ubuntu/AlexaSimbotToolbox/arena/Dependencies/* /usr/lib/
+sudo cp -r /home/ubuntu/AlexaSimbotToolbox/storage/arena/Dependencies/* /usr/lib/
 sudo ldconfig
 
 # Install PostgreSQL
@@ -35,9 +35,17 @@ su ubuntu -c "source /home/ubuntu/.nvm/nvm.sh && sudo -E env 'PATH=$PATH' n 14.1
 # Install ffmpeg
 sudo apt install -y ffmpeg
 
+# ------------------------- Install venv with Poetry ------------------------- #
+echo "[SimBot] Set up virtual environment"
+su ubuntu -c "/home/ubuntu/.local/bin/poetry env use $(/home/ubuntu/.pyenv/bin/pyenv which python)"
+su ubuntu -c "/home/ubuntu/.local/bin/poetry install"
+
 # --------------------------- Prepare mission data --------------------------- #
 echo "[SimBot] Downloading arena mission data"
 su ubuntu -c 'sh ./scripts/fetch-arena-data.sh'
+
+echo "[SimBot] Preparing trajectory data"
+su ubuntu -c "/home/ubuntu/.local/bin/poetry run python -m simbot_offline_inference.prepare_trajectory_data"
 
 # ----------------------------------- Done ----------------------------------- #
 echo "[SimBot] Done!"
