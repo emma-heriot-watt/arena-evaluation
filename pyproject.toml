@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "simbot-offline-inference"
+version = "0.1.0"
+description = ""
+authors = ["Amit Parekh <7276308+amitkparekh@users.noreply.github.com>"]
+readme = "README.md"
+packages = [
+	{ include = "simbot_offline_inference", from = "src" },
+	{ include = "arena_wrapper", from = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "~3.9"
+flask = "^2.2.2"
+unityparser = "^2.2.1"
+opencv-python = "^4.7.0.68"
+scipy = "^1.10.0"
+jinja2 = "^3.1.2"
+emma-experience-hub = { git = "https://github.com/emma-simbot/experience-hub" }
+
+
+[tool.poetry.group.lint.dependencies]
+black = "^22.12.0"
+wemake-python-styleguide = "^0.17.0"
+mypy = "^0.991"
+pytest = "^7.2.1"
+pre-commit = "^2.21.0"
+poethepoet = "^0.18.1"
+isort = "^5.11.4"
+
+[tool.black]
+line-length = 99
+
+[tool.isort]
+profile = "black"
+combine_as_imports = true
+lines_after_imports = 2
+line_length = 99
+known_first_party = ["emma_*", "arena_wrapper", "simbot_offline_inference"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
