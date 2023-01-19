@@ -12,6 +12,7 @@ from loguru import logger
 
 from arena_wrapper.arena_orchestrator import ArenaOrchestrator as AlexaArenaOrchestrator
 from emma_experience_hub.commands.simbot.cli import run_background_services, run_controller_api
+from simbot_offline_inference.settings import Settings
 
 
 class ArenaOrchestrator(AlexaArenaOrchestrator):
@@ -28,6 +29,21 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
             logger.warning(
                 "Could not kill the Unity instance. You might need to kill it manually."
             )
+
+    def _get_unity_execution_command(self) -> str:
+        settings = Settings()
+
+        command = (
+            "DISPLAY=:"
+            + str(settings.display)
+            + " "
+            + str(settings.arena_path)
+            + " -logfile "
+            + str(settings.unity_log_path)
+            + "&"
+        )
+
+        return command
 
 
 class ExperienceHubOrchestrator:

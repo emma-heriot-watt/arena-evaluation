@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 import numpy as np
@@ -7,33 +6,23 @@ from loguru import logger
 from emma_common.logging import setup_rich_logging
 from simbot_offline_inference.evaluator import SimBotArenaEvaluator
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
-from simbot_offline_inference.prepare_trajectory_data import TRAJECTORY_ROOT_DIR
-
-
-STORAGE_DIR = Path("storage/")
-
-BASE_ENDPOINT = "http://0.0.0.0:5000"
-
-AUXILIARY_METADATA_DIR = STORAGE_DIR.joinpath("auxiliary_metadata/")
-AUXILIARY_METADATA_DIR.mkdir(parents=True, exist_ok=True)
-
-FEATURE_CACHE_DIR = STORAGE_DIR.joinpath("features/")
-FEATURE_CACHE_DIR.mkdir(parents=True, exist_ok=True)
-
-
-os.environ["PLATFORM"] = "Linux"
-os.environ["ARENA_PATH"] = str(STORAGE_DIR.joinpath("arena", "Linux", "SimbotChallenge.x86_64"))
-os.environ["UNITY_LOG_PATH"] = str(STORAGE_DIR.joinpath("logs", "unity_logs.log"))
+from simbot_offline_inference.settings import Settings
 
 
 def run_evaluation(processed_trajectory_data: Path) -> None:
+    settings = Settings()
+    settings.put_settings_in_environment()
+    settings.create_directories()
+
+    logger.debug("Loaded settings: {settings}")
+
     logger.info("Preparing orchestrators and evaluators")
     arena_orchestrator = ArenaOrchestrator()
     experience_hub_orchestrator = ExperienceHubOrchestrator(
-        healthcheck_endpoint=f"{BASE_ENDPOINT}/healthcheck",
-        predict_endpoint=f"{BASE_ENDPOINT}/v1/predict",
-        auxiliary_metadata_dir=AUXILIARY_METADATA_DIR,
-        cached_extracted_features_dir=FEATURE_CACHE_DIR,
+        healthcheck_endpoint=f"{settings.base_endpoint}/healthcheck",
+        predict_endpoint=f"{settings.base_endpoint}/v1/predict",
+        auxiliary_metadata_dir=settings.auxiliary_metadata_dir,
+        cached_extracted_features_dir=settings.feature_cache_dir,
         session_id_prefix="T2",
     )
     evaluator = SimBotArenaEvaluator(arena_orchestrator, experience_hub_orchestrator)
@@ -49,5 +38,6 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
 
 
 if __name__ == "__main__":
+    settings = Settings()
     setup_rich_logging()
-    run_evaluation(TRAJECTORY_ROOT_DIR.joinpath("nlg_commands_T2.npy"))
+    run_evaluation(settings.trajectory_dir.joinpath("nlg_commands_T2.npy"))
