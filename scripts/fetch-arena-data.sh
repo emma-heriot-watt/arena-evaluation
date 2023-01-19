@@ -10,4 +10,4 @@ aws s3 cp s3://alexa-simbot-toolbox-iad-prod/simbot-data/action-model/T2_valid.j
 mkdir -p storage/data/cdfs
 
 aws s3 cp s3://alexa-simbot-toolbox-iad-prod/simbot-data/action-model/T2_CDFs.zip storage/data/cdfs/T2_CDFs.zip
-unzip ~/AlexaSimbotToolbox/data/CDFs/T2_CDFs.zip -d storage/data/cdfs/
+unzip storage/data/cdfs/T2_CDFs.zip -d storage/data/cdfs/
