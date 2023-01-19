@@ -3,7 +3,6 @@ from pathlib import Path
 import numpy as np
 from loguru import logger
 
-from emma_experience_hub.commands.teach.xserver import launch_xserver
 from simbot_offline_inference.evaluator import SimBotArenaEvaluator
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 from simbot_offline_inference.prepare_trajectory_data import TRAJECTORY_ROOT_DIR
@@ -19,9 +18,6 @@ FEATURE_CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def run_evaluation(processed_trajectory_data: Path) -> None:
-    logger.info("Launch XServer")
-    launch_xserver()
-
     logger.info("Preparing orchestrators and evaluators")
     arena_orchestrator = ArenaOrchestrator()
     experience_hub_orchestrator = ExperienceHubOrchestrator(
