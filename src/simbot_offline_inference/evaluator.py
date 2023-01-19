@@ -25,11 +25,15 @@ class SimBotArenaEvaluator:
     def run_evaluation(self, test_data: list[SimBotTestInstance]) -> None:
         with self._arena_orchestrator, self._experience_hub_orchestrator:
             # Make sure experience hub is ready
+            logger.info("Checking experience hub is ready...")
             self._experience_hub_orchestrator.healthcheck(1000, 5)
 
             # Run the evaluation
+            logger.info("Starting evaluation...")
             for instance in test_data:
                 self.run_evaluation_step(instance)
+
+            logger.info("Finished evaluation!")
 
         logger.info(f"Overall success rate: {self._evaluation_metrics.overall_success_rate}")
         logger.info(
@@ -44,6 +48,8 @@ class SimBotArenaEvaluator:
         if not self._experience_hub_orchestrator.healthcheck():
             raise AssertionError("The Experience Hub is not healthy.")
 
+        logger.info(f"Running evaluation for Test #{test_data['test_number']}")
+
         for utterance in test_data["utterances"]:
             # Get the auxiliary metadata from the arena
             auxiliary_metadata = self._arena_orchestrator.get_reconstructed_metadata()
@@ -52,16 +58,19 @@ class SimBotArenaEvaluator:
             actions = self._experience_hub_orchestrator.get_next_actions(
                 test_data["test_number"], utterance, auxiliary_metadata
             )
+            logger.debug(f"Executing actions: {actions}")
 
             # Execute the actions on the arena environment
             return_val, error_code = self._arena_orchestrator.execute_action(
                 actions, self._object_output_type, utterance
             )
+            logger.debug(f"Received response from arena: {return_val}, {error_code}")
 
             if not return_val:
-                logger.error(f"Action coule not be completed for the utterance {utterance}")
+                logger.error(f"Action could not be completed for the utterance {utterance}")
 
         # Check goal status and get results
+        logger.debug("Calculating metrics for test")
         (
             _,
             goal_completion_status,
@@ -72,7 +81,7 @@ class SimBotArenaEvaluator:
             subgoal_completion_status=subgoal_completion_status,
         )
 
-        logger.info(f"Test {test_data['test_number']} completed")
+        logger.info(f"Test #{test_data['test_number']} completed")
         logger.info(f"Mission completion status: {goal_completion_status}")
         logger.info(f"Subgoal completion status: {subgoal_completion_status}")
         logger.info(

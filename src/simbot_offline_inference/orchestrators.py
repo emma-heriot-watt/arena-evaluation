@@ -61,13 +61,17 @@ class ExperienceHubOrchestrator:
     def __enter__(self) -> None:
         """Start the Experience Hub."""
         # Run the background services
+        logger.debug("Starting background services for the experience hub...")
         run_background_services(download_models=True, force_download=True, run_in_background=True)
 
         # Create the process for the experience hub
+        logger.debug("Starting controller API for the experience hub...")
         self._experience_hub_process.start()
 
     def __exit__(self, *args: Any, **kwargs: Any) -> None:
         """Try to kill the experience hub."""
+        logger.debug("Trying to stop running the expeirence hub...")
+
         self._experience_hub_process.join()
         try:
             self._experience_hub_process.close()
@@ -77,6 +81,8 @@ class ExperienceHubOrchestrator:
 
     def _healthcheck(self) -> bool:
         """Verify the health of the experience hub service."""
+        logger.debug("Running healthcheck")
+
         with httpx.Client() as client:
             response = client.get(self._healthcheck_endpoint)
 
@@ -135,10 +141,13 @@ class ExperienceHubOrchestrator:
         prediction_request_id = str(uuid4())
 
         self._save_auxiliary_metadata(session_id, prediction_request_id, auxiliary_metadata)
+
+        logger.debug("Building request payload")
         simbot_request = self._build_raw_simbot_request(
             session_id, prediction_request_id, utterance
         )
 
+        logger.debug(f"Sending request: {simbot_request}")
         simbot_response = self._make_request(simbot_request)
 
         actions = simbot_response.get("actions")
