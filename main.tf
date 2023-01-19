@@ -6,7 +6,7 @@ locals {
   instance_type          = "g5.2xlarge"
   region                 = "us-east-1"
   role_name              = "Simbot-EC2-Role"
-  ssh_key_name           = "amit-aws-us-east-1"
+  ssh_key_name           = "ec2-ssh-key-pair"
   stack_formation_prefix = "Simbot-University-Stack"
   user_data_path         = "scripts/instance-user-data.sh"
 }
