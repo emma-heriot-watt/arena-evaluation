@@ -27,7 +27,7 @@ def process_file(in_file: Path, out_file: Path) -> None:
     with open(in_file) as input_file:
         data = json.load(input_file)
 
-    nlg_commands = []
+    nlg_commands: list[SimBotTestInstance] = []
     ind_cnt = 1
 
     for task_descr, task in data.items():
