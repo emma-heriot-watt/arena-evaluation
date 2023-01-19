@@ -21,12 +21,9 @@ FEATURE_CACHE_DIR = STORAGE_DIR.joinpath("features/")
 FEATURE_CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def set_arena_env_vars() -> None:
-    os.environ["PLATFORM"] = "Linux"
-    os.environ["ARENA_PATH"] = str(
-        STORAGE_DIR.joinpath("arena", "Linux", "SimbotChallenge.x86_64")
-    )
-    os.environ["UNITY_LOG_PATH"] = str(STORAGE_DIR.joinpath("logs", "unity_logs.log"))
+os.environ["PLATFORM"] = "Linux"
+os.environ["ARENA_PATH"] = str(STORAGE_DIR.joinpath("arena", "Linux", "SimbotChallenge.x86_64"))
+os.environ["UNITY_LOG_PATH"] = str(STORAGE_DIR.joinpath("logs", "unity_logs.log"))
 
 
 def run_evaluation(processed_trajectory_data: Path) -> None:
@@ -52,6 +49,5 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
 
 
 if __name__ == "__main__":
-    set_arena_env_vars()
     setup_rich_logging()
     run_evaluation(TRAJECTORY_ROOT_DIR.joinpath("nlg_commands_T2.npy"))
