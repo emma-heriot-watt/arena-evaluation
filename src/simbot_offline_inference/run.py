@@ -3,6 +3,7 @@ from pathlib import Path
 import numpy as np
 from loguru import logger
 
+from emma_common.logging import setup_rich_logging
 from simbot_offline_inference.evaluator import SimBotArenaEvaluator
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 from simbot_offline_inference.prepare_trajectory_data import TRAJECTORY_ROOT_DIR
@@ -40,4 +41,5 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
 
 
 if __name__ == "__main__":
+    setup_rich_logging()
     run_evaluation(TRAJECTORY_ROOT_DIR.joinpath("nlg_commands_T2.npy"))
