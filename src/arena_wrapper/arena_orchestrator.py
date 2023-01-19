@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import time
+from dataclasses import dataclass
 
 import cv2
 import numpy as np
@@ -16,6 +17,7 @@ from arena_wrapper.enums.object_output_wrapper import ObjectOutputType
 from arena_wrapper.util import object_class_decoder
 
 
+@dataclass
 class AppConfig:
     unity_executable_path = os.getenv("ARENA_PATH")
     unity_log_file = os.getenv("UNITY_LOG_PATH")
@@ -36,6 +38,7 @@ class ArenaOrchestrator:
         self.subgoals_completion_indices = []
         self.subgoals_completion_ids = []
         self.logger = logger
+        self.app_config = AppConfig()
 
     def init_game(self, cdf):
         if self.init_unity_instance():
@@ -124,18 +127,18 @@ class ArenaOrchestrator:
 
     def _get_unity_execution_command(self):
         command = None
-        if AppConfig.runtime_platform == "Linux":
+        if self.app_config.runtime_platform == "Linux":
             command = (
                 "DISPLAY=:"
                 + str(self.x_display)
                 + " "
-                + AppConfig.unity_executable_path
+                + self.app_config.unity_executable_path
                 + " -logfile "
-                + AppConfig.unity_log_file
+                + self.app_config.unity_log_file
                 + "&"
             )
-        elif AppConfig.runtime_platform == "Mac":
-            command = "open -n " + AppConfig.unity_executable_path
+        elif self.app_config.runtime_platform == "Mac":
+            command = "open -n " + self.app_config.unity_executable_path
         return command
 
     def launch_game(self, cdf):
