@@ -122,7 +122,11 @@ class ExperienceHubOrchestrator:
         logger.debug("Running healthcheck")
 
         with httpx.Client() as client:
-            response = client.get(self._healthcheck_endpoint)
+            try:
+                response = client.get(self._healthcheck_endpoint)
+            except httpx.ReadTimeout:
+                logger.error("Healthcheck timed out")
+                return False
 
         try:
             response.raise_for_status()
