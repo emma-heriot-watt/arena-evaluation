@@ -225,6 +225,7 @@ class ExperienceHubOrchestrator:
         output_location = self._auxiliary_metadata_dir.joinpath(
             f"{session_id}/{prediction_request_id}.json"
         )
+        output_location.parent.mkdir(parents=True, exist_ok=True)
         output_location.write_bytes(orjson.dumps(auxiliary_metadata))
         logger.debug(f"Wrote auxiliary metadata to `{output_location}`")
 
