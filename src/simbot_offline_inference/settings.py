@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     # Experience hub
     base_endpoint: str = "http://0.0.0.0:5522"
     simbot_port: int = 5522
+    simbot_client_timeout: int = -1
 
     # Unity
     platform: str = "Linux"
