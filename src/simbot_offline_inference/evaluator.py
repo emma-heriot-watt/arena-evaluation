@@ -55,15 +55,17 @@ class SimBotArenaEvaluator:
 
         for utterance in test_data["utterances"]:
             # Get the auxiliary metadata from the arena
+            logger.debug("Getting auxiliary metadata from the arena")
             auxiliary_metadata = self._arena_orchestrator.get_reconstructed_metadata()
 
             # Get the next actions to take from the ExperienceHub
+            logger.debug("Trying to get the next actions to take from the Experience Hub")
             actions = self._experience_hub_orchestrator.get_next_actions(
                 test_data["test_number"], utterance, auxiliary_metadata
             )
-            logger.debug(f"Executing actions: {actions}")
 
             # Execute the actions on the arena environment
+            logger.debug(f"Executing actions: {actions}")
             return_val, error_code = self._arena_orchestrator.execute_action(
                 actions, self._object_output_type, utterance
             )
