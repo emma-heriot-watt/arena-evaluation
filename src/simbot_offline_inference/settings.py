@@ -7,9 +7,11 @@ from pydantic import BaseSettings, DirectoryPath, FilePath
 class Settings(BaseSettings):
     # Paths
     storage_dir: DirectoryPath = Path("storage/")
+    models_dir: Path = storage_dir.joinpath("models/")
     auxiliary_metadata_dir: DirectoryPath = storage_dir.joinpath("auxiliary_metadata/")
     feature_cache_dir: DirectoryPath = storage_dir.joinpath("features/")
     trajectory_dir: DirectoryPath = storage_dir.joinpath("data/", "trajectory-data/")
+    experience_hub_dir: DirectoryPath = storage_dir.joinpath("experience-hub/")
 
     # Experience hub
     base_endpoint: str = "http://0.0.0.0:5000"
@@ -27,7 +29,12 @@ class Settings(BaseSettings):
 
     def create_directories(self) -> None:
         """Create directories that need creating if they don't exist already."""
-        self.storage_dir.mkdir(parents=True, exist_ok=True)
-        self.auxiliary_metadata_dir.mkdir(parents=True, exist_ok=True)
-        self.feature_cache_dir.mkdir(parents=True, exist_ok=True)
-        self.trajectory_dir.mkdir(parents=True, exist_ok=True)
+        directories = [
+            self.storage_dir,
+            self.auxiliary_metadata_dir,
+            self.feature_cache_dir,
+            self.trajectory_dir,
+            self.models_dir,
+        ]
+        for directory in directories:
+            directory.mkdir(parents=True, exist_ok=True)
