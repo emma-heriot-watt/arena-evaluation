@@ -25,8 +25,8 @@ chmod 777 $ROOT/storage/arena/Linux/SimbotChallenge.x86_64
 
 # --------------------------- Install dependencies --------------------------- #
 # Copy the files they want us to copy?
-sudo cp -r $ROOT/storage/arena/Dependencies/* /usr/lib/
-sudo ldconfig
+su ubuntu -c "sudo cp -r $ROOT/storage/arena/Dependencies/* /usr/lib/"
+su ubuntu -c "sudo ldconfig"
 
 # Install PostgreSQL
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' &&
