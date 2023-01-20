@@ -183,6 +183,9 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
