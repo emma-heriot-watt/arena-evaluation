@@ -183,6 +183,9 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
       - name: Configure GitHub to download private repos
         env:
           PAT: ${{ secrets.PAT }}
@@ -192,6 +195,7 @@ jobs:
       - name: Install pre-commit
         run: |
           pip install pre-commit
+
       - name: Load cached pre-commit environment
         uses: tespkg/actions-cache@v1
         id: pre-commit-cache
@@ -209,6 +213,7 @@ jobs:
         run: |
           git add .pre-commit-config.yaml
           pre-commit run --color=always --all-files
+
       - name: Annotate any changes using reviewdog
         if: ${{ failure() }}
         id: reviewdog-suggester
