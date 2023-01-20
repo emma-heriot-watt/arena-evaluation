@@ -11,7 +11,13 @@ import orjson
 from loguru import logger
 
 from arena_wrapper.arena_orchestrator import ArenaOrchestrator as AlexaArenaOrchestrator
-from emma_experience_hub.commands.simbot.cli import run_background_services, run_controller_api
+from emma_experience_hub.commands.simbot.cli import (
+    SERVICE_REGISTRY_PATH,
+    SERVICES_COMPOSE_PATH,
+    SERVICES_STAGING_COMPOSE_PATH,
+    run_background_services,
+    run_controller_api,
+)
 from simbot_offline_inference.settings import Settings
 
 
@@ -55,6 +61,7 @@ class ExperienceHubOrchestrator:
         predict_endpoint: str,
         auxiliary_metadata_dir: Path,
         cached_extracted_features_dir: Path,
+        experience_hub_dir: Path,
         session_id_prefix: str = "",
     ) -> None:
         self._healthcheck_endpoint = healthcheck_endpoint
@@ -62,6 +69,7 @@ class ExperienceHubOrchestrator:
         self._session_id_prefix = session_id_prefix
         self._auxiliary_metadata_dir = auxiliary_metadata_dir
         self._cached_extracted_features_dir = cached_extracted_features_dir
+        self._experience_hub_dir = experience_hub_dir
 
         self._experience_hub_process = Process(
             name="emma-experience-hub-controller-api",
@@ -78,7 +86,16 @@ class ExperienceHubOrchestrator:
         """Start the Experience Hub."""
         # Run the background services
         logger.debug("Starting background services for the experience hub...")
-        run_background_services(download_models=True, force_download=True, run_in_background=True)
+        run_background_services(
+            service_registry_path=self._experience_hub_dir.joinpath(SERVICE_REGISTRY_PATH),
+            services_docker_compose_path=self._experience_hub_dir.joinpath(SERVICES_COMPOSE_PATH),
+            staging_services_docker_compose_path=self._experience_hub_dir.joinpath(
+                SERVICES_STAGING_COMPOSE_PATH
+            ),
+            download_models=True,
+            force_download=True,
+            run_in_background=True,
+        )
 
         # Create the process for the experience hub
         logger.debug("Starting controller API for the experience hub...")

@@ -6,10 +6,14 @@ ROOT="/home/ubuntu/offline-inference"
 echo "[SimBot] Creating directory for the ML toolbox"
 su ubuntu -c "mkdir -p $ROOT"
 cd $ROOT || exit 1
+mkdir -p storage
 
 # ------------------- Clone the repository for the project ------------------- #
-echo "[SimBot] Cloning the ML Toolbox from the emma-simbot/simbot-offline-inference"
+echo "[SimBot] Cloning emma-simbot/simbot-offline-inference"
 su ubuntu -c 'git clone https://github.com/emma-simbot/simbot-offline-inference.git .'
+
+echo "[SimBot] Cloning emma-simbot/experience-hub"
+su ubuntu -c "git clone https://github.com/emma-simbot/experience-hub.git ./storage/experience-hub"
 
 # ---------------------------- Download the arena ---------------------------- #
 echo "[SimBot] Downloading the arena"

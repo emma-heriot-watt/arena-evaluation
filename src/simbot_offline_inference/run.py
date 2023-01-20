@@ -23,6 +23,7 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
         predict_endpoint=f"{settings.base_endpoint}/v1/predict",
         auxiliary_metadata_dir=settings.auxiliary_metadata_dir,
         cached_extracted_features_dir=settings.feature_cache_dir,
+        experience_hub_dir=settings.experience_hub_dir,
         session_id_prefix="T2",
     )
     evaluator = SimBotArenaEvaluator(arena_orchestrator, experience_hub_orchestrator)

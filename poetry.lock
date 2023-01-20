@@ -507,11 +507,11 @@ watchtower = "^3.0.0"
 type = "git"
 url = "https://github.com/emma-simbot/common"
 reference = "HEAD"
-resolved_reference = "c61149a2c60537d6f51094feff36e3ab1c64dda0"
+resolved_reference = "62e5a5d9ae422c793c2894fa2afe11f0c8905b04"
 
 [[package]]
 name = "emma-experience-hub"
-version = "6.5.0"
+version = "6.6.1"
 description = ""
 category = "main"
 optional = false
@@ -543,7 +543,7 @@ typer = "^0.6.1"
 type = "git"
 url = "https://github.com/emma-simbot/experience-hub"
 reference = "HEAD"
-resolved_reference = "1c74cc12aecc90e00a609b8578f25c13928d5ff9"
+resolved_reference = "080cff2835e7c50b02309456ad4df1bc2b2fcbdb"
 
 [[package]]
 name = "eradicate"
