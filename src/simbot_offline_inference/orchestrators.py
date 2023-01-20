@@ -267,7 +267,7 @@ class ExperienceHubOrchestrator:
     def _make_request(self, simbot_request: dict[str, Any]) -> dict[str, Any]:
         """Make the request to the experience hub and return the response."""
         with httpx.Client(timeout=None) as client:
-            response = httpx.post(self._predict_endpoint, json=simbot_request)
+            response = client.post(self._predict_endpoint, json=simbot_request)
 
         try:
             response.raise_for_status()
