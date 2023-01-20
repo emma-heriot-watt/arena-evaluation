@@ -96,7 +96,7 @@ class ExperienceHubOrchestrator:
             ),
             model_storage_dir=self._model_storage_dir,
             download_models=True,
-            force_download=True,
+            force_download=False,
             run_in_background=True,
             enable_observability=False,
             is_production=False,
