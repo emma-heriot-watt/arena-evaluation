@@ -44,8 +44,10 @@ class SimBotArenaEvaluator:
 
     def run_evaluation_step(self, test_data: SimBotTestInstance) -> None:
         """Run the evaluation on a single instance of the test data."""
+        logger.info("Launching mission in the Arena")
         self._launch_game(test_data["mission_cdf"])
 
+        logger.debug("Verifying Experience Hub is healthy")
         if not self._experience_hub_orchestrator.healthcheck():
             raise AssertionError("The Experience Hub is not healthy.")
 
@@ -97,6 +99,7 @@ class SimBotArenaEvaluator:
         if not self._arena_orchestrator.launch_game(mission_cdf):
             raise AssertionError("Could not launch the game")
 
+        logger.debug("Sending dummy actions to verify game is ready")
         dummy_action = [
             {
                 "id": "1",
