@@ -12,9 +12,9 @@ from simbot_offline_inference.settings import Settings
 def run_evaluation(processed_trajectory_data: Path) -> None:
     settings = Settings()
     settings.put_settings_in_environment()
-    settings.create_directories()
+    settings.prepare_file_system()
 
-    logger.debug("Loaded settings: {settings}")
+    logger.debug(f"Loaded settings: {settings}")
 
     logger.info("Preparing orchestrators and evaluators")
     arena_orchestrator = ArenaOrchestrator()
