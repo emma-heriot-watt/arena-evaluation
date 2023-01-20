@@ -84,7 +84,7 @@ class ExperienceHubOrchestrator:
                 "traces_to_opensearch": False,
                 "workers": 1,
             },
-            # daemon=True,
+            daemon=True,
         )
 
     def __enter__(self) -> None:
