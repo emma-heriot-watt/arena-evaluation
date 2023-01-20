@@ -127,25 +127,6 @@ class ExperienceHubOrchestrator:
             shell=True,
         )
 
-    def _healthcheck(self) -> bool:
-        """Verify the health of the experience hub service."""
-        logger.debug("Running healthcheck")
-
-        with httpx.Client() as client:
-            try:
-                response = client.get(self._healthcheck_endpoint)
-            except httpx.ReadTimeout:
-                logger.error("Healthcheck timed out")
-                return False
-
-        try:
-            response.raise_for_status()
-        except httpx.HTTPStatusError as err:
-            logger.exception("Unable to perform healthcheck", exc_info=err)
-            return False
-
-        return True
-
     def healthcheck(self, attempts: int = 1, interval: int = 0) -> bool:
         """Perform healthcheck, with retry intervals.
 
@@ -171,16 +152,6 @@ class ExperienceHubOrchestrator:
                 sleep(interval)
 
         return healthcheck_flag
-
-    def _prepare_exit_signal(self) -> None:
-        """Prepare the exit signal to handle KeyboardInterrupt events."""
-        for sig in ("TERM", "HUP", "INT"):
-            signal.signal(getattr(signal, f"SIG{sig}"), self._break_from_sleep)
-
-    def _break_from_sleep(self, signum: int, _frame: Any) -> None:
-        """Break from the sleep."""
-        logger.info("Interrupted. Shutting down...")
-        self._exit.set()
 
     def get_next_actions(
         self,
@@ -208,6 +179,35 @@ class ExperienceHubOrchestrator:
 
         filtered_actions = self._remove_dialog_actions_from_response(actions)
         return filtered_actions
+
+    def _healthcheck(self) -> bool:
+        """Verify the health of the experience hub service."""
+        logger.debug("Running healthcheck")
+
+        with httpx.Client() as client:
+            try:
+                response = client.get(self._healthcheck_endpoint)
+            except httpx.ReadTimeout:
+                logger.error("Healthcheck timed out")
+                return False
+
+        try:
+            response.raise_for_status()
+        except httpx.HTTPStatusError as err:
+            logger.exception("Unable to perform healthcheck", exc_info=err)
+            return False
+
+        return True
+
+    def _prepare_exit_signal(self) -> None:
+        """Prepare the exit signal to handle KeyboardInterrupt events."""
+        for sig in ("TERM", "HUP", "INT"):
+            signal.signal(getattr(signal, f"SIG{sig}"), self._break_from_sleep)
+
+    def _break_from_sleep(self, signum: int, _frame: Any) -> None:
+        """Break from the sleep."""
+        logger.info("Interrupted. Shutting down...")
+        self._exit.set()
 
     def _create_session_id(self, test_idx: int) -> str:
         """Create the session ID for the example."""
