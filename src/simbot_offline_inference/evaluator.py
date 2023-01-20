@@ -29,7 +29,7 @@ class SimBotArenaEvaluator:
         with self._experience_hub_orchestrator:
             with self._arena_orchestrator:
                 logger.info("Checking experience hub is ready...")
-                self._experience_hub_orchestrator.healthcheck(1000, 5)
+                self._experience_hub_orchestrator.healthcheck(10, 5)
 
                 logger.info("Starting evaluation...")
                 for instance in test_data:
