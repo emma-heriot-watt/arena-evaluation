@@ -205,7 +205,9 @@ class ExperienceHubOrchestrator:
         actions = simbot_response.get("actions")
         if not actions:
             raise AssertionError("No actions to return.")
-        return actions
+
+        filtered_actions = self._remove_dialog_actions_from_response(actions)
+        return filtered_actions
 
     def _create_session_id(self, test_idx: int) -> str:
         """Create the session ID for the example."""
@@ -275,3 +277,13 @@ class ExperienceHubOrchestrator:
             logger.exception("Unable to get response for request.")
 
         return response.json()
+
+    def _remove_dialog_actions_from_response(
+        self, actions: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
+        """Remove any dialog actions from the response."""
+        filtered_actions = [
+            action for action in actions if action["type"] not in {"Dialog", "LightweightDialog"}
+        ]
+
+        return filtered_actions
