@@ -43,8 +43,3 @@ class Settings(BaseSettings):
 
         # Create the unity logs path if it doesn't exist already
         self.unity_log_path.touch(exist_ok=True)
-
-        # Create symlinks
-        self.experience_hub_dir.joinpath("storage/models/").symlink_to(
-            self.models_dir, target_is_directory=True
-        )
