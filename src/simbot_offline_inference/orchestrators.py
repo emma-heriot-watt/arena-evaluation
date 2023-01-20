@@ -61,6 +61,7 @@ class ExperienceHubOrchestrator:
         predict_endpoint: str,
         auxiliary_metadata_dir: Path,
         cached_extracted_features_dir: Path,
+        model_storage_dir: Path,
         experience_hub_dir: Path,
         session_id_prefix: str = "",
     ) -> None:
@@ -70,6 +71,7 @@ class ExperienceHubOrchestrator:
         self._auxiliary_metadata_dir = auxiliary_metadata_dir
         self._cached_extracted_features_dir = cached_extracted_features_dir
         self._experience_hub_dir = experience_hub_dir
+        self._model_storage_dir = model_storage_dir
 
         self._experience_hub_process = Process(
             name="emma-experience-hub-controller-api",
@@ -92,6 +94,7 @@ class ExperienceHubOrchestrator:
             staging_services_docker_compose_path=self._experience_hub_dir.joinpath(
                 SERVICES_STAGING_COMPOSE_PATH
             ),
+            model_storage_dir=self._model_storage_dir,
             download_models=True,
             force_download=True,
             run_in_background=True,
