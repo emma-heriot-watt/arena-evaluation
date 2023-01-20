@@ -10,6 +10,8 @@ def calculate_subgoal_completion_rate(subgoal_completion_status: list[Literal[0,
 
 
 class SimBotEvaluationMetrics:
+    """Store and calculate metrics for the evaluation."""
+
     def __init__(self) -> None:
         self.games_played = 0
         self.games_completed = 0

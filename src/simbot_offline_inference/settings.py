@@ -5,6 +5,8 @@ from pydantic import BaseSettings, FilePath
 
 
 class Settings(BaseSettings):
+    """Settings to run the evaluation."""
+
     # Paths
     storage_dir: Path = Path("storage/")
     auxiliary_metadata_dir: Path = storage_dir.joinpath("auxiliary_metadata/")
@@ -26,8 +28,8 @@ class Settings(BaseSettings):
 
     def put_settings_in_environment(self) -> None:
         """Put settings in the environment variables."""
-        for key, value in self:
-            os.environ[key.upper()] = str(value)
+        for env_name, env_var in self:
+            os.environ[env_name.upper()] = str(env_var)
 
     def prepare_file_system(self) -> None:
         """Prepare the various directories and files on the machine."""

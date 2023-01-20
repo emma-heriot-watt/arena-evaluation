@@ -10,6 +10,7 @@ from simbot_offline_inference.settings import Settings
 
 
 def run_evaluation(processed_trajectory_data: Path) -> None:
+    """Run the evaluation on the processed data."""
     settings = Settings()
     settings.put_settings_in_environment()
     settings.prepare_file_system()
@@ -33,7 +34,7 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
     test_data = np.load(processed_trajectory_data, allow_pickle=True)
     logger.debug(f"Loaded {len(test_data)} instances to evaluate")
 
-    logger.info(f"Running evaluation on test data...")
+    logger.info("Running evaluation on test data...")
     evaluator.run_evaluation(test_data)
 
     logger.info("Done!")

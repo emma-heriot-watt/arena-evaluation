@@ -13,6 +13,8 @@ from simbot_offline_inference.prepare_trajectory_data import SimBotTestInstance
 
 
 class SimBotArenaEvaluator:
+    """Handle the evaluation of the experience hub on the arena."""
+
     def __init__(
         self,
         arena_orchestrator: ArenaOrchestrator,
@@ -26,6 +28,7 @@ class SimBotArenaEvaluator:
         self._object_output_type = object_output_type
 
     def run_evaluation(self, test_data: list[SimBotTestInstance]) -> None:
+        """Run the evaluation on all the test data."""
         with self._experience_hub_orchestrator:
             with self._arena_orchestrator:
                 logger.info("Checking experience hub is ready...")
@@ -118,12 +121,13 @@ class SimBotArenaEvaluator:
                 dummy_action, self._object_output_type, "Rotate right"
             )
 
-            if not return_val:
-                logger.error(
-                    f"Attempt {attempt_idx + 1}/{attempts} failed. Waiting for {interval} seconds before trying again."
-                )
-                time.sleep(5)
-            else:
+            # If it succeeds, then just exit the loop since it's ready to go
+            if return_val:
                 return
+
+            logger.error(
+                f"Attempt {attempt_idx + 1}/{attempts} failed. Waiting for {interval} seconds before trying again."
+            )
+            time.sleep(5)
 
         raise AssertionError("Exhauted all attempts")

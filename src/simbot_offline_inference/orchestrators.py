@@ -54,6 +54,8 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
 
 
 class ExperienceHubOrchestrator:
+    """Orchestrator for the Experience Hub."""
+
     _exit = Event()
 
     def __init__(
