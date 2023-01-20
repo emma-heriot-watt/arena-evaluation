@@ -1,4 +1,5 @@
 import signal
+import subprocess
 from multiprocessing import Process
 from pathlib import Path
 from threading import Event
@@ -118,6 +119,13 @@ class ExperienceHubOrchestrator:
         except ValueError:
             logger.info("Experience hub didn't close proeprly, so forcing it.")
             self._experience_hub_process.terminate()
+
+        logger.debug("Stopping docker containers...")
+        subprocess.run(
+            "docker stop instruction_predictor compound_splitter confirmation_classifier out_of_domain_detector intent_extractor feature_extractor profanity_filter",
+            check=True,
+            shell=True,
+        )
 
     def _healthcheck(self) -> bool:
         """Verify the health of the experience hub service."""
