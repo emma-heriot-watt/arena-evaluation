@@ -1,17 +1,17 @@
 import os
 from pathlib import Path
 
-from pydantic import BaseSettings, DirectoryPath, FilePath
+from pydantic import BaseSettings, FilePath
 
 
 class Settings(BaseSettings):
     # Paths
-    storage_dir: DirectoryPath = Path("storage/")
+    storage_dir: Path = Path("storage/")
     models_dir: Path = storage_dir.joinpath("models/")
-    auxiliary_metadata_dir: DirectoryPath = storage_dir.joinpath("auxiliary_metadata/")
-    feature_cache_dir: DirectoryPath = storage_dir.joinpath("features/")
-    trajectory_dir: DirectoryPath = storage_dir.joinpath("data/", "trajectory-data/")
-    experience_hub_dir: DirectoryPath = storage_dir.joinpath("experience-hub/")
+    auxiliary_metadata_dir: Path = storage_dir.joinpath("auxiliary_metadata/")
+    feature_cache_dir: Path = storage_dir.joinpath("features/")
+    trajectory_dir: Path = storage_dir.joinpath("data/", "trajectory-data/")
+    experience_hub_dir: Path = storage_dir.joinpath("experience-hub/")
 
     # Experience hub
     base_endpoint: str = "http://0.0.0.0:5000"
