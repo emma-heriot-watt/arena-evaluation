@@ -81,7 +81,7 @@ class ExperienceHubOrchestrator:
                 "auxiliary_metadata_cache_dir": self._auxiliary_metadata_dir,
                 "extracted_features_cache_dir": self._cached_extracted_features_dir,
             },
-            daemon=True,
+            # daemon=True,
         )
 
     def __enter__(self) -> None:
