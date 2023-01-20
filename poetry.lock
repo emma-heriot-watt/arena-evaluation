@@ -1350,17 +1350,6 @@ files = [
 ]
 
 [[package]]
-name = "multiprocessing-logging"
-version = "0.3.3"
-description = "Logger for multiprocessing applications"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "multiprocessing_logging-0.3.3-py2.py3-none-any.whl", hash = "sha256:c6f634b288495383597944d53baf6e511afe8cbb34753a9dd177dc2343e2d3ab"},
-]
-
-[[package]]
 name = "mypy"
 version = "0.991"
 description = "Optional static typing for Python"
@@ -3300,4 +3289,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.9"
-content-hash = "156e25ba6cb2eb369d9d251766205777db0050062b2d65a28d382601543895d8"
+content-hash = "a52534bcaf8cb5a9c2a8bf439b6710c71a4d231661ca9231c8261b80e94a51c0"
