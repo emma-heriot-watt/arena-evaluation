@@ -116,7 +116,6 @@ per-file-ignores =
     src/**/__init__.py:D,F401,WPS436
 		tests/*:D,F401,WPS118,WPS202,WPS204,WPS214,WPS218,WPS226,WPS231,WPS232,WPS235,WPS301,WPS404,WPS432,WPS437,WPS442,S101
 		src/*/__main__.py:WPS404
-		src/arena_wrapper/*:*
 
 extend-exclude=
 	.venv/,
@@ -124,4 +123,5 @@ extend-exclude=
 	.cache/,
 	logs/,
 	storage/,
-	docs/
+	docs/,
+	src/arena_wrapper/
