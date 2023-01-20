@@ -38,5 +38,27 @@ terraform destroy
 
 ## Running the evaluation
 
-1. SSH into the instance
+The session IDs are all prefixed with `T2-`, and therefore can be found in OpenSearch with all the other session turns.
+
+1. SSH into the instance that was created above.
 1. Create the tmux session with `tmux -CC new -A -s main`
+1. Create 2 tmux panes
+1. In one pane, run `sudo /usr/bin/X :1 &`
+1. In the other pane, first run:
+
+   ```bash
+   cd offline-inference
+   poetry env use $(pyenv which python)
+   poetry install
+   poetry shell
+   ```
+
+   and then run:
+
+   ```bash
+   python -m simbot_offline_inference.prepare_trajectory_data
+   sudo -E env PATH=$PATH LOG_LEVEL=DEBUG poetry run python -m simbot_offline_inference.run
+   ```
+
+1. Let it run.
+1. When you are done, **be sure to clean up the resources!**
