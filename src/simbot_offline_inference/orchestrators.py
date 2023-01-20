@@ -95,6 +95,8 @@ class ExperienceHubOrchestrator:
             download_models=True,
             force_download=True,
             run_in_background=True,
+            enable_observability=False,
+            is_production=False,
         )
 
         # Create the process for the experience hub
