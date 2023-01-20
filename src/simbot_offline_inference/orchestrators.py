@@ -74,12 +74,14 @@ class ExperienceHubOrchestrator:
         self._model_storage_dir = model_storage_dir
 
         self._experience_hub_process = Process(
-            name="emma-experience-hub-controller-api",
             target=run_controller_api,
             kwargs={
                 "auxiliary_metadata_dir": self._auxiliary_metadata_dir,
                 "auxiliary_metadata_cache_dir": self._auxiliary_metadata_dir,
                 "extracted_features_cache_dir": self._cached_extracted_features_dir,
+                "log_to_cloudwatch": False,
+                "traces_to_opensearch": False,
+                "workers": 1,
             },
             # daemon=True,
         )
