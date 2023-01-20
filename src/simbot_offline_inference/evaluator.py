@@ -27,10 +27,10 @@ class SimBotArenaEvaluator:
 
     def run_evaluation(self, test_data: list[SimBotTestInstance]) -> None:
         with self._experience_hub_orchestrator:
-            logger.info("Checking experience hub is ready...")
-            self._experience_hub_orchestrator.healthcheck(1000, 5)
-
             with self._arena_orchestrator:
+                logger.info("Checking experience hub is ready...")
+                self._experience_hub_orchestrator.healthcheck(1000, 5)
+
                 logger.info("Starting evaluation...")
                 for instance in test_data:
                     self.run_evaluation_step(instance)
