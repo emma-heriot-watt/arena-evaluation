@@ -52,7 +52,7 @@ def process_file(in_file: Path, out_file: Path) -> None:
 
             nlg_commands.append(di_item)
 
-    np.save(out_file, nlg_commands)
+    np.save(out_file, nlg_commands)  # type: ignore[arg-type]
 
 
 def process_all_trajectory_data(trajectory_root: Path = TRAJECTORY_ROOT_DIR) -> None:
