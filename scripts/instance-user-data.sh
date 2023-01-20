@@ -49,9 +49,5 @@ sudo apt install -y ffmpeg
 echo "[SimBot] Downloading arena mission data"
 su ubuntu -c 'sh ./scripts/fetch-arena-data.sh'
 
-# ---------------------------- Preparing the arena --------------------------- #
-echo "[SimBot] Start XServer"
-su ubuntu -c 'sudo /usr/bin/X :1 &'
-
 # ----------------------------------- Done ----------------------------------- #
 echo "[SimBot] Done!"
