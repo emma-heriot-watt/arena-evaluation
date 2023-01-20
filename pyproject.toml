@@ -9,6 +9,20 @@ packages = [
 	{ include = "arena_wrapper", from = "src" },
 ]
 
+[tool.poe.tasks]
+
+[tool.poe.tasks.format]
+help = "Format using the pre-commit hooks"
+cmd = "pre-commit run --all-files"
+
+[tool.poe.tasks.typecheck]
+help = "Check types with mypy"
+cmd = "mypy ."
+
+[tool.poe.tasks.lint]
+help = "Lint with flake8"
+cmd = "flake8 ."
+
 [tool.poetry.dependencies]
 python = "~3.9"
 flask = "^2.2.2"
