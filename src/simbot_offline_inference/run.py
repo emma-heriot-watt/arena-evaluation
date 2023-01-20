@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import multiprocessing_logging
 import numpy as np
 from loguru import logger
 
@@ -41,5 +42,6 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
 
 if __name__ == "__main__":
     settings = Settings()
+    multiprocessing_logging.install_mp_handler()
     setup_rich_logging()
     run_evaluation(settings.trajectory_dir.joinpath("nlg_commands_T2.npy"))
