@@ -19,6 +19,10 @@ su ubuntu -c "git clone https://github.com/emma-simbot/experience-hub.git ./stor
 echo "[SimBot] Downloading the arena"
 su ubuntu -c 'sh ./scripts/fetch-arena.sh'
 
+echo "[SimBot] Set permissions for the arena"
+sudo chmod -R 755 $ROOT/storage/arena/Linux
+chmod 777 $ROOT/storage/arena/Linux/SimbotChallenge.x86_64
+
 # --------------------------- Install dependencies --------------------------- #
 # Copy the files they want us to copy?
 sudo cp -r $ROOT/storage/arena/Dependencies/* /usr/lib/
@@ -46,10 +50,6 @@ echo "[SimBot] Downloading arena mission data"
 su ubuntu -c 'sh ./scripts/fetch-arena-data.sh'
 
 # ---------------------------- Preparing the arena --------------------------- #
-echo "[SimBot] Set permissions for the arena"
-sudo chmod -R 755 $ROOT/storage/arena/Linux
-chmod 777 $ROOT/storage/arena/Linux/SimbotChallenge.x86_64
-
 echo "[SimBot] Start XServer"
 su ubuntu -c 'sudo /usr/bin/X :1 &'
 
