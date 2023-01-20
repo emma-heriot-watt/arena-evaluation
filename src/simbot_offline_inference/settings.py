@@ -14,7 +14,8 @@ class Settings(BaseSettings):
     models_dir: Path = experience_hub_dir.joinpath("storage/models/")
 
     # Experience hub
-    base_endpoint: str = "http://0.0.0.0:5000"
+    base_endpoint: str = "http://0.0.0.0:5522"
+    simbot_port: int = 5522
 
     # Unity
     platform: str = "Linux"
