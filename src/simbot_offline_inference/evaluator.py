@@ -1,3 +1,6 @@
+import time
+from typing import Any
+
 from loguru import logger
 
 from arena_wrapper.enums.object_output_wrapper import ObjectOutputType
@@ -41,8 +44,7 @@ class SimBotArenaEvaluator:
 
     def run_evaluation_step(self, test_data: SimBotTestInstance) -> None:
         """Run the evaluation on a single instance of the test data."""
-        if not self._arena_orchestrator.launch_game(test_data["mission_cdf"]):
-            raise AssertionError("Could not launch the game")
+        self._launch_game(test_data["mission_cdf"])
 
         if not self._experience_hub_orchestrator.healthcheck():
             raise AssertionError("The Experience Hub is not healthy.")
@@ -86,3 +88,37 @@ class SimBotArenaEvaluator:
         logger.info(
             f"Subgoal completion rate for test: {calculate_subgoal_completion_rate(subgoal_completion_status)}"
         )
+
+    def _launch_game(self, mission_cdf: Any, attempts: int = 10, interval: int = 5) -> None:
+        """Launch the game on the Arena instance.
+
+        We also need to do the dummy actions to make sure the game is ready to go.
+        """
+        if not self._arena_orchestrator.launch_game(mission_cdf):
+            raise AssertionError("Could not launch the game")
+
+        dummy_action = [
+            {
+                "id": "1",
+                "type": "Rotate",
+                "rotation": {
+                    "direction": "Right",
+                    "magnitude": 0,
+                },
+            }
+        ]
+
+        for attempt_idx in range(attempts):
+            return_val, error_code = self._arena_orchestrator.execute_action(
+                dummy_action, self._object_output_type, "Rotate right"
+            )
+
+            if not return_val:
+                logger.error(
+                    f"Attempt {attempt_idx + 1}/{attempts} failed. Waiting for {interval} seconds before trying again."
+                )
+                time.sleep(5)
+            else:
+                return
+
+        raise AssertionError("Exhauted all attempts")
