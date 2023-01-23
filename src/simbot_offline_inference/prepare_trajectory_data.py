@@ -51,14 +51,14 @@ def process_trajectory_data(in_file: Path, out_file: Path) -> None:
 
 def process_all_trajectory_data(trajectory_root: Path = TRAJECTORY_ROOT_DIR) -> None:
     """Process all the trajectory data into the numpy files."""
-    process_trajectory_data(
-        trajectory_root.joinpath("valid.json"),
-        trajectory_root.joinpath("nlg_commands_val.npy"),
-    )
-    process_trajectory_data(
-        trajectory_root.joinpath("train.json"),
-        trajectory_root.joinpath("nlg_commands_train.npy"),
-    )
+    # process_trajectory_data(
+    #     trajectory_root.joinpath("valid.json"),
+    #     trajectory_root.joinpath("nlg_commands_val.npy"),
+    # )
+    # process_trajectory_data(
+    #     trajectory_root.joinpath("train.json"),
+    #     trajectory_root.joinpath("nlg_commands_train.npy"),
+    # )
     process_trajectory_data(
         trajectory_root.joinpath("T2_valid.json"),
         trajectory_root.joinpath("nlg_commands_T2.npy"),
