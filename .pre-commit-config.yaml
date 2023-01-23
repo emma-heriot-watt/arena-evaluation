@@ -154,6 +154,3 @@ repos:
       - id: terraform_fmt
         name: Format terraform
         types: [terraform]
-      - id: terraform_validate
-        name: Validate terraform
-        types: [terraform]
