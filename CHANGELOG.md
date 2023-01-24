@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.0.0...v1.0.1) (2023-01-24)
+
+
+### Bug Fixes
+
+* only download and prepare T2 validation data ([54f716e](https://github.com/emma-simbot/simbot-offline-inference/commit/54f716e97ad07053313fb89997fbcc9b7225d947))
+
 ## 1.0.0 (2023-01-23)
 
 
