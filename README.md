@@ -47,10 +47,10 @@ The session IDs are all prefixed with `T2-`, and therefore can be found in OpenS
 1. In the other pane, first run:
 
    ```bash
-   cd offline-inference
-   poetry env use $(pyenv which python)
-   poetry install
-   poetry shell
+   cd offline-inference \
+   && poetry env use $(pyenv which python) \
+   && poetry install \
+   && poetry shell
    ```
 
    and then run:
