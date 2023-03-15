@@ -547,7 +547,6 @@ def convert_object_class_to_id(commands, metadata, instr=None):
 
     #instr (NLP command) needed to implement certain rules
     """
-
     # Used to parse the metadata to get objects, their locations, their states, their affordances, "objectType" and
     # their ID's. This is returned as a dictionary with keys as human readable object types and values as list of all
     # the objects in RG environemnt corresponding to that object type. The object specific information is encoded as
