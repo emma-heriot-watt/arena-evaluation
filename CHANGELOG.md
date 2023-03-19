@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.0.1...v1.1.0) (2023-03-19)
+
+
+### Features
+
+* handle lightweight dialogs within the context of the actions ([8647fe7](https://github.com/emma-simbot/simbot-offline-inference/commit/8647fe7da42983dac5d2aa0a66b4efd44ce79182))
+
 ## [1.0.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.0.0...v1.0.1) (2023-01-24)
 
 
