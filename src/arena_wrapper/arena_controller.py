@@ -4,7 +4,7 @@ import socket
 import sys
 import threading
 import time
-
+from loguru import logger
 from flask import abort
 
 from arena_wrapper import server
@@ -65,7 +65,7 @@ class ArenaController(server.Server):
         return resp
 
     def handle_init(self, init_request):
-        print("Received initialize message. Sending it to Unity application to bring up for play.")
+        logger.debug("Received initialize message. Sending it to Unity application to bring up for play.")
         self.wsSend(init_request)
         return
 
@@ -80,16 +80,16 @@ class ArenaController(server.Server):
         self.ws_monitor_thread.daemon = True
         self.ws_monitor_thread.start()
 
-        print("Listener and monitor threads successfully started.")
+        logger.debug("Listener and monitor threads successfully started.")
 
     def wsConnect(self):
-        print("Awaiting connection to Unity instance")
+        logger.debug("Awaiting connection to Unity instance")
         self.isSocketOpen = False
         self.currentBatchNum = 0
         self.currentRespNum = 0
         self.resultJSON.clear()
         counter = 0
-        print("self.UnityWSPath: ", self.UnityWSPath)
+        logger.debug("self.UnityWSPath: ", self.UnityWSPath)
         # Loop until a connection is made
         while self.isUnityConnected.is_set():
             time.sleep(0.1)
@@ -101,12 +101,12 @@ class ArenaController(server.Server):
 
             if result == 0:
                 self.isSocketOpen = True
-                print("Connection established")
+                logger.debug("Connection established")
                 return
             else:
-                print("Could not connect to RG unity instance: ", result)
+                logger.error("Could not connect to RG unity instance: ", result)
                 if counter == 250:
-                    print("Tried to connect to unity for 250 times. Stopping the controller.")
+                    logger.error("Tried to connect to unity for 250 times. Stopping the controller.")
                     self.isUnityConnected.clear()
             counter += 1
         return
@@ -119,7 +119,7 @@ class ArenaController(server.Server):
                     sizeInBytes = self.ws.recv(4)
                     if not sizeInBytes:
                         self.isSocketOpen = False
-                        print("Connection lost during listener thread loop")
+                        logger.warning("Connection lost during listener thread loop")
                         continue
 
                     size = int.from_bytes(bytes=sizeInBytes, byteorder=sys.byteorder, signed=False)
@@ -139,14 +139,14 @@ class ArenaController(server.Server):
                     self.resultJSON.append(JSONPacket)
 
                 except OSError as e:
-                    print("Exception during read")
+                    logger.error("Exception during read")
                     if e.errno == socket.errno.ECONNRESET:
                         self.isSocketOpen = False
                     else:
                         raise
             else:
                 time.sleep(0.1)
-        print("Listen thread ends")
+        logger.debug("Listen thread ends")
 
     def wsSend(self, jsonCommand):
         isDataSent = False
@@ -160,7 +160,7 @@ class ArenaController(server.Server):
                     bytesSent += self.ws.send(encodedBytesToSend)
                     bytesSent += self.ws.send(encodedString)
                     if bytesSent > 0:
-                        print(
+                        logger.debug(
                             str(bytesSent)
                             + " of expected "
                             + str(len(encodedString) + 4)
@@ -188,11 +188,11 @@ class ArenaController(server.Server):
 
             time.sleep(1.0)
         self.isSocketOpen = False
-        print("Monitor thread ends")
+        logger.info("Monitor thread ends")
 
     def stop(self):
         self.isUnityConnected.clear()
-        print("Unity exe disconnected successfully")
+        logger.info("Unity exe disconnected successfully")
 
     def get_connection_status(self):
         return self.isUnityConnected.is_set()

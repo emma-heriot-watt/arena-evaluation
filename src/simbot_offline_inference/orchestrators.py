@@ -206,9 +206,10 @@ class ExperienceHubOrchestrator:
         try:
             response.raise_for_status()
         except httpx.HTTPStatusError as err:
-            logger.exception("Unable to perform healthcheck", exc_info=err)
+            logger.error("Healthcheck failed")
             return False
 
+        logger.info("Healthcheck success")
         return True
 
     def _prepare_exit_signal(self) -> None:

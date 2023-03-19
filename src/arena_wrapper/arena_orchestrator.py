@@ -89,8 +89,15 @@ class ArenaOrchestrator:
                     self.response["lastActionSuccess"],
                 )
             except Exception as ex:
-                self.logger.error("Exception while executing actions: %s" % ex)
-                return False, "ActionExecutionError"
+                self.logger.debug(f"Response keys: {list(self.response.keys())}")
+                
+                try: 
+                    last_action_success = self.response["lastActionSuccess"]
+                except KeyError: 
+                    last_action_success = "ActionExecutionError"
+                
+                self.logger.error(f"Exception while executing actions with status {last_action_success}: {ex}")
+                return False, last_action_success
         return False, "UnknownError"
 
     def stop_game(self):
