@@ -5,6 +5,7 @@ import os
 import subprocess
 import time
 from dataclasses import dataclass
+from typing import Any
 
 import cv2
 import numpy as np
@@ -46,7 +47,7 @@ class ArenaOrchestrator:
             return True
         return False
 
-    def execute_action(self, actions, object_output_type, nlg_action):
+    def execute_action(self, actions, object_output_type, nlg_action) -> tuple[bool, Any]:
         rg_compatible_actions = []
         try:
             if object_output_type == ObjectOutputType.OBJECT_CLASS:

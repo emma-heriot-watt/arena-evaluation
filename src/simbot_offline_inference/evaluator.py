@@ -20,12 +20,14 @@ class SimBotArenaEvaluator:
         arena_orchestrator: ArenaOrchestrator,
         experience_hub_orchestrator: ExperienceHubOrchestrator,
         object_output_type: ObjectOutputType = ObjectOutputType.OBJECT_MASK,
+        max_loops_for_single_utterance: int = 15,
     ) -> None:
         self._arena_orchestrator = arena_orchestrator
         self._experience_hub_orchestrator = experience_hub_orchestrator
         self._evaluation_metrics = SimBotEvaluationMetrics()
 
         self._object_output_type = object_output_type
+        self._max_loops_for_single_utterance = max_loops_for_single_utterance
 
     def run_evaluation(self, test_data: list[SimBotTestInstance]) -> None:
         """Run the evaluation on all the test data."""
@@ -55,27 +57,8 @@ class SimBotArenaEvaluator:
             raise AssertionError("The Experience Hub is not healthy.")
 
         logger.info(f"Running evaluation for Test #{test_data['test_number']}")
-
         for utterance in test_data["utterances"]:
-            # Get the auxiliary metadata from the arena
-            logger.debug("Getting auxiliary metadata from the arena")
-            auxiliary_metadata = self._arena_orchestrator.get_reconstructed_metadata()
-
-            # Get the next actions to take from the ExperienceHub
-            logger.debug("Trying to get the next actions to take from the Experience Hub")
-            actions = self._experience_hub_orchestrator.get_next_actions(
-                test_data["test_number"], utterance, auxiliary_metadata
-            )
-
-            # Execute the actions on the arena environment
-            logger.debug(f"Executing actions: {actions}")
-            return_val, error_code = self._arena_orchestrator.execute_action(
-                actions, self._object_output_type, utterance
-            )
-            logger.debug(f"Received response from arena: {return_val}, {error_code}")
-
-            if not return_val:
-                logger.error(f"Action could not be completed for the utterance {utterance}")
+            self._handle_utterance(test_data["test_number"], utterance)
 
         # Check goal status and get results
         logger.debug("Calculating metrics for test")
@@ -95,6 +78,48 @@ class SimBotArenaEvaluator:
         logger.info(
             f"Subgoal completion rate for test: {calculate_subgoal_completion_rate(subgoal_completion_status)}"
         )
+
+    def _handle_utterance(self, test_idx: int, utterance: str) -> None:
+        """Handle execution of a single utterance in the arena."""
+        previous_action_statuses: list[Any] = []
+
+        for loop_idx in range(self._max_loops_for_single_utterance):
+            logger.debug(f"Executing step {loop_idx}")
+
+            # Get the auxiliary metadata from the arena
+            logger.debug("Getting auxiliary metadata from the arena")
+            auxiliary_metadata = self._arena_orchestrator.get_reconstructed_metadata()
+
+            # Get the next actions to take from the ExperienceHub
+            logger.debug("Trying to get the next actions to take from the Experience Hub")
+            actions, should_return_control = self._experience_hub_orchestrator.get_next_actions(
+                test_idx,
+                # Only give the utterance on the first loop, otherwise we don't since the user is
+                # not instructing us to do anything
+                utterance if loop_idx == 0 else None,
+                auxiliary_metadata,
+                previous_action_statuses,
+            )
+
+            # Execute the actions on the arena environment
+            logger.debug(f"Executing actions: {actions}")
+            return_val, error_code = self._arena_orchestrator.execute_action(
+                actions, self._object_output_type, utterance
+            )
+            logger.debug(f"Received response from arena: {return_val}, {error_code}")
+
+            # If there is an issue completing the action, we need to give that back to the
+            # experience hub
+            if not return_val:
+                # TODO: Convert the error code to the previous action statuses
+                previous_action_statuses = []
+                logger.error(f"Action could not be completed for the utterance {utterance}")
+
+            # Only break out the loop if we return a dialog action AND there is no error in
+            # performing the action
+            if should_return_control and return_val:
+                logger.debug("Returning control to the user to get the next utterance")
+                break
 
     def _launch_game(self, mission_cdf: Any, attempts: int = 10, interval: int = 5) -> None:
         """Launch the game on the Arena instance.

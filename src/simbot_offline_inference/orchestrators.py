@@ -4,7 +4,7 @@ from multiprocessing import Process
 from pathlib import Path
 from threading import Event
 from time import sleep
-from typing import Any
+from typing import Any, NamedTuple, Optional
 from uuid import uuid4
 
 import httpx
@@ -20,6 +20,13 @@ from emma_experience_hub.commands.simbot.cli import (
     run_controller_api,
 )
 from simbot_offline_inference.settings import Settings
+
+
+class ExperienceHubNextActions(NamedTuple):
+    """Return type after getting the next set of actions from the experience hub."""
+
+    actions: list[dict[str, Any]]
+    should_return_control: bool
 
 
 class ArenaOrchestrator(AlexaArenaOrchestrator):
@@ -158,9 +165,10 @@ class ExperienceHubOrchestrator:
     def get_next_actions(
         self,
         test_idx: int,
-        utterance: str,
+        utterance: Optional[str],
         auxiliary_metadata: dict[str, Any],
-    ) -> list[dict[str, Any]]:
+        previous_action_statuses: list[Any],
+    ) -> ExperienceHubNextActions:
         """Make a prediction for the actions the agent should take."""
         session_id: str = self._create_session_id(test_idx)
         prediction_request_id = str(uuid4())
@@ -169,7 +177,7 @@ class ExperienceHubOrchestrator:
 
         logger.debug("Building request payload")
         simbot_request = self._build_raw_simbot_request(
-            session_id, prediction_request_id, utterance
+            session_id, prediction_request_id, utterance, previous_action_statuses
         )
 
         logger.debug(f"Sending request: {simbot_request}")
@@ -179,8 +187,10 @@ class ExperienceHubOrchestrator:
         if not actions:
             raise AssertionError("No actions to return.")
 
-        filtered_actions = self._remove_dialog_actions_from_response(actions)
-        return filtered_actions
+        return ExperienceHubNextActions(
+            actions=self._remove_dialog_actions_from_response(actions),
+            should_return_control=self._should_return_control_for_actions(actions),
+        )
 
     def _healthcheck(self) -> bool:
         """Verify the health of the experience hub service."""
@@ -237,7 +247,8 @@ class ExperienceHubOrchestrator:
         self,
         session_id: str,
         prediction_request_id: str,
-        utterance: str,
+        utterance: Optional[str],
+        previous_action_statuses: list[Any],
     ) -> dict[str, Any]:
         """Build the request to send to the Experience Hub."""
         request_header = {
@@ -248,25 +259,31 @@ class ExperienceHubOrchestrator:
             "type": "GameMetaData",
             "metaData": {"uri": f"efs://{session_id}/{prediction_request_id}.json"},
         }
-        raw_speech_recognition_sensor = {
-            "type": "SpeechRecognition",
-            "recognition": {
-                "tokens": [
-                    {"value": token, "confidence": {"score": 0.95, "bin": "HIGH"}}
-                    for token in utterance.strip().split(" ")
-                ]
-            },
-        }
-        return {
+
+        simbot_request: dict[str, Any] = {
             "header": request_header,
             "request": {
                 "sensors": [
-                    raw_speech_recognition_sensor,
                     raw_auxiliary_metadata_sensor,
                 ],
-                "previousActions": [],
+                "previousActions": previous_action_statuses,
             },
         }
+
+        if utterance:
+            simbot_request["request"]["sensors"].append(
+                {
+                    "type": "SpeechRecognition",
+                    "recognition": {
+                        "tokens": [
+                            {"value": token, "confidence": {"score": 0.95, "bin": "HIGH"}}
+                            for token in utterance.strip().split(" ")
+                        ]
+                    },
+                }
+            )
+
+        return simbot_request
 
     def _make_request(self, simbot_request: dict[str, Any]) -> dict[str, Any]:
         """Make the request to the experience hub and return the response."""
@@ -279,6 +296,13 @@ class ExperienceHubOrchestrator:
             logger.exception("Unable to get response for request.")
 
         return response.json()
+
+    def _should_return_control_for_actions(self, actions: list[dict[str, Any]]) -> bool:
+        """Is the agent returning control after the actions?
+
+        We only return control on sending the "Dialog" action, and no other time.
+        """
+        return any([action["type"] == "Dialog" for action in actions])
 
     def _remove_dialog_actions_from_response(
         self, actions: list[dict[str, Any]]
