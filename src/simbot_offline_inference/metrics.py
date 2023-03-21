@@ -1,4 +1,5 @@
-from typing import Literal
+from collections import Counter
+from typing import Literal, Optional
 
 
 def calculate_subgoal_completion_rate(subgoal_completion_status: list[Literal[0, 1]]) -> float:
@@ -18,6 +19,10 @@ class SimBotEvaluationMetrics:
 
         self.subgoals_completed = 0
         self.total_subgoals = 0
+
+        self.mission_groups = []
+        self.games_played_per_mission_group = Counter[str]()
+        self.games_completed_per_mission_group = Counter[str]()
 
     @property
     def games_failed(self) -> int:
@@ -40,14 +45,40 @@ class SimBotEvaluationMetrics:
         except ZeroDivisionError:
             return 0
 
+    @property
+    def success_rate_per_mission_group(self) -> dict[str, float]:
+        """Calculate the success rate per mission group."""
+        output = {}
+
+        for mission_group in self.mission_groups:
+            try:
+                output[mission_group] = (
+                    self.games_completed_per_mission_group[mission_group]
+                    / self.games_played_per_mission_group[mission_group]
+                )
+            except (KeyError, ZeroDivisionError):
+                output[mission_group] = 0
+
+        return output
+
     def add_mission_metrics(
-        self, is_mission_completed: bool, subgoal_completion_status: list[Literal[0, 1]]
+        self,
+        mission_group: Optional[str],
+        is_mission_completed: bool,
+        subgoal_completion_status: list[Literal[0, 1]],
     ) -> None:
         """Add metrics from a recently evaluated mission."""
         self.games_played += 1
 
         if is_mission_completed:
             self.games_completed += 1
+
+        if mission_group:
+            self.mission_groups.append(mission_group)
+            self.games_played_per_mission_group.update([mission_group])
+
+            if is_mission_completed:
+                self.games_completed_per_mission_group.update([mission_group])
 
         self.total_subgoals += len(subgoal_completion_status)
         self.subgoals_completed += sum(subgoal_completion_status)

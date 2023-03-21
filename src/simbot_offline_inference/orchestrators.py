@@ -1,5 +1,4 @@
 import signal
-import subprocess
 from multiprocessing import Process
 from pathlib import Path
 from threading import Event
@@ -13,11 +12,7 @@ from loguru import logger
 
 from arena_wrapper.arena_orchestrator import ArenaOrchestrator as AlexaArenaOrchestrator
 from emma_experience_hub.commands.simbot.cli import (
-    SERVICE_REGISTRY_PATH,
-    SERVICES_COMPOSE_PATH,
-    SERVICES_STAGING_COMPOSE_PATH,
-    run_background_services,
-    run_controller_api,
+    run_controller_api
 )
 from simbot_offline_inference.settings import Settings
 
@@ -70,6 +65,7 @@ class ExperienceHubOrchestrator:
         healthcheck_endpoint: str,
         predict_endpoint: str,
         auxiliary_metadata_dir: Path,
+        auxiliary_metadata_cache_dir: Path,
         cached_extracted_features_dir: Path,
         model_storage_dir: Path,
         experience_hub_dir: Path,
@@ -79,6 +75,7 @@ class ExperienceHubOrchestrator:
         self._predict_endpoint = predict_endpoint
         self._session_id_prefix = session_id_prefix
         self._auxiliary_metadata_dir = auxiliary_metadata_dir
+        self._auxiliary_metadata_cache_dir = auxiliary_metadata_cache_dir
         self._cached_extracted_features_dir = cached_extracted_features_dir
         self._experience_hub_dir = experience_hub_dir
         self._model_storage_dir = model_storage_dir
@@ -87,7 +84,7 @@ class ExperienceHubOrchestrator:
             target=run_controller_api,
             kwargs={
                 "auxiliary_metadata_dir": self._auxiliary_metadata_dir,
-                "auxiliary_metadata_cache_dir": self._auxiliary_metadata_dir,
+                "auxiliary_metadata_cache_dir": self._auxiliary_metadata_cache_dir,
                 "extracted_features_cache_dir": self._cached_extracted_features_dir,
                 "log_to_cloudwatch": False,
                 "traces_to_opensearch": False,
@@ -98,22 +95,6 @@ class ExperienceHubOrchestrator:
 
     def __enter__(self) -> None:
         """Start the Experience Hub."""
-        # Run the background services
-        logger.debug("Starting background services for the experience hub...")
-        run_background_services(
-            service_registry_path=self._experience_hub_dir.joinpath(SERVICE_REGISTRY_PATH),
-            services_docker_compose_path=self._experience_hub_dir.joinpath(SERVICES_COMPOSE_PATH),
-            staging_services_docker_compose_path=self._experience_hub_dir.joinpath(
-                SERVICES_STAGING_COMPOSE_PATH
-            ),
-            model_storage_dir=self._model_storage_dir,
-            download_models=True,
-            force_download=False,
-            run_in_background=True,
-            enable_observability=False,
-            is_production=False,
-        )
-
         # Create the process for the experience hub
         logger.debug("Starting controller API for the experience hub...")
         self._experience_hub_process.start()
@@ -128,13 +109,6 @@ class ExperienceHubOrchestrator:
         except ValueError:
             logger.info("Experience hub didn't close proeprly, so forcing it.")
             self._experience_hub_process.terminate()
-
-        logger.debug("Stopping docker containers...")
-        subprocess.run(
-            "docker stop instruction_predictor compound_splitter confirmation_classifier out_of_domain_detector intent_extractor feature_extractor profanity_filter",
-            check=True,
-            shell=True,
-        )
 
     def healthcheck(self, attempts: int = 1, interval: int = 0) -> bool:
         """Perform healthcheck, with retry intervals.
@@ -164,13 +138,12 @@ class ExperienceHubOrchestrator:
 
     def get_next_actions(
         self,
-        test_idx: int,
+        session_id: str,
         utterance: Optional[str],
         auxiliary_metadata: dict[str, Any],
         previous_action_statuses: list[Any],
     ) -> ExperienceHubNextActions:
         """Make a prediction for the actions the agent should take."""
-        session_id: str = self._create_session_id(test_idx)
         prediction_request_id = str(uuid4())
 
         self._save_auxiliary_metadata(session_id, prediction_request_id, auxiliary_metadata)
@@ -221,14 +194,6 @@ class ExperienceHubOrchestrator:
         """Break from the sleep."""
         logger.info("Interrupted. Shutting down...")
         self._exit.set()
-
-    def _create_session_id(self, test_idx: int) -> str:
-        """Create the session ID for the example."""
-        session_id = ""
-        if self._session_id_prefix:
-            session_id = f"{self._session_id_prefix}-"
-
-        return f"{session_id}{uuid4()}-{test_idx}"
 
     def _save_auxiliary_metadata(
         self,

@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     # Paths
     storage_dir: Path = Path("storage/")
     auxiliary_metadata_dir: Path = storage_dir.joinpath("auxiliary_metadata/")
+    auxiliary_metadata_cache_dir: Path = storage_dir.joinpath("auxiliary_metadata_cache/")
     feature_cache_dir: Path = storage_dir.joinpath("features/")
     trajectory_dir: Path = storage_dir.joinpath("data/", "trajectory-data/")
     experience_hub_dir: Path = storage_dir.joinpath("experience-hub/")
@@ -22,7 +23,7 @@ class Settings(BaseSettings):
 
     # Unity
     platform: str = "Linux"
-    arena_path: FilePath = storage_dir.joinpath("arena", platform, "SimbotChallenge.x86_64")
+    arena_path: FilePath = storage_dir.joinpath("arena", platform, "Arena.x86_64")
     unity_log_path: Path = storage_dir.joinpath("logs", "unity_logs.log")
     display: int = 1
 
@@ -37,6 +38,7 @@ class Settings(BaseSettings):
         directories_to_create = [
             self.storage_dir,
             self.auxiliary_metadata_dir,
+            self.auxiliary_metadata_cache_dir,
             self.feature_cache_dir,
             self.trajectory_dir,
             self.models_dir,

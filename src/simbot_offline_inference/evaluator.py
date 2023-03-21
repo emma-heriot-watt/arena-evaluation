@@ -1,7 +1,9 @@
+from pathlib import Path
 import time
 from typing import Any
 
 from loguru import logger
+import orjson
 
 from arena_wrapper.enums.object_output_wrapper import ObjectOutputType
 from simbot_offline_inference.metrics import (
@@ -10,6 +12,7 @@ from simbot_offline_inference.metrics import (
 )
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 from simbot_offline_inference.prepare_trajectory_data import SimBotTestInstance
+from uuid import uuid4
 
 
 class SimBotArenaEvaluator:
@@ -46,6 +49,17 @@ class SimBotArenaEvaluator:
         logger.info(
             f"Overall subgoal completion rate: {self._evaluation_metrics.overall_subgoal_completion_rate}"
         )
+        logger.info(
+            f"Success rate per mission group: {self._evaluation_metrics.success_rate_per_mission_group}"
+        )
+
+        output = {
+            "sr": self._evaluation_metrics.overall_success_rate,
+            "sgcr": self._evaluation_metrics.overall_subgoal_completion_rate,
+            "permis": self._evaluation_metrics.success_rate_per_mission_group,
+        }
+
+        Path("./storage/res.json").write_bytes(orjson.dumps(output))
 
     def run_evaluation_step(self, test_data: SimBotTestInstance) -> None:
         """Run the evaluation on a single instance of the test data."""
@@ -57,8 +71,9 @@ class SimBotArenaEvaluator:
             raise AssertionError("The Experience Hub is not healthy.")
 
         logger.info(f"Running evaluation for Test #{test_data['test_number']}")
+        session_id = f"T2-{uuid4()}"
         for utterance in test_data["utterances"]:
-            self._handle_utterance(test_data["test_number"], utterance)
+            self._handle_utterance(session_id, utterance)
 
         # Check goal status and get results
         logger.debug("Calculating metrics for test")
@@ -68,6 +83,7 @@ class SimBotArenaEvaluator:
             subgoal_completion_status,
         ) = self._arena_orchestrator.get_goals_status()
         self._evaluation_metrics.add_mission_metrics(
+            mission_group=test_data["mission_group"],
             is_mission_completed=goal_completion_status,
             subgoal_completion_status=subgoal_completion_status,
         )
@@ -79,7 +95,7 @@ class SimBotArenaEvaluator:
             f"Subgoal completion rate for test: {calculate_subgoal_completion_rate(subgoal_completion_status)}"
         )
 
-    def _handle_utterance(self, test_idx: int, utterance: str) -> None:
+    def _handle_utterance(self, session_id: str, utterance: str) -> None:
         """Handle execution of a single utterance in the arena."""
         previous_action_statuses: list[Any] = []
 
@@ -93,7 +109,7 @@ class SimBotArenaEvaluator:
             # Get the next actions to take from the ExperienceHub
             logger.debug("Trying to get the next actions to take from the Experience Hub")
             actions, should_return_control = self._experience_hub_orchestrator.get_next_actions(
-                test_idx,
+                session_id,
                 # Only give the utterance on the first loop, otherwise we don't since the user is
                 # not instructing us to do anything
                 utterance if loop_idx == 0 else None,
@@ -103,16 +119,19 @@ class SimBotArenaEvaluator:
 
             # Execute the actions on the arena environment
             logger.debug(f"Executing actions: {actions}")
-            return_val, error_code = self._arena_orchestrator.execute_action(
+            return_val, action_status = self._arena_orchestrator.execute_action(
                 actions, self._object_output_type, utterance
             )
-            logger.debug(f"Received response from arena: {return_val}, {error_code}")
+            logger.debug(f"Received response from arena: {return_val}, {action_status}")
+
+            # Update the previous action statuses so it goes back to the arena
+            if not should_return_control or not return_val:
+                if action_status is not None:
+                    previous_action_statuses = [action_status]
 
             # If there is an issue completing the action, we need to give that back to the
             # experience hub
             if not return_val:
-                # TODO: Convert the error code to the previous action statuses
-                previous_action_statuses = []
                 logger.error(f"Action could not be completed for the utterance {utterance}")
 
             # Only break out the loop if we return a dialog action AND there is no error in

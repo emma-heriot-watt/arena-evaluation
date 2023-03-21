@@ -9,11 +9,23 @@
 			"type": "python",
 			"request": "launch",
 			"console": "integratedTerminal",
-			"purpose": ["debug-test"],
+			"purpose": [
+				"debug-test"
+			],
 			"justMyCode": false,
 			"env": {
 				"_PYTEST_RAISE": "1"
 			}
-		}
+		},
+		{
+			"name": "Current file",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/src/simbot_offline_inference/run.py",
+			"console": "integratedTerminal",
+			"justMyCode": false,
+			"subProcess": true,
+			"sudo": true
+		},
 	]
 }

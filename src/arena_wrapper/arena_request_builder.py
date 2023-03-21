@@ -171,6 +171,15 @@ class ArenaRequestBuilder:
             goto_request["goToCommand"]["instanceIdOfObject"] = input_goto_request["object"][
                 "name"
             ]
+        elif "position" in input_goto_request["object"]:
+            self.logger.info("Using 'position' in goTo command")
+            goto_request["goToCommand"]["position"] = list(
+                input_goto_request["object"]["position"].values()
+            )
+            # goto_request["goToCommand"]["raycast"] = [
+            #     input_goto_request["object"]["rotation"]["y"],
+            #     input_goto_request["object"]["rotation"]["w"],
+            # ]
         else:
             self.logger.error(
                 f'Did not find required goTo parameters in "object": {input_goto_request}'

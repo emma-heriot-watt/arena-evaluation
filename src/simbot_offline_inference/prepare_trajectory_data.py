@@ -5,10 +5,9 @@ This script processes the trajectory data for inference on the offline arena.
 import json
 from collections.abc import Iterator
 from pathlib import Path
-from typing import Any, TypedDict
 
+from typing import Any, TypedDict, Optional
 import numpy as np
-
 
 DATA_ROOT_DIR = Path("storage/data/")
 TRAJECTORY_ROOT_DIR = DATA_ROOT_DIR.joinpath("trajectory-data/")
@@ -19,8 +18,39 @@ class SimBotTestInstance(TypedDict):
 
     test_number: int
     mission_id: str
+    mission_group: Optional[str]
     mission_cdf: Any
     utterances: list[str]
+
+
+def extract_mission_group_from_description(mission_desc: str) -> str:
+    """Extract the group from the mission description."""
+    if "Break_Object".lower() in mission_desc.lower():
+        return "breakObject"
+    if "Clean_and_Deliver".lower() in mission_desc.lower():
+        return "clean&deliver"
+    if "Color_and_Deliver".lower() in mission_desc.lower():
+        return "color&deliver"
+    if "Fill_and_Deliver".lower() in mission_desc.lower():
+        return "fill&deliver"
+    if "Freeze_and_Deliver".lower() in mission_desc.lower():
+        return "freeze&deliver"
+    if "Heat_and_Deliver".lower() in mission_desc.lower():
+        return "heat&deliver"
+    if "Insert_in_Device".lower() in mission_desc.lower():
+        return "insertInDevice"
+    if "Pickup_and_Deliver".lower() in mission_desc.lower():
+        return "pickup&deliver"
+    if "Pour_into_Container".lower() in mission_desc.lower():
+        return "pourContainer"
+    if "Repair_and_Deliver".lower() in mission_desc.lower():
+        return "repair&deliver"
+    if "Scan_Object".lower() in mission_desc.lower():
+        return "scanObject"
+    if "Toggle_".lower() in mission_desc.lower():
+        return "toggleDevice"
+
+    return None
 
 
 def process_trajectory_data(in_file: Path, out_file: Path) -> None:
@@ -38,6 +68,7 @@ def process_trajectory_data(in_file: Path, out_file: Path) -> None:
             utterances = (utterance.lower() for utterance in utterances)
 
             test_instance = SimBotTestInstance(
+                mission_group=extract_mission_group_from_description(task_description),
                 test_number=len(test_instances) + 1,
                 mission_id=task_description,
                 mission_cdf=task["CDF"],
@@ -51,10 +82,10 @@ def process_trajectory_data(in_file: Path, out_file: Path) -> None:
 
 def process_all_trajectory_data(trajectory_root: Path = TRAJECTORY_ROOT_DIR) -> None:
     """Process all the trajectory data into the numpy files."""
-    # process_trajectory_data(
-    #     trajectory_root.joinpath("valid.json"),
-    #     trajectory_root.joinpath("nlg_commands_val.npy"),
-    # )
+    process_trajectory_data(
+        trajectory_root.joinpath("valid.json"),
+        trajectory_root.joinpath("nlg_commands_val.npy"),
+    )
     # process_trajectory_data(
     #     trajectory_root.joinpath("train.json"),
     #     trajectory_root.joinpath("nlg_commands_train.npy"),

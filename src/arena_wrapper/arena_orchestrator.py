@@ -47,6 +47,26 @@ class ArenaOrchestrator:
             return True
         return False
 
+    def create_action_status(self, actions: list[dict[str, Any]]) -> dict[str, Any]:
+        last_action = json.loads(self.response["lastAction"])
+        last_action_id = last_action["commandNum"]
+        try:
+            action_type = actions[last_action_id]["type"]
+        except (KeyError, IndexError):
+            action_type = last_action["commandType"]
+
+        if action_type.lower() == "goto":
+            action_type = "Goto"
+        if action_type.lower() == "pickup":
+            action_type = "Pickup"
+
+        return {
+            "id": last_action["commandNum"],
+            "type": action_type,
+            "success": self.response["lastActionSuccess"] == "ActionSuccessful",
+            "errorType": self.response["lastActionSuccess"],
+        }
+
     def execute_action(self, actions, object_output_type, nlg_action) -> tuple[bool, Any]:
         rg_compatible_actions = []
         try:
@@ -86,19 +106,23 @@ class ArenaOrchestrator:
                 self.build_segmentation_color_to_object_id_map()
                 return (
                     self.response["lastActionSuccess"] == "ActionSuccessful",
-                    self.response["lastActionSuccess"],
+                    self.create_action_status(actions),
                 )
             except Exception as ex:
                 self.logger.debug(f"Response keys: {list(self.response.keys())}")
-                
-                try: 
+
+                try:
                     last_action_success = self.response["lastActionSuccess"]
-                except KeyError: 
-                    last_action_success = "ActionExecutionError"
-                
-                self.logger.error(f"Exception while executing actions with status {last_action_success}: {ex}")
-                return False, last_action_success
-        return False, "UnknownError"
+                except KeyError:
+                    self.response["lastActionSuccess"] = "ActionExecutionError"
+
+                self.logger.error(
+                    f"Exception while executing actions with status {last_action_success}: {ex}"
+                )
+                return False, self.create_action_status(actions)
+
+        logger.error("UnknownError: Unable to execute any actions in the Arena")
+        return False, None
 
     def stop_game(self):
         self.kill_unity_instance()

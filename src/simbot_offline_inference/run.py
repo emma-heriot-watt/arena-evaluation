@@ -23,6 +23,7 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
         healthcheck_endpoint=f"{settings.base_endpoint}/healthcheck",
         predict_endpoint=f"{settings.base_endpoint}/v1/predict",
         auxiliary_metadata_dir=settings.auxiliary_metadata_dir,
+        auxiliary_metadata_cache_dir=settings.auxiliary_metadata_cache_dir,
         cached_extracted_features_dir=settings.feature_cache_dir,
         experience_hub_dir=settings.experience_hub_dir,
         model_storage_dir=settings.models_dir,
@@ -43,4 +44,5 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
 if __name__ == "__main__":
     settings = Settings()
     setup_rich_logging()
-    run_evaluation(settings.trajectory_dir.joinpath("nlg_commands_T2.npy"))
+    # run_evaluation(settings.trajectory_dir.joinpath("nlg_commands_T2.npy"))
+    run_evaluation(settings.trajectory_dir.joinpath("nlg_commands_val.npy"))
