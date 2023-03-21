@@ -12,13 +12,7 @@ import orjson
 from loguru import logger
 
 from arena_wrapper.arena_orchestrator import ArenaOrchestrator as AlexaArenaOrchestrator
-from emma_experience_hub.commands.simbot.cli import (
-    SERVICE_REGISTRY_PATH,
-    SERVICES_COMPOSE_PATH,
-    SERVICES_STAGING_COMPOSE_PATH,
-    run_background_services,
-    run_controller_api,
-)
+from emma_experience_hub.commands.simbot.cli import run_controller_api
 from simbot_offline_inference.settings import Settings
 
 
@@ -98,22 +92,6 @@ class ExperienceHubOrchestrator:
 
     def __enter__(self) -> None:
         """Start the Experience Hub."""
-        # Run the background services
-        logger.debug("Starting background services for the experience hub...")
-        run_background_services(
-            service_registry_path=self._experience_hub_dir.joinpath(SERVICE_REGISTRY_PATH),
-            services_docker_compose_path=self._experience_hub_dir.joinpath(SERVICES_COMPOSE_PATH),
-            staging_services_docker_compose_path=self._experience_hub_dir.joinpath(
-                SERVICES_STAGING_COMPOSE_PATH
-            ),
-            model_storage_dir=self._model_storage_dir,
-            download_models=True,
-            force_download=False,
-            run_in_background=True,
-            enable_observability=False,
-            is_production=False,
-        )
-
         # Create the process for the experience hub
         logger.debug("Starting controller API for the experience hub...")
         self._experience_hub_process.start()
@@ -205,7 +183,7 @@ class ExperienceHubOrchestrator:
 
         try:
             response.raise_for_status()
-        except httpx.HTTPStatusError as err:
+        except httpx.HTTPStatusError:
             logger.error("Healthcheck failed")
             return False
 
