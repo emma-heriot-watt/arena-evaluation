@@ -11,9 +11,7 @@ import orjson
 from loguru import logger
 
 from arena_wrapper.arena_orchestrator import ArenaOrchestrator as AlexaArenaOrchestrator
-from emma_experience_hub.commands.simbot.cli import (
-    run_controller_api
-)
+from emma_experience_hub.commands.simbot.cli import run_controller_api
 from simbot_offline_inference.settings import Settings
 
 
@@ -178,7 +176,7 @@ class ExperienceHubOrchestrator:
 
         try:
             response.raise_for_status()
-        except httpx.HTTPStatusError as err:
+        except httpx.HTTPStatusError:
             logger.error("Healthcheck failed")
             return False
 
