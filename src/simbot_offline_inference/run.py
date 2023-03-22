@@ -41,11 +41,11 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
     logger.debug(f"Loaded {len(test_data)} instances to evaluate")
 
     if settings.num_instances is not None:
-        test_data = test_data[settings.start_index : settings.start_index + settings.num_instances]
-        if len(test_data) == settings.num_instances:
-            logger.info(
-                f"Running for subset [{settings.start_index}:{settings.start_index + settings.num_instances}]"
-            )
+        end_index = settings.start_index + settings.num_instances
+        test_data = test_data[settings.start_index : end_index]
+        logger.info(
+            f"Running {len(test_data)} instance from subset [{settings.start_index}:{end_index}]"
+        )
 
     logger.info("Running evaluation on test data...")
     evaluator.run_evaluation(test_data)
