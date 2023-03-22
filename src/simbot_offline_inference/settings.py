@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     trajectory_dir: Path = storage_dir.joinpath("data/", "trajectory-data/")
     experience_hub_dir: Path = storage_dir.joinpath("experience-hub/")
     models_dir: Path = experience_hub_dir.joinpath("storage/models/")
+    evaluation_output_dir: Path = storage_dir.joinpath("action_outputs/")
+    metrics_file: Path = storage_dir.joinpath("metrics.json")
 
     # Experience hub
     base_endpoint: str = "http://0.0.0.0:5522"
@@ -43,6 +45,7 @@ class Settings(BaseSettings):
             self.trajectory_dir,
             self.models_dir,
             self.unity_log_path.parent,
+            self.evaluation_output_dir,
         ]
         for directory in directories_to_create:
             directory.mkdir(parents=True, exist_ok=True)

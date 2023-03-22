@@ -7,6 +7,7 @@ from emma_common.logging import setup_rich_logging
 from simbot_offline_inference.evaluator import SimBotArenaEvaluator
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 from simbot_offline_inference.settings import Settings
+from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 
 
 def run_evaluation(processed_trajectory_data: Path) -> None:
@@ -29,7 +30,12 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
         model_storage_dir=settings.models_dir,
         session_id_prefix="T2",
     )
-    evaluator = SimBotArenaEvaluator(arena_orchestrator, experience_hub_orchestrator)
+    evaluation_metrics = SimBotEvaluationMetrics(
+        settings.evaluation_output_dir, settings.metrics_file
+    )
+    evaluator = SimBotArenaEvaluator(
+        arena_orchestrator, experience_hub_orchestrator, evaluation_metrics
+    )
 
     logger.info(f"Loading test data from {processed_trajectory_data}")
     test_data = np.load(processed_trajectory_data, allow_pickle=True)

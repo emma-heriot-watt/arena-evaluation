@@ -60,7 +60,7 @@ def process_trajectory_data(in_file: Path, out_file: Path) -> None:
     test_instances: list[SimBotTestInstance] = []
 
     for task_description, task in task_data.items():
-        for annotation in task["human_annotations"]:
+        for annotation_idx, annotation in enumerate(task["human_annotations"]):
             utterances: Iterator[str] = (
                 instruction["instruction"] for instruction in annotation["instructions"]
             )
@@ -70,7 +70,7 @@ def process_trajectory_data(in_file: Path, out_file: Path) -> None:
             test_instance = SimBotTestInstance(
                 mission_group=extract_mission_group_from_description(task_description),
                 test_number=len(test_instances) + 1,
-                mission_id=task_description,
+                mission_id=f"{task_description}_{annotation_idx}",
                 mission_cdf=task["CDF"],
                 utterances=list(utterances),
             )

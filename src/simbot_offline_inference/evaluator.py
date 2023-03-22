@@ -1,15 +1,10 @@
-from pathlib import Path
 import time
 from typing import Any
 
 from loguru import logger
-import orjson
 
 from arena_wrapper.enums.object_output_wrapper import ObjectOutputType
-from simbot_offline_inference.metrics import (
-    SimBotEvaluationMetrics,
-    calculate_subgoal_completion_rate,
-)
+from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 from simbot_offline_inference.prepare_trajectory_data import SimBotTestInstance
 from uuid import uuid4
@@ -22,12 +17,13 @@ class SimBotArenaEvaluator:
         self,
         arena_orchestrator: ArenaOrchestrator,
         experience_hub_orchestrator: ExperienceHubOrchestrator,
+        evaluation_metrics: SimBotEvaluationMetrics,
         object_output_type: ObjectOutputType = ObjectOutputType.OBJECT_MASK,
         max_loops_for_single_utterance: int = 15,
     ) -> None:
         self._arena_orchestrator = arena_orchestrator
         self._experience_hub_orchestrator = experience_hub_orchestrator
-        self._evaluation_metrics = SimBotEvaluationMetrics()
+        self._evaluation_metrics = evaluation_metrics
 
         self._object_output_type = object_output_type
         self._max_loops_for_single_utterance = max_loops_for_single_utterance
@@ -45,21 +41,7 @@ class SimBotArenaEvaluator:
 
                 logger.info("Finished evaluation!")
 
-        logger.info(f"Overall success rate: {self._evaluation_metrics.overall_success_rate}")
-        logger.info(
-            f"Overall subgoal completion rate: {self._evaluation_metrics.overall_subgoal_completion_rate}"
-        )
-        logger.info(
-            f"Success rate per mission group: {self._evaluation_metrics.success_rate_per_mission_group}"
-        )
-
-        output = {
-            "sr": self._evaluation_metrics.overall_success_rate,
-            "sgcr": self._evaluation_metrics.overall_subgoal_completion_rate,
-            "permis": self._evaluation_metrics.success_rate_per_mission_group,
-        }
-
-        Path("./storage/res.json").write_bytes(orjson.dumps(output))
+        self._evaluation_metrics.log_overall_metrics()
 
     def run_evaluation_step(self, test_data: SimBotTestInstance) -> None:
         """Run the evaluation on a single instance of the test data."""
@@ -72,8 +54,12 @@ class SimBotArenaEvaluator:
 
         logger.info(f"Running evaluation for Test #{test_data['test_number']}")
         session_id = f"T2-{uuid4()}"
+
+        actions_for_session = []
+
         for utterance in test_data["utterances"]:
-            self._handle_utterance(session_id, utterance)
+            actions_for_utterance = self._handle_utterance(session_id, utterance)
+            actions_for_session.extend(actions_for_utterance)
 
         # Check goal status and get results
         logger.debug("Calculating metrics for test")
@@ -83,20 +69,21 @@ class SimBotArenaEvaluator:
             subgoal_completion_status,
         ) = self._arena_orchestrator.get_goals_status()
         self._evaluation_metrics.add_mission_metrics(
+            mission_name=test_data["mission_id"],
             mission_group=test_data["mission_group"],
             is_mission_completed=goal_completion_status,
             subgoal_completion_status=subgoal_completion_status,
+            predicted_actions=actions_for_session,
+            last_game_state=self._get_latest_game_state(),
         )
 
-        logger.info(f"Test #{test_data['test_number']} completed")
-        logger.info(f"Mission completion status: {goal_completion_status}")
-        logger.info(f"Subgoal completion status: {subgoal_completion_status}")
-        logger.info(
-            f"Subgoal completion rate for test: {calculate_subgoal_completion_rate(subgoal_completion_status)}"
-        )
+    def _handle_utterance(self, session_id: str, utterance: str) -> list[dict[str, Any]]:
+        """Handle execution of a single utterance in the arena.
 
-    def _handle_utterance(self, session_id: str, utterance: str) -> None:
-        """Handle execution of a single utterance in the arena."""
+        Return a list of all actions taken for the current utterance.
+        """
+        actions_taken: list[dict[str, Any]] = []
+
         previous_action_statuses: list[Any] = []
 
         for loop_idx in range(self._max_loops_for_single_utterance):
@@ -116,6 +103,7 @@ class SimBotArenaEvaluator:
                 auxiliary_metadata,
                 previous_action_statuses,
             )
+            actions_taken.extend(actions)
 
             # Execute the actions on the arena environment
             logger.debug(f"Executing actions: {actions}")
@@ -134,11 +122,19 @@ class SimBotArenaEvaluator:
             if not return_val:
                 logger.error(f"Action could not be completed for the utterance {utterance}")
 
+            if not actions:
+                logger.warning(
+                    "There were not actions to perform, so there is just dialog. Returning control back to the user since we didn't do anything in the arena."
+                )
+                break
+
             # Only break out the loop if we return a dialog action AND there is no error in
             # performing the action
             if should_return_control and return_val:
                 logger.debug("Returning control to the user to get the next utterance")
                 break
+
+        return actions_taken
 
     def _launch_game(self, mission_cdf: Any, attempts: int = 10, interval: int = 5) -> None:
         """Launch the game on the Arena instance.
@@ -175,3 +171,19 @@ class SimBotArenaEvaluator:
             time.sleep(5)
 
         raise AssertionError("Exhauted all attempts")
+
+    def _get_latest_game_state(self) -> dict[str, Any]:
+        """Get the latest game state for the evaluation output."""
+        exclude_keys = [
+            "sceneMetadata",
+            "colorImage",
+            "depthImage",
+            "normalsImage",
+            "instanceSegmentationImage",
+            "objects",
+        ]
+        return {
+            key: self._arena_orchestrator.response[key]
+            for key in self._arena_orchestrator.response
+            if key not in exclude_keys
+        }
