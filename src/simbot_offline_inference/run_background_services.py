@@ -28,5 +28,5 @@ if __name__ == "__main__":
         force_download=False,
         run_in_background=False,
         enable_observability=False,
-        is_production=True,
+        is_production=False,
     )
