@@ -127,6 +127,13 @@ class SimBotEvaluationMetrics:
         logger.info(f"Success rate per mission group: {self.success_rate_per_mission_group}")
 
         output = {
+            "games_played": self.games_played,
+            "games_completed": self.games_completed,
+            "subgoals_completed": self.subgoals_completed,
+            "total_subgoals": self.total_subgoals,
+            "mission_groups": set(self.mission_groups),
+            "games_played_per_mission_group": self.games_played_per_mission_group,
+            "games_completed_per_mission_group": self.games_completed_per_mission_group,
             "success_rate": self.overall_success_rate,
             "subgoal_completion_rate": self.overall_subgoal_completion_rate,
             "success_rate_per_mission": self.success_rate_per_mission_group,
