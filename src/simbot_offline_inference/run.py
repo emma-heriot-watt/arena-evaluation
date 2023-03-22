@@ -41,6 +41,12 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
     test_data = np.load(processed_trajectory_data, allow_pickle=True)
     logger.debug(f"Loaded {len(test_data)} instances to evaluate")
 
+    if settings.num_instances is not None:
+        logger.info(
+            f"Running for subset [{settings.start_index}:{settings.start_index + settings.num_instances}]"
+        )
+        test_data = test_data[settings.start_index : settings.start_index + settings.num_instances]
+
     logger.info("Running evaluation on test data...")
     evaluator.run_evaluation(test_data)
 
