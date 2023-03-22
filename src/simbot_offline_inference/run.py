@@ -2,7 +2,6 @@ from pathlib import Path
 
 import numpy as np
 from loguru import logger
-
 from emma_common.logging import setup_rich_logging
 from simbot_offline_inference.evaluator import SimBotArenaEvaluator
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
@@ -42,10 +41,11 @@ def run_evaluation(processed_trajectory_data: Path) -> None:
     logger.debug(f"Loaded {len(test_data)} instances to evaluate")
 
     if settings.num_instances is not None:
-        logger.info(
-            f"Running for subset [{settings.start_index}:{settings.start_index + settings.num_instances}]"
-        )
         test_data = test_data[settings.start_index : settings.start_index + settings.num_instances]
+        if len(test_data) == settings.num_instances:
+            logger.info(
+                f"Running for subset [{settings.start_index}:{settings.start_index + settings.num_instances}]"
+            )
 
     logger.info("Running evaluation on test data...")
     evaluator.run_evaluation(test_data)

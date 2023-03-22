@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any, Literal, Optional
 from loguru import logger
 from uuid import uuid1
+import subprocess
 
 
 def calculate_subgoal_completion_rate(subgoal_completion_status: list[Literal[0, 1]]) -> float:
@@ -131,7 +132,7 @@ class SimBotEvaluationMetrics:
             "games_completed": self.games_completed,
             "subgoals_completed": self.subgoals_completed,
             "total_subgoals": self.total_subgoals,
-            "mission_groups": set(self.mission_groups),
+            "mission_groups": list(set(self.mission_groups)),
             "games_played_per_mission_group": self.games_played_per_mission_group,
             "games_completed_per_mission_group": self.games_completed_per_mission_group,
             "success_rate": self.overall_success_rate,
@@ -141,3 +142,16 @@ class SimBotEvaluationMetrics:
 
         with open(self.output_metrics_file, "w") as metrics_file:
             json.dump(output, metrics_file)
+
+    def send_to_s3(self) -> None:
+        logger.info("Uploading to S3")
+        subprocess.run(
+            f"aws s3 cp {str(self.output_path)} s3://emma-simbot/results/simbot-eval-ai/missions/ --recursive",
+            shell=True,
+            check=True,
+        )
+        subprocess.run(
+            f"aws s3 cp {str(self.output_metrics_file)} s3://emma-simbot/results/simbot-eval-ai/metrics_{str(uuid1())}.json",
+            shell=True,
+            check=True,
+        )

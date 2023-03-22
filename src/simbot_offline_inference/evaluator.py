@@ -42,6 +42,7 @@ class SimBotArenaEvaluator:
                 logger.info("Finished evaluation!")
 
         self._evaluation_metrics.log_overall_metrics()
+        self._evaluation_metrics.send_to_s3()
 
     def run_evaluation_step(self, test_data: SimBotTestInstance) -> None:
         """Run the evaluation on a single instance of the test data."""
