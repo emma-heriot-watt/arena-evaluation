@@ -68,6 +68,10 @@ class SimBotEvaluationMetrics:
 
         return output
 
+    def has_mission_been_evaluated(self, mission_name: str) -> bool:
+        """Check if the mission has already been evaluated."""
+        return self.output_path.joinpath(f"{mission_name}.json").exists()
+
     def add_mission_metrics(
         self,
         mission_name: str,
@@ -103,7 +107,7 @@ class SimBotEvaluationMetrics:
         with open(output_file, "w") as file:
             json.dump(output_results, file)
 
-        logger.info(f"Test #{is_mission_completed} completed")
+        logger.info(f"Test #{self.games_played} over")
         logger.info(f"Mission completion status: {is_mission_completed}")
         logger.info(f"Subgoal completion status: {subgoal_completion_status}")
         logger.info(

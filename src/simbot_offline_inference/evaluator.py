@@ -45,6 +45,12 @@ class SimBotArenaEvaluator:
 
     def run_evaluation_step(self, test_data: SimBotTestInstance) -> None:
         """Run the evaluation on a single instance of the test data."""
+        if self._evaluation_metrics.has_mission_been_evaluated(test_data["mission_id"]):
+            logger.info(
+                f"Mission ({test_data['mission_id']}) has already been evaluated. Skipping..."
+            )
+            return
+
         logger.info("Launching mission in the Arena")
         self._launch_game(test_data["mission_cdf"])
 
