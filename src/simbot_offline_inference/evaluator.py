@@ -1,5 +1,6 @@
 import time
 from typing import Any
+from uuid import uuid4
 
 from loguru import logger
 
@@ -7,7 +8,6 @@ from arena_wrapper.enums.object_output_wrapper import ObjectOutputType
 from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 from simbot_offline_inference.prepare_trajectory_data import SimBotTestInstance
-from uuid import uuid4
 
 
 class SimBotArenaEvaluator:

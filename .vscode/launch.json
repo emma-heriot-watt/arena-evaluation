@@ -9,9 +9,7 @@
 			"type": "python",
 			"request": "launch",
 			"console": "integratedTerminal",
-			"purpose": [
-				"debug-test"
-			],
+			"purpose": ["debug-test"],
 			"justMyCode": false,
 			"env": {
 				"_PYTEST_RAISE": "1"
@@ -26,6 +24,6 @@
 			"justMyCode": false,
 			"subProcess": true,
 			"sudo": true
-		},
+		}
 	]
 }

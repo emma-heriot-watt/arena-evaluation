@@ -5,9 +5,10 @@ This script processes the trajectory data for inference on the offline arena.
 import json
 from collections.abc import Iterator
 from pathlib import Path
+from typing import Any, Optional, TypedDict
 
-from typing import Any, TypedDict, Optional
 import numpy as np
+
 
 DATA_ROOT_DIR = Path("storage/data/")
 TRAJECTORY_ROOT_DIR = DATA_ROOT_DIR.joinpath("trajectory-data/")
@@ -23,7 +24,7 @@ class SimBotTestInstance(TypedDict):
     utterances: list[str]
 
 
-def extract_mission_group_from_description(mission_desc: str) -> str:
+def extract_mission_group_from_description(mission_desc: str) -> Optional[str]:
     """Extract the group from the mission description."""
     if "Break_Object".lower() in mission_desc.lower():
         return "breakObject"

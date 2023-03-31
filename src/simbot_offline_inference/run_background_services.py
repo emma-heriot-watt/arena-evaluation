@@ -1,9 +1,9 @@
 from emma_experience_hub.commands.simbot.cli import (
+    OBSERVABILITY_COMPOSE_PATH,
     SERVICE_REGISTRY_PATH,
     SERVICES_COMPOSE_PATH,
-    SERVICES_STAGING_COMPOSE_PATH,
-    OBSERVABILITY_COMPOSE_PATH,
     SERVICES_PROD_COMPOSE_PATH,
+    SERVICES_STAGING_COMPOSE_PATH,
     run_background_services,
 )
 from simbot_offline_inference.settings import Settings

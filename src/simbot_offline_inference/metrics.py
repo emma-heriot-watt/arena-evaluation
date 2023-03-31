@@ -1,10 +1,11 @@
-from collections import Counter
 import json
+import subprocess
+from collections import Counter
 from pathlib import Path
 from typing import Any, Literal, Optional
-from loguru import logger
 from uuid import uuid1
-import subprocess
+
+from loguru import logger
 
 
 def calculate_subgoal_completion_rate(subgoal_completion_status: list[Literal[0, 1]]) -> float:

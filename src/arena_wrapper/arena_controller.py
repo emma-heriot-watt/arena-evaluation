@@ -4,8 +4,9 @@ import socket
 import sys
 import threading
 import time
-from loguru import logger
+
 from flask import abort
+from loguru import logger
 
 from arena_wrapper import server
 
@@ -65,7 +66,9 @@ class ArenaController(server.Server):
         return resp
 
     def handle_init(self, init_request):
-        logger.debug("Received initialize message. Sending it to Unity application to bring up for play.")
+        logger.debug(
+            "Received initialize message. Sending it to Unity application to bring up for play."
+        )
         self.wsSend(init_request)
         return
 
@@ -106,7 +109,9 @@ class ArenaController(server.Server):
             else:
                 logger.error("Could not connect to RG unity instance: ", result)
                 if counter == 250:
-                    logger.error("Tried to connect to unity for 250 times. Stopping the controller.")
+                    logger.error(
+                        "Tried to connect to unity for 250 times. Stopping the controller."
+                    )
                     self.isUnityConnected.clear()
             counter += 1
         return

@@ -13,7 +13,7 @@ su ubuntu -c 'git clone https://github.com/emma-simbot/simbot-offline-inference.
 
 echo "[SimBot] Cloning emma-simbot/experience-hub"
 su ubuntu -c 'mkdir -p storage'
-su ubuntu -c "git clone https://github.com/emma-simbot/experience-hub.git ./storage/experience-hub"
+su ubuntu -c "git clone -b eval-ai-inference https://github.com/emma-simbot/experience-hub.git ./storage/experience-hub"
 
 # ---------------------------- Download the arena ---------------------------- #
 echo "[SimBot] Downloading the arena"
@@ -21,7 +21,7 @@ su ubuntu -c 'sh ./scripts/fetch-arena.sh'
 
 echo "[SimBot] Set permissions for the arena"
 sudo chmod -R 755 $ROOT/storage/arena/Linux
-chmod 777 $ROOT/storage/arena/Linux/SimbotChallenge.x86_64
+chmod 777 $ROOT/storage/arena/Linux/Arena.x86_64
 
 # --------------------------- Install dependencies --------------------------- #
 # Copy the files they want us to copy?

@@ -2,11 +2,12 @@ from pathlib import Path
 
 import numpy as np
 from loguru import logger
+
 from emma_common.logging import setup_rich_logging
 from simbot_offline_inference.evaluator import SimBotArenaEvaluator
+from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 from simbot_offline_inference.settings import Settings
-from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 
 
 def run_evaluation(processed_trajectory_data: Path) -> None:

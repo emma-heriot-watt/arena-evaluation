@@ -1,14 +1,15 @@
 /* --------------------------------- Locals --------------------------------- */
 locals {
+  num_instances          = 1
   ami_prefix             = "EMMA-SimBot-Inference"
   ebs_volume_size        = 100
   instance_name          = "SimBot/OfflineInference"
-  instance_type          = "g5.2xlarge"
+  instance_type          = "g5.4xlarge"
   region                 = "us-east-1"
   role_name              = "Simbot-EC2-Role"
   ssh_key_name           = "ec2-ssh-key-pair"
   stack_formation_prefix = "Simbot-University-Stack"
-  user_data_path         = "scripts/instance-user-data.sh"
+  user_data_path         = "instance-user-data.sh"
 }
 
 /* -------------------------------- Providers ------------------------------- */
@@ -37,7 +38,7 @@ data "aws_ami" "emma_simbot_inference" {
   most_recent = true
   filter {
     name   = "name"
-    values = ["${local.ami_prefix}-*"]
+    values = ["${local.ami_prefix}*"]
   }
 }
 
@@ -96,6 +97,7 @@ resource "aws_security_group" "simbot_streaming_server" {
 resource "aws_instance" "simbot_inference_ec2_instance" {
   ami           = data.aws_ami.emma_simbot_inference.id
   instance_type = local.instance_type
+  count         = local.num_instances
 
   vpc_security_group_ids = [
     aws_security_group.simbot_streaming_server.id,
@@ -114,8 +116,6 @@ resource "aws_instance" "simbot_inference_ec2_instance" {
   user_data = file(local.user_data_path)
 
   tags = {
-    Name = local.instance_name
+    Name = "${local.instance_name}/${count.index + 1}"
   }
 }
-
-/* --------------------------------- Outputs -------------------------------- */
