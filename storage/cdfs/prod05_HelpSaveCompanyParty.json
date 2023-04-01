@@ -1,0 +1,869 @@
+{
+	"task_description": "",
+	"goal_text": "Defrost the cake for the company party",
+	"scene": {
+		"floor_plan": "0",
+		"scene_id": "prod05 (Help Save Company Party)",
+		"readable_name": null,
+		"roomLocation": ["Reception"],
+		"required_objects": [
+			{
+				"name": "Door_01_1",
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_2",
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_3",
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_4",
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_5",
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_6",
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_7",
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FreezeRay_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_01_2",
+				"state": [
+					{
+						"isToggledOn": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_02_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "GravityPad_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Laser_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_4",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_5",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_6",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_7",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_8",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "RoboticArm_01_1",
+				"state": [
+					{
+						"isToggledOn": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "TAMPrototypeHead_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FridgeUpper_02_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Cake_02_1",
+				"state": [
+					{
+						"isCold": "true"
+					},
+					{
+						"Unique": "true"
+					}
+				],
+				"location": [
+					{
+						"FridgeUpper_02_1": "in"
+					}
+				],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "TableRound_02_1",
+				"state": [],
+				"location": [],
+				"roomLocation": ["BreakRoom"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Broken_Cord_01_1",
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Broken_Cord_01_2",
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Broken_Cord_01_3",
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_4",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Laser_CircuitBoard_1",
+				"state": [
+					{
+						"Unique": "true"
+					}
+				],
+				"location": [
+					{
+						"Laser_1": "in"
+					}
+				],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Laser_ControlPanel_1",
+				"state": [
+					{
+						"Unique": "true"
+					}
+				],
+				"location": [
+					{
+						"Laser_1": "in"
+					}
+				],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Laser_Tip_1",
+				"state": [
+					{
+						"Unique": "true"
+					}
+				],
+				"location": [
+					{
+						"Laser_1": "in"
+					}
+				],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "PortalGenerator_10000",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Microwave_01_1",
+				"state": [
+					{
+						"isSparking": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_5",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "StickyNote_1",
+				"state": [
+					{
+						"text": "Get the cake from the freezer in the breakroom and defrost it for the party"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "StickyNote_2",
+				"state": [
+					{
+						"text": "The microwave is broken. Use the laser in the Robotics lab to defrost it"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "StickyNote_3",
+				"state": [
+					{
+						"text": "Take the cake to the red shelf in the robotics lab to defrost it with the laser"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "StickyNote_4",
+				"state": [
+					{
+						"text": "Place the cake on the red shelf on the wall. Turn on the laser using the red computer"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "AP_Prop_Shelf_Wall_Laser_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Desk_01_10006",
+				"state": [],
+				"location": [],
+				"roomLocation": ["Lab1"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Security_Button_10000",
+				"state": [
+					{
+						"circuitId": "-1"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			}
+		],
+		"sticky_notes": null,
+		"blacklisted_layouts": null,
+		"layoutOverride": "OfficeLayout1B_mirror",
+		"completelyRandomVisual": false
+	},
+	"task_goals": [
+		{
+			"goal_id": 0,
+			"object_states": [
+				{
+					"Cake_02_1": "isPickedUp=true"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Find the cake in the breakroom freezer",
+			"visibility": {
+				"isHidden": false,
+				"activationInteractable": "ALWAYS UNLOCKED",
+				"stickyNoteIndex": 0
+			},
+			"canReset": false
+		},
+		{
+			"goal_id": 1,
+			"object_states": [
+				{
+					"AP_Prop_Shelf_Wall_Laser_1": "Contains=Cake_02_1"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Take the cake to the Robotics lab and place it on the red shelf",
+			"visibility": {
+				"isHidden": false,
+				"activationInteractable": "ALWAYS UNLOCKED",
+				"stickyNoteIndex": 0
+			},
+			"canReset": false
+		},
+		{
+			"goal_id": 2,
+			"object_states": [
+				{
+					"Cake_02_1": "isHot=true"
+				},
+				{
+					"Laser_1": "isToggledOn=true"
+				}
+			],
+			"object_states_relation": "and",
+			"preconditions": [],
+			"description": "Turn on the laser using the red computer to defrost the cake",
+			"visibility": {
+				"isHidden": false,
+				"activationInteractable": "ALWAYS UNLOCKED",
+				"stickyNoteIndex": 0
+			},
+			"canReset": false
+		},
+		{
+			"goal_id": 3,
+			"object_states": [
+				{
+					"TableRound_02_1": "Contains=Cake_02_1"
+				},
+				{
+					"Cake_02_1": "isHot=true"
+				}
+			],
+			"object_states_relation": "and",
+			"preconditions": [],
+			"description": "Place the cake on the breakroom table for the party",
+			"visibility": {
+				"isHidden": false,
+				"activationInteractable": "ALWAYS UNLOCKED",
+				"stickyNoteIndex": 0
+			},
+			"canReset": false
+		}
+	],
+	"game_interactions": {
+		"camera_movements": {
+			"task_beginning": [],
+			"task_procedure": [],
+			"task_ending": [],
+			"object_conditions": []
+		},
+		"game_messages": {
+			"task_beginning": [],
+			"task_ending": [],
+			"object_conditions": []
+		}
+	},
+	"stateconditions": [],
+	"pastPortals": [
+		{
+			"PortalName": "past",
+			"PortalStatus": false
+		}
+	],
+	"futurePortals": [
+		{
+			"PortalName": "future",
+			"PortalStatus": false
+		}
+	]
+}

@@ -1,0 +1,762 @@
+{
+	"task_description": "There's a bowl of coffee on the table.  There's a mug on the counter.  There is an empty bag of coffee beans, with a sticky note on them.  There are no coffee beans anywhere, but there is a Coffee Un-Maker on the counter next to the mug.  On the other side of the counter is the Broken Microwave.",
+	"goal_text": "Use your Scan Ability to Find the Items in the Breakroom",
+	"scene": {
+		"floor_plan": "-1",
+		"scene_id": "02 (Scan_Coffee_Beans_And_Mug)",
+		"readable_name": "Scan Coffee Beans and Mug",
+		"roomLocation": ["BreakRoom"],
+		"required_objects": [
+			{
+				"name": "CoffeeBeans_01_1",
+				"state": [
+					{
+						"Blacklist": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "CoffeeMug_Yellow_1",
+				"state": [
+					{
+						"isFilled": "Coffee"
+					},
+					{
+						"isHot": "true"
+					}
+				],
+				"location": [
+					{
+						"TableRound_02_1": "in"
+					}
+				],
+				"roomLocation": ["BreakRoom"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "CoffeeUnMaker_01_1",
+				"state": [
+					{
+						"Unique": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": ["BreakRoom"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Microwave_01_1",
+				"state": [
+					{
+						"Unique": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": ["BreakRoom"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_4",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_5",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_6",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_7",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FreezeRay_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_02_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "GravityPad_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Laser_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_4",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_5",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_6",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_7",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_8",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "RoboticArm_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Broken_Cord_01_1",
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Broken_Cord_01_2",
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Broken_Cord_01_3",
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_4",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "TAMPrototypeHead_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "PortalGenerator_10000",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "StickyNote_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_5",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "TableRound_02_1",
+				"state": [],
+				"location": [],
+				"roomLocation": ["BreakRoom"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "CoffeeMug_Yellow_2",
+				"state": [
+					{
+						"isFilled": "Coffee"
+					},
+					{
+						"isHot": "true"
+					}
+				],
+				"location": [
+					{
+						"TableRound_02_1": "in"
+					}
+				],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			}
+		],
+		"sticky_notes": null,
+		"blacklisted_layouts": null,
+		"layoutOverride": null,
+		"completelyRandomVisual": false
+	},
+	"task_goals": [
+		{
+			"goal_id": 0,
+			"object_states": [
+				{
+					"CoffeeMug_Yellow_1": "ScannedAndCoffee=true"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Scan a mug of coffee",
+			"visibility": {
+				"isHidden": false,
+				"activationInteractable": "ALWAYS UNLOCKED",
+				"stickyNoteIndex": 0
+			},
+			"canReset": false
+		},
+		{
+			"goal_id": 1,
+			"object_states": [
+				{
+					"CoffeeUnMaker_01_1": "isFilled=Coffee"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Pour the Coffee into the Coffee Composer",
+			"visibility": {
+				"isHidden": false,
+				"activationInteractable": "ALWAYS UNLOCKED",
+				"stickyNoteIndex": 0
+			},
+			"canReset": false
+		},
+		{
+			"goal_id": 2,
+			"object_states": [
+				{
+					"CoffeeUnMaker_01_1_Spawned_CoffeeBeans_01*": "isScanned=true"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Scan a Bag of Coffee Beans",
+			"visibility": {
+				"isHidden": false,
+				"activationInteractable": "ALWAYS UNLOCKED",
+				"stickyNoteIndex": 0
+			},
+			"canReset": false
+		}
+	],
+	"game_interactions": {
+		"camera_movements": {
+			"task_beginning": [],
+			"task_procedure": [],
+			"task_ending": [],
+			"object_conditions": []
+		},
+		"game_messages": {
+			"task_beginning": [],
+			"task_ending": [],
+			"object_conditions": []
+		}
+	},
+	"stateconditions": [
+		{
+			"expression": {
+				"AND": {
+					"expressions": [
+						{
+							"isScanned": {
+								"target": "CoffeeMug_Yellow_1",
+								"message": "",
+								"value": true
+							}
+						},
+						{
+							"isFilledWith": {
+								"target": "CoffeeMug_Yellow_1",
+								"message": "",
+								"fluid": "Coffee"
+							}
+						}
+					]
+				}
+			},
+			"stateName": "ScannedAndHasCoffee",
+			"context": "CoffeeMug_Yellow_1"
+		},
+		{
+			"expression": {
+				"OR": {
+					"expressions": [
+						{
+							"AND": {
+								"expressions": [
+									{
+										"isScanned": {
+											"target": "CoffeeMug_Yellow_1",
+											"message": "",
+											"value": true
+										}
+									},
+									{
+										"isFilledWith": {
+											"fluid": "Coffee",
+											"target": "CoffeeMug_Yellow_1",
+											"message": ""
+										}
+									}
+								]
+							}
+						},
+						{
+							"AND": {
+								"expressions": [
+									{
+										"isScanned": {
+											"target": "CoffeeMug_Yellow_2",
+											"message": "",
+											"value": true
+										}
+									},
+									{
+										"isFilledWith": {
+											"fluid": "Coffee",
+											"target": "CoffeeMug_Yellow_2",
+											"message": ""
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			},
+			"stateName": "ScannedAndCoffee",
+			"context": "CoffeeMug_Yellow_1"
+		}
+	],
+	"pastPortals": [
+		{
+			"PortalName": "past",
+			"PortalStatus": false
+		}
+	],
+	"futurePortals": [
+		{
+			"PortalName": "future",
+			"PortalStatus": false
+		}
+	]
+}

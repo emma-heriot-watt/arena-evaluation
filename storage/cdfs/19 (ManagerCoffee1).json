@@ -1,0 +1,844 @@
+{
+	"task_description": "",
+	"goal_text": "Complete the Manager's Coffee Request",
+	"scene": {
+		"floor_plan": "-1",
+		"scene_id": "19 (ManagerCoffee1)",
+		"readable_name": "Manager's Coffee",
+		"roomLocation": ["BreakRoom"],
+		"required_objects": [
+			{
+				"name": "Door_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_4",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_5",
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_6",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_7",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FreezeRay_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_02_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "GravityPad_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Laser_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_4",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_5",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_6",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_7",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_8",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "RoboticArm_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "ManagerDesk_1",
+				"state": [],
+				"location": [],
+				"roomLocation": ["SmallOffice"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "ManagerDesk_2",
+				"state": [],
+				"location": [],
+				"roomLocation": ["SmallOffice"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "CoffeeMug_Boss_1",
+				"state": [
+					{
+						"Unique": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": ["SmallOffice"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "CoffeePot_01_1",
+				"state": [
+					{
+						"Unique": "true"
+					}
+				],
+				"location": [
+					{
+						"TableRound_02_1": "in"
+					}
+				],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Broken_Cord_01_1",
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Broken_Cord_01_2",
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Broken_Cord_01_3",
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_4",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "TAMPrototypeHead_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "TableRound_02_1",
+				"state": [],
+				"location": [],
+				"roomLocation": ["BreakRoom"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "CoffeeBeans_01_1",
+				"state": [
+					{
+						"Unique": "true"
+					}
+				],
+				"location": [
+					{
+						"TableRound_02_1": "in"
+					}
+				],
+				"roomLocation": ["BreakRoom"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "PortalGenerator_10000",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_5",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "StickyNote_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "StickyNote_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "StickyNote_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "CoffeeMaker_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": ["BreakRoom"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "CoffeeMaker_01_2",
+				"state": [
+					{
+						"isSparking": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": ["Reception"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "CoffeeMug_Yellow_1",
+				"state": [
+					{
+						"Blacklist": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Bowl_01_1",
+				"state": [
+					{
+						"Blacklist": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			}
+		],
+		"sticky_notes": null,
+		"blacklisted_layouts": null,
+		"layoutOverride": null,
+		"completelyRandomVisual": false
+	},
+	"task_goals": [
+		{
+			"goal_id": 0,
+			"object_states": [
+				{
+					"ManagerDesk_1": "Coffee1=true"
+				},
+				{
+					"ManagerDesk_2": "Coffee2=true"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Place the Manager's Coffee on their Desk",
+			"visibility": {
+				"isHidden": true,
+				"activationInteractable": "StickyNote_1",
+				"stickyNoteIndex": 1
+			},
+			"canReset": false
+		},
+		{
+			"goal_id": 1,
+			"object_states": [
+				{
+					"CoffeeMug_Boss_1": "isFilled=Coffee"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Use the Manager's special mug to make their coffee",
+			"visibility": {
+				"isHidden": true,
+				"activationInteractable": "StickyNote_2",
+				"stickyNoteIndex": 2
+			},
+			"canReset": false
+		},
+		{
+			"goal_id": 2,
+			"object_states": [
+				{
+					"CoffeeMaker_01_1": "isFilled=Water"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Use the sink to fill the Coffee Pot with Water",
+			"visibility": {
+				"isHidden": true,
+				"activationInteractable": "StickyNote_3",
+				"stickyNoteIndex": 3
+			},
+			"canReset": false
+		},
+		{
+			"goal_id": 3,
+			"object_states": [
+				{
+					"CoffeeMaker_01_1": "isToggledOn=true"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Use the Pot with the Coffee Maker to brew Coffee",
+			"visibility": {
+				"isHidden": true,
+				"activationInteractable": "StickyNote_3",
+				"stickyNoteIndex": 3
+			},
+			"canReset": false
+		}
+	],
+	"game_interactions": {
+		"camera_movements": {
+			"task_beginning": [],
+			"task_procedure": [],
+			"task_ending": [],
+			"object_conditions": []
+		},
+		"game_messages": {
+			"task_beginning": [],
+			"task_ending": [],
+			"object_conditions": []
+		}
+	},
+	"stateconditions": [
+		{
+			"expression": {
+				"AND": {
+					"expressions": [
+						{
+							"isFilledWith": {
+								"fluid": "Coffee",
+								"target": "CoffeeMug_Boss_1",
+								"message": ""
+							}
+						},
+						{
+							"Contains": {
+								"contains": "CoffeeMug_Boss_1",
+								"anchorPoint": "",
+								"target": "ManagerDesk_1",
+								"message": ""
+							}
+						}
+					]
+				}
+			},
+			"stateName": "Coffee1",
+			"context": "ManagerDesk_1"
+		},
+		{
+			"expression": {
+				"AND": {
+					"expressions": [
+						{
+							"isFilledWith": {
+								"fluid": "Coffee",
+								"target": "CoffeeMug_Boss_1",
+								"message": ""
+							}
+						},
+						{
+							"Contains": {
+								"contains": "CoffeeMug_Boss_1",
+								"anchorPoint": "",
+								"target": "ManagerDesk_2",
+								"message": ""
+							}
+						}
+					]
+				}
+			},
+			"stateName": "Coffee2",
+			"context": "ManagerDesk_2"
+		}
+	],
+	"pastPortals": [
+		{
+			"PortalName": "past",
+			"PortalStatus": false
+		}
+	],
+	"futurePortals": [
+		{
+			"PortalName": "future",
+			"PortalStatus": false
+		}
+	]
+}

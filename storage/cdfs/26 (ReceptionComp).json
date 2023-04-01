@@ -1,0 +1,745 @@
+{
+	"task_description": "",
+	"goal_text": "Find the Repaired Computer for Reception",
+	"scene": {
+		"floor_plan": "-1",
+		"scene_id": "26 (ReceptionComp)",
+		"readable_name": "Find the Repaired Computer",
+		"roomLocation": ["Reception"],
+		"required_objects": [
+			{
+				"name": "Broken_Cord_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Broken_Cord_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Broken_Cord_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_4",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_4",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_5",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_6",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Door_01_7",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FreezeRay_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "FuseBox_02_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "GravityPad_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Laser_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_4",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_5",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_6",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_7",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "LightSwitch_01_8",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "PortalGenerator_10000",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": ["past"],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "RoboticArm_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "TAMPrototypeHead_01_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "StickyNote_1",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "StickyNote_2",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "StickyNote_3",
+				"state": [],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_Broken_1",
+				"state": [
+					{
+						"Blacklist": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "MissionItemHolder_2",
+				"state": [],
+				"location": [],
+				"roomLocation": ["Warehouse"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_New_1",
+				"state": [
+					{
+						"Unique": "true"
+					}
+				],
+				"location": [
+					{
+						"MissionItemHolder_2": "in"
+					}
+				],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "V_Monitor_Portal_1",
+				"state": [
+					{
+						"isToggledOn": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "Past",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "ReceptionDesk_1",
+				"state": [],
+				"location": [],
+				"roomLocation": ["Reception"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "ReceptionDesk_2",
+				"state": [],
+				"location": [],
+				"roomLocation": ["Reception"],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			},
+			{
+				"name": "Computer_Monitor_01_5",
+				"state": [
+					{
+						"Removed": "true"
+					}
+				],
+				"location": [],
+				"roomLocation": [],
+				"condition": {},
+				"color": "Default",
+				"printingObject": "",
+				"associatedPastPortals": [],
+				"associatedFuturePortals": [],
+				"currentPortal": "",
+				"yesterdayState": "",
+				"dinoFood": ""
+			}
+		],
+		"sticky_notes": null,
+		"blacklisted_layouts": null,
+		"layoutOverride": null,
+		"completelyRandomVisual": false
+	},
+	"task_goals": [
+		{
+			"goal_id": 0,
+			"object_states": [
+				{
+					"ReceptionDesk_1": "Contains=Computer_Monitor_New_1"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "",
+			"visibility": {
+				"isHidden": false,
+				"activationInteractable": "ALWAYS UNLOCKED",
+				"stickyNoteIndex": 0
+			},
+			"canReset": false
+		},
+		{
+			"goal_id": 1,
+			"object_states": [
+				{
+					"StickyNote_1": "isExamined=true"
+				},
+				{
+					"Computer_Monitor_New_1": "isPickedUp=true"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Investigate the Warehouse Workbench for the repaired computer",
+			"visibility": {
+				"isHidden": true,
+				"activationInteractable": "StickyNote_2",
+				"stickyNoteIndex": 2
+			},
+			"canReset": false
+		},
+		{
+			"goal_id": 2,
+			"object_states": [
+				{
+					"StickyNote_3": "isExamined=true"
+				},
+				{
+					"V_Monitor_Portal_1": "isToggledOn=false"
+				},
+				{
+					"V_Monitor_Portal_1": "isPowered=false"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Investigate the Quantum Lab to shut down the Portal Generator",
+			"visibility": {
+				"isHidden": true,
+				"activationInteractable": "StickyNote_1",
+				"stickyNoteIndex": 1
+			},
+			"canReset": false
+		},
+		{
+			"goal_id": 3,
+			"object_states": [
+				{
+					"V_Monitor_Portal_1": "isToggledOn=false"
+				},
+				{
+					"V_Monitor_Portal_1": "isPowered=false"
+				}
+			],
+			"object_states_relation": "or",
+			"preconditions": [],
+			"description": "Shut down the Portal Generator to remove Echo Portals",
+			"visibility": {
+				"isHidden": true,
+				"activationInteractable": "StickyNote_3",
+				"stickyNoteIndex": 3
+			},
+			"canReset": false
+		}
+	],
+	"game_interactions": {
+		"camera_movements": {
+			"task_beginning": [],
+			"task_procedure": [],
+			"task_ending": [],
+			"object_conditions": []
+		},
+		"game_messages": {
+			"task_beginning": [],
+			"task_ending": [],
+			"object_conditions": []
+		}
+	},
+	"stateconditions": [
+		{
+			"expression": {
+				"OR": {
+					"expressions": [
+						{
+							"Contains": {
+								"contains": "Computer_Monitor_New_1",
+								"anchorPoint": "",
+								"target": "ReceptionDesk_1",
+								"message": ""
+							}
+						},
+						{
+							"Contains": {
+								"contains": "Computer_Monitor_New_1",
+								"anchorPoint": "",
+								"target": "ReceptionDesk_2",
+								"message": ""
+							}
+						}
+					]
+				}
+			},
+			"stateName": "NewComp",
+			"context": "Computer_Monitor_New_1"
+		}
+	],
+	"pastPortals": [
+		{
+			"PortalName": "past",
+			"PortalStatus": true
+		}
+	],
+	"futurePortals": [
+		{
+			"PortalName": "future",
+			"PortalStatus": false
+		}
+	]
+}
