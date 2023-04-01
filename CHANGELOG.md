@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.1.0...v1.2.0) (2023-04-01)
+
+
+### Features
+
+* add options to run for subset ([2391594](https://github.com/emma-simbot/simbot-offline-inference/commit/23915945e1f80cb5157554fbd37232cfc7e8c8b9))
+* create separate module/script to run the background services ([ec19cd8](https://github.com/emma-simbot/simbot-offline-inference/commit/ec19cd8efc04afd6869b4f6ac50d94e0a27aa83e))
+* dump all metrics so they can be stitched together again ([d8366ce](https://github.com/emma-simbot/simbot-offline-inference/commit/d8366ce36649a79e05fa1c48a357c97b64598b6d))
+* improve metrics calculating ([1bfa793](https://github.com/emma-simbot/simbot-offline-inference/commit/1bfa79315252a66724fc7ce81f9ebe67a41d0b90))
+* include CDFs ([d22fe14](https://github.com/emma-simbot/simbot-offline-inference/commit/d22fe1403b546c866b949992402cd2c2654b5b9d))
+* just everything from running the eval before report submission ([07b000e](https://github.com/emma-simbot/simbot-offline-inference/commit/07b000e1afb17b54ac46f5451490ad500c522626))
+* only evaluate missions that have not been evaluated yet ([453ceb9](https://github.com/emma-simbot/simbot-offline-inference/commit/453ceb9298dbe3cb3c199bfa84cb3f72621d7b49))
+* run eval on single gpu ([bf16694](https://github.com/emma-simbot/simbot-offline-inference/commit/bf166941fe5530972d4f78c909443b99ef9bbe2c))
+* set instance range in settings and send to s3 when done ([b126ffc](https://github.com/emma-simbot/simbot-offline-inference/commit/b126ffcb90d4c39f959e96c60b8006fdedcac026))
+
+
+### Bug Fixes
+
+* improve logs and healthchecks and responses ([849ba61](https://github.com/emma-simbot/simbot-offline-inference/commit/849ba61062f9cb5ef745bc1bd70a183623d9fc4d))
+* just make loads of changes to make it actually work properly ([041d40c](https://github.com/emma-simbot/simbot-offline-inference/commit/041d40c75c34a7e672ddc34bdd2df5ebcddc7b13))
+* just make loads of changes to make it actually work properly ([2a88df5](https://github.com/emma-simbot/simbot-offline-inference/commit/2a88df5716e1a7d14bcf96249feb5d31a2cab5cc))
+* make sure we do all instances and dont miss any ([f4901b5](https://github.com/emma-simbot/simbot-offline-inference/commit/f4901b58127eac81e4cb55c6d8d849c9d60feb07))
+* use the new arena executable ([c8a287d](https://github.com/emma-simbot/simbot-offline-inference/commit/c8a287dc3557339c2e63d6f0025ac9dc250d0a60))
+
 ## [1.1.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.0.1...v1.1.0) (2023-03-19)
 
 
