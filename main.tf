@@ -81,15 +81,29 @@ resource "aws_security_group" "simbot_streaming_server" {
 
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
-    from_port   = 81
     protocol    = "tcp"
+    from_port   = 81
     to_port     = 81
   }
 
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
-    from_port   = 19302
     protocol    = "tcp"
+    from_port   = 3000
+    to_port     = 3000
+  }
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 11000
+    to_port     = 11000
+  }
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 19302
     to_port     = 19302
   }
 }

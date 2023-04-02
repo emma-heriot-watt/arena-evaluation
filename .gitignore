@@ -577,3 +577,8 @@ terragrunt-debug.tfvars.json
 storage/*
 !storage/**/.gitkeep
 !storage/cdfs
+
+# Handle ignoring files within the bin
+bin/**/build
+!bin/**/*.png
+!bin/**/*.ico

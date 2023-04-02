@@ -11,10 +11,6 @@ cd $ROOT || exit 1
 echo "[SimBot] Cloning emma-simbot/simbot-offline-inference"
 su ubuntu -c 'git clone https://github.com/emma-simbot/simbot-offline-inference.git .'
 
-echo "[SimBot] Cloning emma-simbot/experience-hub"
-su ubuntu -c 'mkdir -p storage'
-su ubuntu -c "git clone -b eval-ai-inference https://github.com/emma-simbot/experience-hub.git ./storage/experience-hub"
-
 # ---------------------------- Download the arena ---------------------------- #
 echo "[SimBot] Downloading the arena"
 su ubuntu -c 'sh ./scripts/fetch-arena.sh'
