@@ -45,5 +45,9 @@ sudo apt install -y ffmpeg
 echo "[SimBot] Downloading arena mission data"
 su ubuntu -c 'sh ./scripts/fetch-arena-data.sh'
 
+# ------------------------ Download web tool frontend ------------------------ #
+echo "[SimBot] Cloning amazon-science/alexa-arena"
+su ubuntu -c 'git clone https://github.com/amazon-science/alexa-arena.git ./alexa-arena'
+
 # ----------------------------------- Done ----------------------------------- #
 echo "[SimBot] Done!"

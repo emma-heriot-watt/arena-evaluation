@@ -18,7 +18,8 @@ from simbot_offline_inference.settings import Settings
 class ExperienceHubNextActions(NamedTuple):
     """Return type after getting the next set of actions from the experience hub."""
 
-    actions: list[dict[str, Any]]
+    interaction_actions: list[dict[str, Any]]
+    dialog_actions: list[dict[str, Any]]
     should_return_control: bool
 
 
@@ -67,11 +68,9 @@ class ExperienceHubOrchestrator:
         cached_extracted_features_dir: Path,
         model_storage_dir: Path,
         experience_hub_dir: Path,
-        session_id_prefix: str = "",
     ) -> None:
         self._healthcheck_endpoint = healthcheck_endpoint
         self._predict_endpoint = predict_endpoint
-        self._session_id_prefix = session_id_prefix
         self._auxiliary_metadata_dir = auxiliary_metadata_dir
         self._auxiliary_metadata_cache_dir = auxiliary_metadata_cache_dir
         self._cached_extracted_features_dir = cached_extracted_features_dir
@@ -159,7 +158,8 @@ class ExperienceHubOrchestrator:
             raise AssertionError("No actions to return.")
 
         return ExperienceHubNextActions(
-            actions=self._remove_dialog_actions_from_response(actions),
+            interaction_actions=self._filter_dialog_actions(actions),
+            dialog_actions=self._filter_interaction_actions(actions),
             should_return_control=self._should_return_control_for_actions(actions),
         )
 
@@ -268,12 +268,12 @@ class ExperienceHubOrchestrator:
         """
         return any([action["type"] == "Dialog" for action in actions])
 
-    def _remove_dialog_actions_from_response(
-        self, actions: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _filter_dialog_actions(self, actions: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Remove any dialog actions from the response."""
-        filtered_actions = [
+        return [
             action for action in actions if action["type"] not in {"Dialog", "LightweightDialog"}
         ]
 
-        return filtered_actions
+    def _filter_interaction_actions(self, actions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Filter out actions that are interaction actions/are not dialog actions."""
+        return [action for action in actions if action["type"] in {"Dialog", "LightweightDialog"}]

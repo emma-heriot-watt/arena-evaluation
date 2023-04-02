@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from typing import Optional
 
 from pydantic import BaseSettings, FilePath
 
@@ -17,6 +16,7 @@ class Settings(BaseSettings):
     experience_hub_dir: Path = storage_dir.joinpath("experience-hub/")
     models_dir: Path = experience_hub_dir.joinpath("storage/models/")
     evaluation_output_dir: Path = storage_dir.joinpath("action_outputs/")
+    cdf_dir: Path = storage_dir.joinpath("cdfs/")
     metrics_file: Path = storage_dir.joinpath("metrics.json")
 
     # Experience hub
@@ -29,10 +29,6 @@ class Settings(BaseSettings):
     arena_path: FilePath = storage_dir.joinpath("arena", platform, "Arena.x86_64")
     unity_log_path: Path = storage_dir.joinpath("logs", "unity_logs.log")
     display: int = 1
-
-    # Eval:
-    start_index: int = 0
-    num_instances: Optional[int] = None
 
     def put_settings_in_environment(self) -> None:
         """Put settings in the environment variables."""

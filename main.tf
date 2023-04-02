@@ -9,7 +9,7 @@ locals {
   role_name              = "Simbot-EC2-Role"
   ssh_key_name           = "ec2-ssh-key-pair"
   stack_formation_prefix = "Simbot-University-Stack"
-  user_data_path         = "instance-user-data.sh"
+  user_data_path         = "scripts/instance-user-data.sh"
 }
 
 /* -------------------------------- Providers ------------------------------- */
