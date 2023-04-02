@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.2.0...v1.3.0) (2023-04-02)
+
+
+### Features
+
+* simplify run commands and add in the backend for the web tool ([4b4ee95](https://github.com/emma-simbot/simbot-offline-inference/commit/4b4ee95a2825058ba35c879b1b2b59af50873eec))
+
 ## [1.2.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.1.0...v1.2.0) (2023-04-01)
 
 
