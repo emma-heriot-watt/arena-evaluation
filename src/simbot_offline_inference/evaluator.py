@@ -10,6 +10,9 @@ from simbot_offline_inference.orchestrators import ArenaOrchestrator, Experience
 from simbot_offline_inference.prepare_trajectory_data import SimBotTestInstance
 
 
+EXPERIENCE_HUB_HEALTHCHECK_ATTEMPTS = 40
+
+
 class SimBotArenaEvaluator:
     """Handle the evaluation of the experience hub on the arena."""
 
@@ -33,7 +36,9 @@ class SimBotArenaEvaluator:
         with self._experience_hub_orchestrator:
             with self._arena_orchestrator:
                 logger.info("Checking experience hub is ready...")
-                self._experience_hub_orchestrator.healthcheck(40, 5)
+                self._experience_hub_orchestrator.healthcheck(
+                    EXPERIENCE_HUB_HEALTHCHECK_ATTEMPTS, 5
+                )
 
                 logger.info("Starting evaluation...")
                 for instance in test_data:
@@ -84,13 +89,14 @@ class SimBotArenaEvaluator:
             last_game_state=self._get_latest_game_state(),
         )
 
-    def _handle_utterance(self, session_id: str, utterance: str) -> list[dict[str, Any]]:
+    def _handle_utterance(  # noqa: WPS231
+        self, session_id: str, utterance: str
+    ) -> list[dict[str, Any]]:
         """Handle execution of a single utterance in the arena.
 
         Return a list of all actions taken for the current utterance.
         """
         actions_taken: list[dict[str, Any]] = []
-
         previous_action_statuses: list[Any] = []
 
         for loop_idx in range(self._max_loops_for_single_utterance):
@@ -181,6 +187,9 @@ class SimBotArenaEvaluator:
 
     def _get_latest_game_state(self) -> dict[str, Any]:
         """Get the latest game state for the evaluation output."""
+        if self._arena_orchestrator.response is None:
+            raise AssertionError("There is no response from the Arena")
+
         exclude_keys = [
             "sceneMetadata",
             "colorImage",

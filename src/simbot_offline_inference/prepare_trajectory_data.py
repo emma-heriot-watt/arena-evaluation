@@ -24,7 +24,7 @@ class SimBotTestInstance(TypedDict):
     utterances: list[str]
 
 
-def extract_mission_group_from_description(mission_desc: str) -> Optional[str]:
+def extract_mission_group_from_description(mission_desc: str) -> Optional[str]:  # noqa: WPS212
     """Extract the group from the mission description."""
     if "Break_Object".lower() in mission_desc.lower():
         return "breakObject"
@@ -55,7 +55,7 @@ def extract_mission_group_from_description(mission_desc: str) -> Optional[str]:
 
 
 def process_trajectory_data(in_file: Path, out_file: Path) -> None:
-    """Process a file."""
+    """Process the trajectory data and save it."""
     task_data = json.loads(in_file.read_bytes())
 
     test_instances: list[SimBotTestInstance] = []
