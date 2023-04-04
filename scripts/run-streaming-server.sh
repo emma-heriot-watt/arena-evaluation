@@ -7,7 +7,7 @@ killServers() {
 
 trap killServers SIGINT
 
-cd bin/StreamingServerWebRTC || exit 1
+cd storage/arena/StreamingServerWebRTC || exit 1
 
 npm install
 npm run build
