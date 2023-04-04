@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.3.0...v1.3.1) (2023-04-04)
+
+
+### Bug Fixes
+
+* context managers for the controllers/orchestrators ([fc27d12](https://github.com/emma-simbot/simbot-offline-inference/commit/fc27d126948705ce3683f7aabbd8253ca8c52f55))
+
 ## [1.3.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.2.0...v1.3.0) (2023-04-02)
 
 
