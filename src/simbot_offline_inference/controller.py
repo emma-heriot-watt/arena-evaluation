@@ -1,4 +1,5 @@
 import time
+from contextlib import ExitStack
 from typing import Any, Literal
 
 from loguru import logger
@@ -25,18 +26,21 @@ class SimBotInferenceController:
         self._max_loops_for_single_utterance = max_loops_for_single_utterance
         self._experience_hub_healthcheck_attempts = experience_hub_healthcheck_attempts
 
+        self._exit_stack = ExitStack()
+
     def __enter__(self) -> None:
         """Initialize the services."""
-        self._experience_hub_orchestrator.__enter__()  # noqa: WPS609
-        self._arena_orchestrator.__enter__()  # noqa: WPS609
+        self._exit_stack.enter_context(self._arena_orchestrator)
+        self._exit_stack.enter_context(self._experience_hub_orchestrator)
 
         logger.info("Checking experience hub is ready...")
         self._experience_hub_orchestrator.healthcheck(self._experience_hub_healthcheck_attempts, 5)
 
-    def __exit__(self, *args: Any, **kwargs: Any) -> None:
+        return self._exit_stack.__enter__()  # type: ignore[return-value] # noqa: WPS609
+
+    def __exit__(self, *args: Any, **kwargs: Any) -> bool:
         """Exit the services."""
-        self._arena_orchestrator.__exit__()  # noqa: WPS609
-        self._experience_hub_orchestrator.__exit__()  # noqa: WPS609
+        return self._exit_stack.__exit__(*args, **kwargs)  # noqa: WPS609
 
     def healthcheck(self) -> bool:
         """Healthcheck the services."""

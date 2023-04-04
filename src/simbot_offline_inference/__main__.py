@@ -151,7 +151,7 @@ def run_web_backend() -> None:
 
     logger.debug(f"Loaded settings: {settings}")
 
-    logger.info("Preparing orchestrators and evaluators")
+    logger.info("Preparing orchestrators for inference")
     arena_orchestrator = ArenaOrchestrator()
     experience_hub_orchestrator = ExperienceHubOrchestrator(
         healthcheck_endpoint=f"{settings.base_endpoint}/healthcheck",
@@ -166,7 +166,10 @@ def run_web_backend() -> None:
         arena_orchestrator, experience_hub_orchestrator
     )
     backend_app = SimBotWebBackendApp(inference_controller, settings.cdf_dir)
-    backend_app.run()
+
+    with backend_app.controller:
+        logger.info("Starting the web app")
+        backend_app.run()
 
 
 if __name__ == "__main__":

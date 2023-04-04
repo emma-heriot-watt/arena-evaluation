@@ -173,6 +173,9 @@ class ExperienceHubOrchestrator:
             except httpx.ReadTimeout:
                 logger.error("Healthcheck timed out")
                 return False
+            except httpx.ConnectError:
+                logger.error("Connection refused")
+                return False
 
         try:
             response.raise_for_status()

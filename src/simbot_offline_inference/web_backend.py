@@ -1,3 +1,4 @@
+from contextlib import ExitStack
 from pathlib import Path
 from typing import Any, TypedDict
 
@@ -29,27 +30,26 @@ class BackendController:
 
         self._cdf_dir = cdf_dir
 
+        self._stack = ExitStack()
+
     def __enter__(self) -> None:
         """Initialise the server."""
-        self.start_server()
+        return self.start_server()  # type: ignore[return-value]
 
-    def __exit__(self, *args: Any, **kwargs: Any) -> None:
+    def __exit__(self, *args: Any, **kwargs: Any) -> bool:
         """Close the server."""
-        self.stop_server()
+        return self._stack.__exit__(*args, **kwargs)  # noqa: WPS609
 
-    def start_server(self) -> None:
+    def start_server(self) -> ExitStack:
         """Initialise the server."""
-        self._inference_controller.__enter__()  # noqa: WPS609
+        self._stack.enter_context(self._inference_controller)
 
         cdf_path = next(self._cdf_dir.iterdir())
         raw_cdf = orjson.loads(cdf_path.read_bytes())
         self._inference_controller.launch_game(raw_cdf)
 
         logger.info("Server initialisation complete.")
-
-    def stop_server(self) -> None:
-        """Close the server."""
-        self._inference_controller.__exit__()  # noqa: WPS609
+        return self._stack.__enter__()  # noqa: WPS609
 
     def load_cdfs(self) -> dict[str, list[WrappedCDF]]:
         """Load all the CDFs."""
