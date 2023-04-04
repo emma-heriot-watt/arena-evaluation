@@ -27,6 +27,14 @@ repos:
         name: Validate GitHub workflows
         types: [yaml]
 
+  # --------------------------- Commit message check --------------------------- #
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v2.1.1
+    hooks:
+      - id: conventional-pre-commit
+        name: Check commit message follows Conventional Commits
+        stages: [commit-msg]
+
   # ----------------------------- Check file issues ---------------------------- #
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
