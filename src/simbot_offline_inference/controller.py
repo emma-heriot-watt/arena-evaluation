@@ -30,6 +30,9 @@ class SimBotInferenceController:
 
     def __enter__(self) -> None:
         """Initialize the services."""
+        if self.is_controller_running:
+            return None
+
         self._exit_stack.enter_context(self._arena_orchestrator)
         self._exit_stack.enter_context(self._experience_hub_orchestrator)
 
@@ -43,9 +46,9 @@ class SimBotInferenceController:
         return self._exit_stack.__exit__(*args, **kwargs)  # noqa: WPS609
 
     @property
-    def is_arena_running(self) -> bool:
+    def is_controller_running(self) -> bool:
         """Check if the arena is running."""
-        return self._arena_orchestrator.is_unity_running
+        return self._arena_orchestrator.is_unity_running and self.healthcheck()
 
     def healthcheck(self) -> bool:
         """Healthcheck the services."""
