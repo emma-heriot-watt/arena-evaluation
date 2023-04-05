@@ -21,7 +21,6 @@ from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 from simbot_offline_inference.prepare_trajectory_data import process_trajectory_data
 from simbot_offline_inference.settings import Settings
-from simbot_offline_inference.web_backend import SimBotWebBackendApp
 
 
 app = typer.Typer(name="Run inference offline.", no_args_is_help=True, add_completion=False)
@@ -140,36 +139,6 @@ def run_evaluation(
     evaluator.run_evaluation(test_data)
 
     logger.info("Done!")
-
-
-@app.command(rich_help_panel="Run")
-def run_web_backend() -> None:
-    """Run the backend for the web tool."""
-    settings = Settings()
-    settings.put_settings_in_environment()
-    settings.prepare_file_system()
-
-    logger.debug(f"Loaded settings: {settings}")
-
-    logger.info("Preparing orchestrators for inference")
-    arena_orchestrator = ArenaOrchestrator()
-    experience_hub_orchestrator = ExperienceHubOrchestrator(
-        healthcheck_endpoint=f"{settings.base_endpoint}/healthcheck",
-        predict_endpoint=f"{settings.base_endpoint}/v1/predict",
-        auxiliary_metadata_dir=settings.auxiliary_metadata_dir,
-        auxiliary_metadata_cache_dir=settings.auxiliary_metadata_cache_dir,
-        cached_extracted_features_dir=settings.feature_cache_dir,
-        experience_hub_dir=settings.experience_hub_dir,
-        model_storage_dir=settings.models_dir,
-    )
-    inference_controller = SimBotInferenceController(
-        arena_orchestrator, experience_hub_orchestrator
-    )
-    backend_app = SimBotWebBackendApp(inference_controller, settings.cdf_dir)
-
-    with backend_app.controller:
-        logger.info("Starting the web app")
-        backend_app.run()
 
 
 if __name__ == "__main__":
