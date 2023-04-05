@@ -100,13 +100,21 @@ class ExperienceHubOrchestrator:
 
     def __exit__(self, *args: Any, **kwargs: Any) -> None:
         """Try to kill the experience hub."""
-        logger.debug("Trying to stop running the expeirence hub...")
+        self.kill_experience_hub()
+
+    def kill_experience_hub(self) -> None:
+        """Kill the experience hub."""
+        logger.debug("Trying to stop running the experience hub...")
 
         self._experience_hub_process.join()
-        try:
-            self._experience_hub_process.close()
-        except ValueError:
-            logger.info("Experience hub didn't close proeprly, so forcing it.")
+        self._experience_hub_process.close()
+
+        if self._experience_hub_process.is_alive():
+            logger.debug("Killing the experience hub...")
+            self._experience_hub_process.kill()
+
+        if self._experience_hub_process.is_alive():
+            logger.debug("Terminating the experience hub...")
             self._experience_hub_process.terminate()
 
     def healthcheck(self, attempts: int = 1, interval: int = 0) -> bool:
@@ -196,6 +204,7 @@ class ExperienceHubOrchestrator:
     def _break_from_sleep(self, signum: int, _frame: Any) -> None:
         """Break from the sleep."""
         logger.info("Interrupted. Shutting down...")
+        self.kill_experience_hub()
         self._exit.set()
 
     def _save_auxiliary_metadata(
