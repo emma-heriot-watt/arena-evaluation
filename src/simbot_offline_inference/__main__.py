@@ -71,7 +71,7 @@ def run_background_services() -> None:
     settings = Settings()
 
     run_exp_hub_background_services(
-        service_registry_path=settings.experience_hub_dir.joinpath(SERVICE_REGISTRY_PATH),
+        service_registry_path=SERVICE_REGISTRY_PATH,
         services_docker_compose_path=settings.experience_hub_dir.joinpath(SERVICES_COMPOSE_PATH),
         staging_services_docker_compose_path=settings.experience_hub_dir.joinpath(
             SERVICES_STAGING_COMPOSE_PATH
