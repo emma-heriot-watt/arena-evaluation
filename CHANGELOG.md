@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.3.1...v1.4.0) (2023-04-05)
+
+
+### Features
+
+* be able to validate cdfs ([faa6722](https://github.com/emma-simbot/simbot-offline-inference/commit/faa6722aa5a73671e6a1dcedc6c0234ccf0767f9))
+
+
+### Bug Fixes
+
+* if the arena/experience hub are running, do not try and start it again ([cde1077](https://github.com/emma-simbot/simbot-offline-inference/commit/cde1077b0b030c7fa3c706c72e89e0b854fc47ae))
+* make sure the experience hub dies ([5094187](https://github.com/emma-simbot/simbot-offline-inference/commit/50941874941b76df641ae79220d4b56788c5e941))
+* run command with the new experience hub version ([6ad167b](https://github.com/emma-simbot/simbot-offline-inference/commit/6ad167bbf94c643210fd23ccad50d710affc6340))
+
 ## [1.3.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.3.0...v1.3.1) (2023-04-04)
 
 
