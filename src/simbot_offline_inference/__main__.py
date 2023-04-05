@@ -93,7 +93,7 @@ def run_background_services() -> None:
 
 @app.command(rich_help_panel="Run")
 def run_evaluation(
-    evaluation_type: EvaluationType, start_index: int, num_instances: Optional[int] = None
+    evaluation_type: EvaluationType, start_index: int = 0, num_instances: Optional[int] = None
 ) -> None:
     """Run the evaluation."""
     processed_trajectory_data = get_processed_trajectory_data(evaluation_type)
