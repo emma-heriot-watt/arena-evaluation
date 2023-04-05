@@ -3,7 +3,7 @@ from typing import Any
 
 from loguru import logger
 
-from simbot_offline_inference.controller import SimBotInferenceController
+from simbot_offline_inference.inference_controller import SimBotInferenceController
 
 
 class InvalidCDFException(Exception):

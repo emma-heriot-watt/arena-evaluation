@@ -2,7 +2,7 @@ from uuid import uuid4
 
 from loguru import logger
 
-from simbot_offline_inference.controller import SimBotInferenceController
+from simbot_offline_inference.inference_controller import SimBotInferenceController
 from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 from simbot_offline_inference.prepare_trajectory_data import SimBotTestInstance
 
@@ -43,15 +43,10 @@ class SimBotArenaEvaluator:
             )
             return
 
-        logger.info("Launching mission in the Arena")
-        self._inference_controller.launch_game(test_data["mission_cdf"])
-
-        logger.debug("Verifying Experience Hub is healthy")
-        if not self._inference_controller.healthcheck():
-            raise AssertionError("The Experience Hub is not healthy.")
-
         logger.info(f"Running evaluation for Test #{test_data['test_number']}")
-        session_id = f"{self._session_id_prefix}-{uuid4()}"
+
+        self.prepare_cdf_in_arena(test_data)
+        session_id = self.create_session_id()
 
         actions_for_session = []
 
@@ -75,3 +70,16 @@ class SimBotArenaEvaluator:
             predicted_actions=actions_for_session,
             last_game_state=self._inference_controller.get_latest_game_state(),
         )
+
+    def prepare_cdf_in_arena(self, test_data: SimBotTestInstance) -> None:
+        """Prepare the arena with the CDF."""
+        logger.info("Launching mission in the Arena")
+        self._inference_controller.launch_game(test_data["mission_cdf"])
+
+        logger.debug("Verifying Experience Hub is healthy")
+        if not self._inference_controller.healthcheck():
+            raise AssertionError("The Experience Hub is not healthy.")
+
+    def create_session_id(self) -> str:
+        """Create a session ID."""
+        return f"{self._session_id_prefix}-{uuid4()}"

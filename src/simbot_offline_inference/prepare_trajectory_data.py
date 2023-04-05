@@ -7,11 +7,7 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import Any, Optional, TypedDict
 
-import numpy as np
-
-
-DATA_ROOT_DIR = Path("storage/data/")
-TRAJECTORY_ROOT_DIR = DATA_ROOT_DIR.joinpath("trajectory-data/")
+from rich.progress import track
 
 
 class SimBotTestInstance(TypedDict):
@@ -54,13 +50,17 @@ def extract_mission_group_from_description(mission_desc: str) -> Optional[str]: 
     return None
 
 
-def process_trajectory_data(in_file: Path, out_file: Path) -> None:
-    """Process the trajectory data and save it."""
+def process_their_trajectory_data(in_file: Path) -> list[SimBotTestInstance]:
+    """Process the trajectory data from their evaluation sets."""
     task_data = json.loads(in_file.read_bytes())
 
     test_instances: list[SimBotTestInstance] = []
 
-    for task_description, task in task_data.items():
+    iterator = track(
+        task_data.items(), description="Processing their trajectory data to our format"
+    )
+
+    for task_description, task in iterator:
         for annotation_idx, annotation in enumerate(task["human_annotations"]):
             utterances: Iterator[str] = (
                 instruction["instruction"] for instruction in annotation["instructions"]
@@ -78,24 +78,4 @@ def process_trajectory_data(in_file: Path, out_file: Path) -> None:
 
             test_instances.append(test_instance)
 
-    np.save(out_file, test_instances)  # type: ignore[arg-type]
-
-
-def process_all_trajectory_data(trajectory_root: Path = TRAJECTORY_ROOT_DIR) -> None:
-    """Process all the trajectory data into the numpy files."""
-    process_trajectory_data(
-        trajectory_root.joinpath("valid.json"),
-        trajectory_root.joinpath("nlg_commands_val.npy"),
-    )
-    # process_trajectory_data(
-    #     trajectory_root.joinpath("train.json"),
-    #     trajectory_root.joinpath("nlg_commands_train.npy"),
-    # )
-    process_trajectory_data(
-        trajectory_root.joinpath("T2_valid.json"),
-        trajectory_root.joinpath("nlg_commands_T2.npy"),
-    )
-
-
-if __name__ == "__main__":
-    process_all_trajectory_data()
+    return test_instances
