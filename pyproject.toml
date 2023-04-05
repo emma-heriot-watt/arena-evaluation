@@ -6,6 +6,7 @@ authors = ["Amit Parekh <7276308+amitkparekh@users.noreply.github.com>"]
 readme = "README.md"
 packages = [
 	{ include = "simbot_offline_inference", from = "src" },
+	{ include = "simbot_missions", from = "src" },
 	{ include = "arena_wrapper", from = "src" },
 ]
 
@@ -30,7 +31,7 @@ unityparser = "^2.2.1"
 opencv-python = "^4.7.0.68"
 scipy = "^1.10.0"
 jinja2 = "^3.1.2"
-emma-experience-hub = {git = "https://github.com/emma-simbot/experience-hub"}
+emma-experience-hub = { git = "https://github.com/emma-simbot/experience-hub" }
 flask-cors = "^3.0.10"
 gevent = "^22.10.2"
 
