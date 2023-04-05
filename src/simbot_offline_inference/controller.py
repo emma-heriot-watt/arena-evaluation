@@ -42,6 +42,11 @@ class SimBotInferenceController:
         """Exit the services."""
         return self._exit_stack.__exit__(*args, **kwargs)  # noqa: WPS609
 
+    @property
+    def is_arena_running(self) -> bool:
+        """Check if the arena is running."""
+        return self._arena_orchestrator.is_unity_running
+
     def healthcheck(self) -> bool:
         """Healthcheck the services."""
         return self._experience_hub_orchestrator.healthcheck()
@@ -60,9 +65,16 @@ class SimBotInferenceController:
 
         We also need to do the dummy actions to make sure the game is ready to go.
         """
+        self.send_cdf_to_arena(mission_cdf)
+        self.send_dummy_actions_to_arena(attempts, interval)
+
+    def send_cdf_to_arena(self, mission_cdf: Any) -> None:
+        """Send the CDF to the Arena instance."""
         if not self._arena_orchestrator.launch_game(mission_cdf):
             raise AssertionError("Could not launch the game")
 
+    def send_dummy_actions_to_arena(self, attempts: int = 10, interval: int = 5) -> None:
+        """Send dummy actions to the Arena instance to make sure it's ready to go."""
         logger.debug("Sending dummy actions to verify game is ready")
         dummy_action = [
             {
