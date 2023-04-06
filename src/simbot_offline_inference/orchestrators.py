@@ -127,7 +127,6 @@ class ExperienceHubOrchestrator:
         cached_extracted_features_dir: Path,
         model_storage_dir: Path,
         experience_hub_dir: Path,
-        timeout: int = -1,
     ) -> None:
         self._healthcheck_endpoint = healthcheck_endpoint
         self._predict_endpoint = predict_endpoint
@@ -146,7 +145,7 @@ class ExperienceHubOrchestrator:
                 "log_to_cloudwatch": False,
                 "traces_to_opensearch": False,
                 "workers": 1,
-                "timeout": timeout,
+                "timeout": 100,
             },
             daemon=True,
         )
