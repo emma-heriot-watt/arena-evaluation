@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Any, Optional
 
+import shortuuid
 from pydantic import BaseModel
 
 
@@ -16,10 +17,12 @@ class SimBotTrajectory(BaseModel):
 
     def create_session_id(self, prefix: str) -> str:
         """Create a session ID for the trajectory."""
+        safe_high_level_key = self.high_level_key.replace("=", "--").replace("#", "_").lstrip("_")
+
         now = datetime.now()
         date_chunk = f"{now.year:02d}{now.month:02d}{now.day:02d}"
 
-        return f"{prefix}__{self.high_level_key}__{date_chunk}"
+        return f"{prefix}{date_chunk}.{shortuuid.uuid()[:5]}/{safe_high_level_key}"
 
 
 class SimBotChallenge(BaseModel):
