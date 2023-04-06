@@ -49,7 +49,7 @@ def run_evaluation(
         arena_orchestrator, experience_hub_orchestrator
     )
     evaluation_metrics = SimBotEvaluationMetrics(
-        settings.evaluation_output_dir, settings.metrics_file
+        settings.evaluation_output_dir, settings.metrics_file, settings.s3_evaluation_output_dir
     )
     evaluator = SimBotArenaEvaluator(
         inference_controller,

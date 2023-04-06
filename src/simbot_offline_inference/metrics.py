@@ -1,10 +1,10 @@
-import subprocess
 from collections import Counter
 from pathlib import Path
 from typing import Any, Literal, Optional
 from uuid import uuid1
 
 import orjson
+from cloudpathlib import S3Path
 from loguru import logger
 
 
@@ -19,9 +19,15 @@ def calculate_subgoal_completion_rate(subgoal_completion_status: list[Literal[0,
 class SimBotEvaluationMetrics:
     """Store and calculate metrics for the evaluation."""
 
-    def __init__(self, evaluation_output_dir: Path, output_metrics_file: Path) -> None:
+    def __init__(
+        self,
+        evaluation_output_dir: Path,
+        output_metrics_file: Path,
+        s3_evaluation_output_dir: S3Path,
+    ) -> None:
         self._output_path = evaluation_output_dir
         self._output_metrics_file = output_metrics_file
+        self._s3_evaluation_output_dir = s3_evaluation_output_dir
 
         self._games_played = 0
         self._games_completed = 0
@@ -149,13 +155,11 @@ class SimBotEvaluationMetrics:
     def send_to_s3(self) -> None:
         """Upload the results to S3."""
         logger.info("Uploading to S3...")
-        subprocess.run(
-            f"aws s3 cp {str(self._output_path)} s3://emma-simbot/results/simbot-eval-ai/missions/ --recursive",
-            shell=True,
-            check=True,
-        )
-        subprocess.run(
-            f"aws s3 cp {str(self._output_metrics_file)} s3://emma-simbot/results/simbot-eval-ai/metrics_{str(uuid1())}.json",
-            shell=True,
-            check=True,
+        self._s3_evaluation_output_dir.upload_from(self._output_path)
+
+        # Upload the metrics file to a random path within the directory.
+        self._s3_evaluation_output_dir.joinpath(
+            f"metrics_{str(uuid1())}.json"
+        ).upload_from(  # pyright: ignore
+            self._output_metrics_file
         )

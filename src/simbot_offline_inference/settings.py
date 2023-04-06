@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from typing import Union
 
+from cloudpathlib import S3Path
 from pydantic import BaseSettings, FilePath
 
 
@@ -16,9 +17,13 @@ class Settings(BaseSettings):
     trajectory_dir: Path = storage_dir.joinpath("data/", "trajectory-data/")
     experience_hub_dir: Path = storage_dir.joinpath("experience-hub/")
     models_dir: Path = experience_hub_dir.joinpath("storage/models/")
-    evaluation_output_dir: Path = storage_dir.joinpath("action_outputs/")
     cdf_dir: Path = storage_dir.joinpath("cdfs/")
     metrics_file: Path = storage_dir.joinpath("metrics.json")
+
+    evaluation_output_dir: Path = storage_dir.joinpath("action_outputs/")
+    s3_evaluation_output_dir: S3Path = S3Path(
+        "s3://emma-simbot/results/simbot-trajectories/missions/"
+    )
 
     # Experience hub
     base_endpoint: str = "http://0.0.0.0:5522"
