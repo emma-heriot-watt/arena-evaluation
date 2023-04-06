@@ -24,6 +24,7 @@ class Settings(BaseSettings):
     base_endpoint: str = "http://0.0.0.0:5522"
     simbot_port: int = 5522
     simbot_client_timeout: int = -1
+    simbot_feature_flags_enable_offline_evaluation: bool = True  # noqa: WPS118
 
     # Unity
     platform: str = "Linux"
