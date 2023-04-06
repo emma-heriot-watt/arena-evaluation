@@ -1,4 +1,5 @@
 import signal
+import time
 from multiprocessing import Process
 from pathlib import Path
 from threading import Event
@@ -11,6 +12,7 @@ import orjson
 from loguru import logger
 
 from arena_wrapper.arena_orchestrator import ArenaOrchestrator as AlexaArenaOrchestrator
+from arena_wrapper.enums.object_output_wrapper import ObjectOutputType
 from emma_experience_hub.commands.simbot.cli import run_controller_api
 from simbot_offline_inference.settings import Settings
 
@@ -37,6 +39,66 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
             logger.warning(
                 "Could not kill the Unity instance. You might need to kill it manually."
             )
+
+    @property
+    def unity_log_path(self) -> Path:
+        """Get the path to the unity logs."""
+        if self.app_config.unity_log_file is None:
+            raise AssertionError("Unity log file is not set")
+
+        return Path(self.app_config.unity_log_file)
+
+    def launch_new_game(
+        self,
+        mission_cdf: Any,
+        attempts: int = 10,
+        interval: int = 5,
+        object_output_type: ObjectOutputType = ObjectOutputType.OBJECT_MASK,
+    ) -> None:
+        """Launch the game on the Arena instance.
+
+        We also need to do the dummy actions to make sure the game is ready to go.
+        """
+        self.send_cdf_to_arena(mission_cdf)
+        self.send_dummy_actions_to_arena(attempts, interval, object_output_type)
+
+    def send_cdf_to_arena(self, mission_cdf: Any) -> None:
+        """Send the CDF to the Arena instance."""
+        if not self.launch_game(mission_cdf):
+            raise AssertionError("Could not launch the game")
+
+    def send_dummy_actions_to_arena(
+        self,
+        attempts: int = 10,
+        interval: int = 5,
+        object_output_type: ObjectOutputType = ObjectOutputType.OBJECT_MASK,
+    ) -> None:
+        """Send dummy actions to the Arena instance to make sure it's ready to go."""
+        logger.debug("Sending dummy actions to verify game is ready")
+        dummy_action = [
+            {
+                "id": "1",
+                "type": "Rotate",
+                "rotation": {
+                    "direction": "Right",
+                    "magnitude": 0,
+                },
+            }
+        ]
+
+        for attempt_idx in range(attempts):
+            return_val, _ = self.execute_action(dummy_action, object_output_type, "Rotate right")
+
+            # If it succeeds, then just exit the loop since it's ready to go
+            if return_val:
+                return
+
+            logger.error(
+                f"Attempt {attempt_idx + 1}/{attempts} failed. Waiting for {interval} seconds before trying again."
+            )
+            time.sleep(5)
+
+        raise AssertionError("Exhauted all attempts")
 
     def _get_unity_execution_command(self) -> str:
         settings = Settings()

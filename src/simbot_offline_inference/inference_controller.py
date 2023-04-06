@@ -1,4 +1,3 @@
-import time
 from contextlib import ExitStack
 from typing import Any, Literal
 
@@ -30,9 +29,6 @@ class SimBotInferenceController:
 
     def __enter__(self) -> None:
         """Initialize the services."""
-        if self.is_controller_running:
-            return None
-
         self._exit_stack.enter_context(self._arena_orchestrator)
         self._exit_stack.enter_context(self._experience_hub_orchestrator)
 
@@ -46,13 +42,22 @@ class SimBotInferenceController:
         return self._exit_stack.__exit__(*args, **kwargs)  # noqa: WPS609
 
     @property
-    def is_controller_running(self) -> bool:
+    def is_arena_running(self) -> bool:
         """Check if the arena is running."""
-        return self._arena_orchestrator.is_unity_running and self.healthcheck()
+        return self._arena_orchestrator.is_unity_running
 
     def healthcheck(self) -> bool:
         """Healthcheck the services."""
         return self._experience_hub_orchestrator.healthcheck()
+
+    def launch_game(self, mission_cdf: Any, attempts: int = 10, interval: int = 5) -> None:
+        """Launch the game on the Arena instance.
+
+        We also need to do the dummy actions to make sure the game is ready to go.
+        """
+        return self._arena_orchestrator.launch_new_game(
+            mission_cdf, attempts, interval, self._object_output_type
+        )
 
     def get_goal_completion_status(self) -> tuple[bool, list[Literal[0, 1]]]:
         """Get the goal completion status from the Arena instance."""
@@ -62,49 +67,6 @@ class SimBotInferenceController:
             subgoal_completion_status,
         ) = self._arena_orchestrator.get_goals_status()
         return goal_completion_status, subgoal_completion_status
-
-    def launch_game(self, mission_cdf: Any, attempts: int = 10, interval: int = 5) -> None:
-        """Launch the game on the Arena instance.
-
-        We also need to do the dummy actions to make sure the game is ready to go.
-        """
-        self.send_cdf_to_arena(mission_cdf)
-        self.send_dummy_actions_to_arena(attempts, interval)
-
-    def send_cdf_to_arena(self, mission_cdf: Any) -> None:
-        """Send the CDF to the Arena instance."""
-        if not self._arena_orchestrator.launch_game(mission_cdf):
-            raise AssertionError("Could not launch the game")
-
-    def send_dummy_actions_to_arena(self, attempts: int = 10, interval: int = 5) -> None:
-        """Send dummy actions to the Arena instance to make sure it's ready to go."""
-        logger.debug("Sending dummy actions to verify game is ready")
-        dummy_action = [
-            {
-                "id": "1",
-                "type": "Rotate",
-                "rotation": {
-                    "direction": "Right",
-                    "magnitude": 0,
-                },
-            }
-        ]
-
-        for attempt_idx in range(attempts):
-            return_val, _ = self._arena_orchestrator.execute_action(
-                dummy_action, self._object_output_type, "Rotate right"
-            )
-
-            # If it succeeds, then just exit the loop since it's ready to go
-            if return_val:
-                return
-
-            logger.error(
-                f"Attempt {attempt_idx + 1}/{attempts} failed. Waiting for {interval} seconds before trying again."
-            )
-            time.sleep(5)
-
-        raise AssertionError("Exhauted all attempts")
 
     def handle_utterance(  # noqa: WPS231
         self, session_id: str, utterance: str
