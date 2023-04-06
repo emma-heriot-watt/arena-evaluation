@@ -5,19 +5,11 @@ This script processes the trajectory data for inference on the offline arena.
 import json
 from collections.abc import Iterator
 from pathlib import Path
-from typing import Any, Optional, TypedDict
+from typing import Optional
 
 from rich.progress import track
 
-
-class SimBotTestInstance(TypedDict):
-    """Inferface for the test data."""
-
-    test_number: int
-    mission_id: str
-    mission_group: Optional[str]
-    mission_cdf: Any
-    utterances: list[str]
+from simbot_missions.structures import SimBotTrajectory
 
 
 def extract_mission_group_from_description(mission_desc: str) -> Optional[str]:  # noqa: WPS212
@@ -50,11 +42,11 @@ def extract_mission_group_from_description(mission_desc: str) -> Optional[str]: 
     return None
 
 
-def process_their_trajectory_data(in_file: Path) -> list[SimBotTestInstance]:
+def process_their_trajectory_data(in_file: Path) -> list[SimBotTrajectory]:
     """Process the trajectory data from their evaluation sets."""
     task_data = json.loads(in_file.read_bytes())
 
-    test_instances: list[SimBotTestInstance] = []
+    test_instances: list[SimBotTrajectory] = []
 
     iterator = track(
         task_data.items(), description="Processing their trajectory data to our format"
@@ -68,11 +60,10 @@ def process_their_trajectory_data(in_file: Path) -> list[SimBotTestInstance]:
             utterances = (utterance for utterance in utterances if "_" not in utterance)
             utterances = (utterance.lower() for utterance in utterances)
 
-            test_instance = SimBotTestInstance(
+            test_instance = SimBotTrajectory(
                 mission_group=extract_mission_group_from_description(task_description),
-                test_number=len(test_instances) + 1,
-                mission_id=f"{task_description}_{annotation_idx}",
-                mission_cdf=task["CDF"],
+                high_level_key=f"{task_description}_{annotation_idx}",
+                cdf=task["CDF"],
                 utterances=list(utterances),
             )
 

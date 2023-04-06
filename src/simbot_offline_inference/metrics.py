@@ -109,6 +109,7 @@ class SimBotEvaluationMetrics:
         output_file.write_bytes(orjson.dumps(output_results))
 
         logger.info(f"Test #{self._games_played} over")
+        logger.info(f"Mission name: {mission_name}")
         logger.info(f"Mission completion status: {is_mission_completed}")
         logger.info(f"Subgoal completion status: {subgoal_completion_status}")
         logger.info(

@@ -43,10 +43,8 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
     @property
     def unity_log_path(self) -> Path:
         """Get the path to the unity logs."""
-        if self.app_config.unity_log_file is None:
-            raise AssertionError("Unity log file is not set")
-
-        return Path(self.app_config.unity_log_file)
+        settings = Settings()
+        return Path(settings.unity_log_path)
 
     def launch_new_game(
         self,

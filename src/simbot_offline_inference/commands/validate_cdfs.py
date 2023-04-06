@@ -1,26 +1,12 @@
 from pathlib import Path
 
-import orjson
 from loguru import logger
-from rich.progress import track
 
 from emma_common.logging import setup_rich_logging
+from simbot_missions import SimBotChallenge
 from simbot_missions.challenge_validator import CDFValidationInstance, ChallengeValidator
 from simbot_offline_inference.orchestrators import ArenaOrchestrator
 from simbot_offline_inference.settings import Settings
-
-
-def load_cdfs(directory: Path) -> list[CDFValidationInstance]:
-    """Load CDFs from the given trajectory."""
-    cdfs: list[CDFValidationInstance] = []
-
-    files_to_load = list(directory.rglob("*.json"))
-
-    for cdf_file in track(files_to_load, description="Loading CDFs"):
-        cdf = orjson.loads(cdf_file.read_bytes())
-        cdfs.append(CDFValidationInstance(cdf=cdf, path=cdf_file))
-
-    return cdfs
 
 
 def validate_cdfs(directory: Path) -> None:
@@ -31,7 +17,15 @@ def validate_cdfs(directory: Path) -> None:
 
     setup_rich_logging()
 
-    cdfs = load_cdfs(directory)
+    files_to_load = list(directory.rglob("*.json"))
+    logger.info(f"Found {len(files_to_load)} CDFs to validate.")
+
+    cdfs = [
+        CDFValidationInstance(
+            cdf=SimBotChallenge.parse_file(challenge_file).cdf, path=challenge_file
+        )
+        for challenge_file in files_to_load
+    ]
 
     arena_orchestrator = ArenaOrchestrator()
     challenge_validator = ChallengeValidator(arena_orchestrator)
