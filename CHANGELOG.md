@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.4.0...v1.5.0) (2023-04-06)
+
+
+### Features
+
+* add command to validate cdfs within a dir ([8b65c55](https://github.com/emma-simbot/simbot-offline-inference/commit/8b65c55fbcd4330b33e2ce2d95d9c306815cd5fe))
+* add flag to enable offline evaluation mode in experience hub ([4514467](https://github.com/emma-simbot/simbot-offline-inference/commit/4514467b75407d0fe5f999f99143b42f1338190d))
+* add missions for picking up from freezer ([8108cf1](https://github.com/emma-simbot/simbot-offline-inference/commit/8108cf1ed1b93b9077be3bbe160b4dc0f454a527))
+* clone the experience hub into the storage dir ([22b91a7](https://github.com/emma-simbot/simbot-offline-inference/commit/22b91a71272f8cd22a127bf21b3042fae31af31d))
+* create new structures for the challenges and trajectories ([1e12c0b](https://github.com/emma-simbot/simbot-offline-inference/commit/1e12c0b445107020f3c0c4f869498af2650616c2))
+* improve how generating trajectories are to be run ([d3b8979](https://github.com/emma-simbot/simbot-offline-inference/commit/d3b897970a148e5b7b43abff40bc5351d3cfd777))
+
+
+### Bug Fixes
+
+* improve the first attempt to make the CDFs ([c19be24](https://github.com/emma-simbot/simbot-offline-inference/commit/c19be24925f8da21c3116bda2ccfdcf0ed739ed9))
+* just use a single high level key for each mission ([788ea34](https://github.com/emma-simbot/simbot-offline-inference/commit/788ea3411c0737d2ae0d0b2314b3bcb0d16437ed))
+* kill command for the arena ([605863b](https://github.com/emma-simbot/simbot-offline-inference/commit/605863bcc7922daca752c1b4f9f661761a40e780))
+* missions for pickup from fridge ([b74601c](https://github.com/emma-simbot/simbot-offline-inference/commit/b74601c7fb30e451bfee24c2ef0ce4ccc378ffdc))
+* settings need to exist before being able to run things ([951aa38](https://github.com/emma-simbot/simbot-offline-inference/commit/951aa382e2673a7cbf0c6214f352374cfe41813e))
+* the service registry path ([eb8c5c5](https://github.com/emma-simbot/simbot-offline-inference/commit/eb8c5c59ccc14fb383b5034cdbbb1f1012302bcd))
+
 ## [1.4.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.3.1...v1.4.0) (2023-04-05)
 
 
