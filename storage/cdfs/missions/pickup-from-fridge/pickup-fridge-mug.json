@@ -1,23 +1,24 @@
 {
 	"high_level_key": [
-		"#action=timemachine#target-object=bowl",
-		"#action=timemachine#target-object=bowl#converted-object=bowl"
+		"#action=pickup#target-object=mug#from-receptacle=fridge#from-receptacle-is-container"
 	],
 	"plans": [
 		[
-			"go to the time machine",
-			"open the time machine",
-			"put the bowl in the time machine",
-			"close the time machine",
-			"turn on the time machine",
-			"open the time machine",
-			"pick up the bowl from the time machine",
-			"close the time machine"
+			"go to the fridge",
+			"open the fridge",
+			"pick up the mug",
+			"close the fridge"
+		],
+		[
+			"find the fridge",
+			"open the fridge",
+			"pick up the mug",
+			"close the fridge"
 		]
 	],
 	"cdf": {
-		"task_description": "Time Machine Trajectory.",
-		"goal_text": "Time Machine Trajectory",
+		"task_description": "",
+		"goal_text": "pick up the object",
 		"game_id": "3",
 		"experimental": "true",
 		"scene": {
@@ -27,22 +28,20 @@
 			"roomLocation": ["BreakRoom"],
 			"required_objects": [
 				{
-					"name": "Bowl_01_1",
+					"name": "CoffeeMug_Yellow_1",
 					"state": [
 						{
 							"Unique": "true"
-						},
-						{
-							"isBroken": "true"
-						},
-						{
-							"isPickedUp": "true"
 						}
 					],
-					"location": [],
+					"location": [
+						{
+							"FridgeLower_02_1": "in"
+						}
+					],
 					"roomLocation": ["BreakRoom"],
 					"condition": {},
-					"colors": [],
+					"colors": ["Red"],
 					"printingObject": "",
 					"associatedPastPortals": [],
 					"associatedFuturePortals": [],
@@ -51,26 +50,54 @@
 					"dinoFood": ""
 				},
 				{
-					"name": "YesterdayMachine_01_1",
-					"state": [
-						{
-							"Unique": "true"
-						}
-					],
-					"location": [],
-					"roomLocation": ["BreakRoom"],
-					"condition": {},
-					"colors": [],
-					"printingObject": "",
-					"associatedPastPortals": [],
-					"associatedFuturePortals": [],
-					"currentPortal": "",
-					"yesterdayState": "",
-					"dinoFood": ""
-				},
-				{
-					"name": "LightSwitch_01_1",
+					"name": "FridgeLower_02_1",
 					"state": [],
+					"location": [],
+					"roomLocation": ["BreakRoom"],
+					"condition": {},
+					"colors": [],
+					"printingObject": "",
+					"associatedPastPortals": [],
+					"associatedFuturePortals": [],
+					"currentPortal": "",
+					"yesterdayState": "",
+					"dinoFood": ""
+				},
+				{
+					"name": "FridgeUpper_02_1",
+					"state": [],
+					"location": [],
+					"roomLocation": ["BreakRoom"],
+					"condition": {},
+					"colors": [],
+					"printingObject": "",
+					"associatedPastPortals": [],
+					"associatedFuturePortals": [],
+					"currentPortal": "",
+					"yesterdayState": "",
+					"dinoFood": ""
+				},
+				{
+					"name": "TableRound_02_1",
+					"state": [],
+					"location": [],
+					"roomLocation": ["BreakRoom"],
+					"condition": {},
+					"colors": [],
+					"printingObject": "",
+					"associatedPastPortals": [],
+					"associatedFuturePortals": [],
+					"currentPortal": "",
+					"yesterdayState": "",
+					"dinoFood": ""
+				},
+				{
+					"name": "StickyNote_1",
+					"state": [
+						{
+							"text": "Place the bowl in this Time Machine and turn it on!"
+						}
+					],
 					"location": [],
 					"roomLocation": [],
 					"condition": {},
@@ -90,18 +117,18 @@
 		},
 		"task_goals": [
 			{
-				"goal_id": 2,
+				"goal_id": 0,
 				"object_states": [
 					{
-						"YesterdayMachine_01_1": "Contains=Bowl_01_1"
+						"CoffeeMug_Yellow_1": "isPickedUp=true"
 					},
 					{
-						"YesterdayMachine_01_1": "isToggledOn=true"
+						"FridgeLower_02_1": "isOpen=true"
 					}
 				],
-				"object_states_relation": "and",
+				"object_states_relation": "or",
 				"preconditions": [],
-				"description": "Use the Breakroom Time Machine to fix the object",
+				"description": "Pick up the object from the fridge",
 				"visibility": {
 					"isHidden": false,
 					"activationInteractable": "ALWAYS UNLOCKED",
@@ -110,18 +137,15 @@
 				"canReset": false
 			},
 			{
-				"goal_id": 0,
+				"goal_id": 1,
 				"object_states": [
 					{
-						"Bowl_01_1": "isBroken=false"
-					},
-					{
-						"Bowl_01_1": "isPickedUp=true"
+						"FridgeLower_02_1": "isOpen=false"
 					}
 				],
-				"object_states_relation": "and",
+				"object_states_relation": "or",
 				"preconditions": [],
-				"description": "Hold the fixed object",
+				"description": "Close the fridge",
 				"visibility": {
 					"isHidden": false,
 					"activationInteractable": "ALWAYS UNLOCKED",

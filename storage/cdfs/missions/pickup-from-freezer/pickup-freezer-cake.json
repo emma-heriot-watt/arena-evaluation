@@ -1,19 +1,19 @@
 {
 	"high_level_key": [
-		"#action=pickup#target-object=milk#from-receptacle=fridge#from-receptacle-is-container"
+		"#action=pickup#target-object=cake#from-receptacle=freezer#from-receptacle-is-container"
 	],
 	"plans": [
 		[
-			"go to the fridge",
-			"open the fridge",
-			"pick up the milk",
-			"close the fridge"
+			"go to the freezer",
+			"open the freezer",
+			"pick up the cake",
+			"close the freezer"
 		],
 		[
-			"find the fridge",
-			"open the fridge",
-			"pick up the milk",
-			"close the fridge"
+			"find the freezer",
+			"open the freezer",
+			"pick up the cake",
+			"close the freezer"
 		]
 	],
 	"cdf": {
@@ -28,7 +28,7 @@
 			"roomLocation": ["BreakRoom"],
 			"required_objects": [
 				{
-					"name": "MilkCarton_01_1",
+					"name": "Cake_02_1",
 					"state": [
 						{
 							"Unique": "true"
@@ -36,7 +36,7 @@
 					],
 					"location": [
 						{
-							"FridgeLower_02_1": "in"
+							"FridgeUpper_02_1": "in"
 						}
 					],
 					"roomLocation": ["BreakRoom"],
@@ -120,15 +120,15 @@
 				"goal_id": 0,
 				"object_states": [
 					{
-						"MilkCarton_01": "isPickedUp=true"
+						"Cake_02_1": "isPickedUp=true"
 					},
 					{
-						"FridgeLower_02_1": "isOpen=true"
+						"FridgeUpper_02_1": "isOpen=true"
 					}
 				],
 				"object_states_relation": "or",
 				"preconditions": [],
-				"description": "Pick up the object from the fridge",
+				"description": "Pick up the object from the freezer",
 				"visibility": {
 					"isHidden": false,
 					"activationInteractable": "ALWAYS UNLOCKED",
@@ -140,12 +140,12 @@
 				"goal_id": 1,
 				"object_states": [
 					{
-						"FridgeLower_02_1": "isOpen=false"
+						"FridgeUpper_02_1": "isOpen=false"
 					}
 				],
 				"object_states_relation": "or",
 				"preconditions": [],
-				"description": "Close the fridge",
+				"description": "Close the freezer",
 				"visibility": {
 					"isHidden": false,
 					"activationInteractable": "ALWAYS UNLOCKED",
