@@ -1,7 +1,5 @@
 {
-	"high_level_key": [
-		"#action=pickup#target-object=apple#target-object-color=green#from-receptacle=fridge#from-receptacle-is-container"
-	],
+	"high_level_key": "#action=pickup#target-object=apple#target-object-color=green#from-receptacle=fridge#from-receptacle-is-container",
 	"plans": [
 		[
 			"go to the fridge",

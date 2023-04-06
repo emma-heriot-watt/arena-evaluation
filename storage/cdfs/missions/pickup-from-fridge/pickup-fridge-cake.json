@@ -1,7 +1,5 @@
 {
-	"high_level_key": [
-		"#action=pickup#target-object=cake#from-receptacle=fridge#from-receptacle-is-container"
-	],
+	"high_level_key": "#action=pickup#target-object=cake#from-receptacle=fridge#from-receptacle-is-container",
 	"plans": [
 		[
 			"go to the fridge",
