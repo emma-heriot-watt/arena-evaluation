@@ -77,7 +77,7 @@ def generate_trajectories(cdf_dir: Path) -> None:
 
     logger.info(f"Loaded {len(trajectories)} separate trajectories.")
 
-    run_evaluation(trajectories, session_id_prefix="T3")
+    run_evaluation(trajectories, session_id_prefix="T")
 
 
 if __name__ == "__main__":
