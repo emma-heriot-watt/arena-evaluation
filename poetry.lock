@@ -576,7 +576,7 @@ resolved_reference = "cbe1d3ac8936e606cf4fffb3d298fedecdf82026"
 
 [[package]]
 name = "emma-experience-hub"
-version = "8.35.0"
+version = "8.35.2"
 description = ""
 category = "main"
 optional = false
@@ -608,7 +608,7 @@ typer = "^0.6.1"
 type = "git"
 url = "https://github.com/emma-simbot/experience-hub"
 reference = "HEAD"
-resolved_reference = "0bf03073439246e7de7d8b8907b4e8560ac4ead8"
+resolved_reference = "0b2fbcc378f9496209dacb91eb791465f184396f"
 
 [[package]]
 name = "eradicate"
