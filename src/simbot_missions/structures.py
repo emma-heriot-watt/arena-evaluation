@@ -25,7 +25,7 @@ class SimBotTrajectory(BaseModel):
 class SimBotChallenge(BaseModel):
     """Single challenge for the Arena.."""
 
-    high_level_key: list[str]
+    high_level_key: str
     plans: list[list[str]]
     cdf: dict[str, Any]
 
@@ -36,15 +36,14 @@ class SimBotChallenge(BaseModel):
         """Convert the challenge to a list of single trajectories."""
         trajectories: list[SimBotTrajectory] = []
 
-        for high_level_key in self.high_level_key:
-            for plan in self.plans:
-                trajectories.append(
-                    SimBotTrajectory(
-                        high_level_key=high_level_key,
-                        utterances=plan,
-                        cdf=self.cdf,
-                        mission_group=self.mission_group,
-                    )
+        for plan in self.plans:
+            trajectories.append(
+                SimBotTrajectory(
+                    high_level_key=self.high_level_key,
+                    utterances=plan,
+                    cdf=self.cdf,
+                    mission_group=self.mission_group,
                 )
+            )
 
         return trajectories

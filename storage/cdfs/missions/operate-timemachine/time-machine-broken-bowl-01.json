@@ -1,22 +1,20 @@
 {
-	"high_level_key": "#action=pickup#target-object=apple#target-object-color=green#from-receptacle=freezer#from-receptacle-is-container",
+	"high_level_key": "#action=timemachine#target-object=bowl#converted-object=bowl",
 	"plans": [
 		[
-			"go to the freezer",
-			"open the freezer",
-			"pick up the apple",
-			"close the freezer"
-		],
-		[
-			"find the freezer",
-			"open the freezer",
-			"pick up the apple",
-			"close the freezer"
+			"go to the time machine",
+			"open the time machine",
+			"put the bowl in the time machine",
+			"close the time machine",
+			"turn on the time machine",
+			"open the time machine",
+			"pick up the bowl from the time machine",
+			"close the time machine"
 		]
 	],
 	"cdf": {
-		"task_description": "",
-		"goal_text": "pick up the object",
+		"task_description": "Time Machine Trajectory.",
+		"goal_text": "Time Machine Trajectory",
 		"game_id": "3",
 		"experimental": "true",
 		"scene": {
@@ -26,30 +24,36 @@
 			"roomLocation": ["BreakRoom"],
 			"required_objects": [
 				{
-					"name": "Apple_1",
+					"name": "Bowl_01_1",
+					"state": [
+						{
+							"Unique": "true"
+						},
+						{
+							"isBroken": "true"
+						},
+						{
+							"isPickedUp": "true"
+						}
+					],
+					"location": [],
+					"roomLocation": ["BreakRoom"],
+					"condition": {},
+					"colors": [],
+					"printingObject": "",
+					"associatedPastPortals": [],
+					"associatedFuturePortals": [],
+					"currentPortal": "",
+					"yesterdayState": "",
+					"dinoFood": ""
+				},
+				{
+					"name": "YesterdayMachine_01_1",
 					"state": [
 						{
 							"Unique": "true"
 						}
 					],
-					"location": [
-						{
-							"FridgeUpper_02_1": "in"
-						}
-					],
-					"roomLocation": ["BreakRoom"],
-					"condition": {},
-					"colors": ["Green"],
-					"printingObject": "",
-					"associatedPastPortals": [],
-					"associatedFuturePortals": [],
-					"currentPortal": "",
-					"yesterdayState": "",
-					"dinoFood": ""
-				},
-				{
-					"name": "FridgeLower_02_1",
-					"state": [],
 					"location": [],
 					"roomLocation": ["BreakRoom"],
 					"condition": {},
@@ -62,40 +66,8 @@
 					"dinoFood": ""
 				},
 				{
-					"name": "FridgeUpper_02_1",
+					"name": "LightSwitch_01_1",
 					"state": [],
-					"location": [],
-					"roomLocation": ["BreakRoom"],
-					"condition": {},
-					"colors": [],
-					"printingObject": "",
-					"associatedPastPortals": [],
-					"associatedFuturePortals": [],
-					"currentPortal": "",
-					"yesterdayState": "",
-					"dinoFood": ""
-				},
-				{
-					"name": "TableRound_02_1",
-					"state": [],
-					"location": [],
-					"roomLocation": ["BreakRoom"],
-					"condition": {},
-					"colors": [],
-					"printingObject": "",
-					"associatedPastPortals": [],
-					"associatedFuturePortals": [],
-					"currentPortal": "",
-					"yesterdayState": "",
-					"dinoFood": ""
-				},
-				{
-					"name": "StickyNote_1",
-					"state": [
-						{
-							"text": "Place the object in this Time Machine and turn it on!"
-						}
-					],
 					"location": [],
 					"roomLocation": [],
 					"condition": {},
@@ -115,18 +87,18 @@
 		},
 		"task_goals": [
 			{
-				"goal_id": 0,
+				"goal_id": 2,
 				"object_states": [
 					{
-						"Apple_1": "isPickedUp=true"
+						"YesterdayMachine_01_1": "Contains=Bowl_01_1"
 					},
 					{
-						"FridgeUpper_02_1": "isOpen=true"
+						"YesterdayMachine_01_1": "isToggledOn=true"
 					}
 				],
-				"object_states_relation": "or",
+				"object_states_relation": "and",
 				"preconditions": [],
-				"description": "Pick up the object from the freezer",
+				"description": "Use the Breakroom Time Machine to fix the object",
 				"visibility": {
 					"isHidden": false,
 					"activationInteractable": "ALWAYS UNLOCKED",
@@ -135,15 +107,18 @@
 				"canReset": false
 			},
 			{
-				"goal_id": 1,
+				"goal_id": 0,
 				"object_states": [
 					{
-						"FridgeUpper_02_1": "isOpen=false"
+						"Bowl_01_1": "isBroken=false"
+					},
+					{
+						"Bowl_01_1": "isPickedUp=true"
 					}
 				],
-				"object_states_relation": "or",
+				"object_states_relation": "and",
 				"preconditions": [],
-				"description": "Close the freezer",
+				"description": "Hold the fixed object",
 				"visibility": {
 					"isHidden": false,
 					"activationInteractable": "ALWAYS UNLOCKED",

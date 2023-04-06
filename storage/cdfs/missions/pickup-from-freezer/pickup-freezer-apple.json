@@ -1,7 +1,5 @@
 {
-	"high_level_key": [
-		"#action=pickup#target-object=apple#from-receptacle=freezer#from-receptacle-is-container"
-	],
+	"high_level_key": "#action=pickup#target-object=apple#from-receptacle=freezer#from-receptacle-is-container",
 	"plans": [
 		[
 			"go to the freezer",
