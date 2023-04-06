@@ -37,8 +37,14 @@ class ChallengeValidator:
     It's annoying, but it's the only way, and this should hopefully automate that entire process.
     """
 
-    def __init__(self, arena_orchestrator: ArenaOrchestrator) -> None:
+    def __init__(
+        self,
+        arena_orchestrator: ArenaOrchestrator,
+        *,
+        send_dummy_actions_after_cdf_load: bool = False,
+    ) -> None:
         self._arena_orchestrator = arena_orchestrator
+        self._send_dummy_actions_after_cdf_load = send_dummy_actions_after_cdf_load
 
     def validate_cdfs(self, cdfs: list[CDFValidationInstance]) -> bool:
         """Validate the CDFs with the Arena."""
@@ -57,7 +63,9 @@ class ChallengeValidator:
     def _validate_single_cdf(self, cdf: dict[str, Any]) -> None:
         """Validate a single CDF with the Arena."""
         self._arena_orchestrator.send_cdf_to_arena(cdf)
-        self._arena_orchestrator.send_dummy_actions_to_arena()
+
+        if self._send_dummy_actions_after_cdf_load:
+            self._arena_orchestrator.send_dummy_actions_to_arena()
 
         load_error = self._get_error_from_unity_log()
         if load_error is not None:
