@@ -1,0 +1,161 @@
+{
+	"high_level_key": [
+		"#action=timemachine#target-object=bowl",
+		"#action=timemachine#target-object=bowl#converted-object=bowl"
+	],
+	"plans": [
+		[
+			"go to the time machine",
+			"open the time machine",
+			"put the bowl in the time machine",
+			"close the time machine",
+			"turn on the time machine",
+			"open the time machine",
+			"pick up the bowl from the time machine",
+			"close the time machine"
+		]
+	],
+	"cdf": {
+		"task_description": "Time Machine Trajectory.",
+		"goal_text": "Time Machine Trajectory",
+		"game_id": "3",
+		"experimental": "true",
+		"scene": {
+			"floor_plan": "0",
+			"scene_id": "01 (Make_Cereal)",
+			"simbot_init": [],
+			"roomLocation": ["BreakRoom"],
+			"required_objects": [
+				{
+					"name": "Bowl_01_1",
+					"state": [
+						{
+							"Unique": "true"
+						},
+						{
+							"isBroken": "true"
+						},
+						{
+							"isPickedUp": "true"
+						}
+					],
+					"location": [],
+					"roomLocation": ["BreakRoom"],
+					"condition": {},
+					"colors": [],
+					"printingObject": "",
+					"associatedPastPortals": [],
+					"associatedFuturePortals": [],
+					"currentPortal": "",
+					"yesterdayState": "",
+					"dinoFood": ""
+				},
+				{
+					"name": "YesterdayMachine_01_1",
+					"state": [
+						{
+							"Unique": "true"
+						}
+					],
+					"location": [],
+					"roomLocation": ["BreakRoom"],
+					"condition": {},
+					"colors": [],
+					"printingObject": "",
+					"associatedPastPortals": [],
+					"associatedFuturePortals": [],
+					"currentPortal": "",
+					"yesterdayState": "",
+					"dinoFood": ""
+				},
+				{
+					"name": "LightSwitch_01_1",
+					"state": [],
+					"location": [],
+					"roomLocation": [],
+					"condition": {},
+					"colors": [],
+					"printingObject": "",
+					"associatedPastPortals": [],
+					"associatedFuturePortals": [],
+					"currentPortal": "",
+					"yesterdayState": "",
+					"dinoFood": ""
+				}
+			],
+			"sticky_notes": [],
+			"blacklisted_layouts": null,
+			"layoutOverride": "OfficeLayout1",
+			"completelyRandomVisual": false
+		},
+		"task_goals": [
+			{
+				"goal_id": 2,
+				"object_states": [
+					{
+						"YesterdayMachine_01_1": "Contains=Bowl_01_1"
+					},
+					{
+						"YesterdayMachine_01_1": "isToggledOn=true"
+					}
+				],
+				"object_states_relation": "and",
+				"preconditions": [],
+				"description": "Use the Breakroom Time Machine to fix the object",
+				"visibility": {
+					"isHidden": false,
+					"activationInteractable": "ALWAYS UNLOCKED",
+					"stickyNoteIndex": 0
+				},
+				"canReset": false
+			},
+			{
+				"goal_id": 0,
+				"object_states": [
+					{
+						"Bowl_01_1": "isBroken=false"
+					},
+					{
+						"Bowl_01_1": "isPickedUp=true"
+					}
+				],
+				"object_states_relation": "and",
+				"preconditions": [],
+				"description": "Hold the fixed object",
+				"visibility": {
+					"isHidden": false,
+					"activationInteractable": "ALWAYS UNLOCKED",
+					"stickyNoteIndex": 0
+				},
+				"canReset": false
+			}
+		],
+		"game_interactions": {
+			"camera_movements": {
+				"task_beginning": [],
+				"task_procedure": [],
+				"task_ending": [],
+				"object_conditions": []
+			},
+			"game_messages": {
+				"task_beginning": [],
+				"task_procedure": [],
+				"task_ending": [],
+				"object_conditions": []
+			}
+		},
+		"stateconditions": [],
+		"pastPortals": [
+			{
+				"PortalName": "past",
+				"PortalStatus": false
+			}
+		],
+		"futurePortals": [
+			{
+				"PortalName": "future",
+				"PortalStatus": false
+			}
+		]
+	}
+}
