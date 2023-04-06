@@ -1,1 +1,0 @@
-from simbot_missions.structures import SimBotChallenge, SimBotTrajectory

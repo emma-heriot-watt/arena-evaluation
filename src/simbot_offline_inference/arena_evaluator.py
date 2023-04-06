@@ -2,9 +2,9 @@ from typing import Any
 
 from loguru import logger
 
-from simbot_missions.structures import SimBotTrajectory
 from simbot_offline_inference.inference_controller import SimBotInferenceController
 from simbot_offline_inference.metrics import SimBotEvaluationMetrics
+from simbot_offline_inference.structures import SimBotTrajectory
 
 
 EXPERIENCE_HUB_HEALTHCHECK_ATTEMPTS = 40

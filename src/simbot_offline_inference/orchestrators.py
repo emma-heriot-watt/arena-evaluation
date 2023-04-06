@@ -3,7 +3,6 @@ import time
 from multiprocessing import Process
 from pathlib import Path
 from threading import Event
-from time import sleep
 from typing import Any, NamedTuple, Optional
 from uuid import uuid4
 
@@ -199,7 +198,7 @@ class ExperienceHubOrchestrator:
             # If attempt is not the last one, sleep for interval and go again
             if attempt < attempts - 1:
                 logger.debug(f"Waiting for {interval} seconds and then trying again.")
-                sleep(interval)
+                time.sleep(interval)
 
         return healthcheck_flag
 

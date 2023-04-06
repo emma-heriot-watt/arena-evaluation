@@ -1,12 +1,12 @@
 from loguru import logger
 
 from emma_common.logging import setup_rich_logging
-from simbot_missions.structures import SimBotTrajectory
 from simbot_offline_inference.arena_evaluator import SimBotArenaEvaluator
 from simbot_offline_inference.inference_controller import SimBotInferenceController
 from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 from simbot_offline_inference.settings import Settings
+from simbot_offline_inference.structures import SimBotTrajectory
 
 
 def limit_instances_to_evaluate(

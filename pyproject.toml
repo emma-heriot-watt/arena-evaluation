@@ -6,7 +6,6 @@ authors = ["Amit Parekh <7276308+amitkparekh@users.noreply.github.com>"]
 readme = "README.md"
 packages = [
 	{ include = "simbot_offline_inference", from = "src" },
-	{ include = "simbot_missions", from = "src" },
 	{ include = "arena_wrapper", from = "src" },
 ]
 

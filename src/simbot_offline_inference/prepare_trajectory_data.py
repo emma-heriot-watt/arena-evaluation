@@ -9,7 +9,7 @@ from typing import Optional
 
 from rich.progress import track
 
-from simbot_missions.structures import SimBotTrajectory
+from simbot_offline_inference.structures import SimBotTrajectory
 
 
 def extract_mission_group_from_description(mission_desc: str) -> Optional[str]:  # noqa: WPS212
