@@ -7,6 +7,7 @@ from rich.progress import track
 from emma_common.logging import setup_rich_logging
 from simbot_missions.challenge_validator import CDFValidationInstance, ChallengeValidator
 from simbot_offline_inference.orchestrators import ArenaOrchestrator
+from simbot_offline_inference.settings import Settings
 
 
 def load_cdfs(directory: Path) -> list[CDFValidationInstance]:
@@ -24,6 +25,10 @@ def load_cdfs(directory: Path) -> list[CDFValidationInstance]:
 
 def validate_cdfs(directory: Path) -> None:
     """Validate the CDFs in the directory."""
+    settings = Settings()
+    settings.put_settings_in_environment()
+    settings.prepare_file_system()
+
     setup_rich_logging()
 
     cdfs = load_cdfs(directory)

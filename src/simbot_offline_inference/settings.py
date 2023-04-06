@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from typing import Union
 
 from pydantic import BaseSettings, FilePath
 
@@ -28,7 +29,7 @@ class Settings(BaseSettings):
     platform: str = "Linux"
     arena_path: FilePath = storage_dir.joinpath("arena", platform, "Arena.x86_64")
     unity_log_path: Path = storage_dir.joinpath("logs", "unity_logs.log")
-    display: int = 1
+    display: Union[str, int] = 1
 
     def put_settings_in_environment(self) -> None:
         """Put settings in the environment variables."""
