@@ -101,11 +101,14 @@ class SimBotEvaluationMetrics:
 
         predicted_actions = [{**action, "id": str(uuid1())} for action in predicted_actions]
 
-        output_file = self._output_path.joinpath(f"{mission_name}.json")
         output_results = {
             "predicted_actions": predicted_actions,
             "last_game_state": last_game_state,
         }
+
+        # Write the results to a file
+        output_file = self._output_path.joinpath(f"{mission_name}.json")
+        output_file.parent.mkdir(parents=True, exist_ok=True)
         output_file.write_bytes(orjson.dumps(output_results))
 
         logger.info(f"Test #{self._games_played} over")
