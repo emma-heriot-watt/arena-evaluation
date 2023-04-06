@@ -1,2 +1,3 @@
 from simbot_offline_inference.commands.run_background_services import run_background_services
 from simbot_offline_inference.commands.run_evaluation import run_evaluation
+from simbot_offline_inference.commands.validate_cdfs import load_cdfs, validate_cdfs
