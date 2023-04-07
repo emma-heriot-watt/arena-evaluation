@@ -25,7 +25,7 @@ def run_evaluation(
     instances: list[SimBotTrajectory],
     session_id_prefix: str,
     *,
-    upload_metrics_to_s3: bool = False,
+    enable_randomness_in_session_id: bool = False,
 ) -> None:
     """Run the evaluation."""
     settings = Settings()
@@ -55,7 +55,7 @@ def run_evaluation(
         inference_controller,
         evaluation_metrics,
         session_id_prefix=session_id_prefix,
-        upload_metrics_to_s3=upload_metrics_to_s3,
+        enable_randomness_in_session_id=enable_randomness_in_session_id,
     )
 
     logger.info(f"Running evaluation for {len(instances)} instances...")

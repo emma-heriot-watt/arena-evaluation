@@ -19,12 +19,12 @@ class SimBotArenaEvaluator:
         evaluation_metrics: SimBotEvaluationMetrics,
         session_id_prefix: str,
         *,
-        upload_metrics_to_s3: bool = False,
+        enable_randomness_in_session_id: bool = False,
     ) -> None:
         self._inference_controller = inference_controller
         self._evaluation_metrics = evaluation_metrics
         self._session_id_prefix = session_id_prefix
-        self._upload_metrics_to_s3 = upload_metrics_to_s3
+        self._enable_randomness_in_session_id = enable_randomness_in_session_id
 
     def run_evaluation(self, trajectories: list[SimBotTrajectory]) -> None:
         """Run the evaluation on all the test data."""
@@ -42,13 +42,15 @@ class SimBotArenaEvaluator:
 
     def run_evaluation_step(self, trajectory: SimBotTrajectory) -> None:
         """Run the evaluation on a single instance of the test data."""
-        session_id = trajectory.create_session_id(self._session_id_prefix)
+        session_id = trajectory.create_session_id(
+            self._session_id_prefix, include_randomness=self._enable_randomness_in_session_id
+        )
 
         if self._evaluation_metrics.has_mission_been_evaluated(session_id):
             logger.info(f"Mission ({session_id}) has already been evaluated. Skipping...")
             return
 
-        logger.info(f"Running evaluation for '#{session_id}'")
+        logger.info(f"Running evaluation for '{session_id}'")
 
         self.prepare_cdf_in_arena(trajectory.cdf)
 

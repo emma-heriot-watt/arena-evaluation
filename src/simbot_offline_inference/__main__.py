@@ -36,7 +36,7 @@ def run_evaluation_on_t1(start_index: int = 0, num_instances: Optional[int] = No
     if num_instances is not None:
         instances = limit_instances_to_evaluate(instances, num_instances, start_index)
 
-    run_evaluation(instances, session_id_prefix="T1", upload_metrics_to_s3=True)
+    run_evaluation(instances, session_id_prefix="T1", enable_randomness_in_session_id=False)
 
 
 @app.command(rich_help_panel="Evaluation")
@@ -51,11 +51,11 @@ def run_evaluation_on_t2(start_index: int = 0, num_instances: Optional[int] = No
     if num_instances is not None:
         instances = limit_instances_to_evaluate(instances, num_instances, start_index)
 
-    run_evaluation(instances, session_id_prefix="T2", upload_metrics_to_s3=True)
+    run_evaluation(instances, session_id_prefix="T2", enable_randomness_in_session_id=False)
 
 
 @app.command(rich_help_panel="Generation")
-def generate_trajectories(cdf_dir: Path) -> None:
+def generate_trajectories(cdf_dir: Path, enable_randomness_in_session_id: bool = False) -> None:
     """Generate trajectories from the missions."""
     if not cdf_dir.is_dir():
         raise NotADirectoryError("The given path is not a directory.")
@@ -77,7 +77,11 @@ def generate_trajectories(cdf_dir: Path) -> None:
 
     logger.info(f"Loaded {len(trajectories)} separate trajectories.")
 
-    run_evaluation(trajectories, session_id_prefix="T", upload_metrics_to_s3=True)
+    run_evaluation(
+        trajectories,
+        session_id_prefix="T",
+        enable_randomness_in_session_id=enable_randomness_in_session_id,
+    )
 
 
 if __name__ == "__main__":
