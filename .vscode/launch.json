@@ -24,6 +24,16 @@
 			"justMyCode": false,
 			"subProcess": true,
 			"sudo": true
+		},
+		{
+			"name": "Generate trajectories",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/src/simbot_offline_inference/__main__.py",
+			"console": "integratedTerminal",
+			"justMyCode": false,
+			"subProcess": true,
+			"args": ["generate-trajectories", "./storage/cdfs/missions"]
 		}
 	]
 }
