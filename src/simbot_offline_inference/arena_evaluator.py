@@ -4,6 +4,7 @@ from loguru import logger
 
 from simbot_offline_inference.inference_controller import SimBotInferenceController
 from simbot_offline_inference.metrics import SimBotEvaluationMetrics
+from simbot_offline_inference.progress import ArenaEvaluatorProgressTracker
 from simbot_offline_inference.structures import SimBotTrajectory
 
 
@@ -26,25 +27,30 @@ class SimBotArenaEvaluator:
         self._session_id_prefix = session_id_prefix
         self._enable_randomness_in_session_id = enable_randomness_in_session_id
 
+        self._progress = ArenaEvaluatorProgressTracker()
+
     def run_evaluation(self, trajectories: list[SimBotTrajectory]) -> None:
         """Run the evaluation on all the test data."""
-        with self._inference_controller:
-            logger.info("Starting evaluation...")
-            for instance in trajectories:
-                self.run_evaluation_step(instance)
+        self._progress.start_new_evaluation(len(trajectories))
 
-            logger.info("Finished evaluation!")
+        with self._progress.display():
+            with self._inference_controller:
+                self._progress.finish_unity_check()
+                for instance in trajectories:
+                    self.run_evaluation_step(instance)
+                    self._progress.finish_trajectory()
+
+                logger.info("Finished evaluation!")
 
         self._evaluation_metrics.log_overall_metrics()
-
-        if self._upload_metrics_to_s3:
-            self._evaluation_metrics.send_to_s3()
+        self._evaluation_metrics.send_to_s3()
 
     def run_evaluation_step(self, trajectory: SimBotTrajectory) -> None:
         """Run the evaluation on a single instance of the test data."""
         session_id = trajectory.create_session_id(
             self._session_id_prefix, include_randomness=self._enable_randomness_in_session_id
         )
+        self._progress.start_new_trajectory(session_id, num_utterances=len(trajectory.utterances))
 
         if self._evaluation_metrics.has_mission_been_evaluated(session_id):
             logger.info(f"Mission ({session_id}) has already been evaluated. Skipping...")
@@ -52,7 +58,9 @@ class SimBotArenaEvaluator:
 
         logger.info(f"Running evaluation for '{session_id}'")
 
+        self._progress.loading_cdf()
         self.prepare_cdf_in_arena(trajectory.cdf)
+        self._progress.arena_ready_for_utterance()
 
         actions_for_session = []
 
@@ -61,6 +69,7 @@ class SimBotArenaEvaluator:
                 session_id, utterance
             )
             actions_for_session.extend(actions_for_utterance)
+            self._progress.sent_utterance()
 
         # Check goal status and get results
         logger.debug("Calculating metrics for test")
