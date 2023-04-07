@@ -106,6 +106,37 @@ class SimBotEvaluationMetrics:
 
         self.log_overall_metrics()
 
+    def log_overall_metrics(self) -> None:
+        """Log the metrics to the CLI."""
+        logger.info(f"Games played: {self._games_played}")
+        logger.info(f"Overall success rate: {self.overall_success_rate}")
+        logger.info(f"Overall subgoal completion rate: {self.overall_subgoal_completion_rate}")
+        logger.info(f"Success rate per mission group: {self.success_rate_per_mission_group}")
+
+        output = {
+            "games_played": self._games_played,
+            "games_completed": self._games_completed,
+            "subgoals_completed": self._subgoals_completed,
+            "total_subgoals": self._total_subgoals,
+            "mission_groups": list(set(self._mission_groups)),
+            "games_played_per_mission_group": self._games_played_per_mission_group,
+            "games_completed_per_mission_group": self._games_completed_per_mission_group,
+            "success_rate": self.overall_success_rate,
+            "subgoal_completion_rate": self.overall_subgoal_completion_rate,
+            "success_rate_per_mission": self.success_rate_per_mission_group,
+        }
+
+        self._output_metrics_file.write_bytes(orjson.dumps(output))
+
+    def send_to_s3(self) -> None:
+        """Upload the results to S3."""
+        # Upload the metrics file to a random path within the directory.
+        self._s3_evaluation_output_dir.joinpath(
+            f"metrics_{str(uuid1())}.json"
+        ).upload_from(  # pyright: ignore
+            self._output_metrics_file
+        )
+
     def _update_metrics(
         self,
         mission_group: Optional[str],
@@ -149,38 +180,4 @@ class SimBotEvaluationMetrics:
             f"{mission_name}.json"
         ).upload_from(  # pyright: ignore
             output_file
-        )
-
-    def log_overall_metrics(self) -> None:
-        """Log the metrics to the CLI."""
-        logger.info(f"Games played: {self._games_played}")
-        logger.info(f"Overall success rate: {self.overall_success_rate}")
-        logger.info(f"Overall subgoal completion rate: {self.overall_subgoal_completion_rate}")
-        logger.info(f"Success rate per mission group: {self.success_rate_per_mission_group}")
-
-        output = {
-            "games_played": self._games_played,
-            "games_completed": self._games_completed,
-            "subgoals_completed": self._subgoals_completed,
-            "total_subgoals": self._total_subgoals,
-            "mission_groups": list(set(self._mission_groups)),
-            "games_played_per_mission_group": self._games_played_per_mission_group,
-            "games_completed_per_mission_group": self._games_completed_per_mission_group,
-            "success_rate": self.overall_success_rate,
-            "subgoal_completion_rate": self.overall_subgoal_completion_rate,
-            "success_rate_per_mission": self.success_rate_per_mission_group,
-        }
-
-        self._output_metrics_file.write_bytes(orjson.dumps(output))
-
-    def send_to_s3(self) -> None:
-        """Upload the results to S3."""
-        # logger.info("Uploading to S3...")
-        # self._s3_evaluation_output_dir.upload_from(self._output_path)
-
-        # Upload the metrics file to a random path within the directory.
-        self._s3_evaluation_output_dir.joinpath(
-            f"metrics_{str(uuid1())}.json"
-        ).upload_from(  # pyright: ignore
-            self._output_metrics_file
         )
