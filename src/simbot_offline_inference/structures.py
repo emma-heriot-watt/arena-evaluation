@@ -22,7 +22,7 @@ class SimBotTrajectory(BaseModel):
         now = datetime.now()
         date_chunk = f"{now.year:02d}{now.month:02d}{now.day:02d}"
 
-        return f"{prefix}{date_chunk}.{shortuuid.uuid()[:5]}/{safe_high_level_key}"
+        return f"{prefix}{date_chunk}{safe_high_level_key}.{shortuuid.uuid()[:5]}"
 
 
 class SimBotChallenge(BaseModel):
