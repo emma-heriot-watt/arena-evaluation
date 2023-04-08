@@ -1,6 +1,7 @@
 from collections.abc import Generator, Mapping
 from types import MappingProxyType
 from typing import Any, Callable, Literal, Union, cast, get_args
+from typing_extensions import Self
 
 from pydantic import BaseModel, Field, validator
 
@@ -26,12 +27,12 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
     @classmethod
     def __get_validators__(
         cls,
-    ) -> Generator[Callable[..., "ObjectGoalStateExpression"], None, None]:
+    ) -> Generator[Callable[..., Self], None, None]:
         """Return a generator of validators for this type."""
         yield cls.validate
 
     @classmethod
-    def validate(cls, v: Any) -> "ObjectGoalStateExpression":  # noqa: WPS231, WPS238
+    def validate(cls, v: Any) -> Self:  # noqa: WPS231, WPS238
         """Validate the object goal state expression."""
         if not isinstance(v, str):
             raise TypeError("Goal object state value must be a string")
@@ -63,7 +64,7 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
         cls,
         state_condition_key: GoalStateExpressionKey,
         state_condition_value: GoalStateExpressionValue,
-    ) -> "ObjectGoalStateExpression":
+    ) -> Self:
         """Create a goal object state value from its parts."""
         return cls(f"{state_condition_key}={state_condition_value}")
 
@@ -101,7 +102,7 @@ class ObjectGoalState(BaseModel):
         object_id: ObjectInstanceId,
         state_condition_key: GoalStateExpressionKey,
         state_condition_value: GoalStateExpressionValue,
-    ) -> "ObjectGoalState":
+    ) -> Self:
         """Create a goal object state from its parts."""
         return cls.parse_obj(
             {

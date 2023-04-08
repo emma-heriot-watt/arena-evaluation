@@ -1,5 +1,6 @@
 from collections.abc import Generator
 from typing import Any, Callable, get_args
+from typing_extensions import Self
 
 from arena_missions.constants.arena import ObjectIds
 
@@ -16,12 +17,12 @@ class ObjectId(str):  # noqa: WPS600
     """An object ID in the Arena."""
 
     @classmethod
-    def __get_validators__(cls) -> Generator[Callable[..., "ObjectId"], None, None]:
+    def __get_validators__(cls) -> Generator[Callable[..., Self], None, None]:
         """Return a generator of validators for this type."""
         yield cls.validate
 
     @classmethod
-    def validate(cls, v: Any) -> "ObjectId":
+    def validate(cls, v: Any) -> Self:
         """Validate the object ID."""
         if not isinstance(v, str):
             raise TypeError("Object ID must be a string")
@@ -41,12 +42,12 @@ class ObjectInstanceId(str):  # noqa: WPS600
     """An object instance ID in the Arena."""
 
     @classmethod
-    def __get_validators__(cls) -> Generator[Callable[..., "ObjectInstanceId"], None, None]:
+    def __get_validators__(cls) -> Generator[Callable[..., Self], None, None]:
         """Return a generator of validators for this type."""
         yield cls.validate
 
     @classmethod
-    def validate(cls, v: Any) -> "ObjectInstanceId":
+    def validate(cls, v: Any) -> Self:
         """Validate the object instance ID."""
         if not isinstance(v, str):
             raise TypeError("Object instance ID must be a string")

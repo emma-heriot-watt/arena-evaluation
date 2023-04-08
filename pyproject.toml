@@ -35,15 +35,16 @@ emma-experience-hub = { git = "https://github.com/emma-simbot/experience-hub" }
 flask-cors = "^3.0.10"
 gevent = "^22.10.2"
 shortuuid = "^1.0.11"
+typing-extensions = "^4.5.0"
 
 
 [tool.poetry.group.lint.dependencies]
-black = "^22.12.0"
+black = "^23.3.0"
 wemake-python-styleguide = "^0.17.0"
-mypy = "^0.991"
-pre-commit = "^2.21.0"
+mypy = "^1.2.0"
+pre-commit = "^3.2.2"
 poethepoet = "^0.18.1"
-isort = "^5.11.4"
+isort = "^5.12.0"
 
 [tool.black]
 line-length = 99
@@ -53,6 +54,7 @@ profile = "black"
 combine_as_imports = true
 lines_after_imports = 2
 line_length = 99
+extra_standard_library = ["typing_extensions"]
 known_first_party = ["emma_*", "arena_*", "simbot_*"]
 
 [tool.pyright]

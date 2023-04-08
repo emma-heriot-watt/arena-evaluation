@@ -1,4 +1,5 @@
 from typing import Literal, Optional
+from typing_extensions import Self
 
 from convert_case import snake_case, title_case
 from pydantic import BaseModel, validator
@@ -56,7 +57,7 @@ class HighLevelKey(BaseModel):
         return self.key
 
     @classmethod
-    def from_string(cls, key_string: str) -> "HighLevelKey":
+    def from_string(cls, key_string: str) -> Self:
         """Create the high-level key from the string."""
         high_level_key_dict = {}
 
