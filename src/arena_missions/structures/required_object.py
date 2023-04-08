@@ -21,6 +21,10 @@ class RequiredObjectState(BaseModel, validate_assignment=True):
 
     __root__: dict[RequiredObjectStateName, RequiredObjectStateValue]
 
+    def __len__(self) -> int:
+        """Get the length of the state."""
+        return len(self.__root__)
+
     @classmethod
     def from_parts(
         cls, state_name: RequiredObjectStateName, state_value: RequiredObjectStateValue
@@ -50,9 +54,8 @@ class RequiredObjectState(BaseModel, validate_assignment=True):
             if state_value not in get_args(LiquidType):
                 raise ValueError(f"{state_value} is not a valid liquid type.")
 
-        else:
-            if state_value not in get_args(BooleanStr):  # noqa: WPS513
-                raise ValueError(f"{state_value} is not a valid boolean string.")
+        elif state_value not in get_args(BooleanStr):
+            raise ValueError(f"{state_value} is not a valid boolean string.")
 
         return root
 
@@ -109,22 +112,24 @@ class RequiredObject(BaseModel, validate_assignment=True):
     @validator("yesterday_state")
     @classmethod
     def only_carrot_can_have_yesterday_state(
-        cls, yesterday_state: str, class_values: dict[str, Any]
+        cls, yesterday_state: str, values: dict[str, Any]  # noqa: WPS110
     ) -> str:
         """Only carrots can have yesterdayState."""
         if yesterday_state:
-            if not class_values["name"].startswith("Carrot_01"):
+            if not values["name"].startswith("Carrot_01"):
                 raise ValueError("Only Carrot can have yesterdayState")
 
         return yesterday_state
 
     @root_validator(pre=True)
     @classmethod
-    def add_color_changed_state_if_colors(cls, class_values: dict[str, Any]) -> dict[str, Any]:
+    def add_color_changed_state_if_colors(
+        cls, values: dict[str, Any]  # noqa: WPS110
+    ) -> dict[str, Any]:
         """Add colorChanged state if colors are present."""
-        if class_values["colors"]:
-            class_values["state"].append({"isColorChanged": "true"})
-        return class_values
+        if "colors" in values and values["colors"]:
+            values["state"].append({"isColorChanged": "true"})
+        return values
 
     @property
     def receptacle(self) -> Optional[ObjectInstanceId]:

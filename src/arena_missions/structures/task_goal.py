@@ -1,5 +1,4 @@
-from collections.abc import Generator, Mapping
-from types import MappingProxyType
+from collections.abc import Generator
 from typing import Any, Callable, Literal, Union, cast, get_args
 from typing_extensions import Self
 
@@ -9,13 +8,11 @@ from arena_missions.constants.arena import BooleanStr, GoalStateExpressionKey, L
 from arena_missions.structures.object_id import ObjectInstanceId
 
 
-TASK_GOAL_VISIBILITY = MappingProxyType(
-    {
-        "isHidden": False,
-        "activationInteractable": "ALWAYS UNLOCKED",
-        "stickyNoteIndex": 0,
-    }
-)
+TASK_GOAL_VISIBILITY = {  # noqa: WPS407
+    "isHidden": False,
+    "activationInteractable": "ALWAYS UNLOCKED",
+    "stickyNoteIndex": 0,
+}
 
 
 GoalStateExpressionValue = Union[BooleanStr, ObjectInstanceId, LiquidType]
@@ -25,9 +22,7 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
     """A goal object state value."""
 
     @classmethod
-    def __get_validators__(
-        cls,
-    ) -> Generator[Callable[..., Self], None, None]:
+    def __get_validators__(cls) -> Generator[Callable[..., Self], None, None]:
         """Return a generator of validators for this type."""
         yield cls.validate
 
@@ -53,9 +48,8 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
                 raise ValueError(f"{state_condition_value} must be a valid liquid type.")
 
         # Otherwise, the value should be a boolean string
-        else:
-            if v not in get_args(BooleanStr):  # noqa: WPS513
-                raise ValueError("Goal object state value must be true or false")
+        elif state_condition_value not in get_args(BooleanStr):
+            raise ValueError("Goal object state value must be true or false")
 
         return cls(v)
 
@@ -96,6 +90,10 @@ class ObjectGoalState(BaseModel):
 
     __root__: dict[ObjectInstanceId, ObjectGoalStateExpression]
 
+    def __len__(self) -> int:
+        """Return the length of the root dict."""
+        return len(self.__root__)
+
     @classmethod
     def from_parts(
         cls,
@@ -104,8 +102,8 @@ class ObjectGoalState(BaseModel):
         state_condition_value: GoalStateExpressionValue,
     ) -> Self:
         """Create a goal object state from its parts."""
-        return cls.parse_obj(
-            {
+        return cls(
+            __root__={
                 object_id: ObjectGoalStateExpression.from_parts(
                     state_condition_key, state_condition_value
                 )
@@ -152,9 +150,9 @@ class TaskGoal(BaseModel):
 
     # Unused/Ignored fields
     description: str = Field(default="")
-    preconditions: list[Any] = Field(default_factory=list, const=True)
-    visibility: Mapping[str, Any] = Field(default=TASK_GOAL_VISIBILITY, const=True)
-    can_reset: bool = Field(default=False, alias="canReset", const=True)
+    preconditions: list[Any] = Field(default_factory=list)
+    visibility: dict[str, Any] = Field(default=TASK_GOAL_VISIBILITY)
+    can_reset: bool = Field(default=False, alias="canReset")
 
     @classmethod
     def from_object_goal_states(

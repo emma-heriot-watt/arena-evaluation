@@ -1,5 +1,3 @@
-from collections.abc import Mapping
-from types import MappingProxyType
 from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, Field, validator
@@ -9,22 +7,20 @@ from arena_missions.structures.required_object import RequiredObject
 from arena_missions.structures.task_goal import TaskGoal
 
 
-CDF_GAME_INTERACTIONS: Mapping[str, Any] = MappingProxyType(
-    {
-        "camera_movements": {
-            "task_beginning": [],
-            "task_procedure": [],
-            "task_ending": [],
-            "object_conditions": [],
-        },
-        "game_messages": {
-            "task_beginning": [],
-            "task_procedure": [],
-            "task_ending": [],
-            "object_conditions": [],
-        },
-    }
-)
+CDF_GAME_INTERACTIONS: dict[str, Any] = {  # noqa: WPS407
+    "camera_movements": {
+        "task_beginning": [],
+        "task_procedure": [],
+        "task_ending": [],
+        "object_conditions": [],
+    },
+    "game_messages": {
+        "task_beginning": [],
+        "task_procedure": [],
+        "task_ending": [],
+        "object_conditions": [],
+    },
+}
 
 
 class CDFPortal(BaseModel):
@@ -51,8 +47,8 @@ class CDFScene(BaseModel):
     scene_id: str = Field(default="01 (Make_Cereal)")
 
     # Unused/Ignored fields
-    simbot_init: list[Any] = Field(default_factory=list, const=True)
-    sticky_notes: Optional[list[Any]] = Field(default_factory=list, const=True)
+    simbot_init: list[Any] = Field(default_factory=list)
+    sticky_notes: Optional[list[Any]] = Field(default_factory=list)
     blacklisted_layouts: Optional[list[OfficeLayout]] = None
     completely_random_visual: bool = Field(default=False, alias="completelyRandomVisual")
 
@@ -77,7 +73,7 @@ class CDF(BaseModel, validate_assignment=True):
     experimental: str = Field(default="true")
 
     # Unused/Ignored fields
-    game_interactions: Mapping[str, Any] = CDF_GAME_INTERACTIONS
+    game_interactions: dict[str, Any] = CDF_GAME_INTERACTIONS
     state_conditions: list[Any] = Field(default_factory=list, alias="stateconditions")
     past_portals: list[CDFPortal] = Field(
         default=[CDFPortal(PortalName="past")], alias="pastPortals", max_items=1

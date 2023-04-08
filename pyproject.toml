@@ -47,6 +47,12 @@ pre-commit = "^3.2.2"
 poethepoet = "^0.18.1"
 isort = "^5.12.0"
 
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.2"
+pytest-cases = "^3.6.14"
+pytest-cov = "^4.0.0"
+
 [tool.black]
 line-length = 99
 

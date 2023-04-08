@@ -31,7 +31,7 @@ InstructionAction = Literal[
 ]
 
 
-class HighLevelKey(BaseModel):
+class HighLevelKey(BaseModel, validate_assignment=True, frozen=True):
     """Structured form of the High-Level Key."""
 
     key: str
@@ -62,11 +62,15 @@ class HighLevelKey(BaseModel):
         high_level_key_dict = {}
 
         # Split the key by the # character
-        parts = key_string.split("#")
+        parts = [part for part in key_string.split("#") if part]
 
         for part in parts:
             # Split each part by the = character
-            part_name, part_value = part.split("=")
+            split_part = part.split("=")
+            if len(split_part) != 2:
+                raise ValueError(f"Each split part should contain 2 pieces, received {part}")
+            part_name = split_part[0]
+            part_value = split_part[1]
 
             # Convert the key to snake_case
             part_name = snake_case(part_name)
