@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.5.0...v2.0.0) (2023-04-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* be able to generate missions from high-level keys
+
+### Features
+
+* add more missions for other layouts ([1c5615d](https://github.com/emma-simbot/simbot-offline-inference/commit/1c5615d1ce506db26868491bc9ef475bd97e765d))
+* add option to send dummy actions when validating cdfs ([0de8f4b](https://github.com/emma-simbot/simbot-offline-inference/commit/0de8f4bc6fe1da3edfb79b727504bb2ef99359ef))
+* be able to generate missions from high-level keys ([1772f92](https://github.com/emma-simbot/simbot-offline-inference/commit/1772f92f03db32379a03d0db388acac78cca2878))
+* include progress to more clearly know the overall progress ([e135740](https://github.com/emma-simbot/simbot-offline-inference/commit/e1357400681ecfc31e674ac3ab23149f73805b63))
+* optionally add randomness to the session id name ([c0c43e2](https://github.com/emma-simbot/simbot-offline-inference/commit/c0c43e281bbf4a2a0fbf20290f96a692e4bec4e7))
+* upload trajectory results to s3 ([77d1532](https://github.com/emma-simbot/simbot-offline-inference/commit/77d153263128e7ea056c6655c641167eacad16bc))
+* use cloudpathlib to upload all the metrics to S3 ([986b1ce](https://github.com/emma-simbot/simbot-offline-inference/commit/986b1ce9116a85b1a5a76d0c0fa53413c2461f8d))
+
+
+### Bug Fixes
+
+* create all parents for the metric output file ([41d9372](https://github.com/emma-simbot/simbot-offline-inference/commit/41d9372d27119b9f33abb4ccc4113c2db673957f))
+* created session id needs to not have slashes ([644268b](https://github.com/emma-simbot/simbot-offline-inference/commit/644268bd3becaa28be1c0c7ee49a6965441be0eb))
+* created session id to be in the form `T.DATE/KEY-UUID` ([e94d2ff](https://github.com/emma-simbot/simbot-offline-inference/commit/e94d2ff170f244da1e49364ad8670a807a10d392))
+* env var key to enable the offline evaluation mode ([5380a4b](https://github.com/emma-simbot/simbot-offline-inference/commit/5380a4bf252e511d9ff7c9d1a11e1c5ecd3d299a))
+* generated session id that is valid as a path and uri ([c2a033d](https://github.com/emma-simbot/simbot-offline-inference/commit/c2a033d174e3f10e51588b342af54b7547a07cf8))
+* lint issues ([ad3527d](https://github.com/emma-simbot/simbot-offline-inference/commit/ad3527d1cfdd281354bf1500d8b85a93abf7f09a))
+* set a long timeout for experience hub, which gets overridden by the settings client timeout ([30b45c1](https://github.com/emma-simbot/simbot-offline-inference/commit/30b45c1badac746085ea240278fec9ac4a5b7e04))
+* simplify the provided session id prefix ([70c5971](https://github.com/emma-simbot/simbot-offline-inference/commit/70c5971b0b06a761efe66852ad69234a207e7ce2))
+
 ## [1.5.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.4.0...v1.5.0) (2023-04-06)
 
 
