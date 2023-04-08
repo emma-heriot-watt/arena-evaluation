@@ -5,7 +5,7 @@ from loguru import logger
 from simbot_offline_inference.inference_controller import SimBotInferenceController
 from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 from simbot_offline_inference.progress import ArenaEvaluatorProgressTracker
-from simbot_offline_inference.structures import SimBotTrajectory
+from simbot_offline_inference.structures import MissionTrajectory
 
 
 EXPERIENCE_HUB_HEALTHCHECK_ATTEMPTS = 40
@@ -29,7 +29,7 @@ class SimBotArenaEvaluator:
 
         self._progress = ArenaEvaluatorProgressTracker()
 
-    def run_evaluation(self, trajectories: list[SimBotTrajectory]) -> None:
+    def run_evaluation(self, trajectories: list[MissionTrajectory]) -> None:
         """Run the evaluation on all the test data."""
         self._progress.start_new_evaluation(len(trajectories))
 
@@ -45,7 +45,7 @@ class SimBotArenaEvaluator:
         self._evaluation_metrics.log_overall_metrics()
         self._evaluation_metrics.send_to_s3()
 
-    def run_evaluation_step(self, trajectory: SimBotTrajectory) -> None:
+    def run_evaluation_step(self, trajectory: MissionTrajectory) -> None:
         """Run the evaluation on a single instance of the test data."""
         session_id = trajectory.create_session_id(
             self._session_id_prefix, include_randomness=self._enable_randomness_in_session_id

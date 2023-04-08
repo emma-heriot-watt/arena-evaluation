@@ -9,7 +9,7 @@ from simbot_offline_inference.challenges.challenge_validator import (
 )
 from simbot_offline_inference.orchestrators import ArenaOrchestrator
 from simbot_offline_inference.settings import Settings
-from simbot_offline_inference.structures import SimBotChallenge
+from simbot_offline_inference.structures import Mission
 
 
 def validate_cdfs(directory: Path) -> None:
@@ -24,9 +24,7 @@ def validate_cdfs(directory: Path) -> None:
     logger.info(f"Found {len(files_to_load)} CDFs to validate.")
 
     cdfs = [
-        CDFValidationInstance(
-            cdf=SimBotChallenge.parse_file(challenge_file).cdf, path=challenge_file
-        )
+        CDFValidationInstance(cdf=Mission.parse_file(challenge_file).cdf, path=challenge_file)
         for challenge_file in files_to_load
     ]
 

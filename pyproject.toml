@@ -7,6 +7,7 @@ readme = "README.md"
 packages = [
 	{ include = "simbot_offline_inference", from = "src" },
 	{ include = "arena_wrapper", from = "src" },
+	{ include = "arena_missions", from = "src" },
 ]
 
 [tool.poe.tasks]
@@ -52,7 +53,13 @@ profile = "black"
 combine_as_imports = true
 lines_after_imports = 2
 line_length = 99
-known_first_party = ["emma_*", "arena_wrapper", "simbot_offline_inference"]
+known_first_party = ["emma_*", "arena_*", "simbot_*"]
+
+[tool.pyright]
+include = ["src"]
+exclude = ["src/arena_wrapper"]
+# typeCheckingMode = "strict"
+reportImportCycles = "error"
 
 [build-system]
 requires = ["poetry-core"]

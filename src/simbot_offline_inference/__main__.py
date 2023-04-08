@@ -13,7 +13,7 @@ from simbot_offline_inference.commands import (
 )
 from simbot_offline_inference.prepare_trajectory_data import process_their_trajectory_data
 from simbot_offline_inference.settings import Settings
-from simbot_offline_inference.structures import SimBotChallenge
+from simbot_offline_inference.structures import Mission
 
 
 app = typer.Typer(name="Run inference offline.", no_args_is_help=True, add_completion=False)
@@ -65,7 +65,7 @@ def generate_trajectories(cdf_dir: Path, enable_randomness_in_session_id: bool =
     settings.prepare_file_system()
 
     logger.info(f"Loading missions from {cdf_dir}")
-    challenges = [SimBotChallenge.parse_file(cdf_file) for cdf_file in cdf_dir.rglob("*.json")]
+    challenges = [Mission.parse_file(cdf_file) for cdf_file in cdf_dir.rglob("*.json")]
 
     logger.info(f"Loaded {len(challenges)} missions.")
 

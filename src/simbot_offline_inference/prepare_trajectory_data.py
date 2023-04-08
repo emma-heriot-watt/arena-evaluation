@@ -9,44 +9,38 @@ from typing import Optional
 
 from rich.progress import track
 
-from simbot_offline_inference.structures import SimBotTrajectory
+from simbot_offline_inference.structures import MissionTrajectory
 
 
-def extract_mission_group_from_description(mission_desc: str) -> Optional[str]:  # noqa: WPS212
+def extract_mission_group_from_description(mission_desc: str) -> Optional[str]:
     """Extract the group from the mission description."""
-    if "Break_Object".lower() in mission_desc.lower():
-        return "breakObject"
-    if "Clean_and_Deliver".lower() in mission_desc.lower():
-        return "clean&deliver"
-    if "Color_and_Deliver".lower() in mission_desc.lower():
-        return "color&deliver"
-    if "Fill_and_Deliver".lower() in mission_desc.lower():
-        return "fill&deliver"
-    if "Freeze_and_Deliver".lower() in mission_desc.lower():
-        return "freeze&deliver"
-    if "Heat_and_Deliver".lower() in mission_desc.lower():
-        return "heat&deliver"
-    if "Insert_in_Device".lower() in mission_desc.lower():
-        return "insertInDevice"
-    if "Pickup_and_Deliver".lower() in mission_desc.lower():
-        return "pickup&deliver"
-    if "Pour_into_Container".lower() in mission_desc.lower():
-        return "pourContainer"
-    if "Repair_and_Deliver".lower() in mission_desc.lower():
-        return "repair&deliver"
-    if "Scan_Object".lower() in mission_desc.lower():
-        return "scanObject"
-    if "Toggle_".lower() in mission_desc.lower():
-        return "toggleDevice"
+    switcher = {
+        "Break_Object": "breakObject",
+        "Clean_and_Deliver": "clean&deliver",
+        "Color_and_Deliver": "color&deliver",
+        "Fill_and_Deliver": "fill&deliver",
+        "Freeze_and_Deliver": "freeze&deliver",
+        "Heat_and_Deliver": "heat&deliver",
+        "Insert_in_Device": "insertInDevice",
+        "Pickup_and_Deliver": "pickup&deliver",
+        "Pour_into_Container": "pourContainer",
+        "Repair_and_Deliver": "repair&deliver",
+        "Scan_Object": "scanObject",
+        "Toggle_": "toggleDevice",
+    }
+
+    for mission_group, mission_group_name in switcher.items():
+        if mission_group.lower() in mission_desc.lower():
+            return mission_group_name
 
     return None
 
 
-def process_their_trajectory_data(in_file: Path) -> list[SimBotTrajectory]:
+def process_their_trajectory_data(in_file: Path) -> list[MissionTrajectory]:
     """Process the trajectory data from their evaluation sets."""
     task_data = json.loads(in_file.read_bytes())
 
-    test_instances: list[SimBotTrajectory] = []
+    test_instances: list[MissionTrajectory] = []
 
     iterator = track(
         task_data.items(), description="Processing their trajectory data to our format"
@@ -60,7 +54,7 @@ def process_their_trajectory_data(in_file: Path) -> list[SimBotTrajectory]:
             utterances = (utterance for utterance in utterances if "_" not in utterance)
             utterances = (utterance.lower() for utterance in utterances)
 
-            test_instance = SimBotTrajectory(
+            test_instance = MissionTrajectory(
                 mission_group=extract_mission_group_from_description(task_description),
                 high_level_key=f"{task_description}_{annotation_idx}",
                 cdf=task["CDF"],

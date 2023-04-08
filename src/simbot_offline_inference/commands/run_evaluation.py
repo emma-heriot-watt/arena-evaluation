@@ -6,14 +6,14 @@ from simbot_offline_inference.inference_controller import SimBotInferenceControl
 from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 from simbot_offline_inference.settings import Settings
-from simbot_offline_inference.structures import SimBotTrajectory
+from simbot_offline_inference.structures import MissionTrajectory
 
 
 def limit_instances_to_evaluate(
-    instances: list[SimBotTrajectory],
+    instances: list[MissionTrajectory],
     num_instances: int,
     start_index: int = 0,
-) -> list[SimBotTrajectory]:
+) -> list[MissionTrajectory]:
     """Limit the number of instances evaluated."""
     end_index = start_index + num_instances
     instances = instances[start_index:end_index]
@@ -22,7 +22,7 @@ def limit_instances_to_evaluate(
 
 
 def run_evaluation(
-    instances: list[SimBotTrajectory],
+    instances: list[MissionTrajectory],
     session_id_prefix: str,
     *,
     enable_randomness_in_session_id: bool = False,
