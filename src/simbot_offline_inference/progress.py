@@ -16,6 +16,8 @@ from rich.text import Text
 
 
 class ArenaEvaluatorProgressTracker:
+    """Create Rich progress bars to track evaluation progress."""
+
     def __init__(self) -> None:
         self.progress = Progress(
             "{task.description}",

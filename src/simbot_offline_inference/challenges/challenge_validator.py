@@ -7,7 +7,7 @@ from rich.progress import track
 from simbot_offline_inference.orchestrators import ArenaOrchestrator
 
 
-UNITY_FAILURES = {
+UNITY_FAILURES = {  # noqa: WPS407
     "UNABLE_TO_SPAWN_OBJECTS": "The objects that were unable to spawn are",
     "DUPLICATE_KEYS_IN_CDF": "ArgumentException: An item with the same key has already been added",
 }
