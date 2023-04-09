@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.1.0...v2.2.0) (2023-04-09)
+
+
+### Features
+
+* add 'pickup apple from fridge' mission, with coloured variants ([f431757](https://github.com/emma-simbot/simbot-offline-inference/commit/f43175720f914af22487e1c934b9b24ecf1b9b0e))
+* register challenge to pick up (coloured) apples from an open fridge ([43fd6ed](https://github.com/emma-simbot/simbot-offline-inference/commit/43fd6ed2004167896404c595504c0063e5fe9399))
+* support generating challenges from other challenges with minor modifications ([1ffbc1e](https://github.com/emma-simbot/simbot-offline-inference/commit/1ffbc1ecd79d63ee2c50f9348c52d56eca6474c9))
+
+
+### Bug Fixes
+
+* make sure the `isColorChanged` key doesn't exist already to prevent duplicates ([9555241](https://github.com/emma-simbot/simbot-offline-inference/commit/955524136a19148abd1bd53d3c46d4b2b2bfec2e))
+* replace property setters with explicit functions ([2d4038f](https://github.com/emma-simbot/simbot-offline-inference/commit/2d4038fff20e611199e79b9dcf3ade9fff80a9af))
+* using `*-is-container` when parsing high-level keys from string ([6c78d32](https://github.com/emma-simbot/simbot-offline-inference/commit/6c78d323cd3bf701b41ee83490d757078ee0a480))
+
 ## [2.1.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.0.0...v2.1.0) (2023-04-09)
 
 
