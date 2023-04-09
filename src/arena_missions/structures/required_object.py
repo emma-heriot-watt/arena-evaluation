@@ -142,22 +142,12 @@ class RequiredObject(BaseModel, validate_assignment=True):
             return list(self.location[0].keys())[0]
         return None
 
-    @receptacle.setter
-    def receptacle(self, receptacle: ObjectInstanceId) -> None:
-        """Set the receptacle this object is in."""
-        self.location.append({receptacle: "in"})
-
     @property
     def room(self) -> Optional[OfficeRoom]:
         """Return the room this object is in."""
         if self.room_location:
             return self.room_location[0]
         return None
-
-    @room.setter
-    def room(self, room: OfficeRoom) -> None:
-        """Set the room this object is in."""
-        self.room_location[0] = room
 
     @property
     def color(self) -> Optional[ObjectColor]:
@@ -166,9 +156,28 @@ class RequiredObject(BaseModel, validate_assignment=True):
             return self.colors[0]
         return None
 
-    @color.setter
-    def color(self, color: ObjectColor) -> None:
+    def update_receptacle(self, receptacle: Optional[ObjectInstanceId]) -> None:
+        """Set the receptacle this object is in."""
+        if not receptacle:
+            self.location.clear()
+            return
+
+        self.location.append({receptacle: "in"})
+
+    def update_room(self, room: Optional[OfficeRoom]) -> None:
+        """Set the room this object is in."""
+        if not room:
+            self.room_location.clear()
+            return
+
+        self.room_location[0] = room
+
+    def update_color(self, color: Optional[ObjectColor]) -> None:
         """Set the color of this object."""
+        if not color:
+            self.colors.clear()
+            return
+
         self.colors[0] = color
 
     def update_state(
