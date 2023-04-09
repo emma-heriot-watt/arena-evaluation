@@ -261,12 +261,36 @@ def pickup_apple_from_fridge(
     )
 
 
+@ChallengeBuilder.register(
+    "#action=pickup#target-object=apple#from-receptacle=fridge#from-receptacle-is-container"
+)
+def pickup_apple_from_open_fridge(
+    required_object_builder: RequiredObjectBuilder,
+) -> ChallengeBuilderOutput:
+    """Pick up an apple from an open fridge."""
+    # Use the other challenge builder to get the output
+    builder_output = pickup_apple_from_fridge(required_object_builder)
+
+    # Open the fridge
+    builder_output.required_objects["fridge"].add_state("isOpen", "true")
+
+    # Change the plans
+    builder_output.plans = [
+        [
+            "go to the fridge",
+            "pick up the apple",
+            "close the fridge",
+        ]
+    ]
+
+    return builder_output
+
+
 def pickup_colored_apples_from_the_fridge() -> None:
     """Pickup apples from the fridge."""
     # High level key template
     high_level_key_template = "#action=pickup#target-object=apple#target-object-color={color}#from-receptacle=fridge#from-receptacle-is-container"
 
-    # for color in get_args(ObjectColor):
     for color in get_args(ObjectColor):
         # Create the high level key
         high_level_key = high_level_key_template.format(color=color.lower())
@@ -277,6 +301,9 @@ def pickup_colored_apples_from_the_fridge() -> None:
         # Register the challenge builder with the modifications
         ChallengeBuilder.register_with_modifiers(high_level_key, modified_kwargs)(
             pickup_apple_from_fridge
+        )
+        ChallengeBuilder.register_with_modifiers(high_level_key, modified_kwargs)(
+            pickup_apple_from_open_fridge
         )
 
 
