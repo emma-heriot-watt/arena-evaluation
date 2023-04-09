@@ -24,6 +24,14 @@ cmd = "mypy ."
 help = "Lint with flake8"
 cmd = "flake8 ."
 
+[tool.poe.tasks.test]
+help = "Run the fast Python tests"
+cmd = "pytest --cov=src -m 'not slow'"
+
+[tool.poe.tasks.test-everything]
+help = "Run all the tests and get the coverage"
+cmd = "pytest -v --durations=40 --color=yes --junitxml=pytest.xml --cov=src -m 'not slow' -n 2"
+
 [tool.poetry.dependencies]
 python = "~3.9"
 flask = "^2.2.2"
