@@ -4,6 +4,7 @@ from typing import Any, NamedTuple, Optional
 from loguru import logger
 from rich.progress import track
 
+from arena_missions.structures import CDF
 from simbot_offline_inference.orchestrators import ArenaOrchestrator
 
 
@@ -24,7 +25,7 @@ class InvalidCDFException(Exception):
 class CDFValidationInstance(NamedTuple):
     """A CDF validation instance."""
 
-    cdf: dict[str, Any]
+    cdf: CDF
     path: Path
 
 
@@ -60,9 +61,9 @@ class ChallengeValidator:
 
         return True
 
-    def _validate_single_cdf(self, cdf: dict[str, Any]) -> None:
+    def _validate_single_cdf(self, cdf: CDF) -> None:
         """Validate a single CDF with the Arena."""
-        self._arena_orchestrator.send_cdf_to_arena(cdf)
+        self._arena_orchestrator.send_cdf_to_arena(cdf.dict(by_alias=True))
 
         if self._send_dummy_actions_after_cdf_load:
             self._arena_orchestrator.send_dummy_actions_to_arena()

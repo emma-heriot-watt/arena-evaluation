@@ -1,1 +1,0 @@
-from simbot_offline_inference.challenges.challenge_validator import ChallengeValidator

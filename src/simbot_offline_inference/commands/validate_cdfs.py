@@ -2,14 +2,11 @@ from pathlib import Path
 
 from loguru import logger
 
+from arena_missions.structures import Mission
 from emma_common.logging import setup_rich_logging
-from simbot_offline_inference.challenges.challenge_validator import (
-    CDFValidationInstance,
-    ChallengeValidator,
-)
+from simbot_offline_inference.challenge_validator import CDFValidationInstance, ChallengeValidator
 from simbot_offline_inference.orchestrators import ArenaOrchestrator
 from simbot_offline_inference.settings import Settings
-from simbot_offline_inference.structures import Mission
 
 
 def validate_cdfs(directory: Path) -> None:

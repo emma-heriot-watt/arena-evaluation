@@ -1,11 +1,9 @@
-from typing import Any
-
 from loguru import logger
 
+from arena_missions.structures import CDF, MissionTrajectory
 from simbot_offline_inference.inference_controller import SimBotInferenceController
 from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 from simbot_offline_inference.progress import ArenaEvaluatorProgressTracker
-from simbot_offline_inference.structures import MissionTrajectory
 
 
 EXPERIENCE_HUB_HEALTHCHECK_ATTEMPTS = 40
@@ -86,7 +84,7 @@ class SimBotArenaEvaluator:
             last_game_state=self._inference_controller.get_latest_game_state(),
         )
 
-    def prepare_cdf_in_arena(self, cdf: dict[str, Any]) -> None:
+    def prepare_cdf_in_arena(self, cdf: CDF) -> None:
         """Prepare the arena with the CDF."""
         logger.info("Launching mission in the Arena")
         self._inference_controller.launch_game(cdf)

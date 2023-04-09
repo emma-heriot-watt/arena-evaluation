@@ -5,6 +5,7 @@ from typing import Optional
 import typer
 from loguru import logger
 
+from arena_missions.structures import Mission
 from simbot_offline_inference.commands import (
     limit_instances_to_evaluate,
     run_background_services,
@@ -13,7 +14,6 @@ from simbot_offline_inference.commands import (
 )
 from simbot_offline_inference.prepare_trajectory_data import process_their_trajectory_data
 from simbot_offline_inference.settings import Settings
-from simbot_offline_inference.structures import Mission
 
 
 app = typer.Typer(name="Run inference offline.", no_args_is_help=True, add_completion=False)

@@ -1,2 +1,0 @@
-from simbot_offline_inference.structures.mission import Mission
-from simbot_offline_inference.structures.mission_trajectory import MissionTrajectory

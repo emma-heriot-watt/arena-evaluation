@@ -9,7 +9,7 @@ from typing import Optional
 
 from rich.progress import track
 
-from simbot_offline_inference.structures import MissionTrajectory
+from arena_missions.structures import MissionTrajectory
 
 
 def extract_mission_group_from_description(mission_desc: str) -> Optional[str]:

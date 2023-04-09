@@ -3,6 +3,7 @@ from typing import Any, Literal
 
 from loguru import logger
 
+from arena_missions.structures import CDF
 from arena_wrapper.enums.object_output_wrapper import ObjectOutputType
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 
@@ -50,13 +51,13 @@ class SimBotInferenceController:
         """Healthcheck the services."""
         return self._experience_hub_orchestrator.healthcheck()
 
-    def launch_game(self, mission_cdf: Any, attempts: int = 10, interval: int = 5) -> None:
+    def launch_game(self, mission_cdf: CDF, attempts: int = 10, interval: int = 5) -> None:
         """Launch the game on the Arena instance.
 
         We also need to do the dummy actions to make sure the game is ready to go.
         """
         return self._arena_orchestrator.launch_new_game(
-            mission_cdf, attempts, interval, self._object_output_type
+            mission_cdf.dict(by_alias=True), attempts, interval, self._object_output_type
         )
 
     def get_goal_completion_status(self) -> tuple[bool, list[Literal[0, 1]]]:
