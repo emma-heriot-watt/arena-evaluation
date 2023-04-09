@@ -1,13 +1,13 @@
 from collections.abc import Iterator
 from copy import deepcopy
 from itertools import groupby
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Optional, Union, get_args
 
 from deepmerge import always_merger
 from pydantic import BaseModel
 
 from arena_missions.builders.required_objects_builder import RequiredObjectBuilder
-from arena_missions.constants.arena import OfficeLayout, OfficeRoom
+from arena_missions.constants.arena import ObjectColor, OfficeLayout, OfficeRoom
 from arena_missions.structures import HighLevelKey, RequiredObject, TaskGoal
 from arena_missions.structures.task_goal import ObjectGoalState
 
@@ -216,3 +216,69 @@ def operate_open_timemachine_with_broken_bowl(
     ]
 
     return builder_output
+
+
+@ChallengeBuilder.register(
+    "#action=pickup#target-object=apple#from-receptacle=fridge#from-receptacle-is-container"
+)
+def pickup_apple_from_fridge(
+    required_object_builder: RequiredObjectBuilder,
+) -> ChallengeBuilderOutput:
+    """Pick up an apple from the fridge."""
+    # Create fridge
+    fridge = required_object_builder.fridge()
+
+    # Create apple
+    apple = RequiredObject.from_string("Apple_1")
+    apple.add_state("Unique", "true")
+
+    # Put the apple in the fridge
+    apple.update_receptacle(fridge.name)
+
+    goals = [
+        # Pick up the apple from an open fridge
+        TaskGoal.from_object_goal_states(
+            [
+                ObjectGoalState.from_parts(fridge.name, "isOpen", "true"),
+                ObjectGoalState.from_parts(apple.name, "isPickedUp", "true"),
+            ],
+            relation="and",
+        ),
+        # Close the fridge
+        TaskGoal.from_object_goal_states(
+            [ObjectGoalState.from_parts(fridge.name, "isOpen", "false")],
+            relation="and",
+        ),
+    ]
+
+    plans = [["go to the fridge", "open the fridge", "pick up the apple", "close the fridge"]]
+
+    return ChallengeBuilderOutput(
+        start_room="BreakRoom",
+        required_objects={"apple": apple, "fridge": fridge},
+        task_goals=goals,
+        plans=plans,
+    )
+
+
+def pickup_colored_apples_from_the_fridge() -> None:
+    """Pickup apples from the fridge."""
+    # High level key template
+    high_level_key_template = "#action=pickup#target-object=apple#target-object-color={color}#from-receptacle=fridge#from-receptacle-is-container"
+
+    # for color in get_args(ObjectColor):
+    for color in get_args(ObjectColor):
+        # Create the high level key
+        high_level_key = high_level_key_template.format(color=color.lower())
+
+        # How should the challenge builder output be modified?
+        modified_kwargs = {"required_objects": {"apple": {"colors": [color]}}}
+
+        # Register the challenge builder with the modifications
+        ChallengeBuilder.register_with_modifiers(high_level_key, modified_kwargs)(
+            pickup_apple_from_fridge
+        )
+
+
+# Higher-order challenge builders
+pickup_colored_apples_from_the_fridge()
