@@ -1,3 +1,4 @@
+from collections import ChainMap
 from typing import Any, Literal, Optional, Union, get_args
 
 from pydantic import BaseModel, Field, root_validator, validator
@@ -128,7 +129,10 @@ class RequiredObject(BaseModel, validate_assignment=True):
     ) -> dict[str, Any]:
         """Add colorChanged state if colors are present."""
         if "colors" in values and values["colors"]:
-            values["state"].append({"isColorChanged": "true"})
+            merged_states = dict(ChainMap(*values["state"]))
+            merged_states["isColorChanged"] = "true"
+            values["state"] = [{k: v} for k, v in merged_states.items()]
+
         return values
 
     @property
