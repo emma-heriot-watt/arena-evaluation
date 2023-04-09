@@ -1,7 +1,9 @@
 from collections.abc import Iterator
+from copy import deepcopy
 from itertools import groupby
-from typing import Callable, Optional, Union
+from typing import Any, Callable, Optional, Union
 
+from deepmerge import always_merger
 from pydantic import BaseModel
 
 from arena_missions.builders.required_objects_builder import RequiredObjectBuilder
@@ -79,6 +81,27 @@ class ChallengeBuilder:
         return decorator
 
     @classmethod
+    def register_with_modifiers(
+        cls,
+        high_level_key: Union[str, HighLevelKey],
+        modified_kwargs: dict[str, Any],
+    ) -> Callable[[ChallengeBuilderFunction], ChallengeBuilderFunction]:
+        """Register a challenge builder with modifiers."""
+
+        def decorator(func: ChallengeBuilderFunction) -> ChallengeBuilderFunction:
+            # Register the challenge builder
+            ChallengeBuilder.register(high_level_key)(func)
+
+            # Register the modified challenge builder
+            ChallengeBuilder.register(high_level_key)(
+                ChallengeBuilder.modify_challenge_builder_function_output(func, modified_kwargs)
+            )
+
+            return func
+
+        return decorator
+
+    @classmethod
     def count_available_functions_per_key(cls) -> dict[HighLevelKey, int]:
         """List all keys and how many functions connect with them."""
         key_counts: dict[HighLevelKey, int] = {}
@@ -95,6 +118,23 @@ class ChallengeBuilder:
     def list_available(cls) -> list[HighLevelKey]:
         """List all available high-level keys."""
         return list({key for key, _ in cls._registry})
+
+    @staticmethod
+    def modify_challenge_builder_function_output(  # noqa: WPS602
+        function: ChallengeBuilderFunction, modified_kwargs: dict[str, Any]
+    ) -> ChallengeBuilderFunction:
+        """Modify the output of a challenge builder function."""
+
+        def wrapper(required_object_builder: RequiredObjectBuilder) -> ChallengeBuilderOutput:
+            # Call the original function
+            output = function(required_object_builder).dict()
+            output = deepcopy(output)
+            # Modify the output
+            always_merger.merge(output, modified_kwargs)
+            # Return the modified output
+            return ChallengeBuilderOutput.parse_obj(output)
+
+        return wrapper
 
 
 @ChallengeBuilder.register("#action=timemachine#target-object=bowl#converted-object=bowl")
