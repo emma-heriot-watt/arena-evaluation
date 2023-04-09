@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.0.0...v2.1.0) (2023-04-09)
+
+
+### Features
+
+* improve generalisability of challenge builders for less boilerplate ([fe24100](https://github.com/emma-simbot/simbot-offline-inference/commit/fe24100fc68860fd17f1730c3b634bdf7b9f205b))
+
+
+### Bug Fixes
+
+* add tests and make sure the generation process works ([1a6f6ac](https://github.com/emma-simbot/simbot-offline-inference/commit/1a6f6acf8368f260824b595fe25c68dd77d8f3a2))
+
 ## [2.0.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v1.5.0...v2.0.0) (2023-04-08)
 
 
