@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.2.0...v2.3.0) (2023-04-09)
+
+
+### Features
+
+* randomise start position before challenge begins ([f78a9fb](https://github.com/emma-simbot/simbot-offline-inference/commit/f78a9fb1e6e67bc2c9d1c07403e2db9e9d6f74f6))
+
 ## [2.2.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.1.0...v2.2.0) (2023-04-09)
 
 
