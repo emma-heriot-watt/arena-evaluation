@@ -13,6 +13,7 @@ from loguru import logger
 from arena_wrapper.arena_orchestrator import ArenaOrchestrator as AlexaArenaOrchestrator
 from arena_wrapper.enums.object_output_wrapper import ObjectOutputType
 from emma_experience_hub.commands.simbot.cli import run_controller_api
+from simbot_offline_inference.arena_action_builder import ArenaActionBuilder
 from simbot_offline_inference.settings import Settings
 
 
@@ -58,6 +59,7 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
         """
         self.send_cdf_to_arena(mission_cdf)
         self.send_dummy_actions_to_arena(attempts, interval, object_output_type)
+        self.randomise_start_position()
 
     def send_cdf_to_arena(self, mission_cdf: Any) -> None:
         """Send the CDF to the Arena instance."""
@@ -96,6 +98,24 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
             time.sleep(5)
 
         raise AssertionError("Exhauted all attempts")
+
+    def randomise_start_position(
+        self,
+        num_steps: int = 10,
+        object_output_type: ObjectOutputType = ObjectOutputType.OBJECT_MASK,
+    ) -> None:
+        """Randomise the start position of the agent."""
+        logger.debug("Randomising start position of the agent")
+        action_builder = ArenaActionBuilder()
+        actions_to_send = [action_builder.random() for _ in range(num_steps)]
+
+        return_val, _ = self.execute_action(actions_to_send, object_output_type, None)
+
+        # If it succeeds, then just exit the loop since it's ready to go
+        if return_val:
+            return
+
+        raise AssertionError("Failed to randomise start position")
 
     def _get_unity_execution_command(self) -> str:
         settings = Settings()
