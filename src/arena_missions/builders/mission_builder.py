@@ -2,12 +2,14 @@ import random
 from collections.abc import Iterator
 from typing import Optional, get_args
 
-from arena_missions.builders.challenge_builder import ChallengeBuilder, ChallengeBuilderOutput
+from arena_missions.builders.challenge_builder import (
+    ChallengeBuilder,
+    ChallengeBuilderFunction,
+    ChallengeBuilderOutput,
+)
 from arena_missions.builders.required_objects_builder import RequiredObjectBuilder
 from arena_missions.constants.arena import OfficeLayout
-from arena_missions.structures import Mission
-from arena_missions.structures.cdf import CDF, CDFScene
-from arena_missions.structures.required_object import RequiredObject
+from arena_missions.structures import CDF, CDFScene, HighLevelKey, Mission, RequiredObject
 
 
 class MissionBuilder:
@@ -23,10 +25,18 @@ class MissionBuilder:
 
     def generate_all_missions(self) -> Iterator[Mission]:
         """Generate all missions."""
-        for high_level_key, challenge_builder_function in self.challenge_builder:
-            builder_output = challenge_builder_function(self.required_object_builder)
-            cdf = self.generate_cdf(builder_output)
-            yield Mission(high_level_key=high_level_key, plans=builder_output.plans, cdf=cdf)
+        yield from (
+            self.generate_mission(high_level_key, challenge_builder_function)
+            for high_level_key, challenge_builder_function in self.challenge_builder
+        )
+
+    def generate_mission(
+        self, high_level_key: HighLevelKey, challenge_builder_function: ChallengeBuilderFunction
+    ) -> Mission:
+        """Generate a mission."""
+        builder_output = challenge_builder_function(self.required_object_builder)
+        cdf = self.generate_cdf(builder_output)
+        return Mission(high_level_key=high_level_key, plans=builder_output.plans, cdf=cdf)
 
     def generate_cdf(self, challenge_builder_output: ChallengeBuilderOutput) -> CDF:
         """Generate a challenge."""
