@@ -1,33 +1,74 @@
-from arena_missions.builders.challenge_builder import ChallengeBuilder
-from arena_missions.builders.mission_builder import MissionBuilder
-from arena_missions.builders.required_objects_builder import RequiredObjectBuilder
-from arena_missions.structures.cdf import CDF
-from arena_missions.structures.mission import Mission
+from pytest_cases import fixture, param_fixture
+
+from arena_missions.builders import (
+    ChallengeBuilder,
+    ChallengeBuilderFunction,
+    MissionBuilder,
+    RequiredObjectBuilder,
+)
+from arena_missions.structures import CDF, HighLevelKey, Mission
 
 
-def test_challenge_builder_loads_without_error() -> None:
+@fixture(scope="module")
+def required_object_builder() -> RequiredObjectBuilder:
+    return RequiredObjectBuilder()
+
+
+@fixture(scope="module")
+def mission_builder(required_object_builder: RequiredObjectBuilder) -> MissionBuilder:
+    return MissionBuilder(ChallengeBuilder(), required_object_builder)
+
+
+challenge_builder_function = param_fixture(
+    "challenge_builder_function",
+    [x[1] for x in ChallengeBuilder()],
+    ids=[x[0].key for x in ChallengeBuilder()],
+    scope="module",
+)
+
+build_challenge_tuple = param_fixture(
+    "build_challenge_tuple",
+    list(ChallengeBuilder()),
+    ids=[x[0].key for x in ChallengeBuilder()],
+    scope="module",
+)
+
+
+def test_challenge_builder_instantiates_without_error() -> None:
     assert ChallengeBuilder()
 
 
-def test_every_challenge_built_is_valid() -> None:
-    required_object_builder = RequiredObjectBuilder()
-    challenge_builder = ChallengeBuilder()
+def test_registered_challenge_builders_are_valid(
+    challenge_builder_function: ChallengeBuilderFunction,
+    required_object_builder: RequiredObjectBuilder,
+) -> None:
+    builder_output = challenge_builder_function(required_object_builder)
+    assert builder_output
 
-    for _, challenge_builder_function in challenge_builder:
-        builder_output = challenge_builder_function(required_object_builder)
-        assert builder_output
+
+def test_generated_cdfs_are_valid(
+    challenge_builder_function: ChallengeBuilderFunction,
+    required_object_builder: RequiredObjectBuilder,
+    mission_builder: MissionBuilder,
+) -> None:
+    builder_output = challenge_builder_function(required_object_builder)
+    cdf = mission_builder.generate_cdf(builder_output)
+
+    # Verify the CDF is valid
+    assert cdf
+
+    # Make sure the CDF can be reimported successfully
+    assert CDF.parse_obj(cdf.dict(by_alias=True))
 
 
-def test_every_mission_built_is_valid() -> None:
-    required_object_builder = RequiredObjectBuilder()
-    challenge_builder = ChallengeBuilder()
-    mission_builder = MissionBuilder(challenge_builder, required_object_builder)
+def test_generated_missions_are_valid(
+    build_challenge_tuple: tuple[HighLevelKey, ChallengeBuilderFunction],
+    mission_builder: MissionBuilder,
+) -> None:
+    high_level_key, challenge_builder_function = build_challenge_tuple
+    mission = mission_builder.generate_mission(high_level_key, challenge_builder_function)
 
-    for mission in mission_builder.generate_all_missions():
-        assert mission
+    assert mission
 
-        # Make sure the mission can be reimported successfully
-        assert Mission.parse_obj(mission.dict(by_alias=True))
-
-        # Make sure the CDF can be reimported successfully
-        assert CDF.parse_obj(mission.cdf.dict(by_alias=True))
+    # Make sure the mission can be reimported successfully
+    assert Mission.parse_obj(mission.dict(by_alias=True))
