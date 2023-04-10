@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, NamedTuple, Optional
+from typing import Any, NamedTuple, Optional, Union
 
 from loguru import logger
 from rich.progress import track
@@ -26,7 +26,7 @@ class CDFValidationInstance(NamedTuple):
     """A CDF validation instance."""
 
     cdf: CDF
-    path: Path
+    path: Union[Path, str]
 
 
 class ChallengeValidator:

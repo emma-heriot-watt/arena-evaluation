@@ -6,6 +6,8 @@ from rich.columns import Columns
 from rich.panel import Panel
 
 from arena_missions.builders import ChallengeBuilder
+from arena_missions.builders.mission_builder import MissionBuilder
+from arena_missions.builders.required_objects_builder import RequiredObjectBuilder
 from arena_missions.structures import Mission
 from emma_common.logging import setup_rich_logging
 from simbot_offline_inference.challenge_validator import CDFValidationInstance, ChallengeValidator
@@ -38,6 +40,29 @@ def validate_cdfs(directory: Path) -> None:
     logger.info("Done.")
 
 
+def validate_generated_missions() -> None:
+    """Validate all missions from the `MissionBuilder`."""
+    settings = Settings()
+    settings.put_settings_in_environment()
+    settings.prepare_file_system()
+
+    setup_rich_logging()
+
+    missions = MissionBuilder(ChallengeBuilder(), RequiredObjectBuilder()).generate_all_missions()
+    cdfs = [
+        CDFValidationInstance(cdf=mission.cdf, path=mission.high_level_key.key)
+        for mission in missions
+    ]
+
+    arena_orchestrator = ArenaOrchestrator()
+    challenge_validator = ChallengeValidator(arena_orchestrator)
+
+    logger.info("Starting validation")
+    challenge_validator.validate_cdfs(cdfs)
+
+    logger.info("Done.")
+
+
 def print_high_level_keys() -> None:
     """Print all the high level keys from the registered challenge builder."""
     keys = sorted([str(key) for key in ChallengeBuilder.list_available()])
@@ -49,7 +74,3 @@ def print_high_level_keys() -> None:
         subtitle=f"Total: {len(keys)}",
     )
     rich_print(panel)
-
-
-if __name__ == "__main__":
-    print_high_level_keys()

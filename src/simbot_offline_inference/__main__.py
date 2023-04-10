@@ -12,6 +12,7 @@ from simbot_offline_inference.commands import (
     run_background_services,
     run_evaluation,
     validate_cdfs,
+    validate_generated_missions,
 )
 from simbot_offline_inference.prepare_trajectory_data import process_their_trajectory_data
 from simbot_offline_inference.settings import Settings
@@ -23,6 +24,7 @@ app = typer.Typer(name="Run inference offline.", no_args_is_help=True, add_compl
 app.command(rich_help_panel="Run")(run_background_services)
 
 app.command(rich_help_panel="Preparation")(validate_cdfs)
+app.command(rich_help_panel="Preparation")(validate_generated_missions)
 app.command(rich_help_panel="Preparation")(print_high_level_keys)
 
 
