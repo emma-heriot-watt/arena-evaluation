@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from arena_missions.builders.required_objects_builder import RequiredObjectBuilder
 from arena_missions.constants.arena import ObjectColor, OfficeLayout, OfficeRoom
 from arena_missions.structures import HighLevelKey, RequiredObject, TaskGoal
+from arena_missions.structures.object_id import ObjectInstanceId
 from arena_missions.structures.task_goal import ObjectGoalState
 
 
@@ -33,7 +34,7 @@ class ChallengeBuilderOutput(BaseModel):
         return list(self.required_objects.values())
 
 
-ChallengeBuilderFunction = Callable[[RequiredObjectBuilder], ChallengeBuilderOutput]
+ChallengeBuilderFunction = Callable[[], ChallengeBuilderOutput]
 
 
 class ChallengeBuilder:
@@ -89,9 +90,6 @@ class ChallengeBuilder:
         """Register a challenge builder with modifiers."""
 
         def decorator(func: ChallengeBuilderFunction) -> ChallengeBuilderFunction:
-            # Register the challenge builder
-            ChallengeBuilder.register(high_level_key)(func)
-
             # Register the modified challenge builder
             ChallengeBuilder.register(high_level_key)(
                 ChallengeBuilder.modify_challenge_builder_function_output(func, modified_kwargs)
@@ -125,9 +123,9 @@ class ChallengeBuilder:
     ) -> ChallengeBuilderFunction:
         """Modify the output of a challenge builder function."""
 
-        def wrapper(required_object_builder: RequiredObjectBuilder) -> ChallengeBuilderOutput:
+        def wrapper() -> ChallengeBuilderOutput:
             # Call the original function
-            output = function(required_object_builder).dict()
+            output = function().dict()
             output = deepcopy(output)
             # Modify the output
             always_merger.merge(output, modified_kwargs)
@@ -139,10 +137,9 @@ class ChallengeBuilder:
 
 @ChallengeBuilder.register("#action=timemachine#target-object=bowl#converted-object=bowl")
 @ChallengeBuilder.register("#action=timemachine#target-object=broken-bowl#converted-object=bowl")
-def operate_timemachine_with_broken_bowl(
-    required_object_builder: RequiredObjectBuilder,
-) -> ChallengeBuilderOutput:
+def operate_timemachine_with_broken_bowl() -> ChallengeBuilderOutput:
     """Operate the time machine with a broken bowl."""
+    required_object_builder = RequiredObjectBuilder()
     # Create time machine
     time_machine = required_object_builder.time_machine()
     time_machine.add_state("Unique", "true")
@@ -192,12 +189,10 @@ def operate_timemachine_with_broken_bowl(
 
 
 @ChallengeBuilder.register("#action=timemachine#target-object=bowl#converted-object=bowl")
-def operate_open_timemachine_with_broken_bowl(
-    required_object_builder: RequiredObjectBuilder,
-) -> ChallengeBuilderOutput:
+def operate_open_timemachine_with_broken_bowl() -> ChallengeBuilderOutput:
     """Operate an open time machine with a broken bowl."""
     # Use the other challenge builder to get the output
-    builder_output = operate_timemachine_with_broken_bowl(required_object_builder)
+    builder_output = operate_timemachine_with_broken_bowl()
 
     # Open the time machine
     builder_output.required_objects["timemachine"].add_state("isOpen", "true")
@@ -218,94 +213,211 @@ def operate_open_timemachine_with_broken_bowl(
     return builder_output
 
 
-@ChallengeBuilder.register(
-    "#action=pickup#target-object=apple#from-receptacle=fridge#from-receptacle-is-container"
-)
-def pickup_apple_from_fridge(
-    required_object_builder: RequiredObjectBuilder,
-) -> ChallengeBuilderOutput:
-    """Pick up an apple from the fridge."""
-    # Create fridge
-    fridge = required_object_builder.fridge()
-
-    # Create apple
-    apple = RequiredObject.from_string("Apple_1")
-    apple.add_state("Unique", "true")
-
-    # Put the apple in the fridge
-    apple.update_receptacle(fridge.name)
-
-    goals = [
-        # Pick up the apple from an open fridge
-        TaskGoal.from_object_goal_states(
-            [
-                ObjectGoalState.from_parts(fridge.name, "isOpen", "true"),
-                ObjectGoalState.from_parts(apple.name, "isPickedUp", "true"),
-            ],
-            relation="and",
-        ),
-        # Close the fridge
-        TaskGoal.from_object_goal_states(
-            [ObjectGoalState.from_parts(fridge.name, "isOpen", "false")],
-            relation="and",
-        ),
-    ]
-
-    plans = [["go to the fridge", "open the fridge", "pick up the apple", "close the fridge"]]
-
-    return ChallengeBuilderOutput(
-        start_room="BreakRoom",
-        required_objects={"apple": apple, "fridge": fridge},
-        task_goals=goals,
-        plans=plans,
-    )
-
-
-@ChallengeBuilder.register(
-    "#action=pickup#target-object=apple#from-receptacle=fridge#from-receptacle-is-container"
-)
-def pickup_apple_from_open_fridge(
-    required_object_builder: RequiredObjectBuilder,
-) -> ChallengeBuilderOutput:
-    """Pick up an apple from an open fridge."""
-    # Use the other challenge builder to get the output
-    builder_output = pickup_apple_from_fridge(required_object_builder)
-
-    # Open the fridge
-    builder_output.required_objects["fridge"].add_state("isOpen", "true")
-
-    # Change the plans
-    builder_output.plans = [
-        [
-            "go to the fridge",
-            "pick up the apple",
-            "close the fridge",
-        ]
-    ]
-
-    return builder_output
-
-
-def pickup_colored_apples_from_the_fridge() -> None:
-    """Pickup apples from the fridge."""
+def pickup_object_from_container(
+    object_readable_name: str,
+    object_instance_id: ObjectInstanceId,
+    container_readable_name: str,
+    container_object: RequiredObject,
+    *,
+    with_color_variants: bool = False,
+) -> None:
+    """Generate challenges to pick up objects from the fridge."""
     # High level key template
-    high_level_key_template = "#action=pickup#target-object=apple#target-object-color={color}#from-receptacle=fridge#from-receptacle-is-container"
+    high_level_key_template = "#action=pickup#target-object={object}{target_object_color}#from-receptacle={container}#from-receptacle-is-container"
 
-    for color in get_args(ObjectColor):
-        # Create the high level key
-        high_level_key = high_level_key_template.format(color=color.lower())
+    def wrapper() -> ChallengeBuilderOutput:
+        # Create object
+        target_object = RequiredObject(name=object_instance_id)
+        target_object.add_state("Unique", "true")
 
-        # How should the challenge builder output be modified?
-        modified_kwargs = {"required_objects": {"apple": {"colors": [color]}}}
+        # Put the object in the container
+        target_object.update_receptacle(container_object.name)
 
-        # Register the challenge builder with the modifications
-        ChallengeBuilder.register_with_modifiers(high_level_key, modified_kwargs)(
-            pickup_apple_from_fridge
+        goals = [
+            # Pick up the object from an open container
+            TaskGoal.from_object_goal_states(
+                [
+                    ObjectGoalState.from_parts(container_object.name, "isOpen", "true"),
+                    ObjectGoalState.from_parts(target_object.name, "isPickedUp", "true"),
+                ],
+                relation="and",
+            ),
+        ]
+
+        return ChallengeBuilderOutput(
+            start_room="BreakRoom",
+            required_objects={
+                container_readable_name: container_object,
+                object_readable_name: target_object,
+            },
+            task_goals=goals,
+            plans=[
+                [
+                    f"go to the {container_readable_name}",
+                    f"open the {container_readable_name}",
+                    f"pick up the {object_readable_name}",
+                    f"close the {container_readable_name}",
+                ]
+            ],
         )
-        ChallengeBuilder.register_with_modifiers(high_level_key, modified_kwargs)(
-            pickup_apple_from_open_fridge
+
+    def wrapper_open_container() -> ChallengeBuilderOutput:  # noqa: WPS430
+        wrapper_output = wrapper()
+        wrapper_output.required_objects[container_readable_name].add_state("isOpen", "true")
+        wrapper_output.plans = [
+            [
+                f"go to the {container_readable_name}",
+                f"pick up the {object_readable_name}",
+                f"close the {container_readable_name}",
+            ]
+        ]
+        return wrapper_output
+
+    # Register the challenge normally
+    ChallengeBuilder.register(
+        high_level_key_template.format(
+            object=object_readable_name, target_object_color="", container=container_readable_name
         )
+    )(wrapper)
+    # Register with an open container
+    ChallengeBuilder.register(
+        high_level_key_template.format(
+            object=object_readable_name, target_object_color="", container=container_readable_name
+        ),
+    )(wrapper_open_container)
+
+    if with_color_variants:
+        # Register variants with a specific target-object color
+        for color in get_args(ObjectColor):
+            # Create the high level key
+            high_level_key = high_level_key_template.format(
+                object=object_readable_name,
+                target_object_color=f"#target-object-color={color.lower()}",
+                container=container_readable_name,
+            )
+
+            # How should the challenge builder output be modified?
+            colored_target_object_kwargs = {
+                "required_objects": {
+                    object_readable_name: {
+                        "colors": [color],
+                    }
+                },
+            }
+
+            # Register the challenge builder with the modifications
+            ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
+                wrapper
+            )
+            ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
+                wrapper_open_container
+            )
 
 
 # Higher-order challenge builders
-pickup_colored_apples_from_the_fridge()
+def register_pickup_object_from_fridge() -> None:
+    """Register pickup object from fridge challenges."""
+    required_objects_builder = RequiredObjectBuilder()
+    container_readable_name = "fridge"
+    container_object = required_objects_builder.fridge()
+    pickup_object_from_container(
+        "apple",
+        ObjectInstanceId("Apple_1"),
+        container_readable_name,
+        container_object,
+        with_color_variants=True,
+    )
+    pickup_object_from_container(
+        "banana", ObjectInstanceId("Banana_01_1"), container_readable_name, container_object
+    )
+    pickup_object_from_container(
+        "cake",
+        ObjectInstanceId("Cake_02_1"),
+        container_readable_name,
+        container_object,
+        with_color_variants=True,
+    )
+    pickup_object_from_container(
+        "carrot", ObjectInstanceId("Carrot_01_1"), container_readable_name, container_object
+    )
+    pickup_object_from_container(
+        "coffeemug",
+        ObjectInstanceId("CoffeeMug_Boss_1"),
+        container_readable_name,
+        container_object,
+    )
+    pickup_object_from_container(
+        "coffeemug",
+        ObjectInstanceId("CoffeeMug_Yellow_1"),
+        container_readable_name,
+        container_object,
+        with_color_variants=True,
+    )
+    pickup_object_from_container(
+        "donut",
+        ObjectInstanceId("Donut_01_1"),
+        container_readable_name,
+        container_object,
+        with_color_variants=True,
+    )
+    pickup_object_from_container(
+        "milk", ObjectInstanceId("MilkCarton_01_1"), container_readable_name, container_object
+    )
+    pickup_object_from_container(
+        "sodacan", ObjectInstanceId("CanSodaNew_01_1"), container_readable_name, container_object
+    )
+
+
+def register_pickup_object_from_freezer() -> None:
+    """Register pickup object from freezer challenges."""
+    required_objects_builder = RequiredObjectBuilder()
+    container_readable_name = "freezer"
+    container_object = required_objects_builder.freezer()
+    pickup_object_from_container(
+        "apple",
+        ObjectInstanceId("Apple_1"),
+        container_readable_name,
+        container_object,
+        with_color_variants=True,
+    )
+    pickup_object_from_container(
+        "banana", ObjectInstanceId("Banana_01_1"), container_readable_name, container_object
+    )
+    pickup_object_from_container(
+        "cake",
+        ObjectInstanceId("Cake_02_1"),
+        container_readable_name,
+        container_object,
+        with_color_variants=True,
+    )
+    pickup_object_from_container(
+        "carrot", ObjectInstanceId("Carrot_01_1"), container_readable_name, container_object
+    )
+    pickup_object_from_container(
+        "coffeemug",
+        ObjectInstanceId("CoffeeMug_Boss_1"),
+        container_readable_name,
+        container_object,
+    )
+    pickup_object_from_container(
+        "coffeemug",
+        ObjectInstanceId("CoffeeMug_Yellow_1"),
+        container_readable_name,
+        container_object,
+        with_color_variants=True,
+    )
+    pickup_object_from_container(
+        "donut",
+        ObjectInstanceId("Donut_01_1"),
+        container_readable_name,
+        container_object,
+        with_color_variants=True,
+    )
+    pickup_object_from_container(
+        "sodacan", ObjectInstanceId("CanSodaNew_01_1"), container_readable_name, container_object
+    )
+
+
+# Run the challenge builders
+register_pickup_object_from_fridge()
+register_pickup_object_from_freezer()

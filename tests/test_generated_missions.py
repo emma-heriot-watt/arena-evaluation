@@ -40,18 +40,16 @@ def test_challenge_builder_instantiates_without_error() -> None:
 
 def test_registered_challenge_builders_are_valid(
     challenge_builder_function: ChallengeBuilderFunction,
-    required_object_builder: RequiredObjectBuilder,
 ) -> None:
-    builder_output = challenge_builder_function(required_object_builder)
+    builder_output = challenge_builder_function()
     assert builder_output
 
 
 def test_generated_cdfs_are_valid(
     challenge_builder_function: ChallengeBuilderFunction,
-    required_object_builder: RequiredObjectBuilder,
     mission_builder: MissionBuilder,
 ) -> None:
-    builder_output = challenge_builder_function(required_object_builder)
+    builder_output = challenge_builder_function()
     cdf = mission_builder.generate_cdf(builder_output)
 
     # Verify the CDF is valid

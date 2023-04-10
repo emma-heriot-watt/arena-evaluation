@@ -34,7 +34,7 @@ class MissionBuilder:
         self, high_level_key: HighLevelKey, challenge_builder_function: ChallengeBuilderFunction
     ) -> Mission:
         """Generate a mission."""
-        builder_output = challenge_builder_function(self.required_object_builder)
+        builder_output = challenge_builder_function()
         cdf = self.generate_cdf(builder_output)
         return Mission(high_level_key=high_level_key, plans=builder_output.plans, cdf=cdf)
 
