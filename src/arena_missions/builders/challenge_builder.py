@@ -221,7 +221,7 @@ def pickup_object_from_container(
     *,
     with_color_variants: bool = False,
 ) -> None:
-    """Generate challenges to pick up objects from the fridge."""
+    """Generate challenges to pick up objects from containers."""
     # High level key template
     high_level_key_template = "#action=pickup#target-object={object}{target_object_color}#from-receptacle={container}#from-receptacle-is-container"
 
