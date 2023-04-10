@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.4.0...v2.5.0) (2023-04-10)
+
+
+### Features
+
+* generate all the pickup from fridge/freezer missions ([e263c93](https://github.com/emma-simbot/simbot-offline-inference/commit/e263c934e764ec0fd6c414c8bb46964fa0f606a8))
+
 ## [2.4.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.3.0...v2.4.0) (2023-04-10)
 
 
