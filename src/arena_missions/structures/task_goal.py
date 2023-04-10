@@ -1,4 +1,3 @@
-from collections.abc import Generator
 from typing import Any, Callable, Literal, Union, cast, get_args
 from typing_extensions import Self
 
@@ -18,29 +17,35 @@ TASK_GOAL_VISIBILITY = {  # noqa: WPS407
 GoalStateExpressionValue = Union[BooleanStr, ObjectInstanceId, LiquidType]
 
 
-class ObjectGoalStateExpression(str):  # noqa: WPS600
+class ObjectGoalStateExpression(BaseModel):
     """A goal object state value."""
 
+    __root__: str
+
+    def __str__(self) -> str:
+        """Return self."""
+        return self.__root__
+
+    @validator("__root__")
     @classmethod
-    def __get_validators__(cls) -> Generator[Callable[..., Self], None, None]:
-        """Return a generator of validators for this type."""
-        yield cls.validate
+    def ensure_valid_state_condition_key(cls, v: str) -> Union[Callable[[str], str], str]:
+        """Ensure that the state condition key is valid."""
+        state_condition_key = v.split("=")[0]
 
-    @classmethod
-    def validate(cls, v: Any) -> Self:  # noqa: WPS231, WPS238
-        """Validate the object goal state expression."""
-        if not isinstance(v, str):
-            raise TypeError("Goal object state value must be a string")
-
-        state_condition_key, state_condition_value = v.split("=")
-
-        # Make sure the state condition key is a valid state
         if state_condition_key not in get_args(GoalStateExpressionKey):
             raise ValueError(f"{state_condition_key} is not a valid state condition.")
 
+        return v
+
+    @validator("__root__")
+    @classmethod
+    def ensure_valid_condition_value(cls, v: str) -> str:  # noqa: WPS231
+        """If key is contains, ensure the value is an ObjectInstanceId."""
+        state_condition_key, state_condition_value = v.split("=")
+
         # If the state condition key is contains, then the value should be an ObjectInstanceId
         if state_condition_key == "Contains":
-            ObjectInstanceId(state_condition_value)
+            ObjectInstanceId.parse_obj(state_condition_value)
 
         # If the state condition key is isFilled, then the value should be a LiquidType
         elif state_condition_key == "isFilled":
@@ -51,7 +56,7 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
         elif state_condition_value not in get_args(BooleanStr):
             raise ValueError("Goal object state value must be true or false")
 
-        return cls(v)
+        return v
 
     @classmethod
     def from_parts(
@@ -60,7 +65,7 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
         state_condition_value: GoalStateExpressionValue,
     ) -> Self:
         """Create a goal object state value from its parts."""
-        return cls(f"{state_condition_key}={state_condition_value}")
+        return cls.parse_obj(f"{state_condition_key}={state_condition_value}")
 
     def __repr__(self) -> str:
         """Return a string representation of the goal object state value."""
@@ -69,15 +74,15 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
     @property
     def state_condition_key(self) -> GoalStateExpressionKey:
         """Return the state condition key."""
-        return cast(GoalStateExpressionKey, self.split("=")[0])
+        return cast(GoalStateExpressionKey, self.__root__.split("=")[0])
 
     @property
     def state_condition_value(self) -> GoalStateExpressionValue:
         """Return the state condition value."""
-        state_condition_value = self.split("=")[1]
+        state_condition_value = self.__root__.split("=")[1]
 
         if self.state_condition_key == "Contains":
-            return ObjectInstanceId(state_condition_value)
+            return ObjectInstanceId.parse_obj(state_condition_value)
 
         if self.state_condition_key == "isFilled":
             return cast(LiquidType, state_condition_value)

@@ -490,15 +490,15 @@ def register_fridge_interactions() -> None:
     container_object = required_objects_builder.fridge()
 
     object_iterator = [
-        ("apple", ObjectInstanceId("Apple_1"), True),
-        ("banana", ObjectInstanceId("Banana_01_1"), False),
-        ("cake", ObjectInstanceId("Cake_02_1"), True),
-        ("carrot", ObjectInstanceId("Carrot_01_1"), True),
-        ("coffeemug", ObjectInstanceId("CoffeeMug_Boss_1"), False),
-        ("coffeemug", ObjectInstanceId("CoffeeMug_Yellow_1"), True),
-        ("donut", ObjectInstanceId("Donut_01_1"), True),
-        ("milk", ObjectInstanceId("MilkCarton_01_1"), False),
-        ("sodacan", ObjectInstanceId("CanSodaNew_01_1"), False),
+        ("apple", ObjectInstanceId.parse_obj("Apple_1"), True),
+        ("banana", ObjectInstanceId.parse_obj("Banana_01_1"), False),
+        ("cake", ObjectInstanceId.parse_obj("Cake_02_1"), True),
+        ("carrot", ObjectInstanceId.parse_obj("Carrot_01_1"), True),
+        ("coffeemug", ObjectInstanceId.parse_obj("CoffeeMug_Boss_1"), False),
+        ("coffeemug", ObjectInstanceId.parse_obj("CoffeeMug_Yellow_1"), True),
+        ("donut", ObjectInstanceId.parse_obj("Donut_01_1"), True),
+        ("milk", ObjectInstanceId.parse_obj("MilkCarton_01_1"), False),
+        ("sodacan", ObjectInstanceId.parse_obj("CanSodaNew_01_1"), False),
     ]
 
     for object_readable_name, object_instance_id, with_color_variants in object_iterator:
@@ -525,14 +525,14 @@ def register_freezer_interactions() -> None:
     container_object = required_objects_builder.freezer()
 
     object_iterator = [
-        ("apple", ObjectInstanceId("Apple_1"), True),
-        ("banana", ObjectInstanceId("Banana_01_1"), False),
-        ("cake", ObjectInstanceId("Cake_02_1"), True),
-        ("carrot", ObjectInstanceId("Carrot_01_1"), True),
-        ("coffeemug", ObjectInstanceId("CoffeeMug_Boss_1"), False),
-        ("coffeemug", ObjectInstanceId("CoffeeMug_Yellow_1"), True),
-        ("donut", ObjectInstanceId("Donut_01_1"), True),
-        ("sodacan", ObjectInstanceId("CanSodaNew_01_1"), False),
+        ("apple", ObjectInstanceId.parse_obj("Apple_1"), True),
+        ("banana", ObjectInstanceId.parse_obj("Banana_01_1"), False),
+        ("cake", ObjectInstanceId.parse_obj("Cake_02_1"), True),
+        ("carrot", ObjectInstanceId.parse_obj("Carrot_01_1"), True),
+        ("coffeemug", ObjectInstanceId.parse_obj("CoffeeMug_Boss_1"), False),
+        ("coffeemug", ObjectInstanceId.parse_obj("CoffeeMug_Yellow_1"), True),
+        ("donut", ObjectInstanceId.parse_obj("Donut_01_1"), True),
+        ("sodacan", ObjectInstanceId.parse_obj("CanSodaNew_01_1"), False),
     ]
 
     for object_readable_name, object_instance_id, with_color_variants in object_iterator:
@@ -559,22 +559,30 @@ def register_time_machine_interactions() -> None:
         (
             "bowl",
             RequiredObject(
-                name=ObjectInstanceId("Bowl_01_1"),
+                name=ObjectInstanceId.parse_obj("Bowl_01_1"),
                 state=[RequiredObjectState.from_parts("isBroken", "true")],
             ),
             "bowl",
-            [ObjectGoalState.from_parts(ObjectInstanceId("Bowl_01_1"), "isBroken", "false")],
+            [
+                ObjectGoalState.from_parts(
+                    ObjectInstanceId.parse_obj("Bowl_01_1"), "isBroken", "false"
+                )
+            ],
             True,
         ),
         # Restore bowls of various colours
         (
             "bowl",
             RequiredObject(
-                name=ObjectInstanceId("Bowl_01_1"),
+                name=ObjectInstanceId.parse_obj("Bowl_01_1"),
                 state=[RequiredObjectState.from_parts("isColorChanged", "true")],
             ),
             "bowl",
-            [ObjectGoalState.from_parts(ObjectInstanceId("Bowl_01_1"), "isColorChanged", "false")],
+            [
+                ObjectGoalState.from_parts(
+                    ObjectInstanceId.parse_obj("Bowl_01_1"), "isColorChanged", "false"
+                )
+            ],
             True,
         ),
     ]
