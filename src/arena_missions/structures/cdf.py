@@ -36,7 +36,7 @@ class CDFScene(BaseModel):
     room_location: list[OfficeRoom] = Field(
         ..., alias="roomLocation", description="Start location of the robot"
     )
-    required_objects: list[RequiredObject] = Field(..., alias="requiredObjects")
+    required_objects: list[RequiredObject]
     layout_override: OfficeLayout = Field(
         ..., description="Override the layout", alias="layoutOverride"
     )

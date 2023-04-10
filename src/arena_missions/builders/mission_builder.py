@@ -49,7 +49,7 @@ class MissionBuilder:
 
         cdf_scene = CDFScene(
             roomLocation=[challenge_builder_output.start_room],
-            requiredObjects=required_objects,
+            required_objects=required_objects,
             layoutOverride=self.generate_office_layout_if_required(
                 challenge_builder_output.office_layout
             ),
