@@ -34,8 +34,7 @@ The session IDs are all prefixed with `T2-`, and therefore can be found in OpenS
    and then run:
 
    ```bash
-   python -m simbot_offline_inference prepare-trajectory-data [T1|T2]
-   sudo -E env PATH=$PATH poetry run python -m simbot_offline_inference run_background_services
+   sudo -E env PATH=$PATH poetry run python -m simbot_offline_inference run-background-services
    sudo -E env PATH=$PATH LOG_LEVEL=DEBUG poetry run python -m simbot_offline_inference run_evaluation [ARGS]
    ```
 
