@@ -45,7 +45,7 @@ class RequiredObjectBuilder:
         """Generate all 3 broken cords for the arena."""
         return [
             RequiredObject(
-                name=ObjectInstanceId(f"BrokenCord_01_{cord_num}"),
+                name=ObjectInstanceId(f"Broken_Cord_01_{cord_num}"),
                 state=[
                     RequiredObjectState.from_parts("isToggledOn", "true" if is_on else "false")
                 ],
@@ -68,7 +68,7 @@ class RequiredObjectBuilder:
     def computer_monitors(self) -> list[RequiredObject]:
         """Generate all computer monitors for the arena."""
         return [
-            RequiredObject(name=ObjectInstanceId(f"ComputerMonitor_01_{monitor_num}"))
+            RequiredObject(name=ObjectInstanceId(f"Computer_Monitor_01_{monitor_num}"))
             for monitor_num in range(1, self.num_computer_monitors + 1)
         ]
 
