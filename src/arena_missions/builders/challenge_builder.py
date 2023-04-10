@@ -10,6 +10,7 @@ from arena_missions.builders.required_objects_builder import RequiredObjectBuild
 from arena_missions.constants.arena import ObjectColor, OfficeLayout, OfficeRoom
 from arena_missions.structures import HighLevelKey, RequiredObject, TaskGoal
 from arena_missions.structures.object_id import ObjectInstanceId
+from arena_missions.structures.required_object import RequiredObjectState
 from arena_missions.structures.task_goal import ObjectGoalState
 
 
@@ -135,48 +136,87 @@ class ChallengeBuilder:
         return wrapper
 
 
-@ChallengeBuilder.register("#action=timemachine#target-object=bowl#converted-object=bowl")
-@ChallengeBuilder.register("#action=timemachine#target-object=broken-bowl#converted-object=bowl")
-def operate_timemachine_with_broken_bowl() -> ChallengeBuilderOutput:
-    """Operate the time machine with a broken bowl."""
+def operate_time_machine(
+    target_object_readable_name: str,
+    target_object: RequiredObject,
+    converted_object_readable_name: str,
+    target_object_goal_states: list[ObjectGoalState],
+    *,
+    with_color_variants: bool = False,
+) -> None:
+    """Generate challenges to operate the time machine."""
     required_object_builder = RequiredObjectBuilder()
+
+    # High level key template
+    high_level_key_template = "#action=timemachine#target-object={target_object}{target_object_color}#converted-object={converted_object}"
+
     # Create time machine
     time_machine = required_object_builder.time_machine()
     time_machine.add_state("Unique", "true")
 
-    # Create brokwn bowl
-    broken_bowl = RequiredObject.from_string("Bowl_01_1")
-    broken_bowl.add_state("isBroken", "true")
-    broken_bowl.add_state("Unique", "true")
-    broken_bowl.add_state("isPickedUp", "true")
+    def operate_time_machine_challenge_builder() -> ChallengeBuilderOutput:
+        # Make sure the target object has been picked up and is unique
+        target_object.add_state("isPickedUp", "true")
+        target_object.add_state("Unique", "true")
 
-    goals = [
-        # Turn on the time machine with the bowl inside
-        TaskGoal.from_object_goal_states(
-            [
-                ObjectGoalState.from_parts(time_machine.name, "isToggledOn", "true"),
-                ObjectGoalState.from_parts(time_machine.name, "Contains", broken_bowl.name),
-            ],
-            relation="and",
-        ),
-        # Pick up the non-broken bowl
-        TaskGoal.from_object_goal_states(
-            [
-                ObjectGoalState.from_parts(broken_bowl.name, "isBroken", "false"),
-                ObjectGoalState.from_parts(broken_bowl.name, "isPickedUp", "true"),
-            ],
-            relation="and",
-        ),
-    ]
+        goals = [
+            # Turn on the time machine with the bowl inside
+            TaskGoal.from_object_goal_states(
+                [
+                    ObjectGoalState.from_parts(time_machine.name, "isToggledOn", "true"),
+                    ObjectGoalState.from_parts(time_machine.name, "Contains", target_object.name),
+                ],
+                relation="and",
+            ),
+            # Pick up the new object and make sure the time machine is closed
+            TaskGoal.from_object_goal_states(
+                [
+                    ObjectGoalState.from_parts(time_machine.name, "isOpen", "false"),
+                    ObjectGoalState.from_parts(target_object.name, "isPickedUp", "true"),
+                    # Also make sure the target color is not changed anymore
+                    # TODO: Verify this one?
+                    ObjectGoalState.from_parts(target_object.name, "isColorChanged", "false"),
+                    *target_object_goal_states,
+                ],
+                relation="and",
+            ),
+        ]
 
-    return ChallengeBuilderOutput(
-        start_room="BreakRoom",
-        required_objects={"timemachine": time_machine, "brokenbowl": broken_bowl},
-        task_goals=goals,
-        plans=[
+        plans = [
             [
                 "go to the time machine",
                 "open the time machine",
+                f"put the {target_object_readable_name} in the time machine",
+                "close the time machine",
+                "turn on the time machine",
+                "open the time machine",
+                f"pick up the {converted_object_readable_name} from the time machine",
+                "close the time machine",
+            ]
+        ]
+
+        return ChallengeBuilderOutput(
+            start_room="BreakRoom",
+            required_objects={
+                "timemachine": time_machine,
+                target_object_readable_name: target_object,
+            },
+            task_goals=goals,
+            plans=plans,
+        )
+
+    def operate_open_time_machine_challenge_builder() -> ChallengeBuilderOutput:
+        """Create challenge builder to operate an open time machine."""
+        # Use the other challenge builder to get the output
+        builder_output = operate_time_machine_challenge_builder()
+        builder_output = deepcopy(builder_output)
+
+        # Open the time machine
+        builder_output.required_objects["timemachine"].add_state("isOpen", "true")
+        # Change the plans
+        builder_output.plans = [
+            [
+                "go to the time machine",
                 "put the bowl in the time machine",
                 "close the time machine",
                 "turn on the time machine",
@@ -184,33 +224,46 @@ def operate_timemachine_with_broken_bowl() -> ChallengeBuilderOutput:
                 "pick up the bowl from the time machine",
                 "close the time machine",
             ]
-        ],
-    )
-
-
-@ChallengeBuilder.register("#action=timemachine#target-object=bowl#converted-object=bowl")
-def operate_open_timemachine_with_broken_bowl() -> ChallengeBuilderOutput:
-    """Operate an open time machine with a broken bowl."""
-    # Use the other challenge builder to get the output
-    builder_output = operate_timemachine_with_broken_bowl()
-
-    # Open the time machine
-    builder_output.required_objects["timemachine"].add_state("isOpen", "true")
-
-    # Change the plans
-    builder_output.plans = [
-        [
-            "go to the time machine",
-            "put the bowl in the time machine",
-            "close the time machine",
-            "turn on the time machine",
-            "open the time machine",
-            "pick up the bowl from the time machine",
-            "close the time machine",
         ]
-    ]
+        return builder_output
 
-    return builder_output
+    ChallengeBuilder.register(
+        high_level_key_template.format(
+            target_object=target_object_readable_name,
+            target_object_color="",
+            converted_object=converted_object_readable_name,
+        )
+    )(operate_time_machine_challenge_builder)
+    ChallengeBuilder.register(
+        high_level_key_template.format(
+            target_object=target_object_readable_name,
+            target_object_color="",
+            converted_object=converted_object_readable_name,
+        )
+    )(operate_open_time_machine_challenge_builder)
+
+    if with_color_variants:
+        for color in get_args(ObjectColor):
+            high_level_key = high_level_key_template.format(
+                target_object=target_object_readable_name,
+                target_object_color=f"#target-object-color={color.lower()}",
+                converted_object=converted_object_readable_name,
+            )
+            colored_target_object_kwargs = {
+                "required_objects": {
+                    target_object_readable_name: {
+                        "colors": [color],
+                    }
+                },
+            }
+
+            # Register the challenge builder with the modifications
+            ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
+                operate_time_machine_challenge_builder
+            )
+            ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
+                operate_open_time_machine_challenge_builder
+            )
 
 
 def pickup_object_from_breakroom_container(
@@ -501,6 +554,50 @@ def register_freezer_interactions() -> None:
         )
 
 
+def register_time_machine_interactions() -> None:
+    """Register challenges which operate the time machine."""
+    object_iterator = [
+        # Restore broken bowls
+        (
+            "bowl",
+            RequiredObject(
+                name=ObjectInstanceId("Bowl_01_1"),
+                state=[RequiredObjectState.from_parts("isBroken", "true")],
+            ),
+            "bowl",
+            [ObjectGoalState.from_parts(ObjectInstanceId("Bowl_01_1"), "isBroken", "false")],
+            True,
+        ),
+        # Restore bowls of various colours
+        (
+            "bowl",
+            RequiredObject(
+                name=ObjectInstanceId("Bowl_01_1"),
+                state=[RequiredObjectState.from_parts("isColorChanged", "true")],
+            ),
+            "bowl",
+            [ObjectGoalState.from_parts(ObjectInstanceId("Bowl_01_1"), "isColorChanged", "false")],
+            True,
+        ),
+    ]
+
+    for (  # noqa: WPS352
+        object_readable_name,
+        target_object,
+        converted_object_readable_name,
+        target_object_goal_states,
+        with_color_variants,
+    ) in object_iterator:
+        operate_time_machine(
+            object_readable_name,
+            target_object,
+            converted_object_readable_name,
+            target_object_goal_states,
+            with_color_variants=with_color_variants,
+        )
+
+
 # Run the challenge builders
 register_fridge_interactions()
 register_freezer_interactions()
+register_time_machine_interactions()
