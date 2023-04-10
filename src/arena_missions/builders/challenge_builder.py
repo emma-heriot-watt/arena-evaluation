@@ -174,8 +174,6 @@ def operate_time_machine(
                     ObjectGoalState.from_parts(time_machine.name, "isOpen", "false"),
                     ObjectGoalState.from_parts(target_object.name, "isPickedUp", "true"),
                     # Also make sure the target color is not changed anymore
-                    # TODO: Verify this one?
-                    ObjectGoalState.from_parts(target_object.name, "isColorChanged", "false"),
                     *target_object_goal_states,
                 ],
                 relation="and",
