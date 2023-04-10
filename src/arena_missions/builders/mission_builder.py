@@ -19,9 +19,17 @@ class MissionBuilder:
         self,
         challenge_builder: ChallengeBuilder,
         required_object_builder: RequiredObjectBuilder,
+        unity_scene_rng_seed: Optional[int] = None,
     ) -> None:
         self.challenge_builder = challenge_builder
         self.required_object_builder = required_object_builder
+
+        self._unity_scene_rng_seed = unity_scene_rng_seed
+
+    @property
+    def cdf_floor_plan(self) -> str:
+        """Convert the Unity Scene RNG seed to a string for the `floor_plan`."""
+        return str(self._unity_scene_rng_seed) if self._unity_scene_rng_seed is not None else "-1"
 
     def generate_all_missions(self) -> Iterator[Mission]:
         """Generate all missions."""
@@ -49,6 +57,7 @@ class MissionBuilder:
 
         cdf_scene = CDFScene(
             roomLocation=[challenge_builder_output.start_room],
+            floor_plan=self.cdf_floor_plan,
             required_objects=required_objects,
             layoutOverride=self.generate_office_layout_if_required(
                 challenge_builder_output.office_layout
