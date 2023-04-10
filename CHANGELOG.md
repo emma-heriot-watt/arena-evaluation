@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.3.0...v2.4.0) (2023-04-10)
+
+
+### Features
+
+* add `insert` and `vendingmachine` actions to the high-level key structure ([a6486a2](https://github.com/emma-simbot/simbot-offline-inference/commit/a6486a2fc031c9c19a2c5ab36b15b1b640cec645))
+* add command to print the high-levels keys that we have challenges for ([051043e](https://github.com/emma-simbot/simbot-offline-inference/commit/051043eac59053c09039dd16099fa5eaeb807c91))
+
 ## [2.3.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.2.0...v2.3.0) (2023-04-09)
 
 
