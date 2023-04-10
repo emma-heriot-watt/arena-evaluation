@@ -1,8 +1,11 @@
+from contextlib import ExitStack
 from pathlib import Path
 from typing import Any, NamedTuple, Optional, Union
 
 from loguru import logger
-from rich.progress import track
+from rich.live import Live
+from rich.panel import Panel
+from rich.progress import BarColumn, MofNCompleteColumn, Progress, TimeElapsedColumn
 
 from arena_missions.structures import CDF
 from simbot_offline_inference.orchestrators import ArenaOrchestrator
@@ -11,6 +14,7 @@ from simbot_offline_inference.orchestrators import ArenaOrchestrator
 UNITY_FAILURES = {  # noqa: WPS407
     "UNABLE_TO_SPAWN_OBJECTS": "The objects that were unable to spawn are",
     "DUPLICATE_KEYS_IN_CDF": "ArgumentException: An item with the same key has already been added",
+    "IMPROPER_OBJECT_REFERENCE": "Object reference not set to an instance of an object",
 }
 
 
@@ -47,17 +51,32 @@ class ChallengeValidator:
         self._arena_orchestrator = arena_orchestrator
         self._send_dummy_actions_after_cdf_load = send_dummy_actions_after_cdf_load
 
+        self.progress = Progress(
+            "{task.description}",
+            BarColumn(bar_width=None),
+            MofNCompleteColumn(),
+            TimeElapsedColumn(),
+            expand=True,
+        )
+
     def validate_cdfs(self, cdfs: list[CDFValidationInstance]) -> bool:
         """Validate the CDFs with the Arena."""
-        iterator = track(cdfs, description="Validating CDFs", total=len(cdfs))
+        task_id = self.progress.add_task("Validating CDFs", total=len(cdfs))
 
-        with self._arena_orchestrator:
-            for instance in iterator:
+        # Create the context managers
+        context_manager_stack = ExitStack()
+        context_manager_stack.enter_context(self._display_progress())
+        context_manager_stack.enter_context(self._arena_orchestrator)
+
+        with context_manager_stack:
+            for instance in cdfs:
                 try:
                     self._validate_single_cdf(instance.cdf)
                 except InvalidCDFException:
                     logger.error(f"Failed to validate CDF: {instance.path}")
                     return False
+
+                self.progress.advance(task_id)
 
         return True
 
@@ -81,3 +100,7 @@ class ChallengeValidator:
                     return check_name
 
         return None
+
+    def _display_progress(self) -> Live:
+        """Display the progress bar."""
+        return Live(Panel(self.progress, padding=(1, 4), border_style="yellow"))
