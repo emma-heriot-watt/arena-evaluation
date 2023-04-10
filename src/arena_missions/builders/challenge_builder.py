@@ -213,7 +213,7 @@ def operate_open_timemachine_with_broken_bowl() -> ChallengeBuilderOutput:
     return builder_output
 
 
-def pickup_object_from_container(
+def pickup_object_from_breakroom_container(
     object_readable_name: str,
     object_instance_id: ObjectInstanceId,
     container_readable_name: str,
@@ -242,6 +242,11 @@ def pickup_object_from_container(
                 ],
                 relation="and",
             ),
+            # Close the container
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(container_object.name, "isOpen", "false")],
+                relation="and",
+            ),
         ]
 
         return ChallengeBuilderOutput(
@@ -261,7 +266,7 @@ def pickup_object_from_container(
             ],
         )
 
-    def wrapper_open_container() -> ChallengeBuilderOutput:  # noqa: WPS430
+    def wrapper_open_container() -> ChallengeBuilderOutput:
         wrapper_output = wrapper()
         wrapper_output.required_objects[container_readable_name].add_state("isOpen", "true")
         wrapper_output.plans = [
@@ -314,110 +319,188 @@ def pickup_object_from_container(
             )
 
 
+def place_object_in_breakroom_container(
+    object_readable_name: str,
+    object_instance_id: ObjectInstanceId,
+    container_readable_name: str,
+    container_object: RequiredObject,
+    *,
+    with_color_variants: bool = False,
+) -> None:
+    """Generate challenges to place objects in containers."""
+    # High level key template
+    high_level_key_template = "#action=pickup#target-object={object}{target_object_color}#from-receptacle={container}#from-receptacle-is-container"
+
+    def wrapper() -> ChallengeBuilderOutput:
+        # Create object
+        target_object = RequiredObject(name=object_instance_id)
+        target_object.add_state("Unique", "true")
+        target_object.add_state("isPickedUp", "true")
+
+        goals = [
+            # Place the object in an open container
+            TaskGoal.from_object_goal_states(
+                [
+                    ObjectGoalState.from_parts(container_object.name, "isOpen", "true"),
+                    ObjectGoalState.from_parts(target_object.name, "isPickedUp", "false"),
+                    ObjectGoalState.from_parts(
+                        container_object.name, "Contains", target_object.name
+                    ),
+                ],
+                relation="and",
+            ),
+            # Close the container with the object inside
+            TaskGoal.from_object_goal_states(
+                [
+                    ObjectGoalState.from_parts(container_object.name, "isOpen", "false"),
+                    ObjectGoalState.from_parts(
+                        container_object.name, "Contains", target_object.name
+                    ),
+                ],
+                relation="and",
+            ),
+        ]
+
+        return ChallengeBuilderOutput(
+            start_room="BreakRoom",
+            required_objects={
+                container_readable_name: container_object,
+                object_readable_name: target_object,
+            },
+            task_goals=goals,
+            plans=[
+                [
+                    f"go to the {container_readable_name}",
+                    f"open the {container_readable_name}",
+                    f"put the {object_readable_name} in the {container_readable_name}",
+                    f"close the {container_readable_name}",
+                ]
+            ],
+        )
+
+    def wrapper_open_container() -> ChallengeBuilderOutput:
+        wrapper_output = wrapper()
+        wrapper_output.required_objects[container_readable_name].add_state("isOpen", "true")
+        wrapper_output.plans = [
+            [
+                f"go to the {container_readable_name}",
+                f"place the {object_readable_name} in the {container_readable_name}",
+                f"close the {container_readable_name}",
+            ]
+        ]
+        return wrapper_output
+
+    # Register the challenge normally
+    ChallengeBuilder.register(
+        high_level_key_template.format(
+            object=object_readable_name, target_object_color="", container=container_readable_name
+        )
+    )(wrapper)
+    # Register with an open container
+    ChallengeBuilder.register(
+        high_level_key_template.format(
+            object=object_readable_name, target_object_color="", container=container_readable_name
+        ),
+    )(wrapper_open_container)
+
+    if with_color_variants:
+        # Register variants with a specific target-object color
+        for color in get_args(ObjectColor):
+            # Create the high level key
+            high_level_key = high_level_key_template.format(
+                object=object_readable_name,
+                target_object_color=f"#target-object-color={color.lower()}",
+                container=container_readable_name,
+            )
+
+            # How should the challenge builder output be modified?
+            colored_target_object_kwargs = {
+                "required_objects": {
+                    object_readable_name: {
+                        "colors": [color],
+                    }
+                },
+            }
+
+            # Register the challenge builder with the modifications
+            ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
+                wrapper
+            )
+            ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
+                wrapper_open_container
+            )
+
+
 # Higher-order challenge builders
-def register_pickup_object_from_fridge() -> None:
+def register_fridge_interactions() -> None:
     """Register pickup object from fridge challenges."""
     required_objects_builder = RequiredObjectBuilder()
     container_readable_name = "fridge"
     container_object = required_objects_builder.fridge()
-    pickup_object_from_container(
-        "apple",
-        ObjectInstanceId("Apple_1"),
-        container_readable_name,
-        container_object,
-        with_color_variants=True,
-    )
-    pickup_object_from_container(
-        "banana", ObjectInstanceId("Banana_01_1"), container_readable_name, container_object
-    )
-    pickup_object_from_container(
-        "cake",
-        ObjectInstanceId("Cake_02_1"),
-        container_readable_name,
-        container_object,
-        with_color_variants=True,
-    )
-    pickup_object_from_container(
-        "carrot", ObjectInstanceId("Carrot_01_1"), container_readable_name, container_object
-    )
-    pickup_object_from_container(
-        "coffeemug",
-        ObjectInstanceId("CoffeeMug_Boss_1"),
-        container_readable_name,
-        container_object,
-    )
-    pickup_object_from_container(
-        "coffeemug",
-        ObjectInstanceId("CoffeeMug_Yellow_1"),
-        container_readable_name,
-        container_object,
-        with_color_variants=True,
-    )
-    pickup_object_from_container(
-        "donut",
-        ObjectInstanceId("Donut_01_1"),
-        container_readable_name,
-        container_object,
-        with_color_variants=True,
-    )
-    pickup_object_from_container(
-        "milk", ObjectInstanceId("MilkCarton_01_1"), container_readable_name, container_object
-    )
-    pickup_object_from_container(
-        "sodacan", ObjectInstanceId("CanSodaNew_01_1"), container_readable_name, container_object
-    )
+
+    object_iterator = [
+        ("apple", ObjectInstanceId("Apple_1"), True),
+        ("banana", ObjectInstanceId("Banana_01_1"), False),
+        ("cake", ObjectInstanceId("Cake_02_1"), True),
+        ("carrot", ObjectInstanceId("Carrot_01_1"), True),
+        ("coffeemug", ObjectInstanceId("CoffeeMug_Boss_1"), False),
+        ("coffeemug", ObjectInstanceId("CoffeeMug_Yellow_1"), True),
+        ("donut", ObjectInstanceId("Donut_01_1"), True),
+        ("milk", ObjectInstanceId("MilkCarton_01_1"), False),
+        ("sodacan", ObjectInstanceId("CanSodaNew_01_1"), False),
+    ]
+
+    for object_readable_name, object_instance_id, with_color_variants in object_iterator:
+        pickup_object_from_breakroom_container(
+            object_readable_name,
+            object_instance_id,
+            container_readable_name,
+            container_object,
+            with_color_variants=with_color_variants,
+        )
+        place_object_in_breakroom_container(
+            object_readable_name,
+            object_instance_id,
+            container_readable_name,
+            container_object,
+            with_color_variants=with_color_variants,
+        )
 
 
-def register_pickup_object_from_freezer() -> None:
+def register_freezer_interactions() -> None:
     """Register pickup object from freezer challenges."""
     required_objects_builder = RequiredObjectBuilder()
     container_readable_name = "freezer"
     container_object = required_objects_builder.freezer()
-    pickup_object_from_container(
-        "apple",
-        ObjectInstanceId("Apple_1"),
-        container_readable_name,
-        container_object,
-        with_color_variants=True,
-    )
-    pickup_object_from_container(
-        "banana", ObjectInstanceId("Banana_01_1"), container_readable_name, container_object
-    )
-    pickup_object_from_container(
-        "cake",
-        ObjectInstanceId("Cake_02_1"),
-        container_readable_name,
-        container_object,
-        with_color_variants=True,
-    )
-    pickup_object_from_container(
-        "carrot", ObjectInstanceId("Carrot_01_1"), container_readable_name, container_object
-    )
-    pickup_object_from_container(
-        "coffeemug",
-        ObjectInstanceId("CoffeeMug_Boss_1"),
-        container_readable_name,
-        container_object,
-    )
-    pickup_object_from_container(
-        "coffeemug",
-        ObjectInstanceId("CoffeeMug_Yellow_1"),
-        container_readable_name,
-        container_object,
-        with_color_variants=True,
-    )
-    pickup_object_from_container(
-        "donut",
-        ObjectInstanceId("Donut_01_1"),
-        container_readable_name,
-        container_object,
-        with_color_variants=True,
-    )
-    pickup_object_from_container(
-        "sodacan", ObjectInstanceId("CanSodaNew_01_1"), container_readable_name, container_object
-    )
+
+    object_iterator = [
+        ("apple", ObjectInstanceId("Apple_1"), True),
+        ("banana", ObjectInstanceId("Banana_01_1"), False),
+        ("cake", ObjectInstanceId("Cake_02_1"), True),
+        ("carrot", ObjectInstanceId("Carrot_01_1"), True),
+        ("coffeemug", ObjectInstanceId("CoffeeMug_Boss_1"), False),
+        ("coffeemug", ObjectInstanceId("CoffeeMug_Yellow_1"), True),
+        ("donut", ObjectInstanceId("Donut_01_1"), True),
+        ("sodacan", ObjectInstanceId("CanSodaNew_01_1"), False),
+    ]
+
+    for object_readable_name, object_instance_id, with_color_variants in object_iterator:
+        pickup_object_from_breakroom_container(
+            object_readable_name,
+            object_instance_id,
+            container_readable_name,
+            container_object,
+            with_color_variants=with_color_variants,
+        )
+        place_object_in_breakroom_container(
+            object_readable_name,
+            object_instance_id,
+            container_readable_name,
+            container_object,
+            with_color_variants=with_color_variants,
+        )
 
 
 # Run the challenge builders
-register_pickup_object_from_fridge()
-register_pickup_object_from_freezer()
+register_fridge_interactions()
+register_freezer_interactions()
