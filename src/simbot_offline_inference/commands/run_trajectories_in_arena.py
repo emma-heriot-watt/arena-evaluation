@@ -9,19 +9,7 @@ from simbot_offline_inference.orchestrators import ArenaOrchestrator, Experience
 from simbot_offline_inference.settings import Settings
 
 
-def limit_instances_to_evaluate(
-    instances: list[MissionTrajectory],
-    num_instances: int,
-    start_index: int = 0,
-) -> list[MissionTrajectory]:
-    """Limit the number of instances evaluated."""
-    end_index = start_index + num_instances
-    instances = instances[start_index:end_index]
-    logger.info(f"Running {len(instances)} instance from subset [{start_index}:{end_index}]")
-    return instances
-
-
-def run_evaluation(
+def run_trajectories_in_arena(
     instances: list[MissionTrajectory],
     session_id_prefix: str,
     *,
