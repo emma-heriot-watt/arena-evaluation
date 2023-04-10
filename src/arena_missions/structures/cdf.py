@@ -56,7 +56,9 @@ class CDFScene(BaseModel):
     @classmethod
     def check_floor_plan_is_numeric(cls, floor_plan: str) -> str:
         """Check that floor plan is a numeric string."""
-        if not floor_plan.isdigit():
+        try:
+            int(floor_plan)
+        except ValueError:
             raise ValueError(f"Floor plan must be numeric string, got {floor_plan}")
         return floor_plan
 
