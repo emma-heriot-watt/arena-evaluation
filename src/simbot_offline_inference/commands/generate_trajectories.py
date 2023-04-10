@@ -1,4 +1,5 @@
 import itertools
+import random
 from enum import Enum
 from pathlib import Path
 from typing import Optional
@@ -19,7 +20,7 @@ class TrajectoryGenerationType(Enum):
 
 
 def generate_trajectories_from_directory(
-    cdf_dir: Path, enable_randomness_in_session_id: bool = False
+    cdf_dir: Path, enable_randomness_in_session_id: bool = False, randomise_order: bool = False
 ) -> None:
     """Generate trajectories from the missions."""
     if not cdf_dir.is_dir():
@@ -42,6 +43,9 @@ def generate_trajectories_from_directory(
 
     logger.info(f"Loaded {len(trajectories)} separate trajectories.")
 
+    if randomise_order:
+        random.shuffle(trajectories)
+
     run_trajectories_in_arena(
         trajectories,
         session_id_prefix="T",
@@ -50,7 +54,7 @@ def generate_trajectories_from_directory(
 
 
 def generate_trajectories_from_mission_builder(
-    enable_randomness_in_session_id: bool = False,
+    enable_randomness_in_session_id: bool = False, randomise_order: bool = False
 ) -> None:
     """Generate trajectories from auto-generated missions."""
     settings = Settings()
@@ -71,6 +75,9 @@ def generate_trajectories_from_mission_builder(
 
     logger.info(f"Loaded {len(trajectories)} separate trajectories.")
 
+    if randomise_order:
+        random.shuffle(trajectories)
+
     run_trajectories_in_arena(
         trajectories,
         session_id_prefix="T",
@@ -82,14 +89,19 @@ def generate_trajectories(
     trajectory_generation_type: TrajectoryGenerationType,
     cdf_dir: Optional[Path] = None,
     enable_randomisation_in_session_id: bool = False,
+    randomise_order: bool = False,
 ) -> None:
     """Generate trajectories from the missions."""
     if trajectory_generation_type == TrajectoryGenerationType.from_directory:
         if cdf_dir is None:
             raise ValueError("The directory for the CDF files must be provided.")
-        return generate_trajectories_from_directory(cdf_dir, enable_randomisation_in_session_id)
+        return generate_trajectories_from_directory(
+            cdf_dir, enable_randomisation_in_session_id, randomise_order
+        )
 
     if trajectory_generation_type == TrajectoryGenerationType.from_mission_builder:
-        return generate_trajectories_from_mission_builder(enable_randomisation_in_session_id)
+        return generate_trajectories_from_mission_builder(
+            enable_randomisation_in_session_id, randomise_order
+        )
 
     raise ValueError("Unknown trajectory generation type.")
