@@ -16,12 +16,15 @@ OperateAction = Literal[
     "gravitypad",
     "microwave",
     "timemachine",
+    "vendingmachine",
 ]
 InstructionAction = Literal[
     "break",
     "clean",
     "close",
     "fill",
+    # Insert: objects that go into receptacles like floppy disks into a computer
+    "insert",
     "open",
     "pickup",
     "place",
