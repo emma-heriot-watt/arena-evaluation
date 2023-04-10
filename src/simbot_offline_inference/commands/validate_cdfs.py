@@ -1,7 +1,11 @@
 from pathlib import Path
 
 from loguru import logger
+from rich import print as rich_print
+from rich.columns import Columns
+from rich.panel import Panel
 
+from arena_missions.builders import ChallengeBuilder
 from arena_missions.structures import Mission
 from emma_common.logging import setup_rich_logging
 from simbot_offline_inference.challenge_validator import CDFValidationInstance, ChallengeValidator
@@ -32,3 +36,20 @@ def validate_cdfs(directory: Path) -> None:
     challenge_validator.validate_cdfs(cdfs)
 
     logger.info("Done.")
+
+
+def print_high_level_keys() -> None:
+    """Print all the high level keys from the registered challenge builder."""
+    keys = sorted([str(key) for key in ChallengeBuilder.list_available()])
+    columns = Columns(keys)
+    panel = Panel(
+        columns,
+        title="Registered high-level keys",
+        border_style="green",
+        subtitle=f"Total: {len(keys)}",
+    )
+    rich_print(panel)
+
+
+if __name__ == "__main__":
+    print_high_level_keys()

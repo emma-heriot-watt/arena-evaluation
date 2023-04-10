@@ -8,6 +8,7 @@ from loguru import logger
 from arena_missions.structures import Mission
 from simbot_offline_inference.commands import (
     limit_instances_to_evaluate,
+    print_high_level_keys,
     run_background_services,
     run_evaluation,
     validate_cdfs,
@@ -22,6 +23,7 @@ app = typer.Typer(name="Run inference offline.", no_args_is_help=True, add_compl
 app.command(rich_help_panel="Run")(run_background_services)
 
 app.command(rich_help_panel="Preparation")(validate_cdfs)
+app.command(rich_help_panel="Preparation")(print_high_level_keys)
 
 
 @app.command(rich_help_panel="Evaluation")
