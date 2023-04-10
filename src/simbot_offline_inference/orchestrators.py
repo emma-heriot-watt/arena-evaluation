@@ -109,13 +109,17 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
         action_builder = ArenaActionBuilder()
         actions_to_send = [action_builder.random() for _ in range(num_steps)]
 
-        return_val, _ = self.execute_action(actions_to_send, object_output_type, None)
+        for action in actions_to_send:
+            return_val, action_response = self.execute_action([action], object_output_type, None)
 
-        # If it succeeds, then just exit the loop since it's ready to go
-        if return_val:
-            return
+            # If it fails, raise assertion error
+            if not return_val:
+                # Explicitly do not raise if alternate navigation used SINCE THIS IS NOT AN ERROR
+                # ugh........
+                if action_response.get("errorType") != "AlternateNavigationUsed":
+                    raise AssertionError("Failed to randomise start position")
 
-        raise AssertionError("Failed to randomise start position")
+            time.sleep(5)
 
     def _get_unity_execution_command(self) -> str:
         settings = Settings()
