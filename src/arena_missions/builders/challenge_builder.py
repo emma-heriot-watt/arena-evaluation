@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from copy import deepcopy
 from itertools import groupby
-from typing import Any, Callable, Optional, Union, get_args
+from typing import Any, Callable, Literal, Optional, Union, get_args
 
 from deepmerge import always_merger
 from pydantic import BaseModel
@@ -489,6 +489,84 @@ def place_object_in_breakroom_container(
             )
 
 
+def clean_dirty_plate(room: Literal["BreakRoom", "Warehouse"]) -> None:
+    """Clean a dirty plate."""
+    # High level key template
+    high_level_key_template = "#action=clean#target-object={object}"
+
+    plate = RequiredObject(name=ObjectInstanceId.parse("FoodPlate_01"))
+    plate.add_state("Unique", "true")
+    plate.add_state("isDirty", "true")
+    plate.add_state("isPickedUp", "true")
+
+    sink = RequiredObject(name=ObjectInstanceId.parse("Sink_01"), roomLocation=[room])
+
+    def toggle_sink_before_clean() -> ChallengeBuilderOutput:
+        """Fill the sink before cleaning the plate."""
+        sink.update_state("isToggledOn", "false")
+
+        goals = [
+            # Fill the sink
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(sink.name, "isToggledOn", "true")],
+                relation="and",
+            ),
+            # Clean the plate
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(plate.name, "isDirty", "false")],
+                relation="and",
+            ),
+            # Drain the sink
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(sink.name, "isToggledOn", "true")],
+                relation="and",
+            ),
+        ]
+
+        plans = [
+            ["go to the sink", "toggle the sink", "clean the plate in the sink", "toggle the sink"]
+        ]
+
+        return ChallengeBuilderOutput(
+            start_room=room,
+            required_objects={sink.name: sink, plate.name: plate},
+            task_goals=goals,
+            plans=plans,
+        )
+
+    def sink_already_filled_before_clean() -> ChallengeBuilderOutput:
+        """Do not fill the sink before cleaning since it's already filled."""
+        sink.update_state("isToggledOn", "true")
+
+        goals = [
+            # Clean the plate
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(plate.name, "isDirty", "false")],
+                relation="and",
+            ),
+            # Drain the sink
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(sink.name, "isToggledOn", "true")],
+                relation="and",
+            ),
+        ]
+
+        plans = [["go to the sink", "clean the plate in the sink", "toggle the sink"]]
+        return ChallengeBuilderOutput(
+            start_room=room,
+            required_objects={sink.name: sink, plate.name: plate},
+            task_goals=goals,
+            plans=plans,
+        )
+
+    ChallengeBuilder.register(high_level_key_template.format(object=plate.readable_name))(
+        toggle_sink_before_clean
+    )
+    ChallengeBuilder.register(high_level_key_template.format(object=plate.readable_name))(
+        sink_already_filled_before_clean
+    )
+
+
 # Higher-order challenge builders
 def register_fridge_interactions() -> None:
     """Register pickup object from fridge challenges."""
@@ -577,7 +655,10 @@ def register_time_machine_interactions() -> None:
         )
 
 
-# Run the challenge builders
+# Run the challenge builder builders
 register_fridge_interactions()
 register_freezer_interactions()
 register_time_machine_interactions()
+
+clean_dirty_plate("BreakRoom")
+clean_dirty_plate("Warehouse")
