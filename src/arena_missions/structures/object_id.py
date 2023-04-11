@@ -1,8 +1,9 @@
-from typing import Any, Callable, Generator, get_args
-from pydantic import BaseModel, validator
+from collections.abc import Generator
+from typing import Any, Callable, get_args
+from typing_extensions import Self
 
 from arena_missions.constants.arena import ObjectIds
-from typing_extensions import Self
+
 
 def convert_object_instance_id_to_object_id(object_instance: str) -> str:
     """Convert object instance to object id.
@@ -11,8 +12,10 @@ def convert_object_instance_id_to_object_id(object_instance: str) -> str:
     """
     return object_instance[::-1].split("_", 1)[1][::-1]
 
+
 class ObjectId(str):  # noqa: WPS600
     """An object ID in the Arena."""
+
     @classmethod
     def __get_validators__(cls) -> Generator[Callable[..., Self], None, None]:
         """Return a generator of validators for this type."""
@@ -35,7 +38,7 @@ class ObjectId(str):  # noqa: WPS600
         return f"ObjectId({super().__repr__()})"
 
     @classmethod
-    def parse(cls, v: Any) -> Self: 
+    def parse(cls, v: Any) -> Self:
         """Parse the input."""
         return cls.validate(v)
 
@@ -74,7 +77,7 @@ class ObjectInstanceId(str):  # noqa: WPS600
         return f"ObjectInstanceId({super().__repr__()})"
 
     @classmethod
-    def parse(cls, v: Any) -> Self: 
+    def parse(cls, v: Any) -> Self:
         """Parse the input."""
         return cls.validate(v)
 
@@ -82,6 +85,3 @@ class ObjectInstanceId(str):  # noqa: WPS600
     def object_id(self) -> ObjectId:
         """Return the object ID of the object instance."""
         return ObjectId(convert_object_instance_id_to_object_id(self))
-    
-
-    

@@ -567,11 +567,7 @@ def register_time_machine_interactions() -> None:
                 state=[RequiredObjectState.from_parts("isBroken", "true")],
             ),
             "bowl",
-            [
-                ObjectGoalState.from_parts(
-                    ObjectInstanceId.parse("Bowl_01_1"), "isBroken", "false"
-                )
-            ],
+            [ObjectGoalState.from_parts(ObjectInstanceId.parse("Bowl_01_1"), "isBroken", "false")],
             True,
         ),
         # Restore bowls of various colours
