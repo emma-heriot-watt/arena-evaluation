@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.6.1...v2.7.0) (2023-04-11)
+
+
+### Features
+
+* lowercase the session ids (except for the prefix) ([eac8202](https://github.com/emma-simbot/simbot-offline-inference/commit/eac82027909d3d6ac14d666d4c94a7ec2f6e3dad))
+* separate the readable name from the object key when building challenges ([35fbde2](https://github.com/emma-simbot/simbot-offline-inference/commit/35fbde272867788cb44e864ce4eedd1567c125fb))
+* use readable names for the keys ([9c30b00](https://github.com/emma-simbot/simbot-offline-inference/commit/9c30b00fc30ce62d46b274c35d0db18fd20826c3))
+
 ## [2.6.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.6.0...v2.6.1) (2023-04-11)
 
 
