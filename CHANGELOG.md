@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.7.0...v2.8.0) (2023-04-11)
+
+
+### Features
+
+* add challenge to clean a plate in sink ([392518a](https://github.com/emma-simbot/simbot-offline-inference/commit/392518afc26cc3741d8b47f8b296a35b435cf249))
+
+
+### Bug Fixes
+
+* object instance ids for the sink and plate ([9354196](https://github.com/emma-simbot/simbot-offline-inference/commit/9354196947139ee57ad5eddcaf4e7006fdda99c6))
+* use deepcopy on the sink and create a trajectory for every layout ([0b004a5](https://github.com/emma-simbot/simbot-offline-inference/commit/0b004a588c04083afdf4f74491b508585c4bf9a4))
+
 ## [2.7.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.6.1...v2.7.0) (2023-04-11)
 
 
