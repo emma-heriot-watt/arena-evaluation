@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.6.0...v2.6.1) (2023-04-11)
+
+
+### Bug Fixes
+
+* add more error types to ignore when randomising start position ([f866cdb](https://github.com/emma-simbot/simbot-offline-inference/commit/f866cdb1168f891da9df29a734c4e2bb65025962))
+* go back to using `str` for `str`-based structures ([8a62425](https://github.com/emma-simbot/simbot-offline-inference/commit/8a62425bd55156606165b42650ebb153633b3aed))
+
 ## [2.6.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.5.0...v2.6.0) (2023-04-11)
 
 

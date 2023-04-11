@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "simbot-offline-inference"
-version = "2.6.0"
+version = "2.6.1"
 description = ""
 authors = ["Amit Parekh <7276308+amitkparekh@users.noreply.github.com>"]
 readme = "README.md"
