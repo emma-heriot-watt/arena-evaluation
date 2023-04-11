@@ -494,12 +494,14 @@ def clean_dirty_plate(room: Literal["BreakRoom", "Warehouse"]) -> None:
     # High level key template
     high_level_key_template = "#action=clean#target-object={object}"
 
-    plate = RequiredObject(name=ObjectInstanceId.parse("FoodPlate_01"))
+    plate = RequiredObject(name=ObjectInstanceId.parse("FoodPlate_01_1"))
     plate.add_state("Unique", "true")
     plate.add_state("isDirty", "true")
     plate.add_state("isPickedUp", "true")
 
-    sink = RequiredObject(name=ObjectInstanceId.parse("Sink_01"), roomLocation=[room])
+    sink = RequiredObject(
+        name=ObjectInstanceId.parse("KitchenCounterSink_01_1"), roomLocation=[room]
+    )
 
     def toggle_sink_before_clean() -> ChallengeBuilderOutput:
         """Fill the sink before cleaning the plate."""
