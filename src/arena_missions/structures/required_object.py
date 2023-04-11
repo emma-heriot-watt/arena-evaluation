@@ -136,6 +136,11 @@ class RequiredObject(BaseModel, validate_assignment=True):
         return values
 
     @property
+    def readable_name(self) -> str:
+        """Return the readable name of this object."""
+        return self.name.readable_name
+
+    @property
     def receptacle(self) -> Optional[ObjectInstanceId]:
         """Return the receptacle this object is in."""
         if self.location:

@@ -1,4 +1,8 @@
+from functools import lru_cache
+from pathlib import Path
 from typing import Literal
+
+import orjson
 
 
 OfficeLayout = Literal[
@@ -437,3 +441,11 @@ GoalStateExpressionKey = Literal[
 BooleanStr = Literal["true", "false"]
 SpawnRelation = Literal["in"]
 LiquidType = Literal["Water", "Milk", "Coffee"]
+
+
+@lru_cache(maxsize=1)
+def load_object_id_to_readable_name_map() -> dict[ObjectIds, str]:
+    """Load mapping of Object ID to a readable name."""
+    json_file = Path(__file__).parent.joinpath("object_id_to_readable_name.json")
+    mapping = orjson.loads(json_file.read_bytes())
+    return mapping

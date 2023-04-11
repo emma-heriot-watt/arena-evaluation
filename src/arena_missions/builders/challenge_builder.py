@@ -141,10 +141,7 @@ class ChallengeBuilder:
 
 
 def operate_time_machine(
-    target_object_key: str,
-    target_object_readable_name: str,
     target_object: RequiredObject,
-    converted_object_key: str,
     converted_object_readable_name: str,
     target_object_goal_states: list[ObjectGoalState],
     *,
@@ -190,7 +187,7 @@ def operate_time_machine(
             [
                 "go to the time machine",
                 "open the time machine",
-                f"put the {target_object_readable_name} in the time machine",
+                f"put the {target_object.readable_name} in the time machine",
                 "close the time machine",
                 "turn on the time machine",
                 "open the time machine",
@@ -203,7 +200,7 @@ def operate_time_machine(
             start_room="BreakRoom",
             required_objects={
                 "timemachine": time_machine,
-                target_object_key: target_object,
+                target_object.readable_name: target_object,
             },
             task_goals=goals,
             plans=plans,
@@ -221,7 +218,7 @@ def operate_time_machine(
         builder_output.plans = [
             [
                 "go to the time machine",
-                f"put the {target_object_readable_name} in the time machine",
+                f"put the {target_object.readable_name} in the time machine",
                 "close the time machine",
                 "turn on the time machine",
                 "open the time machine",
@@ -233,29 +230,29 @@ def operate_time_machine(
 
     ChallengeBuilder.register(
         high_level_key_template.format(
-            target_object=target_object_key,
+            target_object=target_object.readable_name,
             target_object_color="",
-            converted_object=converted_object_key,
+            converted_object=converted_object_readable_name,
         )
     )(operate_time_machine_challenge_builder)
     ChallengeBuilder.register(
         high_level_key_template.format(
-            target_object=target_object_key,
+            target_object=target_object.readable_name,
             target_object_color="",
-            converted_object=converted_object_key,
+            converted_object=converted_object_readable_name,
         )
     )(operate_open_time_machine_challenge_builder)
 
     if with_color_variants:
         for color in get_args(ColorChangerObjectColor):
             high_level_key = high_level_key_template.format(
-                target_object=target_object_key,
+                target_object=target_object.readable_name,
                 target_object_color=f"#target-object-color={color.lower()}",
-                converted_object=converted_object_key,
+                converted_object=converted_object_readable_name,
             )
             colored_target_object_kwargs = {
                 "required_objects": {
-                    target_object_key: {
+                    target_object.readable_name: {
                         "colors": [color],
                     }
                 },
@@ -271,11 +268,7 @@ def operate_time_machine(
 
 
 def pickup_object_from_breakroom_container(
-    object_key: str,
-    object_readable_name: str,
     object_instance_id: ObjectInstanceId,
-    container_key: str,
-    container_readable_name: str,
     container_object: RequiredObject,
     *,
     with_color_variants: bool = False,
@@ -311,28 +304,28 @@ def pickup_object_from_breakroom_container(
         return ChallengeBuilderOutput(
             start_room="BreakRoom",
             required_objects={
-                container_readable_name: container_object,
-                object_readable_name: target_object,
+                container_object.name: container_object,
+                object_instance_id: target_object,
             },
             task_goals=goals,
             plans=[
                 [
-                    f"go to the {container_readable_name}",
-                    f"open the {container_readable_name}",
-                    f"pick up the {object_readable_name}",
-                    f"close the {container_readable_name}",
+                    f"go to the {container_object.readable_name}",
+                    f"open the {container_object.readable_name}",
+                    f"pick up the {object_instance_id.readable_name}",
+                    f"close the {container_object.readable_name}",
                 ]
             ],
         )
 
     def wrapper_open_container() -> ChallengeBuilderOutput:
         wrapper_output = wrapper()
-        wrapper_output.required_objects[container_readable_name].add_state("isOpen", "true")
+        wrapper_output.required_objects[container_object.name].add_state("isOpen", "true")
         wrapper_output.plans = [
             [
-                f"go to the {container_readable_name}",
-                f"pick up the {object_readable_name}",
-                f"close the {container_readable_name}",
+                f"go to the {container_object.readable_name}",
+                f"pick up the {object_instance_id.readable_name}",
+                f"close the {container_object.readable_name}",
             ]
         ]
         return wrapper_output
@@ -340,13 +333,17 @@ def pickup_object_from_breakroom_container(
     # Register the challenge normally
     ChallengeBuilder.register(
         high_level_key_template.format(
-            object=object_key, target_object_color="", container=container_key
+            object=object_instance_id.readable_name,
+            target_object_color="",
+            container=container_object.readable_name,
         )
     )(wrapper)
     # Register with an open container
     ChallengeBuilder.register(
         high_level_key_template.format(
-            object=object_key, target_object_color="", container=container_key
+            object=object_instance_id.readable_name,
+            target_object_color="",
+            container=container_object.readable_name,
         ),
     )(wrapper_open_container)
 
@@ -355,15 +352,15 @@ def pickup_object_from_breakroom_container(
         for color in get_args(ColorChangerObjectColor):
             # Create the high level key
             high_level_key = high_level_key_template.format(
-                object=object_key,
+                object=object_instance_id.readable_name,
                 target_object_color=f"#target-object-color={color.lower()}",
-                container=container_key,
+                container=container_object.readable_name,
             )
 
             # How should the challenge builder output be modified?
             colored_target_object_kwargs = {
                 "required_objects": {
-                    object_readable_name: {
+                    object_instance_id: {
                         "colors": [color],
                     }
                 },
@@ -379,18 +376,14 @@ def pickup_object_from_breakroom_container(
 
 
 def place_object_in_breakroom_container(
-    object_key: str,
-    object_readable_name: str,
     object_instance_id: ObjectInstanceId,
-    container_key: str,
-    container_readable_name: str,
     container_object: RequiredObject,
     *,
     with_color_variants: bool = False,
 ) -> None:
     """Generate challenges to place objects in containers."""
     # High level key template
-    high_level_key_template = "#action=pickup#target-object={object}{target_object_color}#from-receptacle={container}#from-receptacle-is-container"
+    high_level_key_template = "#action=place#target-object={object}{target_object_color}#to-receptacle={container}#to-receptacle-is-container"
 
     def wrapper() -> ChallengeBuilderOutput:
         # Create object
@@ -425,28 +418,28 @@ def place_object_in_breakroom_container(
         return ChallengeBuilderOutput(
             start_room="BreakRoom",
             required_objects={
-                container_readable_name: container_object,
-                object_readable_name: target_object,
+                container_object.name: container_object,
+                object_instance_id: target_object,
             },
             task_goals=goals,
             plans=[
                 [
-                    f"go to the {container_readable_name}",
-                    f"open the {container_readable_name}",
-                    f"put the {object_readable_name} in the {container_readable_name}",
-                    f"close the {container_readable_name}",
+                    f"go to the {container_object.readable_name}",
+                    f"open the {container_object.readable_name}",
+                    f"put the {object_instance_id.readable_name} in the {container_object.readable_name}",
+                    f"close the {container_object.readable_name}",
                 ]
             ],
         )
 
     def wrapper_open_container() -> ChallengeBuilderOutput:
         wrapper_output = wrapper()
-        wrapper_output.required_objects[container_readable_name].add_state("isOpen", "true")
+        wrapper_output.required_objects[container_object.name].add_state("isOpen", "true")
         wrapper_output.plans = [
             [
-                f"go to the {container_readable_name}",
-                f"place the {object_readable_name} in the {container_readable_name}",
-                f"close the {container_readable_name}",
+                f"go to the {container_object.readable_name}",
+                f"place the {object_instance_id.readable_name} in the {container_object.readable_name}",
+                f"close the {container_object.readable_name}",
             ]
         ]
         return wrapper_output
@@ -454,13 +447,17 @@ def place_object_in_breakroom_container(
     # Register the challenge normally
     ChallengeBuilder.register(
         high_level_key_template.format(
-            object=object_key, target_object_color="", container=container_key
+            object=object_instance_id.readable_name,
+            target_object_color="",
+            container=container_object.readable_name,
         )
     )(wrapper)
     # Register with an open container
     ChallengeBuilder.register(
         high_level_key_template.format(
-            object=object_key, target_object_color="", container=container_key
+            object=object_instance_id.readable_name,
+            target_object_color="",
+            container=container_object.readable_name,
         ),
     )(wrapper_open_container)
 
@@ -469,15 +466,15 @@ def place_object_in_breakroom_container(
         for color in get_args(ColorChangerObjectColor):
             # Create the high level key
             high_level_key = high_level_key_template.format(
-                object=object_key,
+                object=object_instance_id.readable_name,
                 target_object_color=f"#target-object-color={color.lower()}",
-                container=container_key,
+                container=container_object.readable_name,
             )
 
             # How should the challenge builder output be modified?
             colored_target_object_kwargs = {
                 "required_objects": {
-                    object_readable_name: {
+                    object_instance_id: {
                         "colors": [color],
                     }
                 },
@@ -496,88 +493,51 @@ def place_object_in_breakroom_container(
 def register_fridge_interactions() -> None:
     """Register pickup object from fridge challenges."""
     required_objects_builder = RequiredObjectBuilder()
-    container_readable_name = "fridge"
     container_object = required_objects_builder.fridge()
 
     object_iterator = [
-        ("apple", "apple", ObjectInstanceId.parse("Apple_1"), True),
-        ("banana", "banana", ObjectInstanceId.parse("Banana_01_1"), False),
-        ("cake", "cake", ObjectInstanceId.parse("Cake_02_1"), True),
-        ("carrot", "carrot", ObjectInstanceId.parse("Carrot_01_1"), True),
-        ("coffeemug", "coffee mug", ObjectInstanceId.parse("CoffeeMug_Boss_1"), False),
-        ("coffeemug", "coffee mug", ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
-        ("donut", "donut", ObjectInstanceId.parse("Donut_01_1"), True),
-        ("milk", "milk", ObjectInstanceId.parse("MilkCarton_01_1"), False),
-        ("sodacan", "soda can", ObjectInstanceId.parse("CanSodaNew_01_1"), False),
+        (ObjectInstanceId.parse("Apple_1"), True),
+        (ObjectInstanceId.parse("Banana_01_1"), False),
+        (ObjectInstanceId.parse("Cake_02_1"), True),
+        (ObjectInstanceId.parse("Carrot_01_1"), True),
+        (ObjectInstanceId.parse("CoffeeMug_Boss_1"), False),
+        (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
+        (ObjectInstanceId.parse("Donut_01_1"), True),
+        (ObjectInstanceId.parse("MilkCarton_01_1"), False),
+        (ObjectInstanceId.parse("CanSodaNew_01_1"), False),
     ]
 
-    for (  # noqa: WPS352
-        object_key,
-        object_readable_name,
-        object_instance_id,
-        with_color_variants,
-    ) in object_iterator:
+    for object_instance_id, with_color_variants in object_iterator:
         pickup_object_from_breakroom_container(
-            object_key,
-            object_readable_name,
-            object_instance_id,
-            container_readable_name,
-            container_readable_name,
-            container_object,
-            with_color_variants=with_color_variants,
+            object_instance_id, container_object, with_color_variants=with_color_variants
         )
         place_object_in_breakroom_container(
-            object_key,
-            object_readable_name,
-            object_instance_id,
-            container_readable_name,
-            container_readable_name,
-            container_object,
-            with_color_variants=with_color_variants,
+            object_instance_id, container_object, with_color_variants=with_color_variants
         )
 
 
 def register_freezer_interactions() -> None:
     """Register pickup object from freezer challenges."""
     required_objects_builder = RequiredObjectBuilder()
-    container_readable_name = "freezer"
     container_object = required_objects_builder.freezer()
 
     object_iterator = [
-        ("apple", "apple", ObjectInstanceId.parse("Apple_1"), True),
-        ("banana", "banana", ObjectInstanceId.parse("Banana_01_1"), False),
-        ("cake", "cake", ObjectInstanceId.parse("Cake_02_1"), True),
-        ("carrot", "carrot", ObjectInstanceId.parse("Carrot_01_1"), True),
-        ("coffeemug", "coffee mug", ObjectInstanceId.parse("CoffeeMug_Boss_1"), False),
-        ("coffeemug", "coffee mug", ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
-        ("donut", "donut", ObjectInstanceId.parse("Donut_01_1"), True),
-        ("milk", "milk", ObjectInstanceId.parse("MilkCarton_01_1"), False),
-        ("sodacan", "soda can", ObjectInstanceId.parse("CanSodaNew_01_1"), False),
+        (ObjectInstanceId.parse("Apple_1"), True),
+        (ObjectInstanceId.parse("Banana_01_1"), False),
+        (ObjectInstanceId.parse("Cake_02_1"), True),
+        (ObjectInstanceId.parse("Carrot_01_1"), True),
+        (ObjectInstanceId.parse("CoffeeMug_Boss_1"), False),
+        (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
+        (ObjectInstanceId.parse("Donut_01_1"), True),
+        (ObjectInstanceId.parse("CanSodaNew_01_1"), False),
     ]
 
-    for (  # noqa: WPS352
-        object_key,
-        object_readable_name,
-        object_instance_id,
-        with_color_variants,
-    ) in object_iterator:
+    for object_instance_id, with_color_variants in object_iterator:
         pickup_object_from_breakroom_container(
-            object_key,
-            object_readable_name,
-            object_instance_id,
-            container_readable_name,
-            container_readable_name,
-            container_object,
-            with_color_variants=with_color_variants,
+            object_instance_id, container_object, with_color_variants=with_color_variants
         )
         place_object_in_breakroom_container(
-            object_key,
-            object_readable_name,
-            object_instance_id,
-            container_readable_name,
-            container_readable_name,
-            container_object,
-            with_color_variants=with_color_variants,
+            object_instance_id, container_object, with_color_variants=with_color_variants
         )
 
 
@@ -586,27 +546,19 @@ def register_time_machine_interactions() -> None:
     object_iterator = [
         # Restore broken bowls
         (
-            "bowl",
-            "bowl",
             RequiredObject(
                 name=ObjectInstanceId.parse("Bowl_01_1"),
                 state=[RequiredObjectState.from_parts("isBroken", "true")],
             ),
-            "bowl",
-            "bowl",
             [ObjectGoalState.from_parts(ObjectInstanceId.parse("Bowl_01_1"), "isBroken", "false")],
             True,
         ),
         # Restore bowls of various colours
         (
-            "bowl",
-            "bowl",
             RequiredObject(
                 name=ObjectInstanceId.parse("Bowl_01_1"),
                 state=[RequiredObjectState.from_parts("isColorChanged", "true")],
             ),
-            "bowl",
-            "bowl",
             [
                 ObjectGoalState.from_parts(
                     ObjectInstanceId.parse("Bowl_01_1"), "isColorChanged", "false"
@@ -616,21 +568,10 @@ def register_time_machine_interactions() -> None:
         ),
     ]
 
-    for (  # noqa: WPS352
-        object_key,
-        object_readable_name,
-        target_object,
-        converted_object_key,
-        converted_object_readable_name,
-        target_object_goal_states,
-        with_color_variants,
-    ) in object_iterator:
+    for target_object, target_object_goal_states, with_color_variants in object_iterator:
         operate_time_machine(
-            object_key,
-            object_readable_name,
             target_object,
-            converted_object_key,
-            converted_object_readable_name,
+            target_object.readable_name,
             target_object_goal_states,
             with_color_variants=with_color_variants,
         )

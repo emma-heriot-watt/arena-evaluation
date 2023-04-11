@@ -1,8 +1,8 @@
 from collections.abc import Generator
-from typing import Any, Callable, get_args
+from typing import Any, Callable, cast, get_args
 from typing_extensions import Self
 
-from arena_missions.constants.arena import ObjectIds
+from arena_missions.constants.arena import ObjectIds, load_object_id_to_readable_name_map
 
 
 def convert_object_instance_id_to_object_id(object_instance: str) -> str:
@@ -41,6 +41,11 @@ class ObjectId(str):  # noqa: WPS600
     def parse(cls, v: Any) -> Self:
         """Parse the input."""
         return cls.validate(v)
+
+    @property
+    def readable_name(self) -> str:
+        """Return the readable name of the object."""
+        return load_object_id_to_readable_name_map()[cast(ObjectIds, self)]
 
 
 class ObjectInstanceId(str):  # noqa: WPS600
@@ -85,3 +90,8 @@ class ObjectInstanceId(str):  # noqa: WPS600
     def object_id(self) -> ObjectId:
         """Return the object ID of the object instance."""
         return ObjectId(convert_object_instance_id_to_object_id(self))
+
+    @property
+    def readable_name(self) -> str:
+        """Return the readable name of the object instance."""
+        return self.object_id.readable_name
