@@ -7,11 +7,15 @@ from deepmerge import always_merger
 from pydantic import BaseModel
 
 from arena_missions.builders.required_objects_builder import RequiredObjectBuilder
-from arena_missions.constants.arena import ObjectColor, OfficeLayout, OfficeRoom
-from arena_missions.structures import HighLevelKey, RequiredObject, TaskGoal
-from arena_missions.structures.object_id import ObjectInstanceId
-from arena_missions.structures.required_object import RequiredObjectState
-from arena_missions.structures.task_goal import ObjectGoalState
+from arena_missions.constants.arena import ColorChangerObjectColor, OfficeLayout, OfficeRoom
+from arena_missions.structures import (
+    HighLevelKey,
+    ObjectGoalState,
+    ObjectInstanceId,
+    RequiredObject,
+    RequiredObjectState,
+    TaskGoal,
+)
 
 
 class ChallengeBuilderOutput(BaseModel):
@@ -241,7 +245,7 @@ def operate_time_machine(
     )(operate_open_time_machine_challenge_builder)
 
     if with_color_variants:
-        for color in get_args(ObjectColor):
+        for color in get_args(ColorChangerObjectColor):
             high_level_key = high_level_key_template.format(
                 target_object=target_object_readable_name,
                 target_object_color=f"#target-object-color={color.lower()}",
@@ -344,7 +348,7 @@ def pickup_object_from_breakroom_container(
 
     if with_color_variants:
         # Register variants with a specific target-object color
-        for color in get_args(ObjectColor):
+        for color in get_args(ColorChangerObjectColor):
             # Create the high level key
             high_level_key = high_level_key_template.format(
                 object=object_readable_name,
@@ -456,7 +460,7 @@ def place_object_in_breakroom_container(
 
     if with_color_variants:
         # Register variants with a specific target-object color
-        for color in get_args(ObjectColor):
+        for color in get_args(ColorChangerObjectColor):
             # Create the high level key
             high_level_key = high_level_key_template.format(
                 object=object_readable_name,

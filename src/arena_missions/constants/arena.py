@@ -376,6 +376,12 @@ ObjectColor = Literal[
     "Yellow",
 ]
 
+ColorChangerObjectColor = Literal[
+    "Red",
+    "Green",
+    "Blue",
+]
+
 ObjectStateName = Literal[
     "isPickedUp",
     "isBroken",
