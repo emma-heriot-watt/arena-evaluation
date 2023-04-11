@@ -114,9 +114,10 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
 
             # If it fails, raise assertion error
             if not return_val:
-                # Explicitly do not raise if alternate navigation used SINCE THIS IS NOT AN ERROR
-                # ugh........
-                if action_response.get("errorType") != "AlternateNavigationUsed":
+                # Explicitly do not raise if these error types occur
+                error_types_to_ignore = ("AlternateNavigationUsed", "UnsupportedNavigation")
+
+                if action_response.get("errorType") not in error_types_to_ignore:
                     raise AssertionError("Failed to randomise start position")
 
             time.sleep(5)
