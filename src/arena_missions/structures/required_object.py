@@ -100,7 +100,7 @@ class RequiredObject(BaseModel, validate_assignment=True):
     @classmethod
     def from_string(cls, object_instance_id: str) -> "RequiredObject":
         """Instantiate a RequiredObject from the object instance ID."""
-        return cls(name=ObjectInstanceId.parse_obj(object_instance_id))
+        return cls(name=ObjectInstanceId.parse(object_instance_id))
 
     @validator("state", "location", each_item=True)
     @classmethod

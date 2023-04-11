@@ -494,15 +494,15 @@ def register_fridge_interactions() -> None:
     container_object = required_objects_builder.fridge()
 
     object_iterator = [
-        ("apple", ObjectInstanceId.parse_obj("Apple_1"), True),
-        ("banana", ObjectInstanceId.parse_obj("Banana_01_1"), False),
-        ("cake", ObjectInstanceId.parse_obj("Cake_02_1"), True),
-        ("carrot", ObjectInstanceId.parse_obj("Carrot_01_1"), True),
-        ("coffeemug", ObjectInstanceId.parse_obj("CoffeeMug_Boss_1"), False),
-        ("coffeemug", ObjectInstanceId.parse_obj("CoffeeMug_Yellow_1"), True),
-        ("donut", ObjectInstanceId.parse_obj("Donut_01_1"), True),
-        ("milk", ObjectInstanceId.parse_obj("MilkCarton_01_1"), False),
-        ("sodacan", ObjectInstanceId.parse_obj("CanSodaNew_01_1"), False),
+        ("apple", ObjectInstanceId.parse("Apple_1"), True),
+        ("banana", ObjectInstanceId.parse("Banana_01_1"), False),
+        ("cake", ObjectInstanceId.parse("Cake_02_1"), True),
+        ("carrot", ObjectInstanceId.parse("Carrot_01_1"), True),
+        ("coffeemug", ObjectInstanceId.parse("CoffeeMug_Boss_1"), False),
+        ("coffeemug", ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
+        ("donut", ObjectInstanceId.parse("Donut_01_1"), True),
+        ("milk", ObjectInstanceId.parse("MilkCarton_01_1"), False),
+        ("sodacan", ObjectInstanceId.parse("CanSodaNew_01_1"), False),
     ]
 
     for object_readable_name, object_instance_id, with_color_variants in object_iterator:
@@ -529,14 +529,14 @@ def register_freezer_interactions() -> None:
     container_object = required_objects_builder.freezer()
 
     object_iterator = [
-        ("apple", ObjectInstanceId.parse_obj("Apple_1"), True),
-        ("banana", ObjectInstanceId.parse_obj("Banana_01_1"), False),
-        ("cake", ObjectInstanceId.parse_obj("Cake_02_1"), True),
-        ("carrot", ObjectInstanceId.parse_obj("Carrot_01_1"), True),
-        ("coffeemug", ObjectInstanceId.parse_obj("CoffeeMug_Boss_1"), False),
-        ("coffeemug", ObjectInstanceId.parse_obj("CoffeeMug_Yellow_1"), True),
-        ("donut", ObjectInstanceId.parse_obj("Donut_01_1"), True),
-        ("sodacan", ObjectInstanceId.parse_obj("CanSodaNew_01_1"), False),
+        ("apple", ObjectInstanceId.parse("Apple_1"), True),
+        ("banana", ObjectInstanceId.parse("Banana_01_1"), False),
+        ("cake", ObjectInstanceId.parse("Cake_02_1"), True),
+        ("carrot", ObjectInstanceId.parse("Carrot_01_1"), True),
+        ("coffeemug", ObjectInstanceId.parse("CoffeeMug_Boss_1"), False),
+        ("coffeemug", ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
+        ("donut", ObjectInstanceId.parse("Donut_01_1"), True),
+        ("sodacan", ObjectInstanceId.parse("CanSodaNew_01_1"), False),
     ]
 
     for object_readable_name, object_instance_id, with_color_variants in object_iterator:
@@ -563,13 +563,13 @@ def register_time_machine_interactions() -> None:
         (
             "bowl",
             RequiredObject(
-                name=ObjectInstanceId.parse_obj("Bowl_01_1"),
+                name=ObjectInstanceId.parse("Bowl_01_1"),
                 state=[RequiredObjectState.from_parts("isBroken", "true")],
             ),
             "bowl",
             [
                 ObjectGoalState.from_parts(
-                    ObjectInstanceId.parse_obj("Bowl_01_1"), "isBroken", "false"
+                    ObjectInstanceId.parse("Bowl_01_1"), "isBroken", "false"
                 )
             ],
             True,
@@ -578,13 +578,13 @@ def register_time_machine_interactions() -> None:
         (
             "bowl",
             RequiredObject(
-                name=ObjectInstanceId.parse_obj("Bowl_01_1"),
+                name=ObjectInstanceId.parse("Bowl_01_1"),
                 state=[RequiredObjectState.from_parts("isColorChanged", "true")],
             ),
             "bowl",
             [
                 ObjectGoalState.from_parts(
-                    ObjectInstanceId.parse_obj("Bowl_01_1"), "isColorChanged", "false"
+                    ObjectInstanceId.parse("Bowl_01_1"), "isColorChanged", "false"
                 )
             ],
             True,

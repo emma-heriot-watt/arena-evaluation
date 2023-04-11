@@ -26,7 +26,7 @@ class RequiredObjectBuilder:
         """Generate all 7 doors for the arena."""
         return [
             RequiredObject(
-                name=ObjectInstanceId.parse_obj(f"Door_01_{door_num}"),
+                name=ObjectInstanceId.parse(f"Door_01_{door_num}"),
                 state=[RequiredObjectState.from_parts("isOpen", "true" if is_open else "false")],
             )
             for door_num in range(1, self.num_doors + 1)
@@ -36,7 +36,7 @@ class RequiredObjectBuilder:
         """Generate all 8 light switches for the arena."""
         return [
             RequiredObject(
-                name=ObjectInstanceId.parse_obj(f"LightSwitch_01_{switch_num}"),
+                name=ObjectInstanceId.parse(f"LightSwitch_01_{switch_num}"),
             )
             for switch_num in range(1, self.num_light_switches + 1)
         ]
@@ -45,7 +45,7 @@ class RequiredObjectBuilder:
         """Generate all 3 broken cords for the arena."""
         return [
             RequiredObject(
-                name=ObjectInstanceId.parse_obj(f"Broken_Cord_01_{cord_num}"),
+                name=ObjectInstanceId.parse(f"Broken_Cord_01_{cord_num}"),
                 state=[
                     RequiredObjectState.from_parts("isToggledOn", "true" if is_on else "false")
                 ],
@@ -56,11 +56,11 @@ class RequiredObjectBuilder:
     def fuse_boxes(self) -> list[RequiredObject]:
         """Generate all fuse boxes for the arena."""
         gray_fuse_boxes = [
-            RequiredObject(name=ObjectInstanceId.parse_obj(f"FuseBox_01_{fuse_box_num}"))
+            RequiredObject(name=ObjectInstanceId.parse(f"FuseBox_01_{fuse_box_num}"))
             for fuse_box_num in range(1, self.num_gray_fuse_boxes + 1)
         ]
         red_fuse_boxes = [
-            RequiredObject(name=ObjectInstanceId.parse_obj(f"FuseBox_02_{fuse_box_num}"))
+            RequiredObject(name=ObjectInstanceId.parse(f"FuseBox_02_{fuse_box_num}"))
             for fuse_box_num in range(1, self.num_red_fuse_boxes + 1)
         ]
         return [*gray_fuse_boxes, *red_fuse_boxes]
@@ -68,34 +68,34 @@ class RequiredObjectBuilder:
     def computer_monitors(self) -> list[RequiredObject]:
         """Generate all computer monitors for the arena."""
         return [
-            RequiredObject(name=ObjectInstanceId.parse_obj(f"Computer_Monitor_01_{monitor_num}"))
+            RequiredObject(name=ObjectInstanceId.parse(f"Computer_Monitor_01_{monitor_num}"))
             for monitor_num in range(1, self.num_computer_monitors + 1)
         ]
 
     def freeze_ray(self) -> RequiredObject:
         """Generate the freeze ray for the arena."""
-        return RequiredObject(name=ObjectInstanceId.parse_obj("FreezeRay_1"))
+        return RequiredObject(name=ObjectInstanceId.parse("FreezeRay_1"))
 
     def emotion_tester(self) -> RequiredObject:
         """Generate the emotion tester for the arena."""
-        return RequiredObject(name=ObjectInstanceId.parse_obj("TAMPrototypeHead_01_1"))
+        return RequiredObject(name=ObjectInstanceId.parse("TAMPrototypeHead_01_1"))
 
     def portal_generator(self) -> RequiredObject:
         """Generate the portal generator for the arena."""
-        return RequiredObject(name=ObjectInstanceId.parse_obj("PortalGenerator_10000"))
+        return RequiredObject(name=ObjectInstanceId.parse("PortalGenerator_10000"))
 
     def laser(self) -> RequiredObject:
         """Generate the laser for the arena."""
-        return RequiredObject(name=ObjectInstanceId.parse_obj("Laser_1"))
+        return RequiredObject(name=ObjectInstanceId.parse("Laser_1"))
 
     def gravity_pad(self) -> RequiredObject:
         """Generate the gravity pad for the arena."""
-        return RequiredObject(name=ObjectInstanceId.parse_obj("GravityPad_1"))
+        return RequiredObject(name=ObjectInstanceId.parse("GravityPad_1"))
 
     def fridge(self, *, room: OfficeRoom = "BreakRoom", is_open: bool = False) -> RequiredObject:
         """Generate the fridge for the arena."""
         return RequiredObject(
-            name=ObjectInstanceId.parse_obj("FridgeLower_02_1"),
+            name=ObjectInstanceId.parse("FridgeLower_02_1"),
             state=[RequiredObjectState.from_parts("isOpen", "true" if is_open else "false")],
             roomLocation=[room],
         )
@@ -103,7 +103,7 @@ class RequiredObjectBuilder:
     def freezer(self, *, room: OfficeRoom = "BreakRoom", is_open: bool = False) -> RequiredObject:
         """Generate the freezer for the arena."""
         return RequiredObject(
-            name=ObjectInstanceId.parse_obj("FridgeUpper_02_1"),
+            name=ObjectInstanceId.parse("FridgeUpper_02_1"),
             state=[RequiredObjectState.from_parts("isOpen", "true" if is_open else "false")],
             roomLocation=[room],
         )
@@ -111,13 +111,13 @@ class RequiredObjectBuilder:
     def time_machine(self, *, room: OfficeRoom = "BreakRoom") -> RequiredObject:
         """Generate the time machine for the arena."""
         return RequiredObject(
-            name=ObjectInstanceId.parse_obj("YesterdayMachine_01_1"), roomLocation=[room]
+            name=ObjectInstanceId.parse("YesterdayMachine_01_1"), roomLocation=[room]
         )
 
     def robotic_arm(self, *, is_arm_lifted: bool = True) -> RequiredObject:
         """Generate the robotic arm for the arena."""
         return RequiredObject(
-            name=ObjectInstanceId.parse_obj("RoboticArm_01_1"),
+            name=ObjectInstanceId.parse("RoboticArm_01_1"),
             state=[
                 RequiredObjectState.from_parts("isToggledOn", "true" if is_arm_lifted else "false")
             ],
