@@ -14,6 +14,8 @@ TASK_GOAL_VISIBILITY = {  # noqa: WPS407
 }
 
 
+ObjectGoalStateRelation = Literal["and", "or"]
+
 GoalStateExpressionValue = Union[BooleanStr, ObjectInstanceId, LiquidType]
 
 
@@ -41,6 +43,9 @@ class ObjectGoalStateExpression(BaseModel):
     @classmethod
     def ensure_valid_condition_value(cls, v: str) -> str:  # noqa: WPS231
         """If key is contains, ensure the value is an ObjectInstanceId."""
+        if len(v.split("=")) != 2:
+            raise AssertionError("Goal object state value must be in the form of key=value")
+
         state_condition_key, state_condition_value = v.split("=")
 
         # If the state condition key is contains, then the value should be an ObjectInstanceId
@@ -66,10 +71,6 @@ class ObjectGoalStateExpression(BaseModel):
     ) -> Self:
         """Create a goal object state value from its parts."""
         return cls.parse_obj(f"{state_condition_key}={state_condition_value}")
-
-    def __repr__(self) -> str:
-        """Return a string representation of the goal object state value."""
-        return f"ObjectGoalStateExpression({super().__repr__()})"
 
     @property
     def state_condition_key(self) -> GoalStateExpressionKey:
@@ -139,9 +140,6 @@ class ObjectGoalState(BaseModel):
     def state_condition_value(self) -> GoalStateExpressionValue:
         """Return the state condition value."""
         return list(self.__root__.values())[0].state_condition_value
-
-
-ObjectGoalStateRelation = Literal["and", "or"]
 
 
 class TaskGoal(BaseModel):

@@ -19,11 +19,19 @@ class ObjectId(BaseModel, frozen=True):
 
     __root__: ObjectIds
 
+    def __str__(self) -> str:
+        """Return the string representation of the object ID."""
+        return str(self.__root__)
+
 
 class ObjectInstanceId(BaseModel, frozen=True):
     """An object instance ID in the Arena."""
 
     __root__: str
+
+    def __str__(self) -> str:
+        """Return the string representation of the object instance ID."""
+        return str(self.__root__)
 
     @validator("__root__")
     @classmethod
