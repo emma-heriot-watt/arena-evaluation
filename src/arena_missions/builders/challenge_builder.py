@@ -499,12 +499,13 @@ def clean_dirty_plate(room: Literal["BreakRoom", "Warehouse"]) -> None:
     plate.add_state("isDirty", "true")
     plate.add_state("isPickedUp", "true")
 
-    sink = RequiredObject(
+    sink_template = RequiredObject(
         name=ObjectInstanceId.parse("KitchenCounterSink_01_1"), roomLocation=[room]
     )
 
     def toggle_sink_before_clean() -> ChallengeBuilderOutput:
         """Fill the sink before cleaning the plate."""
+        sink = deepcopy(sink_template)
         sink.update_state("isToggledOn", "false")
 
         goals = [
@@ -538,6 +539,7 @@ def clean_dirty_plate(room: Literal["BreakRoom", "Warehouse"]) -> None:
 
     def sink_already_filled_before_clean() -> ChallengeBuilderOutput:
         """Do not fill the sink before cleaning since it's already filled."""
+        sink = deepcopy(sink_template)
         sink.update_state("isToggledOn", "true")
 
         goals = [
@@ -567,6 +569,16 @@ def clean_dirty_plate(room: Literal["BreakRoom", "Warehouse"]) -> None:
     ChallengeBuilder.register(high_level_key_template.format(object=plate.readable_name))(
         sink_already_filled_before_clean
     )
+
+    for layout in get_args(OfficeLayout):
+        ChallengeBuilder.register_with_modifiers(
+            high_level_key_template.format(object=plate.readable_name),
+            {"office_layout": layout},
+        )(toggle_sink_before_clean)
+        ChallengeBuilder.register_with_modifiers(
+            high_level_key_template.format(object=plate.readable_name),
+            {"office_layout": layout},
+        )(sink_already_filled_before_clean)
 
 
 # Higher-order challenge builders
