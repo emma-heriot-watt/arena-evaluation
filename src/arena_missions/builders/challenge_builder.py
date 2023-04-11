@@ -581,6 +581,131 @@ def clean_dirty_plate(room: Literal["BreakRoom", "Warehouse"]) -> None:
         )(sink_already_filled_before_clean)
 
 
+def fill_object_in_sink(
+    object_instance_id: ObjectInstanceId,
+    room: Literal["BreakRoom", "Warehouse"],
+    *,
+    with_color_variants: bool = False,
+) -> None:
+    """Generate challenges to fill objects in sinks."""
+    # High level key template
+    high_level_key_template = "#action=fill#target-object={object}{target_object_color}"
+
+    # Create object
+    target_object = RequiredObject(name=object_instance_id)
+    target_object.add_state("Unique", "true")
+    target_object.add_state("isPickedUp", "true")
+
+    sink = RequiredObject(
+        name=ObjectInstanceId.parse("KitchenCounterSink_01_1"), roomLocation=[room]
+    )
+
+    def toggle_sink_before_fill() -> ChallengeBuilderOutput:
+        goals = [
+            # Fill the sink
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(sink.name, "isToggledOn", "true")],
+                relation="and",
+            ),
+            # Fill the object
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(target_object.name, "isFilled", "Water")],
+                relation="and",
+            ),
+            # Drain the sink
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(sink.name, "isToggledOn", "true")],
+                relation="and",
+            ),
+        ]
+
+        return ChallengeBuilderOutput(
+            start_room=room,
+            required_objects={
+                sink.name: sink,
+                object_instance_id: target_object,
+            },
+            task_goals=goals,
+            plans=[
+                [
+                    "go to the sink",
+                    "toggle the sink",
+                    f"fill the {object_instance_id.readable_name} in the sink",
+                    "toggle the sink",
+                ]
+            ],
+        )
+
+    def sink_already_filled_before_fill() -> ChallengeBuilderOutput:
+        sink.add_state("isToggledOn", "true")
+        goals = [
+            # Fill the object
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(target_object.name, "isFilled", "Water")],
+                relation="and",
+            ),
+            # Drain the sink
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(sink.name, "isToggledOn", "true")],
+                relation="and",
+            ),
+        ]
+
+        return ChallengeBuilderOutput(
+            start_room=room,
+            required_objects={
+                sink.name: sink,
+                object_instance_id: target_object,
+            },
+            task_goals=goals,
+            plans=[
+                [
+                    "go to the sink",
+                    f"fill the {object_instance_id.readable_name} in the sink",
+                    "toggle the sink",
+                ]
+            ],
+        )
+
+    # Register the challenge normally
+    ChallengeBuilder.register(
+        high_level_key_template.format(
+            object=object_instance_id.readable_name, target_object_color=""
+        )
+    )(toggle_sink_before_fill)
+    # Register with an filled sink
+    ChallengeBuilder.register(
+        high_level_key_template.format(
+            object=object_instance_id.readable_name, target_object_color=""
+        )
+    )(sink_already_filled_before_fill)
+    if with_color_variants:
+        # Register variants with a specific target-object color
+        for color in get_args(ColorChangerObjectColor):
+            # Create the high level key
+            high_level_key = high_level_key_template.format(
+                object=object_instance_id.readable_name,
+                target_object_color=f"#target-object-color={color.lower()}",
+            )
+
+            # How should the challenge builder output be modified?
+            colored_target_object_kwargs = {
+                "required_objects": {
+                    object_instance_id: {
+                        "colors": [color],
+                    }
+                },
+            }
+
+            # Register the challenge builder with the modifications
+            ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
+                toggle_sink_before_fill
+            )
+            ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
+                sink_already_filled_before_fill
+            )
+
+
 # Higher-order challenge builders
 def register_fridge_interactions() -> None:
     """Register pickup object from fridge challenges."""
@@ -669,6 +794,27 @@ def register_time_machine_interactions() -> None:
         )
 
 
+def register_fill_interactions() -> None:
+    """Register challenges about filling an object in sink challenges."""
+    object_iterator = [
+        (ObjectInstanceId.parse("Bowl_01_1"), True),
+        (ObjectInstanceId.parse("CoffeeMug_Boss_1"), True),
+        (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), False),
+        (ObjectInstanceId.parse("CoffeePot_01_1"), False),
+    ]
+    for object_instance_id, with_color_variants in object_iterator:
+        fill_object_in_sink(
+            object_instance_id,
+            room="BreakRoom",
+            with_color_variants=with_color_variants,
+        )
+        fill_object_in_sink(
+            object_instance_id,
+            room="Warehouse",
+            with_color_variants=with_color_variants,
+        )
+
+
 # Run the challenge builder builders
 register_fridge_interactions()
 register_freezer_interactions()
@@ -676,3 +822,4 @@ register_time_machine_interactions()
 
 clean_dirty_plate("BreakRoom")
 clean_dirty_plate("Warehouse")
+register_fill_interactions()
