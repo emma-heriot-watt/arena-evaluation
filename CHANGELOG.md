@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.5.0...v2.6.0) (2023-04-11)
+
+
+### Features
+
+* add challenges for broken bowls and coloured bowls ([43cb76c](https://github.com/emma-simbot/simbot-offline-inference/commit/43cb76c9893ac908703e4c4a4b51577c111d994f))
+* improve the progress bar for the challenge validator ([9e9e2d2](https://github.com/emma-simbot/simbot-offline-inference/commit/9e9e2d2607895e310ef349c3d3bc96e736581e36))
+* only use the colour changer colors ([4775e46](https://github.com/emma-simbot/simbot-offline-inference/commit/4775e46b0bcac1e0a4cf444af8754b2581a3d289))
+* shuffle the order trajectories are generated in ([33ea2fa](https://github.com/emma-simbot/simbot-offline-inference/commit/33ea2faa102a8511cfdaae77ea55263c905c3d0e))
+* support using RNG for the CDF scenes (with `floor_plan`) ([b7e1b4d](https://github.com/emma-simbot/simbot-offline-inference/commit/b7e1b4d589c6350eed2a29411dd4e155e7686324))
+* validate cdfs from generated missions ([062178c](https://github.com/emma-simbot/simbot-offline-inference/commit/062178c9c866533198fc3f1f3b2a7a9a68dab91f))
+
+
+### Bug Fixes
+
+* `required_objects` key within the `CDFScene` ([fe3bcd1](https://github.com/emma-simbot/simbot-offline-inference/commit/fe3bcd1148108a80c1879b6726574bd1636ab7eb))
+* add `__str__` methods for the `ObjectId` and `ObjectInstanceId` ([9b764be](https://github.com/emma-simbot/simbot-offline-inference/commit/9b764bea87fcb33727086553b90db8bf619e8e22))
+* change CDF `floor_plan` validation to allow for `"-1"` ([d12bfe2](https://github.com/emma-simbot/simbot-offline-inference/commit/d12bfe274da5de0f3e7c9ca03b71a0409e1d2b3d))
+* object ids for broken cords and computer monitors ([33aaffa](https://github.com/emma-simbot/simbot-offline-inference/commit/33aaffabe498dd49313b436185cf3413cae96aae))
+* remove the duplicated object state ([3d92f22](https://github.com/emma-simbot/simbot-offline-inference/commit/3d92f22cad37acabba14a437aacc806b644144a3))
+* send actions to randomise start position one-by-one ([8b31f76](https://github.com/emma-simbot/simbot-offline-inference/commit/8b31f76017ad9b80054e96df8576ebdb79ac3737))
+
 ## [2.5.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.4.0...v2.5.0) (2023-04-10)
 
 
