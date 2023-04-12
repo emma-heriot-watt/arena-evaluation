@@ -180,7 +180,6 @@ class ArenaOrchestrator:
 
     def kill_unity_instance(self):
         try:
-            os.system("kill -9 $(ps -A | grep SimbotChallenge | awk '{ print $1 }')")
             os.system("kill -9 $(ps -A | grep Arena | awk '{ print $1 }')")
             logger.info("Unity process killed successfully")
             return True
