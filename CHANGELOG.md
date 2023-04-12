@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.12.0...v2.13.0) (2023-04-12)
+
+
+### Features
+
+* print a table of num challenges per high level key ([4364dbd](https://github.com/emma-simbot/simbot-offline-inference/commit/4364dbd766c18e37c8952724203209cd287ed6b5))
+
 ## [2.12.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.11.0...v2.12.0) (2023-04-12)
 
 
