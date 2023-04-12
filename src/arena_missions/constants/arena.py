@@ -449,3 +449,14 @@ def load_object_id_to_readable_name_map() -> dict[ObjectIds, str]:
     json_file = Path(__file__).parent.joinpath("object_id_to_readable_name.json")
     mapping = orjson.loads(json_file.read_bytes())
     return mapping
+
+
+@lru_cache(maxsize=1)
+def get_all_readable_names() -> list[str]:
+    """Get all the readable names."""
+    return list(set(load_object_id_to_readable_name_map().values()))
+
+
+def is_readable_name(name: str) -> bool:
+    """Check if the name is a readable name."""
+    return name in get_all_readable_names()

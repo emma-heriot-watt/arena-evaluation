@@ -4,7 +4,7 @@ from typing_extensions import Self
 from convert_case import snake_case, title_case
 from pydantic import BaseModel, validator
 
-from arena_missions.constants.arena import ObjectColor
+from arena_missions.constants.arena import ObjectColor, is_readable_name
 
 
 OperateAction = Literal[
@@ -105,3 +105,11 @@ class HighLevelKey(BaseModel, validate_assignment=True, frozen=True, extra="forb
         if color:
             color = title_case(color)
         return color
+
+    @validator("target_object", "converted_object", "from_receptacle", "to_receptacle", pre=True)
+    @classmethod
+    def ensure_object_is_readable_name(cls, name: Optional[str]) -> Optional[str]:
+        """Ensure the object is a readable name."""
+        if name is not None and not is_readable_name(name):
+            raise ValueError(f"{name} is not a readable name")
+        return name
