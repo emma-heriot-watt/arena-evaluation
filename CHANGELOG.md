@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.9.1...v2.10.0) (2023-04-12)
+
+
+### Features
+
+* ensure each object-related key is a 'readable name' (in the `HighLevelKey` ([0cb022e](https://github.com/emma-simbot/simbot-offline-inference/commit/0cb022ef2fefad9825095d9bdb083fc003bb586c))
+
 ## [2.9.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.9.0...v2.9.1) (2023-04-12)
 
 
