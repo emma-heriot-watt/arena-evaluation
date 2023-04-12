@@ -4,27 +4,16 @@ from typing_extensions import Self
 from convert_case import snake_case, title_case
 from pydantic import BaseModel, validator
 
-from arena_missions.constants.arena import ObjectColor, is_readable_name
+from arena_missions.constants.arena import ObjectColor
+from arena_missions.structures.object_id import ObjectId
 
 
-OperateAction = Literal[
-    "3dprinter",
-    "coffeemaker",
-    "coffeeunmaker",
-    "colorchanger",
-    "embiggenator",
-    "gravitypad",
-    "microwave",
-    "timemachine",
-    "vendingmachine",
-]
 InstructionAction = Literal[
     "break",
     "clean",
     "close",
     "fill",
-    # Insert: objects that go into receptacles like floppy disks into a computer
-    "insert",
+    "interact",
     "open",
     "pickup",
     "place",
@@ -37,21 +26,22 @@ InstructionAction = Literal[
 class HighLevelKey(BaseModel, validate_assignment=True, frozen=True, extra="forbid"):
     """Structured form of the High-Level Key."""
 
-    key: str
+    action: InstructionAction
 
-    action: Literal[InstructionAction, OperateAction]
-
-    target_object: str
+    target_object: ObjectId
     target_object_color: Optional[ObjectColor] = None
 
-    converted_object: Optional[str] = None
+    interaction_object: Optional[ObjectId] = None
+    interaction_object_color: Optional[ObjectColor] = None
+
+    converted_object: Optional[ObjectId] = None
     converted_object_color: Optional[ObjectColor] = None
 
-    from_receptacle: Optional[str] = None
+    from_receptacle: Optional[ObjectId] = None
     from_receptacle_color: Optional[ObjectColor] = None
     from_receptacle_is_container: bool = False
 
-    to_receptacle: Optional[str] = None
+    to_receptacle: Optional[ObjectId] = None
     to_receptacle_color: Optional[ObjectColor] = None
     to_receptacle_is_container: bool = False
 
@@ -90,7 +80,7 @@ class HighLevelKey(BaseModel, validate_assignment=True, frozen=True, extra="forb
             high_level_key_dict[part_name] = part_value
 
         # Parse it with pydantic
-        return cls.parse_obj({**high_level_key_dict, "key": key_string})
+        return cls.parse_obj(high_level_key_dict)
 
     @validator(
         "target_object_color",
@@ -106,10 +96,16 @@ class HighLevelKey(BaseModel, validate_assignment=True, frozen=True, extra="forb
             color = title_case(color)
         return color
 
-    @validator("target_object", "converted_object", "from_receptacle", "to_receptacle", pre=True)
-    @classmethod
-    def ensure_object_is_readable_name(cls, name: Optional[str]) -> Optional[str]:
-        """Ensure the object is a readable name."""
-        if name is not None and not is_readable_name(name):
-            raise ValueError(f"{name} is not a readable name")
-        return name
+    @property
+    def key(self) -> str:
+        """Get the high-level key as a string."""
+        parts: list[str] = []
+
+        for part_name, part_value in self.dict().items():
+            if part_value:
+                if isinstance(part_value, bool):
+                    parts.append(f"#{part_name}")
+                else:
+                    parts.append(f"#{part_name}={part_value}")
+
+        return "".join(parts)

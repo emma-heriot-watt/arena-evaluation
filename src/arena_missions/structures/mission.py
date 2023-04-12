@@ -26,7 +26,7 @@ class MissionTrajectory(BaseModel):
         date_chunk = f"{now.year:02d}{now.month:02d}{now.day:02d}"
         randomness = f"-{shortuuid.uuid()[:5]}" if include_randomness else ""
 
-        return prefix + f".{date_chunk}/{safe_high_level_key}{randomness}".lower()
+        return prefix + f".{date_chunk}/{safe_high_level_key}{randomness}"
 
 
 class Mission(BaseModel):

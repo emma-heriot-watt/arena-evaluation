@@ -136,6 +136,11 @@ class RequiredObject(BaseModel, validate_assignment=True):
         return values
 
     @property
+    def object_id(self) -> ObjectId:
+        """Return the object ID for this object."""
+        return self.name.object_id
+
+    @property
     def readable_name(self) -> str:
         """Return the readable name of this object."""
         return self.name.readable_name

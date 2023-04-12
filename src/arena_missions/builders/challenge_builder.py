@@ -143,16 +143,13 @@ class ChallengeBuilder:
 
 def operate_time_machine(
     target_object: RequiredObject,
-    converted_object_readable_name: str,
+    converted_object: ObjectId,
     target_object_goal_states: list[ObjectGoalState],
     *,
     with_color_variants: bool = False,
 ) -> None:
     """Generate challenges to operate the time machine."""
     required_object_builder = RequiredObjectBuilder()
-
-    # High level key template
-    high_level_key_template = "#action=timemachine#target-object={target_object}{target_object_color}#converted-object={converted_object}"
 
     # Create time machine
     time_machine = required_object_builder.time_machine()
@@ -192,7 +189,7 @@ def operate_time_machine(
                 "close the time machine",
                 "turn on the time machine",
                 "open the time machine",
-                f"pick up the {converted_object_readable_name} from the time machine",
+                f"pick up the {converted_object.readable_name} from the time machine",
                 "close the time machine",
             ]
         ]
@@ -223,34 +220,25 @@ def operate_time_machine(
                 "close the time machine",
                 "turn on the time machine",
                 "open the time machine",
-                f"pick up the {converted_object_readable_name} from the time machine",
+                f"pick up the {converted_object.readable_name} from the time machine",
                 "close the time machine",
             ]
         ]
         return builder_output
 
-    ChallengeBuilder.register(
-        high_level_key_template.format(
-            target_object=target_object.readable_name,
-            target_object_color="",
-            converted_object=converted_object_readable_name,
-        )
-    )(operate_time_machine_challenge_builder)
-    ChallengeBuilder.register(
-        high_level_key_template.format(
-            target_object=target_object.readable_name,
-            target_object_color="",
-            converted_object=converted_object_readable_name,
-        )
-    )(operate_open_time_machine_challenge_builder)
+    # High level key
+    high_level_key = HighLevelKey(
+        action="interact",
+        interaction_object=time_machine.object_id,
+        target_object=target_object.object_id,
+        converted_object=converted_object,
+    )
+
+    ChallengeBuilder.register(high_level_key)(operate_time_machine_challenge_builder)
+    ChallengeBuilder.register(high_level_key)(operate_open_time_machine_challenge_builder)
 
     if with_color_variants:
         for color in get_args(ColorChangerObjectColor):
-            high_level_key = high_level_key_template.format(
-                target_object=target_object.readable_name,
-                target_object_color=f"#target-object-color={color.lower()}",
-                converted_object=converted_object_readable_name,
-            )
             colored_target_object_kwargs = {
                 "required_objects": {
                     target_object.readable_name: {
@@ -258,6 +246,13 @@ def operate_time_machine(
                     }
                 },
             }
+            high_level_key = HighLevelKey(
+                action="interact",
+                interaction_object=time_machine.object_id,
+                target_object=target_object.object_id,
+                target_object_color=color,
+                converted_object=converted_object,
+            )
 
             # Register the challenge builder with the modifications
             ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
@@ -275,8 +270,6 @@ def pickup_object_from_breakroom_container(
     with_color_variants: bool = False,
 ) -> None:
     """Generate challenges to pick up objects from containers."""
-    # High level key template
-    high_level_key_template = "#action=pickup#target-object={object}{target_object_color}#from-receptacle={container}#from-receptacle-is-container"
 
     def wrapper() -> ChallengeBuilderOutput:
         # Create object
@@ -331,31 +324,28 @@ def pickup_object_from_breakroom_container(
         ]
         return wrapper_output
 
-    # Register the challenge normally
-    ChallengeBuilder.register(
-        high_level_key_template.format(
-            object=object_instance_id.readable_name,
-            target_object_color="",
-            container=container_object.readable_name,
-        )
-    )(wrapper)
-    # Register with an open container
-    ChallengeBuilder.register(
-        high_level_key_template.format(
-            object=object_instance_id.readable_name,
-            target_object_color="",
-            container=container_object.readable_name,
-        ),
-    )(wrapper_open_container)
+    high_level_key = HighLevelKey(
+        action="pickup",
+        target_object=object_instance_id.object_id,
+        from_receptacle=container_object.object_id,
+        from_receptacle_is_container=True,
+    )
 
+    # Register the challenge normally
+    ChallengeBuilder.register(high_level_key)(wrapper)
+    # Register with an open container
+    ChallengeBuilder.register(high_level_key)(wrapper_open_container)
+
+    # Register variants with a specific target-object color
     if with_color_variants:
-        # Register variants with a specific target-object color
         for color in get_args(ColorChangerObjectColor):
             # Create the high level key
-            high_level_key = high_level_key_template.format(
-                object=object_instance_id.readable_name,
-                target_object_color=f"#target-object-color={color.lower()}",
-                container=container_object.readable_name,
+            high_level_key = HighLevelKey(
+                action="pickup",
+                target_object=object_instance_id.object_id,
+                target_object_color=color,
+                from_receptacle=container_object.object_id,
+                from_receptacle_is_container=True,
             )
 
             # How should the challenge builder output be modified?
@@ -383,8 +373,6 @@ def place_object_in_breakroom_container(
     with_color_variants: bool = False,
 ) -> None:
     """Generate challenges to place objects in containers."""
-    # High level key template
-    high_level_key_template = "#action=place#target-object={object}{target_object_color}#to-receptacle={container}#to-receptacle-is-container"
 
     def wrapper() -> ChallengeBuilderOutput:
         # Create object
@@ -445,31 +433,27 @@ def place_object_in_breakroom_container(
         ]
         return wrapper_output
 
+    high_level_key = HighLevelKey(
+        action="place",
+        target_object=object_instance_id.object_id,
+        to_receptacle=container_object.object_id,
+        to_receptacle_is_container=True,
+    )
+
     # Register the challenge normally
-    ChallengeBuilder.register(
-        high_level_key_template.format(
-            object=object_instance_id.readable_name,
-            target_object_color="",
-            container=container_object.readable_name,
-        )
-    )(wrapper)
+    ChallengeBuilder.register(high_level_key)(wrapper)
     # Register with an open container
-    ChallengeBuilder.register(
-        high_level_key_template.format(
-            object=object_instance_id.readable_name,
-            target_object_color="",
-            container=container_object.readable_name,
-        ),
-    )(wrapper_open_container)
+    ChallengeBuilder.register(high_level_key)(wrapper_open_container)
 
     if with_color_variants:
         # Register variants with a specific target-object color
         for color in get_args(ColorChangerObjectColor):
             # Create the high level key
-            high_level_key = high_level_key_template.format(
-                object=object_instance_id.readable_name,
-                target_object_color=f"#target-object-color={color.lower()}",
-                container=container_object.readable_name,
+            high_level_key = HighLevelKey(
+                action="place",
+                target_object=object_instance_id.object_id,
+                to_receptacle=container_object.object_id,
+                to_receptacle_is_container=True,
             )
 
             # How should the challenge builder output be modified?
@@ -492,9 +476,6 @@ def place_object_in_breakroom_container(
 
 def clean_dirty_plate(room: Literal["BreakRoom", "Warehouse"]) -> None:
     """Clean a dirty plate."""
-    # High level key template
-    high_level_key_template = "#action=clean#target-object={object}"
-
     plate = RequiredObject(name=ObjectInstanceId.parse("FoodPlate_01_1"))
     plate.add_state("Unique", "true")
     plate.add_state("isDirty", "true")
@@ -564,22 +545,20 @@ def clean_dirty_plate(room: Literal["BreakRoom", "Warehouse"]) -> None:
             plans=plans,
         )
 
-    ChallengeBuilder.register(high_level_key_template.format(object=plate.readable_name))(
-        toggle_sink_before_clean
-    )
-    ChallengeBuilder.register(high_level_key_template.format(object=plate.readable_name))(
-        sink_already_filled_before_clean
+    high_level_key = HighLevelKey(
+        action="clean", interaction_object=sink_template.object_id, target_object=plate.object_id
     )
 
+    ChallengeBuilder.register(high_level_key)(toggle_sink_before_clean)
+    ChallengeBuilder.register(high_level_key)(sink_already_filled_before_clean)
+
     for layout in get_args(OfficeLayout):
-        ChallengeBuilder.register_with_modifiers(
-            high_level_key_template.format(object=plate.readable_name),
-            {"office_layout": layout},
-        )(toggle_sink_before_clean)
-        ChallengeBuilder.register_with_modifiers(
-            high_level_key_template.format(object=plate.readable_name),
-            {"office_layout": layout},
-        )(sink_already_filled_before_clean)
+        ChallengeBuilder.register_with_modifiers(high_level_key, {"office_layout": layout})(
+            toggle_sink_before_clean
+        )
+        ChallengeBuilder.register_with_modifiers(high_level_key, {"office_layout": layout})(
+            sink_already_filled_before_clean
+        )
 
 
 def fill_object_in_sink(
@@ -589,9 +568,6 @@ def fill_object_in_sink(
     with_color_variants: bool = False,
 ) -> None:
     """Generate challenges to fill objects in sinks."""
-    # High level key template
-    high_level_key_template = "#action=fill#target-object={object}{target_object_color}"
-
     # Create object
     target_object = RequiredObject(name=object_instance_id)
     target_object.add_state("Unique", "true")
@@ -668,25 +644,24 @@ def fill_object_in_sink(
             ],
         )
 
+    high_level_key = HighLevelKey(
+        action="fill", interaction_object=sink.object_id, target_object=target_object.object_id
+    )
+
     # Register the challenge normally
-    ChallengeBuilder.register(
-        high_level_key_template.format(
-            object=object_instance_id.readable_name, target_object_color=""
-        )
-    )(toggle_sink_before_fill)
+    ChallengeBuilder.register(high_level_key)(toggle_sink_before_fill)
     # Register with an filled sink
-    ChallengeBuilder.register(
-        high_level_key_template.format(
-            object=object_instance_id.readable_name, target_object_color=""
-        )
-    )(sink_already_filled_before_fill)
+    ChallengeBuilder.register(high_level_key)(sink_already_filled_before_fill)
+
     if with_color_variants:
         # Register variants with a specific target-object color
         for color in get_args(ColorChangerObjectColor):
             # Create the high level key
-            high_level_key = high_level_key_template.format(
-                object=object_instance_id.readable_name,
-                target_object_color=f"#target-object-color={color.lower()}",
+            high_level_key = HighLevelKey(
+                action="fill",
+                interaction_object=sink.object_id,
+                target_object=target_object.object_id,
+                target_object_color=color,
             )
 
             # How should the challenge builder output be modified?
@@ -708,7 +683,11 @@ def fill_object_in_sink(
 
 
 @ChallengeBuilder.register(
-    f"#action=coffeeunmaker#target-object={ObjectId.parse('CoffeePot_01').readable_name}"
+    HighLevelKey(
+        action="interact",
+        interaction_object=ObjectId.parse("CoffeeUnMaker_01"),
+        target_object=ObjectId.parse("CoffeePot_01"),
+    )
 )
 def convert_coffee_from_pot_to_beans() -> ChallengeBuilderOutput:
     """Convert coffee back to beans with the coffee unmaker."""
@@ -769,7 +748,11 @@ def convert_coffee_from_pot_to_beans() -> ChallengeBuilderOutput:
 
 
 @ChallengeBuilder.register(
-    f"#action=coffeeunmaker#target-object={ObjectId.parse('CoffeeMug_Yellow').readable_name}"
+    HighLevelKey(
+        action="interact",
+        interaction_object=ObjectId.parse("CoffeeUnMaker_01"),
+        target_object=ObjectId.parse("CoffeeMug_Yellow"),
+    )
 )
 def convert_coffee_from_mug_to_beans() -> ChallengeBuilderOutput:
     """Convert coffee from mug back to beans with the coffee unmaker."""
@@ -907,7 +890,7 @@ def register_time_machine_interactions() -> None:
     for target_object, target_object_goal_states, with_color_variants in object_iterator:
         operate_time_machine(
             target_object,
-            target_object.readable_name,
+            target_object.object_id,
             target_object_goal_states,
             with_color_variants=with_color_variants,
         )
@@ -935,9 +918,9 @@ def register_fill_interactions() -> None:
 
 
 # Run the challenge builder builders
+register_time_machine_interactions()
 register_fridge_interactions()
 register_freezer_interactions()
-register_time_machine_interactions()
 
 clean_dirty_plate("BreakRoom")
 clean_dirty_plate("Warehouse")
