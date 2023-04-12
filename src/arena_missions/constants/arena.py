@@ -404,9 +404,10 @@ ObjectStateName = Literal[
     "isSparking",
     "isEmbiggenated",
     "isOverloaded",
-    "isInfected",
     "isExamined",
     "isColorChanged",
+    # Only works on receptacles
+    "isEmpty",
     # Will only work for the emotion tester
     "isNeutral",
     "isHappy",
@@ -417,6 +418,12 @@ ObjectStateName = Literal[
 
 RequiredObjectStateName = Literal[
     ObjectStateName,
+    # isLocked only works on Doors
+    "isLocked",
+    # Empties receptacles on challenge start
+    "removeInitialContainedItems",
+    # Ensures the object is infected, I don't know why this is different to the goal state
+    "Infected",
     # Prevents the object from spawning normally
     "Blacklist",
     # Ensures it is the only object of its type
@@ -428,6 +435,7 @@ RequiredObjectStateName = Literal[
 GoalStateExpressionKey = Literal[
     ObjectStateName,
     "Contains",
+    "isInfected",
     # Below are unverified and do not know if they even work
     # "isFilledWith",
     # "CanBeSeen",
