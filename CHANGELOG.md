@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v3.1.0...v3.1.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* do not randomise trajectory run order by default ([3e16279](https://github.com/emma-simbot/simbot-offline-inference/commit/3e16279bda25192d488792a0c5a297fc95252ba0))
+* get rid of the progress bar ([133b049](https://github.com/emma-simbot/simbot-offline-inference/commit/133b04938b89eff8e864fd17fa35b6702b424e21))
+* remove old "kill arena" command ([23e4cda](https://github.com/emma-simbot/simbot-offline-inference/commit/23e4cda97cac949b775835b2e17cc63206c0d6d9))
+
 ## [3.1.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v3.0.0...v3.1.0) (2023-04-12)
 
 
