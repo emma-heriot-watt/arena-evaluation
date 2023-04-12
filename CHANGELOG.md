@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.11.0...v2.12.0) (2023-04-12)
+
+
+### Features
+
+* separate the trajectory generation from the trajectory running ([4b9cd0d](https://github.com/emma-simbot/simbot-offline-inference/commit/4b9cd0d4b78c59373351a3c79d30d426c023e3f0))
+
 ## [2.11.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.10.0...v2.11.0) (2023-04-12)
 
 
