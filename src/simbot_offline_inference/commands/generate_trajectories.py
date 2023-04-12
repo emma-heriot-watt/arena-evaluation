@@ -53,7 +53,7 @@ def generate_trajectories(
 def run_trajectories(
     trajectories_dir: Path,
     *,
-    randomise_order: bool = True,
+    randomise_order: bool = False,
 ) -> None:
     """Run trajectories from disk."""
     if not trajectories_dir.is_dir():
