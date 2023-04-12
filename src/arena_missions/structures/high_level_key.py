@@ -34,7 +34,7 @@ InstructionAction = Literal[
 ]
 
 
-class HighLevelKey(BaseModel, validate_assignment=True, frozen=True):
+class HighLevelKey(BaseModel, validate_assignment=True, frozen=True, extra="forbid"):
     """Structured form of the High-Level Key."""
 
     key: str
