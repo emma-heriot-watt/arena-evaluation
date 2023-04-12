@@ -16,14 +16,9 @@ class SimBotArenaEvaluator:
         self,
         inference_controller: SimBotInferenceController,
         evaluation_metrics: SimBotEvaluationMetrics,
-        session_id_prefix: str,
-        *,
-        enable_randomness_in_session_id: bool = False,
     ) -> None:
         self._inference_controller = inference_controller
         self._evaluation_metrics = evaluation_metrics
-        self._session_id_prefix = session_id_prefix
-        self._enable_randomness_in_session_id = enable_randomness_in_session_id
 
         self._progress = ArenaEvaluatorProgressTracker()
 
@@ -45,9 +40,7 @@ class SimBotArenaEvaluator:
 
     def run_evaluation_step(self, trajectory: MissionTrajectory) -> None:
         """Run the evaluation on a single instance of the test data."""
-        session_id = trajectory.create_session_id(
-            self._session_id_prefix, include_randomness=self._enable_randomness_in_session_id
-        )
+        session_id = trajectory.session_id
         self._progress.start_new_trajectory(session_id, num_utterances=len(trajectory.utterances))
 
         if self._evaluation_metrics.has_mission_been_evaluated(session_id):
@@ -76,7 +69,7 @@ class SimBotArenaEvaluator:
             subgoal_completion_status,
         ) = self._inference_controller.get_goal_completion_status()
         self._evaluation_metrics.add_mission_metrics(
-            mission_name=session_id,
+            session_id=session_id,
             mission_group=trajectory.mission_group,
             is_mission_completed=goal_completion_status,
             subgoal_completion_status=subgoal_completion_status,

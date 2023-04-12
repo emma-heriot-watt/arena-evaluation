@@ -43,7 +43,9 @@ def extract_mission_group_from_description(mission_desc: str) -> Optional[str]:
     return None
 
 
-def process_their_trajectory_data(in_file: Path) -> list[MissionTrajectory]:
+def process_their_trajectory_data(
+    in_file: Path, session_id_prefix: str
+) -> list[MissionTrajectory]:
     """Process the trajectory data from their evaluation sets."""
     task_data = json.loads(in_file.read_bytes())
 
@@ -63,7 +65,7 @@ def process_their_trajectory_data(in_file: Path) -> list[MissionTrajectory]:
 
             test_instance = MissionTrajectory(
                 mission_group=extract_mission_group_from_description(task_description),
-                high_level_key=f"{task_description}_{annotation_idx}",
+                session_id=f"{session_id_prefix}_{task_description}_{annotation_idx}",
                 cdf=task["CDF"],
                 utterances=list(utterances),
             )
@@ -91,14 +93,12 @@ def run_evaluation_on_t1(start_index: int = 0, num_instances: Optional[int] = No
     trajectory_data_path = settings.trajectory_dir.joinpath("valid.json")
 
     logger.info(f"Loading test data from {trajectory_data_path}")
-    instances = process_their_trajectory_data(trajectory_data_path)
+    instances = process_their_trajectory_data(trajectory_data_path, session_id_prefix="T1")
 
     if num_instances is not None:
         instances = limit_instances_to_evaluate(instances, num_instances, start_index)
 
-    run_trajectories_in_arena(
-        instances, session_id_prefix="T1", enable_randomness_in_session_id=False
-    )
+    run_trajectories_in_arena(instances)
 
 
 def run_evaluation_on_t2(start_index: int = 0, num_instances: Optional[int] = None) -> None:
@@ -107,14 +107,12 @@ def run_evaluation_on_t2(start_index: int = 0, num_instances: Optional[int] = No
     trajectory_data_path = settings.trajectory_dir.joinpath("test.json")
 
     logger.info(f"Loading test data from {trajectory_data_path}")
-    instances = process_their_trajectory_data(trajectory_data_path)
+    instances = process_their_trajectory_data(trajectory_data_path, session_id_prefix="T2")
 
     if num_instances is not None:
         instances = limit_instances_to_evaluate(instances, num_instances, start_index)
 
-    run_trajectories_in_arena(
-        instances, session_id_prefix="T2", enable_randomness_in_session_id=False
-    )
+    run_trajectories_in_arena(instances)
 
 
 def run_their_evaluation(

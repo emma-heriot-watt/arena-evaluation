@@ -9,12 +9,7 @@ from simbot_offline_inference.orchestrators import ArenaOrchestrator, Experience
 from simbot_offline_inference.settings import Settings
 
 
-def run_trajectories_in_arena(
-    instances: list[MissionTrajectory],
-    session_id_prefix: str,
-    *,
-    enable_randomness_in_session_id: bool = False,
-) -> None:
+def run_trajectories_in_arena(instances: list[MissionTrajectory]) -> None:
     """Run the evaluation."""
     settings = Settings()
     settings.put_settings_in_environment()
@@ -42,8 +37,6 @@ def run_trajectories_in_arena(
     evaluator = SimBotArenaEvaluator(
         inference_controller,
         evaluation_metrics,
-        session_id_prefix=session_id_prefix,
-        enable_randomness_in_session_id=enable_randomness_in_session_id,
     )
 
     logger.info(f"Running evaluation for {len(instances)} instances...")

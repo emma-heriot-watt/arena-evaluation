@@ -26,7 +26,12 @@ def generate_trajectories(
 
     trajectories = list(
         itertools.chain.from_iterable(
-            [mission.convert_to_single_trajectory() for mission in missions]
+            [
+                mission.convert_to_single_trajectory(
+                    session_id_prefix, include_randomness=enable_randomisation_in_session_id
+                )
+                for mission in missions
+            ]
         )
     )
 
@@ -35,10 +40,7 @@ def generate_trajectories(
     saved_trajectories_paths = set()
 
     for trajectory in trajectories:
-        session_id = trajectory.create_session_id(
-            prefix=session_id_prefix, include_randomness=enable_randomisation_in_session_id
-        )
-        output_path = settings.missions_dir.joinpath(f"{session_id}.json")
+        output_path = settings.missions_dir.joinpath(f"{trajectory.session_id}.json")
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(trajectory.json(by_alias=True))
 
@@ -51,8 +53,6 @@ def generate_trajectories(
 def run_trajectories(
     trajectories_dir: Path,
     *,
-    session_id_prefix: str = "T",
-    enable_randomisation_in_session_id: bool = True,
     randomise_order: bool = True,
 ) -> None:
     """Run trajectories from disk."""
@@ -73,8 +73,4 @@ def run_trajectories(
     if randomise_order:
         random.shuffle(trajectories)
 
-    run_trajectories_in_arena(
-        trajectories,
-        session_id_prefix=session_id_prefix,
-        enable_randomness_in_session_id=enable_randomisation_in_session_id,
-    )
+    run_trajectories_in_arena(trajectories)

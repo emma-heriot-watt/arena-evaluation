@@ -76,13 +76,13 @@ class SimBotEvaluationMetrics:
 
         return output
 
-    def has_mission_been_evaluated(self, mission_name: str) -> bool:
+    def has_mission_been_evaluated(self, session_id: str) -> bool:
         """Check if the mission has already been evaluated."""
-        return self._output_path.joinpath(f"{mission_name}.json").exists()
+        return self._output_path.joinpath(f"{session_id}.json").exists()
 
     def add_mission_metrics(
         self,
-        mission_name: str,
+        session_id: str,
         mission_group: Optional[str],
         is_mission_completed: bool,
         subgoal_completion_status: list[Literal[0, 1]],
@@ -91,10 +91,10 @@ class SimBotEvaluationMetrics:
     ) -> None:
         """Add metrics from a recently evaluated mission."""
         self._update_metrics(mission_group, is_mission_completed, subgoal_completion_status)
-        self._save_metrics(mission_name, predicted_actions, last_game_state)
+        self._save_metrics(session_id, predicted_actions, last_game_state)
 
         logger.info(f"Test #{self._games_played} over")
-        logger.info(f"Mission name: {mission_name}")
+        logger.info(f"Mission name: {session_id}")
         logger.info(f"Mission completion status: {is_mission_completed}")
         logger.info(f"Subgoal completion status: {subgoal_completion_status}")
         logger.info(
@@ -161,7 +161,7 @@ class SimBotEvaluationMetrics:
 
     def _save_metrics(
         self,
-        mission_name: str,
+        session_id: str,
         predicted_actions: list[dict[str, Any]],
         last_game_state: dict[str, Any],
     ) -> None:
@@ -172,12 +172,12 @@ class SimBotEvaluationMetrics:
         }
 
         # Write the results to a file
-        output_file = self._output_path.joinpath(f"{mission_name}.json")
+        output_file = self._output_path.joinpath(f"{session_id}.json")
         output_file.parent.mkdir(parents=True, exist_ok=True)
         output_file.write_bytes(orjson.dumps(output_results))
         # Upload the results to S3
         self._s3_evaluation_output_dir.joinpath(
-            f"{mission_name}.json"
+            f"{session_id}.json"
         ).upload_from(  # pyright: ignore
             output_file
         )
