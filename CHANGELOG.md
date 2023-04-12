@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.9.0...v2.9.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* explicitly forbid unsupported keys from the `HighLevelKey` ([aca0079](https://github.com/emma-simbot/simbot-offline-inference/commit/aca0079b905460b24e90a12dbfb99bd7136f5831))
+
 ## [2.9.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.8.0...v2.9.0) (2023-04-11)
 
 
