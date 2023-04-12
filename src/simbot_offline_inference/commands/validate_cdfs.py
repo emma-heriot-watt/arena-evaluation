@@ -1,9 +1,10 @@
 from pathlib import Path
 
 from loguru import logger
-from rich import print as rich_print
+from rich import box, print as rich_print
 from rich.columns import Columns
 from rich.panel import Panel
+from rich.table import Table
 
 from arena_missions.builders import ChallengeBuilder
 from arena_missions.builders.mission_builder import MissionBuilder
@@ -74,3 +75,15 @@ def print_high_level_keys() -> None:
         subtitle=f"Total: {len(keys)}",
     )
     rich_print(panel)
+
+
+def print_challenges_per_high_level_key() -> None:
+    """Print the challenges that exist per high-level key."""
+    table = Table(box=box.ROUNDED, style="yellow", highlight=True)
+    table.add_column("High-level key")
+    table.add_column("Num. challenges")
+
+    for key, challenge_count in ChallengeBuilder.count_available_functions_per_key().items():
+        table.add_row(str(key), str(challenge_count))
+
+    rich_print(table)

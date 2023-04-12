@@ -2,6 +2,7 @@ import typer
 
 from simbot_offline_inference.commands import (
     generate_trajectories,
+    print_challenges_per_high_level_key,
     print_high_level_keys,
     run_background_services,
     run_their_evaluation,
@@ -19,6 +20,7 @@ app.command(rich_help_panel="Run")(run_background_services)
 app.command(rich_help_panel="Preparation")(validate_cdfs)
 app.command(rich_help_panel="Preparation")(validate_generated_missions)
 app.command(rich_help_panel="Preparation")(print_high_level_keys)
+app.command(rich_help_panel="Preparation")(print_challenges_per_high_level_key)
 
 app.command(rich_help_panel="Generation")(generate_trajectories)
 app.command(rich_help_panel="Generation")(run_trajectories)
