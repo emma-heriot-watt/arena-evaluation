@@ -11,6 +11,7 @@ from arena_missions.constants.arena import ColorChangerObjectColor, OfficeLayout
 from arena_missions.structures import (
     HighLevelKey,
     ObjectGoalState,
+    ObjectId,
     ObjectInstanceId,
     RequiredObject,
     RequiredObjectState,
@@ -704,6 +705,124 @@ def fill_object_in_sink(
             ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
                 sink_already_filled_before_fill
             )
+
+
+@ChallengeBuilder.register(
+    f"#action=coffeeunmaker#target-object={ObjectId.parse('CoffeePot_01').readable_name}"
+)
+def convert_coffee_from_pot_to_beans() -> ChallengeBuilderOutput:
+    """Convert coffee back to beans with the coffee unmaker."""
+    required_objects_builder = RequiredObjectBuilder()
+
+    # Remove existing coffee beans from the scene
+    coffee_beans = RequiredObject(name=ObjectInstanceId.parse("CoffeeBeans_01_1"))
+    coffee_beans.update_state("Blacklist", "true")
+
+    # Coffee unmaker
+    coffee_unmaker = required_objects_builder.coffee_unmaker()
+
+    # Create a pot of hot coffee
+    coffee_pot = required_objects_builder.coffee_pot(fill_with="Coffee")
+
+    goals = [
+        # Pick up the coffee pot
+        TaskGoal.from_object_goal_states(
+            [ObjectGoalState.from_parts(coffee_pot.name, "isPickedUp", "true")],
+            relation="and",
+        ),
+        # Fill the coffee unmaker with coffee from the pot
+        TaskGoal.from_object_goal_states(
+            [
+                ObjectGoalState.from_parts(coffee_unmaker.name, "isFilled", "Coffee"),
+                ObjectGoalState.from_parts(coffee_pot.name, "isFilled", "None"),
+            ],
+            relation="and",
+        ),
+        # Turn on the coffee unmaker
+        TaskGoal.from_object_goal_states(
+            [ObjectGoalState.from_parts(coffee_unmaker.name, "isToggledOn", "true")],
+            relation="and",
+        ),
+    ]
+
+    plans = [
+        [
+            "go to the coffee pot",
+            "pick up the coffee pot",
+            "go to the coffee unmaker",
+            "pour the coffee into the coffee unmaker",
+            "toggle the coffee unmaker",
+        ]
+    ]
+
+    return ChallengeBuilderOutput(
+        start_room="BreakRoom",
+        required_objects={
+            coffee_pot.name: coffee_pot,
+            coffee_beans.name: coffee_beans,
+            coffee_unmaker.name: coffee_unmaker,
+        },
+        task_goals=goals,
+        plans=plans,
+        include_all_default_objects=True,
+    )
+
+
+@ChallengeBuilder.register(
+    f"#action=coffeeunmaker#target-object={ObjectId.parse('CoffeeMug_Yellow').readable_name}"
+)
+def convert_coffee_from_mug_to_beans() -> ChallengeBuilderOutput:
+    """Convert coffee from mug back to beans with the coffee unmaker."""
+    mug = RequiredObject(name=ObjectInstanceId.parse("CoffeeMug_Yellow_1"))
+    mug.update_state("isFilled", "Coffee")
+    mug.update_state("isHot", "true")
+    mug.update_state("isPickedUp", "true")
+    mug.update_state("Unique", "true")
+
+    required_objects_builder = RequiredObjectBuilder()
+
+    # Remove existing coffee beans from the scene
+    coffee_beans = RequiredObject(name=ObjectInstanceId.parse("CoffeeBeans_01_1"))
+    coffee_beans.update_state("Blacklist", "true")
+
+    # Coffee unmaker
+    coffee_unmaker = required_objects_builder.coffee_unmaker()
+
+    goals = [
+        # Fill the coffee unmaker with coffee from the mug
+        TaskGoal.from_object_goal_states(
+            [
+                ObjectGoalState.from_parts(coffee_unmaker.name, "isFilled", "Coffee"),
+                ObjectGoalState.from_parts(mug.name, "isFilled", "None"),
+            ],
+            relation="and",
+        ),
+        # Turn on the coffee unmaker
+        TaskGoal.from_object_goal_states(
+            [ObjectGoalState.from_parts(coffee_unmaker.name, "isToggledOn", "true")],
+            relation="and",
+        ),
+    ]
+
+    plans = [
+        [
+            "go to the coffee unmaker",
+            "pour the coffee into the coffee unmaker",
+            "toggle the coffee unmaker",
+        ]
+    ]
+
+    return ChallengeBuilderOutput(
+        start_room="BreakRoom",
+        required_objects={
+            mug.name: mug,
+            coffee_beans.name: coffee_beans,
+            coffee_unmaker.name: coffee_unmaker,
+        },
+        task_goals=goals,
+        plans=plans,
+        include_all_default_objects=True,
+    )
 
 
 # Higher-order challenge builders

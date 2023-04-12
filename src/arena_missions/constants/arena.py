@@ -440,7 +440,7 @@ GoalStateExpressionKey = Literal[
 
 BooleanStr = Literal["true", "false"]
 SpawnRelation = Literal["in"]
-LiquidType = Literal["Water", "Milk", "Coffee"]
+LiquidType = Literal["Water", "Milk", "Coffee", "None"]
 
 
 @lru_cache(maxsize=1)

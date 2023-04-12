@@ -186,7 +186,7 @@ class RequiredObject(BaseModel, validate_assignment=True):
         self.colors[0] = color
 
     def update_state(
-        self, state_name: RequiredObjectStateName, state_value: Union[str, bool, None]
+        self, state_name: RequiredObjectStateName, state_value: Optional[RequiredObjectStateValue]
     ) -> None:
         """Update the state of this object."""
         # Remove the state from the list if it already exists
@@ -194,12 +194,10 @@ class RequiredObject(BaseModel, validate_assignment=True):
 
         # Add the state to the list if it is not None
         if state_value is not None:
-            self.state.append(
-                RequiredObjectState.parse_obj({state_name: str(state_value).lower()})
-            )
+            self.state.append(RequiredObjectState.parse_obj({state_name: state_value}))
 
     def add_state(
-        self, state_name: RequiredObjectStateName, state_value: Union[str, bool]
+        self, state_name: RequiredObjectStateName, state_value: Optional[RequiredObjectStateValue]
     ) -> None:
         """Add state to this object."""
         return self.update_state(state_name, state_value)

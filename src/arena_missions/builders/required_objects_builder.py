@@ -1,3 +1,5 @@
+from typing import Literal, Optional
+
 from arena_missions.constants.arena import OfficeRoom
 from arena_missions.structures import ObjectInstanceId, RequiredObject, RequiredObjectState
 
@@ -121,4 +123,27 @@ class RequiredObjectBuilder:
             state=[
                 RequiredObjectState.from_parts("isToggledOn", "true" if is_arm_lifted else "false")
             ],
+        )
+
+    def coffee_pot(
+        self, *, fill_with: Optional[Literal["Coffee", "Water"]] = None
+    ) -> RequiredObject:
+        """Generate the coffee pot for the arena."""
+        coffee_pot = RequiredObject(
+            name=ObjectInstanceId.parse("CoffeePot_01_1"), roomLocation=["BreakRoom"]
+        )
+
+        if fill_with == "Coffee":
+            coffee_pot.update_state("isFilled", "Coffee")
+            coffee_pot.update_state("isHot", "true")
+
+        if fill_with == "Water":
+            coffee_pot.update_state("isFilled", "Water")
+
+        return coffee_pot
+
+    def coffee_unmaker(self) -> RequiredObject:
+        """Generate the coffee unmaker for the arena."""
+        return RequiredObject(
+            name=ObjectInstanceId.parse("CoffeeUnMaker_01_1"), roomLocation=["BreakRoom"]
         )
