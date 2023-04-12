@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.10.0...v2.11.0) (2023-04-12)
+
+
+### Features
+
+* **challenge:** convert coffee into beans using the coffee unmaker ([#15](https://github.com/emma-simbot/simbot-offline-inference/issues/15)) ([8e36065](https://github.com/emma-simbot/simbot-offline-inference/commit/8e36065c350a84400d92b61c1e5cb54c9c89e88e))
+
 ## [2.10.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.9.1...v2.10.0) (2023-04-12)
 
 
