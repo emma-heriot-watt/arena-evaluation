@@ -53,7 +53,7 @@ class SimBotArenaEvaluator:
     def run_evaluation_step(self, trajectory: MissionTrajectory) -> None:
         """Run the evaluation on a single instance of the test data."""
         session_id = trajectory.session_id
-        self._progress.start_new_session(session_id, num_utterances=len(trajectory.utterances))
+        self._progress.start_new_session(num_utterances=len(trajectory.utterances))
 
         if self._evaluation_metrics.has_mission_been_evaluated(session_id):
             logger.info(f"Mission ({session_id}) has already been evaluated. Skipping...")

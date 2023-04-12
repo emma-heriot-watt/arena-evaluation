@@ -35,19 +35,22 @@ class ArenaEvaluatorProgressTracker:
         self.overall_progress.update(self._overall_trajectory_task, total=total_trajectories)
         self.overall_progress.start_task(self._overall_trajectory_task)
 
-    def start_new_session(self, session_id: str, num_utterances: int = 1) -> None:
+    def start_new_session(self, num_utterances: int = 1) -> None:
         """Reset the trajectory progress section for the new trajectory."""
         self.trajectory_progress.reset(
             self._current_trajectory_task, start=False, total=num_utterances, visible=True
         )
         self.trajectory_progress.update(
-            self._current_trajectory_task, description=f"Running {session_id}"
+            self._current_trajectory_task, description="Preparing session"
         )
 
     def sent_utterance(self) -> None:
         """Update trajectory progress when sending an utterance."""
         if not self.trajectory_progress.tasks[self._current_trajectory_task].started:
             self.trajectory_progress.start_task(self._current_trajectory_task)
+            self.trajectory_progress.update(
+                self._current_trajectory_task, description="Sending utterances"
+            )
         self.trajectory_progress.advance(self._current_trajectory_task)
 
     def finish_trajectory(self) -> None:
