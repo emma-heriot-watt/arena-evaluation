@@ -1,7 +1,7 @@
 from typing import Literal, Optional
 from typing_extensions import Self
 
-from convert_case import snake_case, title_case
+from convert_case import kebab_case, snake_case, title_case
 from pydantic import BaseModel, validator
 
 from arena_missions.constants.arena import ObjectColor
@@ -103,6 +103,7 @@ class HighLevelKey(BaseModel, validate_assignment=True, frozen=True, extra="forb
 
         for part_name, part_value in self.dict().items():
             if part_value:
+                part_name = kebab_case(part_name)
                 if isinstance(part_value, bool):
                     parts.append(f"#{part_name}")
                 else:
