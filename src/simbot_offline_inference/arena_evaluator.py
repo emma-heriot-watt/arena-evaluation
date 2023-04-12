@@ -66,11 +66,11 @@ class SimBotArenaEvaluator:
         actions_for_session = []
 
         for utterance in trajectory.utterances:
-            self._progress.sent_utterance()
             actions_for_utterance = self._inference_controller.handle_utterance(
                 session_id, utterance
             )
             actions_for_session.extend(actions_for_utterance)
+            self._progress.sent_utterance()
 
         # Check goal status and get results
         logger.debug("Calculating metrics for test")
