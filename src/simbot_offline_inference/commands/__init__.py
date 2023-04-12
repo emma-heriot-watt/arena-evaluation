@@ -1,4 +1,7 @@
-from simbot_offline_inference.commands.generate_trajectories import generate_trajectories
+from simbot_offline_inference.commands.generate_trajectories import (
+    generate_trajectories,
+    run_trajectories,
+)
 from simbot_offline_inference.commands.run_background_services import run_background_services
 from simbot_offline_inference.commands.run_their_evaluation import run_their_evaluation
 from simbot_offline_inference.commands.run_trajectories_in_arena import run_trajectories_in_arena

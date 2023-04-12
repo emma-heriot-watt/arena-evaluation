@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Union
 
 from cloudpathlib import S3Path
-from pydantic import BaseSettings, FilePath
+from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     experience_hub_dir: Path = storage_dir.joinpath("experience-hub/")
     models_dir: Path = experience_hub_dir.joinpath("storage/models/")
     cdf_dir: Path = storage_dir.joinpath("cdfs/")
+    missions_dir: Path = cdf_dir.joinpath("missions/")
     metrics_file: Path = storage_dir.joinpath("metrics.json")
 
     evaluation_output_dir: Path = storage_dir.joinpath("action_outputs/")
@@ -33,7 +34,7 @@ class Settings(BaseSettings):
 
     # Unity
     platform: str = "Linux"
-    arena_path: FilePath = storage_dir.joinpath("arena", platform, "Arena.x86_64")
+    arena_path: Path = storage_dir.joinpath("arena", platform, "Arena.x86_64")
     unity_log_path: Path = storage_dir.joinpath("logs", "unity_logs.log")
     display: Union[str, int] = 1
 
@@ -54,6 +55,7 @@ class Settings(BaseSettings):
             self.models_dir,
             self.unity_log_path.parent,
             self.evaluation_output_dir,
+            self.missions_dir,
         ]
         for directory in directories_to_create:
             directory.mkdir(parents=True, exist_ok=True)
