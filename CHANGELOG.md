@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.13.0...v3.0.0) (2023-04-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* use a new structure for the high-level keys
+
+### Features
+
+* do not re-run missions that have already been run ([1720664](https://github.com/emma-simbot/simbot-offline-inference/commit/1720664590646b82efd4de7f24d376b8f735c59c))
+* use a new structure for the high-level keys ([2116539](https://github.com/emma-simbot/simbot-offline-inference/commit/211653951de884c7b953111bbdd61c4fb696abd6))
+
+
+### Bug Fixes
+
+* add more state names to the arena constants ([79365b2](https://github.com/emma-simbot/simbot-offline-inference/commit/79365b289adbcd1a912f9762e3034506f63a2af4))
+* use kebab-case when converting high-level key to string ([2e2d3e8](https://github.com/emma-simbot/simbot-offline-inference/commit/2e2d3e8d271a7fb1447ddcdc1ee906fa2af4a1d9))
+
 ## [2.13.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.12.0...v2.13.0) (2023-04-12)
 
 
