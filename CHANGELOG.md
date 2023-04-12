@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v3.0.0...v3.1.0) (2023-04-12)
+
+
+### Features
+
+* restart the arena after every 10 sessions ([0f9fcdd](https://github.com/emma-simbot/simbot-offline-inference/commit/0f9fcdd800e30cc0e94a047dd37ec9a43dffdc42))
+
+
+### Bug Fixes
+
+* improve the styling of the progress bar ([3191a34](https://github.com/emma-simbot/simbot-offline-inference/commit/3191a3492b4a2765f5bcaeefc43d91a6b536aa8c))
+* update the progress bar after sending the utterance ([5d698c3](https://github.com/emma-simbot/simbot-offline-inference/commit/5d698c36e0223bc46ed0d6cd12bbed32714ccbda))
+* update the progress bar more ([4ecce70](https://github.com/emma-simbot/simbot-offline-inference/commit/4ecce701c75075be3859101114b320f80f777a1d))
+
 ## [3.0.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v2.13.0...v3.0.0) (2023-04-12)
 
 
