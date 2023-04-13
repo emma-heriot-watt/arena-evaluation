@@ -15,24 +15,15 @@ class SimBotArenaEvaluator:
         self,
         inference_controller: SimBotInferenceController,
         evaluation_metrics: SimBotEvaluationMetrics,
-        *,
-        restart_arena_after_num_sessions: int = 10,
     ) -> None:
         self._inference_controller = inference_controller
         self._evaluation_metrics = evaluation_metrics
 
-        self._restart_arena_after_num_sessions = restart_arena_after_num_sessions
-
     def run_evaluation(self, trajectories: list[MissionTrajectory]) -> None:
         """Run the evaluation on all the test data."""
-        trajectory_batches = self._create_trajectory_batches(trajectories)
-
-        for batch in trajectory_batches:
-            with self._inference_controller:
-                for instance in batch:
-                    self.run_evaluation_step(instance)
-
-                logger.info("Completed batch. Restarting Arena...")
+        with self._inference_controller:
+            for instance in trajectories:
+                self.run_evaluation_step(instance)
 
             logger.info("Finished evaluation!")
 
@@ -82,15 +73,3 @@ class SimBotArenaEvaluator:
         logger.debug("Verifying Experience Hub is healthy")
         if not self._inference_controller.healthcheck():
             raise AssertionError("The Experience Hub is not healthy.")
-
-    def _create_trajectory_batches(
-        self, trajectories: list[MissionTrajectory]
-    ) -> list[list[MissionTrajectory]]:
-        batched_trajectories = []
-
-        for idx in range(0, len(trajectories), self._restart_arena_after_num_sessions):
-            batched_trajectories.append(
-                trajectories[idx : idx + self._restart_arena_after_num_sessions]
-            )
-
-        return batched_trajectories
