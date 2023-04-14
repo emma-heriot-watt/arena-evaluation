@@ -634,18 +634,15 @@ def fill_object_in_sink(
         goals = [
             # Fill the sink
             TaskGoal.from_object_goal_states(
-                [ObjectGoalState.from_parts(sink.name, "isToggledOn", "true")],
-                relation="and",
+                [ObjectGoalState.from_parts(sink.name, "isToggledOn", "true")]
             ),
-            # Fill the object
             TaskGoal.from_object_goal_states(
-                [ObjectGoalState.from_parts(target_object.name, "isFilled", "Water")],
-                relation="and",
-            ),
-            # Drain the sink
-            TaskGoal.from_object_goal_states(
-                [ObjectGoalState.from_parts(sink.name, "isToggledOn", "true")],
-                relation="and",
+                [
+                    # Fill the object
+                    ObjectGoalState.from_parts(target_object.name, "isFilled", "Water"),
+                    # Drain the sink
+                    ObjectGoalState.from_parts(sink.name, "isToggledOn", "false"),
+                ],
             ),
         ]
 
@@ -669,15 +666,13 @@ def fill_object_in_sink(
     def sink_already_filled_before_fill() -> ChallengeBuilderOutput:
         sink.add_state("isToggledOn", "true")
         goals = [
-            # Fill the object
             TaskGoal.from_object_goal_states(
-                [ObjectGoalState.from_parts(target_object.name, "isFilled", "Water")],
-                relation="and",
-            ),
-            # Drain the sink
-            TaskGoal.from_object_goal_states(
-                [ObjectGoalState.from_parts(sink.name, "isToggledOn", "true")],
-                relation="and",
+                [
+                    # Fill the object
+                    ObjectGoalState.from_parts(target_object.name, "isFilled", "Water"),
+                    # Drain the sink
+                    ObjectGoalState.from_parts(sink.name, "isToggledOn", "false"),
+                ],
             ),
         ]
 
@@ -760,20 +755,17 @@ def convert_coffee_from_pot_to_beans() -> ChallengeBuilderOutput:
         # Pick up the coffee pot
         TaskGoal.from_object_goal_states(
             [ObjectGoalState.from_parts(coffee_pot.name, "isPickedUp", "true")],
-            relation="and",
         ),
         # Fill the coffee unmaker with coffee from the pot
         TaskGoal.from_object_goal_states(
             [
                 ObjectGoalState.from_parts(coffee_unmaker.name, "isFilled", "Coffee"),
                 ObjectGoalState.from_parts(coffee_pot.name, "isFilled", "None"),
-            ],
-            relation="and",
+            ]
         ),
         # Turn on the coffee unmaker
         TaskGoal.from_object_goal_states(
             [ObjectGoalState.from_parts(coffee_unmaker.name, "isToggledOn", "true")],
-            relation="and",
         ),
     ]
 
@@ -830,12 +822,10 @@ def convert_coffee_from_mug_to_beans() -> ChallengeBuilderOutput:
                 ObjectGoalState.from_parts(coffee_unmaker.name, "isFilled", "Coffee"),
                 ObjectGoalState.from_parts(mug.name, "isFilled", "None"),
             ],
-            relation="and",
         ),
         # Turn on the coffee unmaker
         TaskGoal.from_object_goal_states(
             [ObjectGoalState.from_parts(coffee_unmaker.name, "isToggledOn", "true")],
-            relation="and",
         ),
     ]
 
