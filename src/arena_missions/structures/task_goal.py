@@ -15,7 +15,11 @@ TASK_GOAL_VISIBILITY = {  # noqa: WPS407
 }
 
 
-ObjectGoalStateRelation = Literal["and", "or"]
+ObjectGoalStateRelation = Literal[
+    # "and" is not allowed. This is because "and" does not work the way you think it does.
+    # "and",
+    "or",
+]
 
 GoalStateExpressionValue = Union[BooleanStr, ObjectInstanceId, LiquidType]
 
@@ -142,7 +146,7 @@ class TaskGoal(BaseModel):
     """Task goal within the Arena."""
 
     object_states: list[ObjectGoalState] = Field(..., unique_items=True, min_items=1)
-    object_states_relation: ObjectGoalStateRelation
+    object_states_relation: ObjectGoalStateRelation = "or"
 
     # This will be automatically set later
     goal_id: int = 0
@@ -155,7 +159,7 @@ class TaskGoal(BaseModel):
 
     @classmethod
     def from_object_goal_states(
-        cls, object_states: list[ObjectGoalState], relation: ObjectGoalStateRelation = "and"
+        cls, object_states: list[ObjectGoalState], relation: ObjectGoalStateRelation = "or"
     ) -> "TaskGoal":
         """Create the goal from the object states."""
         return cls(object_states=object_states, object_states_relation=relation)
