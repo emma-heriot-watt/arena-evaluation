@@ -1,8 +1,6 @@
-import signal
 import time
 from multiprocessing import Process
 from pathlib import Path
-from threading import Event
 from typing import Any, NamedTuple, Optional
 from uuid import uuid4
 
@@ -151,8 +149,6 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
 class ExperienceHubOrchestrator:
     """Orchestrator for the Experience Hub."""
 
-    _exit = Event()
-
     def __init__(
         self,
         healthcheck_endpoint: str,
@@ -180,7 +176,7 @@ class ExperienceHubOrchestrator:
                 "log_to_cloudwatch": False,
                 "traces_to_opensearch": False,
                 "workers": 1,
-                "timeout": 100,
+                "timeout": 10,
             },
             daemon=True,
         )
@@ -197,17 +193,12 @@ class ExperienceHubOrchestrator:
 
     def kill_experience_hub(self) -> None:
         """Kill the experience hub."""
-        logger.debug("Trying to stop running the experience hub...")
-
-        self._experience_hub_process.join()
-        self._experience_hub_process.close()
+        logger.debug("Killing the experience hub...")
 
         if self._experience_hub_process.is_alive():
-            logger.debug("Killing the experience hub...")
             self._experience_hub_process.kill()
 
         if self._experience_hub_process.is_alive():
-            logger.debug("Terminating the experience hub...")
             self._experience_hub_process.terminate()
 
     def healthcheck(self, attempts: int = 1, interval: int = 0) -> bool:
@@ -215,15 +206,13 @@ class ExperienceHubOrchestrator:
 
         To disable retries, just set the number of attempts to 1.
         """
-        self._prepare_exit_signal()
-
         healthcheck_flag = False
 
         for attempt in range(attempts):
             healthcheck_flag = self._healthcheck()
 
             # If the healthcheck flag is all good, break from the loop
-            if healthcheck_flag or self._exit.is_set():
+            if healthcheck_flag:
                 break
 
             # Otherwise, report a failed attempt
@@ -288,17 +277,6 @@ class ExperienceHubOrchestrator:
 
         logger.info("Healthcheck success")
         return True
-
-    def _prepare_exit_signal(self) -> None:
-        """Prepare the exit signal to handle KeyboardInterrupt events."""
-        for sig in ("TERM", "HUP", "INT"):
-            signal.signal(getattr(signal, f"SIG{sig}"), self._break_from_sleep)
-
-    def _break_from_sleep(self, signum: int, _frame: Any) -> None:
-        """Break from the sleep."""
-        logger.info("Interrupted. Shutting down...")
-        self.kill_experience_hub()
-        self._exit.set()
 
     def _save_auxiliary_metadata(
         self,
