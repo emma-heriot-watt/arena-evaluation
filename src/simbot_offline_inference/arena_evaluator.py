@@ -1,6 +1,6 @@
 from loguru import logger
 
-from arena_missions.structures import CDF, MissionTrajectory
+from arena_missions.structures import MissionTrajectory
 from simbot_offline_inference.inference_controller import SimBotInferenceController
 from simbot_offline_inference.metrics import SimBotEvaluationMetrics
 
@@ -40,7 +40,14 @@ class SimBotArenaEvaluator:
 
         logger.info(f"Running evaluation for '{session_id}'")
 
-        self.prepare_cdf_in_arena(trajectory.cdf)
+        self.prepare_arena(trajectory)
+
+        # Run preparation steps if needed
+        if trajectory.preparation_utterances:
+            logger.info("Running preparation steps")
+            prep_session_id = trajectory.create_preparation_session_id()
+            for prep_utterance in trajectory.preparation_utterances:
+                self._inference_controller.handle_utterance(prep_session_id, prep_utterance)
 
         actions_for_session = []
 
@@ -65,11 +72,26 @@ class SimBotArenaEvaluator:
             last_game_state=self._inference_controller.get_latest_game_state(),
         )
 
-    def prepare_cdf_in_arena(self, cdf: CDF) -> None:
+    def prepare_arena(self, trajectory: MissionTrajectory) -> None:
         """Prepare the arena with the CDF."""
         logger.info("Launching mission in the Arena")
-        self._inference_controller.launch_game(cdf)
+        self._inference_controller.launch_game(trajectory.cdf)
 
         logger.debug("Verifying Experience Hub is healthy")
         if not self._inference_controller.healthcheck():
             raise AssertionError("The Experience Hub is not healthy.")
+
+        # Run the preparation steps
+        if trajectory.preparation_utterances:
+            logger.debug("Running preparation steps")
+            prep_session_id = trajectory.create_preparation_session_id()
+            for prep_utterance in trajectory.preparation_utterances:
+                self._inference_controller.handle_utterance(prep_session_id, prep_utterance)
+
+        # Go to random viewpoint
+        logger.debug("Going to random viewpoint")
+        self._inference_controller.go_to_random_viewpoint(trajectory.cdf.start_room)
+
+        # Randomise the start position
+        logger.debug("Randomising start position")
+        self._inference_controller.randomise_start_position()

@@ -168,8 +168,11 @@ class RequiredObject(BaseModel, validate_assignment=True):
 
     def update_receptacle(self, receptacle: Optional[ObjectInstanceId]) -> None:
         """Set the receptacle this object is in."""
+        # Clear any existing location set
+        self.location.clear()
+
+        # If there is no receptacle to add, return
         if not receptacle:
-            self.location.clear()
             return
 
         self.location.append({receptacle: "in"})

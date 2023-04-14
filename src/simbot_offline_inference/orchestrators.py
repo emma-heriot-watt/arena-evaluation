@@ -10,6 +10,7 @@ import httpx
 import orjson
 from loguru import logger
 
+from arena_missions.constants.arena import OfficeRoom
 from arena_wrapper.arena_orchestrator import ArenaOrchestrator as AlexaArenaOrchestrator
 from arena_wrapper.enums.object_output_wrapper import ObjectOutputType
 from emma_experience_hub.commands.simbot.cli import run_controller_api
@@ -59,7 +60,6 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
         """
         self.send_cdf_to_arena(mission_cdf)
         self.send_dummy_actions_to_arena(attempts, interval, object_output_type)
-        self.randomise_start_position()
 
     def send_cdf_to_arena(self, mission_cdf: Any) -> None:
         """Send the CDF to the Arena instance."""
@@ -99,6 +99,16 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
 
         raise AssertionError("Exhauted all attempts")
 
+    def go_to_random_viewpoint(self, room: OfficeRoom) -> None:
+        """Go to a random viewpoint in the given room."""
+        logger.debug("Going to a random viewpoint in the room")
+        action_builder = ArenaActionBuilder()
+        actions_to_send = [action_builder.random_viewpoint(room)]
+        return_val, _ = self.execute_action(actions_to_send, ObjectOutputType.OBJECT_MASK, None)
+
+        if not return_val:
+            raise AssertionError("Failed to go to random viewpoint")
+
     def randomise_start_position(
         self,
         num_steps: int = 10,
@@ -107,7 +117,7 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
         """Randomise the start position of the agent."""
         logger.debug("Randomising start position of the agent")
         action_builder = ArenaActionBuilder()
-        actions_to_send = [action_builder.random() for _ in range(num_steps)]
+        actions_to_send = [action_builder.random_navigation() for _ in range(num_steps)]
 
         for action in actions_to_send:
             return_val, action_response = self.execute_action([action], object_output_type, None)

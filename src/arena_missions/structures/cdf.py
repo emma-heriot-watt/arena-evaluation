@@ -108,4 +108,9 @@ class CDF(BaseModel, validate_assignment=True):
             raise ValueError(f"Experimental must be boolean string, got {experimental}")
         return experimental
 
+    @property
+    def start_room(self) -> OfficeRoom:
+        """Get the starting room."""
+        return self.scene.room_location[0]
+
     # TODO: Verify that the task goal object state keys are in the cdf scene required objects

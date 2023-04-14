@@ -155,7 +155,7 @@ class TaskGoal(BaseModel):
 
     @classmethod
     def from_object_goal_states(
-        cls, object_states: list[ObjectGoalState], relation: ObjectGoalStateRelation
+        cls, object_states: list[ObjectGoalState], relation: ObjectGoalStateRelation = "and"
     ) -> "TaskGoal":
         """Create the goal from the object states."""
         return cls(object_states=object_states, object_states_relation=relation)

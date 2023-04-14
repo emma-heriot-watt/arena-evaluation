@@ -1,4 +1,3 @@
-import itertools
 import random
 from pathlib import Path
 
@@ -24,16 +23,12 @@ def generate_trajectories(
     )
     logger.info(f"Loaded {len(missions)} missions")
 
-    trajectories = list(
-        itertools.chain.from_iterable(
-            [
-                mission.convert_to_single_trajectory(
-                    session_id_prefix, include_randomness=enable_randomisation_in_session_id
-                )
-                for mission in missions
-            ]
+    trajectories = [
+        mission.convert_to_trajectory(
+            session_id_prefix, include_randomness=enable_randomisation_in_session_id
         )
-    )
+        for mission in missions
+    ]
 
     logger.info(f"Loaded {len(trajectories)} separate trajectories.")
 

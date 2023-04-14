@@ -4,7 +4,7 @@ from itertools import groupby
 from typing import Any, Callable, Literal, Optional, Union, get_args
 
 from deepmerge import always_merger
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from arena_missions.builders.required_objects_builder import RequiredObjectBuilder
 from arena_missions.constants.arena import ColorChangerObjectColor, OfficeLayout, OfficeRoom
@@ -25,14 +25,16 @@ class ChallengeBuilderOutput(BaseModel):
     start_room: OfficeRoom
     required_objects: dict[str, RequiredObject]
     task_goals: list[TaskGoal]
-    plans: list[list[str]]
+    plan: list[str]
+
+    preparation_plan: list[str] = Field(default_factory=list)
 
     # If you want to override the office layout, set this.
     office_layout: Optional[OfficeLayout] = None
 
     # Whether or not to include all the default objects like open doors, etc.
     # If you don't care, just ignore it.
-    include_all_default_objects: Optional[bool] = None
+    include_all_default_objects: Optional[bool] = True
 
     @property
     def required_objects_list(self) -> list[RequiredObject]:
@@ -155,19 +157,33 @@ def operate_time_machine(
     time_machine = required_object_builder.time_machine()
     time_machine.add_state("Unique", "true")
 
+    # Create the breakroom table
+    breakroom_table = required_object_builder.breakroom_table()
+
+    # Put the target object on the table
+    target_object.update_receptacle(breakroom_table.name)
+
+    # Prepare by picking up the object
+    preparation_plan = [
+        "go to the breakroom table",
+        f"pick up the {target_object.readable_name}",
+    ]
+
     def operate_time_machine_challenge_builder() -> ChallengeBuilderOutput:
-        # Make sure the target object has been picked up and is unique
-        target_object.add_state("isPickedUp", "true")
+        # Make sure the target object is unique
         target_object.add_state("Unique", "true")
 
         goals = [
+            # Pick up the object from the breakroom table
+            TaskGoal.from_object_goal_states(
+                [ObjectGoalState.from_parts(target_object.name, "isPickedUp", "true")],
+            ),
             # Turn on the time machine with the bowl inside
             TaskGoal.from_object_goal_states(
                 [
                     ObjectGoalState.from_parts(time_machine.name, "isToggledOn", "true"),
                     ObjectGoalState.from_parts(time_machine.name, "Contains", target_object.name),
                 ],
-                relation="and",
             ),
             # Pick up the new object and make sure the time machine is closed
             TaskGoal.from_object_goal_states(
@@ -177,12 +193,18 @@ def operate_time_machine(
                     # Also make sure the target color is not changed anymore
                     *target_object_goal_states,
                 ],
-                relation="and",
             ),
         ]
 
-        plans = [
-            [
+        return ChallengeBuilderOutput(
+            start_room="BreakRoom",
+            required_objects={
+                "breakroomtable": breakroom_table,
+                "timemachine": time_machine,
+                target_object.readable_name: target_object,
+            },
+            task_goals=goals,
+            plan=[
                 "go to the time machine",
                 "open the time machine",
                 f"put the {target_object.readable_name} in the time machine",
@@ -191,17 +213,8 @@ def operate_time_machine(
                 "open the time machine",
                 f"pick up the {converted_object.readable_name} from the time machine",
                 "close the time machine",
-            ]
-        ]
-
-        return ChallengeBuilderOutput(
-            start_room="BreakRoom",
-            required_objects={
-                "timemachine": time_machine,
-                target_object.readable_name: target_object,
-            },
-            task_goals=goals,
-            plans=plans,
+            ],
+            preparation_plan=preparation_plan,
         )
 
     def operate_open_time_machine_challenge_builder() -> ChallengeBuilderOutput:
@@ -213,16 +226,14 @@ def operate_time_machine(
         # Open the time machine
         builder_output.required_objects["timemachine"].add_state("isOpen", "true")
         # Change the plans
-        builder_output.plans = [
-            [
-                "go to the time machine",
-                f"put the {target_object.readable_name} in the time machine",
-                "close the time machine",
-                "turn on the time machine",
-                "open the time machine",
-                f"pick up the {converted_object.readable_name} from the time machine",
-                "close the time machine",
-            ]
+        builder_output.plan = [
+            "go to the time machine",
+            f"put the {target_object.readable_name} in the time machine",
+            "close the time machine",
+            "turn on the time machine",
+            "open the time machine",
+            f"pick up the {converted_object.readable_name} from the time machine",
+            "close the time machine",
         ]
         return builder_output
 
@@ -302,25 +313,21 @@ def pickup_object_from_breakroom_container(
                 object_instance_id: target_object,
             },
             task_goals=goals,
-            plans=[
-                [
-                    f"go to the {container_object.readable_name}",
-                    f"open the {container_object.readable_name}",
-                    f"pick up the {object_instance_id.readable_name}",
-                    f"close the {container_object.readable_name}",
-                ]
+            plan=[
+                f"go to the {container_object.readable_name}",
+                f"open the {container_object.readable_name}",
+                f"pick up the {object_instance_id.readable_name}",
+                f"close the {container_object.readable_name}",
             ],
         )
 
     def wrapper_open_container() -> ChallengeBuilderOutput:
         wrapper_output = wrapper()
         wrapper_output.required_objects[container_object.name].add_state("isOpen", "true")
-        wrapper_output.plans = [
-            [
-                f"go to the {container_object.readable_name}",
-                f"pick up the {object_instance_id.readable_name}",
-                f"close the {container_object.readable_name}",
-            ]
+        wrapper_output.plan = [
+            f"go to the {container_object.readable_name}",
+            f"pick up the {object_instance_id.readable_name}",
+            f"close the {container_object.readable_name}",
         ]
         return wrapper_output
 
@@ -373,13 +380,25 @@ def place_object_in_breakroom_container(
     with_color_variants: bool = False,
 ) -> None:
     """Generate challenges to place objects in containers."""
+    required_object_builder = RequiredObjectBuilder()
+
+    # Create object
+    target_object = RequiredObject(name=object_instance_id)
+    target_object.add_state("Unique", "true")
+
+    # Create the breakroom table
+    breakroom_table = required_object_builder.breakroom_table()
+
+    # Put the target object on the table
+    target_object.update_receptacle(breakroom_table.name)
+
+    # Prepare by picking up the object
+    preparation_plan = [
+        "go to the breakroom table",
+        f"pick up the {target_object.readable_name}",
+    ]
 
     def wrapper() -> ChallengeBuilderOutput:
-        # Create object
-        target_object = RequiredObject(name=object_instance_id)
-        target_object.add_state("Unique", "true")
-        target_object.add_state("isPickedUp", "true")
-
         goals = [
             # Place the object in an open container
             TaskGoal.from_object_goal_states(
@@ -409,27 +428,25 @@ def place_object_in_breakroom_container(
             required_objects={
                 container_object.name: container_object,
                 object_instance_id: target_object,
+                breakroom_table.name: breakroom_table,
             },
             task_goals=goals,
-            plans=[
-                [
-                    f"go to the {container_object.readable_name}",
-                    f"open the {container_object.readable_name}",
-                    f"put the {object_instance_id.readable_name} in the {container_object.readable_name}",
-                    f"close the {container_object.readable_name}",
-                ]
+            plan=[
+                f"go to the {container_object.readable_name}",
+                f"open the {container_object.readable_name}",
+                f"put the {object_instance_id.readable_name} in the {container_object.readable_name}",
+                f"close the {container_object.readable_name}",
             ],
+            preparation_plan=preparation_plan,
         )
 
     def wrapper_open_container() -> ChallengeBuilderOutput:
         wrapper_output = wrapper()
         wrapper_output.required_objects[container_object.name].add_state("isOpen", "true")
-        wrapper_output.plans = [
-            [
-                f"go to the {container_object.readable_name}",
-                f"place the {object_instance_id.readable_name} in the {container_object.readable_name}",
-                f"close the {container_object.readable_name}",
-            ]
+        wrapper_output.plan = [
+            f"go to the {container_object.readable_name}",
+            f"place the {object_instance_id.readable_name} in the {container_object.readable_name}",
+            f"close the {container_object.readable_name}",
         ]
         return wrapper_output
 
@@ -476,10 +493,23 @@ def place_object_in_breakroom_container(
 
 def clean_dirty_plate(room: Literal["BreakRoom", "Warehouse"]) -> None:
     """Clean a dirty plate."""
+    required_object_builder = RequiredObjectBuilder()
+
     plate = RequiredObject(name=ObjectInstanceId.parse("FoodPlate_01_1"))
     plate.add_state("Unique", "true")
     plate.add_state("isDirty", "true")
-    plate.add_state("isPickedUp", "true")
+
+    # Create the breakroom table
+    breakroom_table = required_object_builder.breakroom_table()
+
+    # Put the target object on the table
+    plate.update_receptacle(breakroom_table.name)
+
+    # Prepare by picking up the object
+    preparation_plan = [
+        "go to the breakroom table",
+        f"pick up the {plate.readable_name}",
+    ]
 
     sink_template = RequiredObject(
         name=ObjectInstanceId.parse("KitchenCounterSink_01_1"), roomLocation=[room]
@@ -508,15 +538,21 @@ def clean_dirty_plate(room: Literal["BreakRoom", "Warehouse"]) -> None:
             ),
         ]
 
-        plans = [
-            ["go to the sink", "toggle the sink", "clean the plate in the sink", "toggle the sink"]
-        ]
-
         return ChallengeBuilderOutput(
             start_room=room,
-            required_objects={sink.name: sink, plate.name: plate},
+            required_objects={
+                sink.name: sink,
+                plate.name: plate,
+                breakroom_table.name: breakroom_table,
+            },
             task_goals=goals,
-            plans=plans,
+            plan=[
+                "go to the sink",
+                "toggle the sink",
+                "clean the plate in the sink",
+                "toggle the sink",
+            ],
+            preparation_plan=preparation_plan,
         )
 
     def sink_already_filled_before_clean() -> ChallengeBuilderOutput:
@@ -537,12 +573,16 @@ def clean_dirty_plate(room: Literal["BreakRoom", "Warehouse"]) -> None:
             ),
         ]
 
-        plans = [["go to the sink", "clean the plate in the sink", "toggle the sink"]]
         return ChallengeBuilderOutput(
             start_room=room,
-            required_objects={sink.name: sink, plate.name: plate},
+            required_objects={
+                sink.name: sink,
+                plate.name: plate,
+                breakroom_table.name: breakroom_table,
+            },
             task_goals=goals,
-            plans=plans,
+            plan=["go to the sink", "clean the plate in the sink", "toggle the sink"],
+            preparation_plan=preparation_plan,
         )
 
     high_level_key = HighLevelKey(
@@ -568,10 +608,23 @@ def fill_object_in_sink(
     with_color_variants: bool = False,
 ) -> None:
     """Generate challenges to fill objects in sinks."""
+    required_object_builder = RequiredObjectBuilder()
+
+    # Create the breakroom table
+    breakroom_table = required_object_builder.breakroom_table()
+
     # Create object
     target_object = RequiredObject(name=object_instance_id)
     target_object.add_state("Unique", "true")
-    target_object.add_state("isPickedUp", "true")
+
+    # Put the target object on the table
+    target_object.update_receptacle(breakroom_table.name)
+
+    # Prepare by picking up the object
+    preparation_plan = [
+        "go to the breakroom table",
+        f"pick up the {target_object.readable_name}",
+    ]
 
     sink = RequiredObject(
         name=ObjectInstanceId.parse("KitchenCounterSink_01_1"), roomLocation=[room]
@@ -601,16 +654,16 @@ def fill_object_in_sink(
             required_objects={
                 sink.name: sink,
                 object_instance_id: target_object,
+                breakroom_table.name: breakroom_table,
             },
             task_goals=goals,
-            plans=[
-                [
-                    "go to the sink",
-                    "toggle the sink",
-                    f"fill the {object_instance_id.readable_name} in the sink",
-                    "toggle the sink",
-                ]
+            plan=[
+                "go to the sink",
+                "toggle the sink",
+                f"fill the {object_instance_id.readable_name} in the sink",
+                "toggle the sink",
             ],
+            preparation_plan=preparation_plan,
         )
 
     def sink_already_filled_before_fill() -> ChallengeBuilderOutput:
@@ -633,15 +686,15 @@ def fill_object_in_sink(
             required_objects={
                 sink.name: sink,
                 object_instance_id: target_object,
+                breakroom_table.name: breakroom_table,
             },
             task_goals=goals,
-            plans=[
-                [
-                    "go to the sink",
-                    f"fill the {object_instance_id.readable_name} in the sink",
-                    "toggle the sink",
-                ]
+            plan=[
+                "go to the sink",
+                f"fill the {object_instance_id.readable_name} in the sink",
+                "toggle the sink",
             ],
+            preparation_plan=preparation_plan,
         )
 
     high_level_key = HighLevelKey(
@@ -724,16 +777,6 @@ def convert_coffee_from_pot_to_beans() -> ChallengeBuilderOutput:
         ),
     ]
 
-    plans = [
-        [
-            "go to the coffee pot",
-            "pick up the coffee pot",
-            "go to the coffee unmaker",
-            "pour the coffee into the coffee unmaker",
-            "toggle the coffee unmaker",
-        ]
-    ]
-
     return ChallengeBuilderOutput(
         start_room="BreakRoom",
         required_objects={
@@ -742,8 +785,15 @@ def convert_coffee_from_pot_to_beans() -> ChallengeBuilderOutput:
             coffee_unmaker.name: coffee_unmaker,
         },
         task_goals=goals,
-        plans=plans,
-        include_all_default_objects=True,
+        plan=[
+            "go to the coffee unmaker",
+            "pour the coffee into the coffee unmaker",
+            "toggle the coffee unmaker",
+        ],
+        preparation_plan=[
+            f"find the {coffee_pot.readable_name}",
+            f"pick up the {coffee_pot.readable_name}",
+        ],
     )
 
 
@@ -759,10 +809,12 @@ def convert_coffee_from_mug_to_beans() -> ChallengeBuilderOutput:
     mug = RequiredObject(name=ObjectInstanceId.parse("CoffeeMug_Yellow_1"))
     mug.update_state("isFilled", "Coffee")
     mug.update_state("isHot", "true")
-    mug.update_state("isPickedUp", "true")
-    mug.update_state("Unique", "true")
 
     required_objects_builder = RequiredObjectBuilder()
+
+    breakroom_table = required_objects_builder.breakroom_table()
+
+    mug.update_receptacle(breakroom_table.name)
 
     # Remove existing coffee beans from the scene
     coffee_beans = RequiredObject(name=ObjectInstanceId.parse("CoffeeBeans_01_1"))
@@ -787,24 +839,24 @@ def convert_coffee_from_mug_to_beans() -> ChallengeBuilderOutput:
         ),
     ]
 
-    plans = [
-        [
-            "go to the coffee unmaker",
-            "pour the coffee into the coffee unmaker",
-            "toggle the coffee unmaker",
-        ]
-    ]
-
     return ChallengeBuilderOutput(
         start_room="BreakRoom",
         required_objects={
             mug.name: mug,
             coffee_beans.name: coffee_beans,
             coffee_unmaker.name: coffee_unmaker,
+            breakroom_table.name: breakroom_table,
         },
         task_goals=goals,
-        plans=plans,
-        include_all_default_objects=True,
+        plan=[
+            "go to the coffee unmaker",
+            "pour the coffee into the coffee unmaker",
+            "toggle the coffee unmaker",
+        ],
+        preparation_plan=[
+            f"find the {mug.readable_name}",
+            f"pick up the {mug.readable_name}",
+        ],
     )
 
 

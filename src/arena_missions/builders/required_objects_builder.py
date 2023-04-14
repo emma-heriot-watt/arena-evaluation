@@ -147,3 +147,9 @@ class RequiredObjectBuilder:
         return RequiredObject(
             name=ObjectInstanceId.parse("CoffeeUnMaker_01_1"), roomLocation=["BreakRoom"]
         )
+
+    def breakroom_table(self) -> RequiredObject:
+        """Create the round table in the breakroom."""
+        return RequiredObject(
+            name=ObjectInstanceId.parse("TableRound_02_1"), roomLocation=["BreakRoom"]
+        )

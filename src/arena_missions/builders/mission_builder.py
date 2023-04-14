@@ -44,7 +44,12 @@ class MissionBuilder:
         """Generate a mission."""
         builder_output = challenge_builder_function()
         cdf = self.generate_cdf(builder_output)
-        return Mission(high_level_key=high_level_key, plans=builder_output.plans, cdf=cdf)
+        return Mission(
+            high_level_key=high_level_key,
+            plan=builder_output.plan,
+            cdf=cdf,
+            preparation_plan=builder_output.preparation_plan,
+        )
 
     def generate_cdf(self, challenge_builder_output: ChallengeBuilderOutput) -> CDF:
         """Generate a challenge."""

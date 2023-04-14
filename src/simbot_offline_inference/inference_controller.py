@@ -28,6 +28,9 @@ class SimBotInferenceController:
 
         self._exit_stack = ExitStack()
 
+        self.randomise_start_position = self._arena_orchestrator.randomise_start_position
+        self.go_to_random_viewpoint = self._arena_orchestrator.go_to_random_viewpoint
+
     def __enter__(self) -> None:
         """Initialize the services."""
         self._exit_stack.enter_context(self._arena_orchestrator)
