@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v3.1.2...v3.2.0) (2023-04-14)
+
+
+### Features
+
+* do not send utterances to the arena if all the goals are complete ([b8cc13c](https://github.com/emma-simbot/simbot-offline-inference/commit/b8cc13c125338e4965b03edf7f244e88aa46c46f))
+* make it easier to kill the experience hub when something goes wrong ([7e375fe](https://github.com/emma-simbot/simbot-offline-inference/commit/7e375fec74eb0c7d20038fc8e02011201e1dd9ec))
+
+
+### Bug Fixes
+
+* fill the object challenge goals ([8543bb2](https://github.com/emma-simbot/simbot-offline-inference/commit/8543bb2a7d8f238a6330761fed959bae9d945d67))
+* include a preparation plan to be able to pickup objects ([#16](https://github.com/emma-simbot/simbot-offline-inference/issues/16)) ([d86301a](https://github.com/emma-simbot/simbot-offline-inference/commit/d86301ad96dd407c6c768847e5b494cac1dbc825))
+
 ## [3.1.2](https://github.com/emma-simbot/simbot-offline-inference/compare/v3.1.1...v3.1.2) (2023-04-13)
 
 
