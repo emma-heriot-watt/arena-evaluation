@@ -82,6 +82,11 @@ class SimBotInferenceController:
         actions_taken: list[dict[str, Any]] = []
         previous_action_statuses: list[Any] = []
 
+        if self.is_all_goals_complete():
+            raise AssertionError(
+                "Do not send an utterance when all goals are complete. Arena will crash. If you are wanting to do this, there is something wrong in the challenge definition."
+            ) from None
+
         for loop_idx in range(self._max_loops_for_single_utterance):
             logger.debug(f"Executing step {loop_idx}")
 
@@ -154,3 +159,31 @@ class SimBotInferenceController:
             for key in self._arena_orchestrator.response
             if key not in exclude_keys
         }
+
+    def is_all_goals_complete(self) -> bool:
+        """Check to see if all the goals are complete."""
+        arena_response = self._arena_orchestrator.response
+
+        if not arena_response:
+            return False
+
+        # If the challenge progress does not exist in the response, then no.
+        challenge_progress = arena_response.get("challengeProgress", None)
+
+        if not challenge_progress:
+            return False
+
+        challenge_goals = challenge_progress.get("ChallengeGoals", None)
+
+        if not challenge_goals:
+            return False
+
+        num_goals = len(challenge_goals)
+        finished_goal_count = 0
+
+        for goal in challenge_goals:
+            is_finished = goal.get("isFinished", False)
+            if is_finished:
+                finished_goal_count += 1
+
+        return num_goals == finished_goal_count
