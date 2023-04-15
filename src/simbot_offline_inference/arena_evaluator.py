@@ -42,13 +42,6 @@ class SimBotArenaEvaluator:
 
         self.prepare_arena(trajectory)
 
-        # Run preparation steps if needed
-        if trajectory.preparation_utterances:
-            logger.info("Running preparation steps")
-            prep_session_id = trajectory.create_preparation_session_id()
-            for prep_utterance in trajectory.preparation_utterances:
-                self._inference_controller.handle_utterance(prep_session_id, prep_utterance)
-
         actions_for_session = []
 
         for utterance in trajectory.utterances:
