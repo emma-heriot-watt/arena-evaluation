@@ -196,6 +196,9 @@ class ExperienceHubOrchestrator:
         """Kill the experience hub."""
         logger.debug("Killing the experience hub...")
 
+        self._experience_hub_process.join()
+        self._experience_hub_process.close()
+
         if self._experience_hub_process.is_alive():
             self._experience_hub_process.kill()
 
