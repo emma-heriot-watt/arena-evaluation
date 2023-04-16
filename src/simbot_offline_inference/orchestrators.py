@@ -1,6 +1,6 @@
 import random
+import subprocess
 import time
-from multiprocessing import Process
 from pathlib import Path
 from typing import Any, NamedTuple, Optional
 from uuid import uuid4
@@ -12,7 +12,6 @@ from loguru import logger
 from arena_missions.constants.arena import OfficeRoom
 from arena_wrapper.arena_orchestrator import ArenaOrchestrator as AlexaArenaOrchestrator
 from arena_wrapper.enums.object_output_wrapper import ObjectOutputType
-from emma_experience_hub.commands.simbot.cli import run_controller_api
 from simbot_offline_inference.arena_action_builder import ArenaActionBuilder
 from simbot_offline_inference.settings import Settings
 
@@ -190,42 +189,17 @@ class ExperienceHubOrchestrator:
         self._experience_hub_dir = experience_hub_dir
         self._model_storage_dir = model_storage_dir
 
-        self._experience_hub_process = Process(
-            target=run_controller_api,
-            kwargs={
-                "auxiliary_metadata_dir": self._auxiliary_metadata_dir,
-                "auxiliary_metadata_cache_dir": self._auxiliary_metadata_cache_dir,
-                "extracted_features_cache_dir": self._cached_extracted_features_dir,
-                "log_to_cloudwatch": False,
-                "traces_to_opensearch": False,
-                "workers": 1,
-                "timeout": 10000000000,
-            },
-            daemon=True,
-        )
-
     def __enter__(self) -> None:
         """Start the Experience Hub."""
-        # Create the process for the experience hub
         logger.debug("Starting controller API for the experience hub...")
-        self._experience_hub_process.start()
+        subprocess.run(self._build_experience_hub_command(), shell=True)
 
     def __exit__(self, *args: Any, **kwargs: Any) -> None:
         """Try to kill the experience hub."""
-        self.kill_experience_hub()
-
-    def kill_experience_hub(self) -> None:
-        """Kill the experience hub."""
-        logger.debug("Killing the experience hub...")
-
-        self._experience_hub_process.join()
-        self._experience_hub_process.close()
-
-        if self._experience_hub_process.is_alive():
-            self._experience_hub_process.kill()
-
-        if self._experience_hub_process.is_alive():
-            self._experience_hub_process.terminate()
+        subprocess.run(
+            "kill -9 ps -ax | grep 'python -m emma_experience_hub simbot run-controler-api' | awk '{print $1}'",
+            shell=True,
+        )
 
     def healthcheck(self, attempts: int = 5, interval: int = 2) -> bool:
         """Perform healthcheck, with retry intervals.
@@ -388,3 +362,12 @@ class ExperienceHubOrchestrator:
     def _filter_interaction_actions(self, actions: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Filter out actions that are interaction actions/are not dialog actions."""
         return [action for action in actions if action["type"] in {"Dialog", "LightweightDialog"}]
+
+    def _build_experience_hub_command(self) -> str:
+        """Build the command to run the experience hub."""
+        command = "python -m emma_experience_hub simbot run-controler-api --auxiliary-metadata-dir {auxiliary_metadata_dir} --auxiliary-metadata-cache-dir {auxiliary_metadata_cache_dir}  --extracted-features-cache-dir {extracted_features_cache_dir} --timeout 10000000000 &"
+        return command.format(
+            auxiliary_metadata_dir=self._auxiliary_metadata_dir,
+            auxiliary_metadata_cache_dir=self._auxiliary_metadata_cache_dir,
+            extracted_features_cache_dir=self._cached_extracted_features_dir,
+        )
