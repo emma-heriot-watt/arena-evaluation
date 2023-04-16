@@ -132,7 +132,7 @@ def create_fill_object_in_sink(
             }
 
             high_level_key = HighLevelKey(
-                action="clean",
+                action="fill",
                 interaction_object=sink.object_id,
                 target_object=target_object.object_id,
                 target_object_color=color,
