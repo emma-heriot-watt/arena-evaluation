@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.0.1...v4.1.0) (2023-04-16)
+
+
+### Features
+
+* store any remaining utterances that have not been sent to the action outputs ([2bf68b7](https://github.com/emma-simbot/simbot-offline-inference/commit/2bf68b7302bf05866aee510168300228c4feb785))
+
+
+### Bug Fixes
+
+* break out the loop if all the goals are complete ([5b8a18f](https://github.com/emma-simbot/simbot-offline-inference/commit/5b8a18fbc5108b7156c661fb24193f75c7d01122))
+* break out the loop if the goals have been completed ([5abe3b1](https://github.com/emma-simbot/simbot-offline-inference/commit/5abe3b15bdb2a44983d3cb79a5a2b7736c9227d1))
+
 ## [4.0.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.0.0...v4.0.1) (2023-04-16)
 
 
