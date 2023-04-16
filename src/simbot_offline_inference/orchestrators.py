@@ -162,7 +162,7 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
             + str(settings.arena_path)
             + " -logfile "
             + str(settings.unity_log_path)
-            + " -FastMode "
+            # + " -FastMode "
             + "&"
         )
 
