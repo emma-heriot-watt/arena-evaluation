@@ -45,6 +45,10 @@ class SimBotArenaEvaluator:
         actions_for_session = []
 
         for utterance in trajectory.utterances:
+            if self._inference_controller.is_all_goals_complete():
+                logger.warning("All goals are complete but there are still utterances left.")
+                break
+
             actions_for_utterance = self._inference_controller.handle_utterance(
                 session_id, utterance
             )
