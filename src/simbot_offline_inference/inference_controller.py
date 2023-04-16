@@ -88,6 +88,10 @@ class SimBotInferenceController:
             ) from None
 
         for loop_idx in range(self._max_loops_for_single_utterance):
+            if self.is_all_goals_complete():
+                logger.warning("All goals are complete, so we are breaking out of the loop")
+                break
+
             logger.debug(f"Executing step {loop_idx}")
 
             # Get the auxiliary metadata from the arena
