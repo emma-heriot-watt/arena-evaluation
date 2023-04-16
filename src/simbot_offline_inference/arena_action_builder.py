@@ -4,18 +4,12 @@ from typing import Any, Literal
 
 from convert_case import title_case
 
-from arena_missions.constants.arena import OfficeRoom
-
 
 ArenaAction = dict[str, Any]
 
 
 class ArenaActionBuilder:
     """Generate actions for the Arena."""
-
-    def random_viewpoint(self, room: OfficeRoom) -> ArenaAction:
-        """Return a random viewpoint with a room."""
-        return self.viewpoint(room, random.randint(1, 8))
 
     def random_navigation(self) -> ArenaAction:
         """Return a random action."""
@@ -86,14 +80,14 @@ class ArenaActionBuilder:
             },
         }
 
-    def viewpoint(self, room: OfficeRoom, viewpoint_idx: int) -> ArenaAction:
+    def viewpoint(self, viewpoint: str) -> ArenaAction:
         """Go to a viewpoint."""
         return {
             "id": "1",
             "type": "Goto",
             "goto": {
                 "object": {
-                    "goToPoint": f"{room}_{viewpoint_idx}",
+                    "goToPoint": viewpoint,
                 },
             },
         }

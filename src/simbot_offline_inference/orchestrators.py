@@ -1,3 +1,4 @@
+import random
 import time
 from multiprocessing import Process
 from pathlib import Path
@@ -99,10 +100,31 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
 
     def go_to_random_viewpoint(self, room: OfficeRoom) -> None:
         """Go to a random viewpoint in the given room."""
-        logger.debug("Going to a random viewpoint in the room")
+        if not self.response:
+            logger.exception("There is no reponse to get viewpoints from.")
+            return
+
+        try:
+            viewpoints: dict[str, dict[str, float]] = self.response["sceneMetadata"]["GoToPoints"]
+        except KeyError:
+            logger.error("Unable to get viewpoints from response.")
+            return
+
+        # Get all the viewpoints in the current room
+        viewpoints_for_current_room = [
+            viewpoint for viewpoint in viewpoints.keys() if viewpoint.startswith(room)
+        ]
+
+        # Choose random viewpoint
+        chosen_viewpoint = random.choice(viewpoints_for_current_room)
+
+        # Go to the chosen viewpoint
+        logger.debug(f"Going to viewpoint: {chosen_viewpoint}")
+
         action_builder = ArenaActionBuilder()
-        actions_to_send = [action_builder.random_viewpoint(room)]
-        return_val, _ = self.execute_action(actions_to_send, ObjectOutputType.OBJECT_MASK, None)
+        return_val, _ = self.execute_action(
+            [action_builder.viewpoint(chosen_viewpoint)], ObjectOutputType.OBJECT_MASK, None
+        )
 
         if not return_val:
             raise AssertionError("Failed to go to random viewpoint")
