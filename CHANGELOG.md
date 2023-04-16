@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.0.0...v4.0.1) (2023-04-16)
+
+
+### Bug Fixes
+
+* make sure the breakroom table exists, and has space for the preparation items ([34a10cd](https://github.com/emma-simbot/simbot-offline-inference/commit/34a10cd68c5be24c35c7b89b7467dec2aa87b480))
+* preparation plan for fill object in sink challenge ([86a96b0](https://github.com/emma-simbot/simbot-offline-inference/commit/86a96b0a0833377b277f6571e2d9cb1c9d77379f))
+
 ## [4.0.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v3.2.0...v4.0.0) (2023-04-16)
 
 
