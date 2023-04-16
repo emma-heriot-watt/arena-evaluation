@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v3.2.0...v4.0.0) (2023-04-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate challenges to using state conditions
+
+### Features
+
+* migrate challenges to using state conditions ([615b37c](https://github.com/emma-simbot/simbot-offline-inference/commit/615b37cbf7b4b80ee2ab0285ed6ad7d1cfcae24d))
+* turn on fastmode in the arena ([3325143](https://github.com/emma-simbot/simbot-offline-inference/commit/3325143c7bfc98a4d87dd46eb9ac581880fd071d))
+
+
+### Bug Fixes
+
+* "and" is no longer allowed ([1ca4655](https://github.com/emma-simbot/simbot-offline-inference/commit/1ca4655251035f6be205b59d4a0341d1c2798514))
+* ensure the reimported CDF is same as the original CDF ([df7a6b8](https://github.com/emma-simbot/simbot-offline-inference/commit/df7a6b8971332553376e8d933c8c90065a5299a4))
+* go to a random viewpoint that actually exists in the current scene ([f4a21cb](https://github.com/emma-simbot/simbot-offline-inference/commit/f4a21cb48608d07c209f7799709630a53b166743))
+* high level key action for "fill object in sink" ([af4829b](https://github.com/emma-simbot/simbot-offline-inference/commit/af4829b9b087cb3f9b26b06749bf31022c8af098))
+* remove the duplicated running of preparation steps ([4db9b7e](https://github.com/emma-simbot/simbot-offline-inference/commit/4db9b7e7b2b873c2a91f2a806d3875558780cc90))
+* use join and close when killing the experience hub process ([3c18b58](https://github.com/emma-simbot/simbot-offline-inference/commit/3c18b58c1293213320411f23b78cb0e5ba8f2f0c))
+
 ## [3.2.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v3.1.2...v3.2.0) (2023-04-14)
 
 
