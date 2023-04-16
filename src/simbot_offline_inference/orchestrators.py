@@ -227,7 +227,7 @@ class ExperienceHubOrchestrator:
         if self._experience_hub_process.is_alive():
             self._experience_hub_process.terminate()
 
-    def healthcheck(self, attempts: int = 1, interval: int = 0) -> bool:
+    def healthcheck(self, attempts: int = 5, interval: int = 2) -> bool:
         """Perform healthcheck, with retry intervals.
 
         To disable retries, just set the number of attempts to 1.
