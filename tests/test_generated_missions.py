@@ -1,3 +1,4 @@
+from deepdiff import DeepDiff
 from pytest_cases import fixture, param_fixture
 
 from arena_missions.builders import (
@@ -56,7 +57,12 @@ def test_generated_cdfs_are_valid(
     assert cdf
 
     # Make sure the CDF can be reimported successfully
-    assert CDF.parse_obj(cdf.dict(by_alias=True))
+    reimported_cdf = CDF.parse_obj(cdf.dict(by_alias=True))
+    assert reimported_cdf
+
+    # Make sure the reimported CDF is identical to the original. If there is no difference, they
+    # are identical.
+    assert not DeepDiff(cdf.dict(by_alias=True), reimported_cdf.dict(by_alias=True))
 
 
 def test_generated_missions_are_valid(

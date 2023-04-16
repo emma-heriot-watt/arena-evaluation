@@ -1,7 +1,7 @@
-from typing import Generic, Literal, TypeVar
+from typing import Any, Generic, Literal, Optional, TypeVar, cast
 from typing_extensions import Self
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, root_validator
 from pydantic.generics import GenericModel
 
 from arena_missions.constants.arena import FluidType, ObjectColor
@@ -232,6 +232,37 @@ class StateExpression(BaseModel):
         """Create a state expression from a type and an expression."""
         return cls(__root__={expression.key: expression})
 
+    @root_validator(pre=True)
+    @classmethod
+    def parse_expression_correctly(cls, values: dict[str, Any]) -> dict[str, Any]:  # noqa: WPS110
+        """Parse the expression correctly.
+
+        Without this, the values will just become an empty dictionary, and lose all the
+        information. This cannot happen.
+        """
+        root: Optional[dict[str, Any]] = values.get("__root__")
+
+        # Get the root
+        if not root:
+            return values
+
+        # Since the root will only have one key, we can get the first key
+        expression_type = cast(ExpressionType, list(root.keys())[0])
+
+        # Get the expression from the root
+        expression = root[expression_type]
+
+        # If the expression is already a parsed `Expression`, then we can just return the values
+        if isinstance(expression, Expression):
+            return values
+
+        # Otherwise, we need to parse the expression and update the values
+        values["__root__"][expression_type] = ExpressionTypeMapping[expression_type].parse_obj(
+            expression
+        )
+
+        return values
+
 
 class NotExpression(Expression):
     """Expression that negates another expression."""
@@ -268,6 +299,33 @@ class OrExpression(AggregateExpression):
     """Expression that other expressions using the OR operator."""
 
     _key: ExpressionType = "OR"
+
+
+ExpressionTypeMapping: dict[ExpressionType, type[Expression]] = {
+    "isToggledOn": IsToggledOnExpression,
+    "isPickedUp": IsPickedUpExpression,
+    "isPowered": IsPoweredExpression,
+    "isBroken": IsBrokenExpression,
+    "isOpen": IsOpenExpression,
+    "isScanned": IsScannedExpression,
+    "isUsed": IsUsedExpression,
+    "isOverloaded": IsOverloadedExpression,
+    "isEmbiggenated": IsEmbiggenatedExpression,
+    "isDirty": IsDirtyExpression,
+    "isHot": IsHotExpression,
+    "isCold": IsColdExpression,
+    "IsReceptacle": IsReceptacleExpression,
+    "isFullOfItems": IsFullOfItemsExpression,
+    "isFilledWith": IsFilledWithExpression,
+    "CanBeSeen": CanBeSeenExpression,
+    "ColorMetaDataChange": ColorMetaDataChangeExpression,
+    "DinoFed": DinoFedExpression,
+    "IsInRange": IsInRangeExpression,
+    "Contains": ContainsExpression,
+    "AND": AndExpression,
+    "OR": OrExpression,
+    "NOT": NotExpression,
+}
 
 
 class StateCondition(BaseModel):
