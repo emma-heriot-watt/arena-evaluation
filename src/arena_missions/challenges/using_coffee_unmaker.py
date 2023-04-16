@@ -151,6 +151,7 @@ def convert_coffee_from_mug_to_beans(*, with_color_variants: bool = True) -> Non
         return ChallengeBuilderOutput(
             start_room="BreakRoom",
             required_objects={
+                breakroom_table.name: breakroom_table,
                 mug.name: mug,
                 coffee_unmaker.name: coffee_unmaker,
                 coffee_beans.name: coffee_beans,

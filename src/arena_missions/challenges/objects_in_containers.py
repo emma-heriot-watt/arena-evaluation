@@ -185,6 +185,7 @@ def create_place_in_container_challenge(
             required_objects={
                 container.name: container,
                 target_object.name: target_object,
+                breakroom_table.name: breakroom_table,
             },
             task_goals=goals,
             state_conditions=conditions,

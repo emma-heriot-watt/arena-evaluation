@@ -150,6 +150,8 @@ class RequiredObjectBuilder:
 
     def breakroom_table(self) -> RequiredObject:
         """Create the round table in the breakroom."""
-        return RequiredObject(
+        table = RequiredObject(
             name=ObjectInstanceId.parse("TableRound_02_1"), roomLocation=["BreakRoom"]
         )
+        table.update_state("removeInitialContainedItems", "true")
+        return table
