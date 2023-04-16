@@ -88,10 +88,11 @@ class SimBotEvaluationMetrics:
         subgoal_completion_status: list[Literal[0, 1]],
         predicted_actions: list[dict[str, Any]],
         last_game_state: dict[str, Any],
+        remaining_utterances: list[str],
     ) -> None:
         """Add metrics from a recently evaluated mission."""
         self._update_metrics(mission_group, is_mission_completed, subgoal_completion_status)
-        self._save_metrics(session_id, predicted_actions, last_game_state)
+        self._save_metrics(session_id, predicted_actions, last_game_state, remaining_utterances)
 
         logger.info(f"Test #{self._games_played} over")
         logger.info(f"Mission name: {session_id}")
@@ -164,11 +165,13 @@ class SimBotEvaluationMetrics:
         session_id: str,
         predicted_actions: list[dict[str, Any]],
         last_game_state: dict[str, Any],
+        remaining_utterances: list[str],
     ) -> None:
         """Save the metrics to a file."""
         output_results = {
             "predicted_actions": predicted_actions,
             "last_game_state": last_game_state,
+            "remaining_utterances": remaining_utterances,
         }
 
         # Write the results to a file

@@ -43,6 +43,7 @@ class SimBotArenaEvaluator:
         self.prepare_arena(trajectory)
 
         actions_for_session = []
+        processed_utterance_counter = 0
 
         for utterance in trajectory.utterances:
             if self._inference_controller.is_all_goals_complete():
@@ -53,6 +54,7 @@ class SimBotArenaEvaluator:
                 session_id, utterance
             )
             actions_for_session.extend(actions_for_utterance)
+            processed_utterance_counter += 1
 
         # Check goal status and get results
         logger.debug("Calculating metrics for test")
@@ -67,6 +69,7 @@ class SimBotArenaEvaluator:
             subgoal_completion_status=subgoal_completion_status,
             predicted_actions=actions_for_session,
             last_game_state=self._inference_controller.get_latest_game_state(),
+            remaining_utterances=trajectory.utterances[processed_utterance_counter:],
         )
 
     def prepare_arena(self, trajectory: MissionTrajectory) -> None:
