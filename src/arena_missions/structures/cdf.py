@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field, validator
 
 from arena_missions.constants.arena import OfficeLayout, OfficeRoom
 from arena_missions.structures.required_object import RequiredObject
+from arena_missions.structures.state_condition import StateCondition
 from arena_missions.structures.task_goal import TaskGoal
 
 
@@ -63,11 +64,13 @@ class CDFScene(BaseModel):
         return floor_plan
 
 
-class CDF(BaseModel, validate_assignment=True):
+class CDF(BaseModel):
     """CDF, used to generate scenes in the Arena."""
 
     scene: CDFScene
+
     task_goals: list[TaskGoal] = Field(..., min_items=1)
+    state_conditions: list[StateCondition] = Field(default_factory=list, alias="stateconditions")
 
     goal_text: str = ""
     task_description: str = ""
@@ -76,7 +79,6 @@ class CDF(BaseModel, validate_assignment=True):
 
     # Unused/Ignored fields
     game_interactions: dict[str, Any] = CDF_GAME_INTERACTIONS
-    state_conditions: list[Any] = Field(default_factory=list, alias="stateconditions")
     past_portals: list[CDFPortal] = Field(
         default=[CDFPortal(PortalName="past")], alias="pastPortals", max_items=1
     )

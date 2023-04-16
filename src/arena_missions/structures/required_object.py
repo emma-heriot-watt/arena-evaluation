@@ -1,11 +1,10 @@
-from collections import ChainMap
 from typing import Any, Literal, Optional, Union, get_args
 
-from pydantic import BaseModel, Field, root_validator, validator
+from pydantic import BaseModel, Field, validator
 
 from arena_missions.constants.arena import (
     BooleanStr,
-    LiquidType,
+    FluidType,
     ObjectColor,
     OfficeRoom,
     RequiredObjectStateName,
@@ -14,7 +13,7 @@ from arena_missions.constants.arena import (
 from arena_missions.structures.object_id import ObjectId, ObjectInstanceId
 
 
-RequiredObjectStateValue = Union[BooleanStr, LiquidType]
+RequiredObjectStateValue = Union[BooleanStr, FluidType]
 
 
 class RequiredObjectState(BaseModel, validate_assignment=True):
@@ -52,7 +51,7 @@ class RequiredObjectState(BaseModel, validate_assignment=True):
         state_key, state_value = list(root.items())[0]
 
         if state_key == "isFilled":
-            if state_value not in get_args(LiquidType):
+            if state_value not in get_args(FluidType):
                 raise ValueError(f"{state_value} is not a valid liquid type.")
 
         elif state_value not in get_args(BooleanStr):
@@ -121,19 +120,6 @@ class RequiredObject(BaseModel, validate_assignment=True):
                 raise ValueError("Only Carrot can have yesterdayState")
 
         return yesterday_state
-
-    @root_validator(pre=True)
-    @classmethod
-    def add_color_changed_state_if_colors(
-        cls, values: dict[str, Any]  # noqa: WPS110
-    ) -> dict[str, Any]:
-        """Add colorChanged state if colors are present."""
-        if "colors" in values and values["colors"]:
-            merged_states = dict(ChainMap(*values["state"]))
-            merged_states["isColorChanged"] = "true"
-            values["state"] = [{k: v} for k, v in merged_states.items()]
-
-        return values
 
     @property
     def object_id(self) -> ObjectId:

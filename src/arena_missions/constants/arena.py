@@ -386,40 +386,59 @@ ColorChangerObjectColor = Literal[
     "Blue",
 ]
 
-ObjectStateName = Literal[
-    "isPickedUp",
-    "isBroken",
-    "isScanned",
-    "isOpen",
+# ObjectStateName = Literal[
+#     "isPickedUp",
+#     "isBroken",
+#     "isScanned",
+#     "isOpen",
+#     "isToggledOn",
+#     "isPowered",
+#     "isUsed",
+#     "isCut",
+#     "isEaten",
+#     "isHot",
+#     "isCold",
+#     "isFilled",
+#     "isDirty",
+#     "isCooked",
+#     "isSparking",
+#     "isEmbiggenated",
+#     "isOverloaded",
+#     "isExamined",
+#     "isColorChanged",
+#     # Only works on receptacles
+#     "isEmpty",
+#     # Will only work for the emotion tester
+#     "isNeutral",
+#     "isHappy",
+#     "isSad",
+#     "isAngry",
+#     "isScared",
+# ]
+
+RequiredObjectStateName = Literal[
     "isToggledOn",
-    "isPowered",
-    "isUsed",
-    "isCut",
-    "isEaten",
+    "isOpen",
+    "isFilled",
     "isHot",
     "isCold",
-    "isFilled",
-    "isDirty",
     "isCooked",
+    "isCut",
+    "isDirty",
+    "isBroken",
+    "isEaten",
     "isSparking",
-    "isEmbiggenated",
     "isOverloaded",
-    "isExamined",
-    "isColorChanged",
-    # Only works on receptacles
-    "isEmpty",
     # Will only work for the emotion tester
     "isNeutral",
     "isHappy",
     "isSad",
     "isAngry",
     "isScared",
-]
-
-RequiredObjectStateName = Literal[
-    ObjectStateName,
     # isLocked only works on Doors
     "isLocked",
+    # Only works on receptacles
+    "isEmpty",
     # Empties receptacles on challenge start
     "removeInitialContainedItems",
     # Ensures the object is infected, I don't know why this is different to the goal state
@@ -430,25 +449,27 @@ RequiredObjectStateName = Literal[
     "Unique",
     # Removes the object if it exists from some other definition
     "Removed",
+    # I don't know what circuits and power does, and I don't think it matters since all circuits
+    # seem to be disabled or global
+    "circuitId",
+    "generateCircuitId",
+    "generatePower",
 ]
 
 GoalStateExpressionKey = Literal[
-    ObjectStateName,
-    "Contains",
     "isInfected",
-    # Below are unverified and do not know if they even work
-    # "isFilledWith",
-    # "CanBeSeen",
-    # "IsInRange",
-    # "DinoFed",
-    # "isFullOfItems",
-    # "DinoFed",
-    # "ColorMetadataChange",
+    # Will only work for the emotion tester
+    "isNeutral",
+    "isHappy",
+    "isSad",
+    "isAngry",
+    "isScared",
 ]
+
 
 BooleanStr = Literal["true", "false"]
 SpawnRelation = Literal["in"]
-LiquidType = Literal["Water", "Milk", "Coffee", "None"]
+FluidType = Literal["Water", "Milk", "Coffee", "None"]
 
 
 @lru_cache(maxsize=1)

@@ -4,8 +4,9 @@ from typing_extensions import Self
 
 from pydantic import BaseModel, Field, validator
 
-from arena_missions.constants.arena import BooleanStr, GoalStateExpressionKey, LiquidType
+from arena_missions.constants.arena import BooleanStr, FluidType, GoalStateExpressionKey
 from arena_missions.structures.object_id import ObjectInstanceId
+from arena_missions.structures.state_condition import StateCondition
 
 
 TASK_GOAL_VISIBILITY = {  # noqa: WPS407
@@ -21,7 +22,7 @@ ObjectGoalStateRelation = Literal[
     "or",
 ]
 
-GoalStateExpressionValue = Union[BooleanStr, ObjectInstanceId, LiquidType]
+GoalStateExpressionValue = Union[BooleanStr, ObjectInstanceId, FluidType]
 
 
 class ObjectGoalStateExpression(str):  # noqa: WPS600
@@ -38,7 +39,7 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
         return cls.validate(v)
 
     @classmethod
-    def validate(cls, v: Any) -> Self:  # noqa: WPS231, WPS238
+    def validate(cls, v: Any) -> Self:  # noqa: WPS231
         """Validate the object goal state expression."""
         if not isinstance(v, str):
             raise TypeError("Goal object state value must be a string")
@@ -46,8 +47,8 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
         state_condition_key, state_condition_value = v.split("=")
 
         # Make sure the state condition key is a valid state
-        if state_condition_key not in get_args(GoalStateExpressionKey):
-            raise ValueError(f"{state_condition_key} is not a valid state condition.")
+        # if state_condition_key not in get_args(GoalStateExpressionKey):
+        #     raise ValueError(f"{state_condition_key} is not a valid state condition.")
 
         # If the state condition key is contains, then the value should be an ObjectInstanceId
         if state_condition_key == "Contains":
@@ -55,8 +56,9 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
 
         # If the state condition key is isFilled, then the value should be a LiquidType
         elif state_condition_key == "isFilled":
-            if state_condition_value not in get_args(LiquidType):
+            if state_condition_value not in get_args(FluidType):
                 raise ValueError(f"{state_condition_value} must be a valid liquid type.")
+
         # Otherwise, the value should be a boolean string
         elif state_condition_value not in get_args(BooleanStr):
             raise ValueError("Goal object state value must be true or false")
@@ -66,16 +68,16 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
     @classmethod
     def from_parts(
         cls,
-        state_condition_key: GoalStateExpressionKey,
+        state_condition_key: Union[str, GoalStateExpressionKey],
         state_condition_value: GoalStateExpressionValue,
     ) -> Self:
         """Create a goal object state value from its parts."""
         return cls.parse(f"{state_condition_key}={state_condition_value}")
 
     @property
-    def state_condition_key(self) -> GoalStateExpressionKey:
+    def state_condition_key(self) -> Union[str, GoalStateExpressionKey]:
         """Return the state condition key."""
-        return cast(GoalStateExpressionKey, self.split("=")[0])
+        return self.split("=")[0]
 
     @property
     def state_condition_value(self) -> GoalStateExpressionValue:
@@ -86,7 +88,7 @@ class ObjectGoalStateExpression(str):  # noqa: WPS600
             return ObjectInstanceId.parse(state_condition_value)
 
         if self.state_condition_key == "isFilled":
-            return cast(LiquidType, state_condition_value)
+            return cast(FluidType, state_condition_value)
 
         return cast(BooleanStr, state_condition_value)
 
@@ -104,7 +106,7 @@ class ObjectGoalState(BaseModel):
     def from_parts(
         cls,
         object_id: ObjectInstanceId,
-        state_condition_key: GoalStateExpressionKey,
+        state_condition_key: Union[str, GoalStateExpressionKey],
         state_condition_value: GoalStateExpressionValue,
     ) -> Self:
         """Create a goal object state from its parts."""
@@ -132,7 +134,7 @@ class ObjectGoalState(BaseModel):
         return list(self.__root__.keys())[0]
 
     @property
-    def state_condition_key(self) -> GoalStateExpressionKey:
+    def state_condition_key(self) -> Union[str, GoalStateExpressionKey]:
         """Return the state condition key."""
         return list(self.__root__.values())[0].state_condition_key
 
@@ -158,11 +160,22 @@ class TaskGoal(BaseModel):
     can_reset: bool = Field(default=False, alias="canReset")
 
     @classmethod
-    def from_object_goal_states(
-        cls, object_states: list[ObjectGoalState], relation: ObjectGoalStateRelation = "or"
-    ) -> "TaskGoal":
+    def from_object_goal_states(cls, object_states: list[ObjectGoalState]) -> "TaskGoal":
         """Create the goal from the object states."""
-        return cls(object_states=object_states, object_states_relation=relation)
+        return cls(object_states=object_states)
+
+    @classmethod
+    def from_state_condition(cls, state_condition: StateCondition) -> "TaskGoal":
+        """Create the goal from the state condition."""
+        return cls.from_object_goal_states(
+            [
+                ObjectGoalState.from_parts(
+                    state_condition.instance_id,
+                    state_condition.state_name,
+                    state_condition.state_value,
+                )
+            ]
+        )
 
     @validator("object_states", each_item=True)
     @classmethod

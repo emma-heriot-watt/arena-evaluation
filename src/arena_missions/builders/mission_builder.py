@@ -68,7 +68,11 @@ class MissionBuilder:
                 challenge_builder_output.office_layout
             ),
         )
-        return CDF(scene=cdf_scene, task_goals=challenge_builder_output.task_goals)
+        return CDF(
+            scene=cdf_scene,
+            task_goals=challenge_builder_output.task_goals,
+            stateconditions=challenge_builder_output.state_conditions,
+        )
 
     def generate_default_arena_objects_if_required(
         self, include_all_default_objects: Optional[bool]
