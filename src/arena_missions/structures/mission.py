@@ -19,6 +19,8 @@ class MissionTrajectory(BaseModel):
     # These are given first to help setup the environment as needed.
     preparation_utterances: list[str] = Field(default_factory=list)
 
+    high_level_key: Optional[HighLevelKey] = None
+
     # Challenge definition
     cdf: CDF
 
@@ -51,6 +53,7 @@ class Mission(BaseModel):
     ) -> MissionTrajectory:
         """Convert the challenge to a list of single trajectories."""
         return MissionTrajectory(
+            high_level_key=self.high_level_key,
             session_id=self.create_session_id(
                 session_id_prefix, include_randomness=include_randomness
             ),

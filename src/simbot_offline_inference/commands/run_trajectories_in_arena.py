@@ -4,7 +4,7 @@ from arena_missions.structures import MissionTrajectory
 from emma_common.logging import setup_rich_logging
 from simbot_offline_inference.arena_evaluator import SimBotArenaEvaluator
 from simbot_offline_inference.inference_controller import SimBotInferenceController
-from simbot_offline_inference.metrics import SimBotEvaluationMetrics
+from simbot_offline_inference.metrics import SimBotEvaluationMetrics, WandBTrajectoryTracker
 from simbot_offline_inference.orchestrators import ArenaOrchestrator, ExperienceHubOrchestrator
 from simbot_offline_inference.settings import Settings
 
@@ -34,9 +34,14 @@ def run_trajectories_in_arena(instances: list[MissionTrajectory]) -> None:
     evaluation_metrics = SimBotEvaluationMetrics(
         settings.evaluation_output_dir, settings.metrics_file, settings.s3_evaluation_output_dir
     )
+    wandb_trajectory_tracker = WandBTrajectoryTracker(
+        project=settings.wandb_project, entity=settings.wandb_entity, group="run"
+    )
+
     evaluator = SimBotArenaEvaluator(
         inference_controller,
         evaluation_metrics,
+        wandb_trajectory_tracker,
     )
 
     logger.info(f"Running evaluation for {len(instances)} instances...")

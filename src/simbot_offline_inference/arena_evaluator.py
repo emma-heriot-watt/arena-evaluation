@@ -1,8 +1,10 @@
+from typing import Optional
+
 from loguru import logger
 
 from arena_missions.structures import MissionTrajectory
 from simbot_offline_inference.inference_controller import SimBotInferenceController
-from simbot_offline_inference.metrics import SimBotEvaluationMetrics
+from simbot_offline_inference.metrics import SimBotEvaluationMetrics, WandBTrajectoryTracker
 
 
 EXPERIENCE_HUB_HEALTHCHECK_ATTEMPTS = 40
@@ -15,9 +17,11 @@ class SimBotArenaEvaluator:
         self,
         inference_controller: SimBotInferenceController,
         evaluation_metrics: SimBotEvaluationMetrics,
+        wandb_trajectory_tracker: Optional[WandBTrajectoryTracker] = None,
     ) -> None:
         self._inference_controller = inference_controller
         self._evaluation_metrics = evaluation_metrics
+        self._wandb_trajectory_tracker = wandb_trajectory_tracker
 
     def run_evaluation(self, trajectories: list[MissionTrajectory]) -> None:
         """Run the evaluation on all the test data."""
@@ -32,6 +36,7 @@ class SimBotArenaEvaluator:
 
     def run_evaluation_step(self, trajectory: MissionTrajectory) -> None:
         """Run the evaluation on a single instance of the test data."""
+        prep_session_id = trajectory.create_preparation_session_id()
         session_id = trajectory.session_id
 
         if self._evaluation_metrics.has_mission_been_evaluated(session_id):
@@ -40,7 +45,16 @@ class SimBotArenaEvaluator:
 
         logger.info(f"Running evaluation for '{session_id}'")
 
-        self.prepare_arena(trajectory)
+        # Start tracking the trajectory on WandB
+        if self._wandb_trajectory_tracker is not None and trajectory.high_level_key:
+            self._wandb_trajectory_tracker.start_trajectory(
+                session_id,
+                preparation_session_id=prep_session_id,
+                high_level_key=trajectory.high_level_key,
+                cdf_scene=trajectory.cdf.scene,
+            )
+
+        self.prepare_arena(prep_session_id, trajectory)
 
         actions_for_session = []
         processed_utterance_counter = 0
@@ -72,7 +86,11 @@ class SimBotArenaEvaluator:
             remaining_utterances=trajectory.utterances[processed_utterance_counter:],
         )
 
-    def prepare_arena(self, trajectory: MissionTrajectory) -> None:
+        # Stop tracking the trajectory on WandB
+        if self._wandb_trajectory_tracker is not None:
+            self._wandb_trajectory_tracker.finish_trajectory(is_success=goal_completion_status)
+
+    def prepare_arena(self, preparation_scene_id: str, trajectory: MissionTrajectory) -> None:
         """Prepare the arena with the CDF."""
         logger.info("Launching mission in the Arena")
         self._inference_controller.launch_game(trajectory.cdf)
@@ -84,9 +102,9 @@ class SimBotArenaEvaluator:
         # Run the preparation steps
         if trajectory.preparation_utterances:
             logger.debug("Running preparation steps")
-            prep_session_id = trajectory.create_preparation_session_id()
+
             for prep_utterance in trajectory.preparation_utterances:
-                self._inference_controller.handle_utterance(prep_session_id, prep_utterance)
+                self._inference_controller.handle_utterance(preparation_scene_id, prep_utterance)
 
         # Go to random viewpoint
         logger.debug("Going to random viewpoint")
