@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.1.0...v4.2.0) (2023-04-16)
+
+
+### Features
+
+* track progress of generated trajectories on wandb ([cb5c1ab](https://github.com/emma-simbot/simbot-offline-inference/commit/cb5c1ab0622bb64c9401652d9aaac3aa5166cf5c))
+
+
+### Bug Fixes
+
+* set experience hub timeout to be stupidly high ([9302cca](https://github.com/emma-simbot/simbot-offline-inference/commit/9302ccacfb40b07673bf488692f0403fc8ffa72f))
+
 ## [4.1.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.0.1...v4.1.0) (2023-04-16)
 
 
