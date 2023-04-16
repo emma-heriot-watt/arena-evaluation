@@ -192,7 +192,7 @@ def create_place_in_container_challenge(
             plan=[
                 f"go to the {container.readable_name}",
                 f"open the {container.readable_name}",
-                f"pick up the {target_object_instance_id.readable_name}",
+                f"put the {target_object_instance_id.readable_name} in the {container.readable_name}",
                 f"close the {container.readable_name}",
             ],
             preparation_plan=[
@@ -208,7 +208,7 @@ def create_place_in_container_challenge(
         # Change the plans
         builder_output.plan = [
             f"go to the {container.readable_name}",
-            f"pick up the {target_object_instance_id.readable_name}",
+            f"put the {target_object_instance_id.readable_name} in the {container.readable_name}",
             f"close the {container.readable_name}",
         ]
         return builder_output
