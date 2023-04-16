@@ -18,8 +18,10 @@ class ArenaActionBuilder:
             partial(self.rotate, direction="right"),
             partial(self.move, direction="backward"),
             partial(self.move, direction="forward"),
-            partial(self.look, direction="up"),
-            partial(self.look, direction="down"),
+            # Look actions disabled because more control is needed to stop the agent going
+            # upside-down
+            # partial(self.look, direction="up"),
+            # partial(self.look, direction="down"),
         ]
 
         return random.choice(methods)(magnitude=random.randint(0, 360))  # noqa: WPS432
