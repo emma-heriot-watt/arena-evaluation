@@ -99,7 +99,7 @@ def create_fill_object_in_sink(
             ],
             preparation_plan=[
                 "go to the breakroom table",
-                "pick up the plate",
+                f"pick up the {object_instance_id.readable_name}",
             ],
         )
 
