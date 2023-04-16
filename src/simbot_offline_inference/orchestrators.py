@@ -199,7 +199,7 @@ class ExperienceHubOrchestrator:
                 "log_to_cloudwatch": False,
                 "traces_to_opensearch": False,
                 "workers": 1,
-                "timeout": 10,
+                "timeout": 10000000000,
             },
             daemon=True,
         )
