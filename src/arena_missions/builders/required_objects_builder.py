@@ -98,7 +98,10 @@ class RequiredObjectBuilder:
         """Generate the fridge for the arena."""
         return RequiredObject(
             name=ObjectInstanceId.parse("FridgeLower_02_1"),
-            state=[RequiredObjectState.from_parts("isOpen", "true" if is_open else "false")],
+            state=[
+                RequiredObjectState.from_parts("isOpen", "true" if is_open else "false"),
+                RequiredObjectState.from_parts("removeInitialContainedItems", "true"),
+            ],
             roomLocation=[room],
         )
 
@@ -106,7 +109,10 @@ class RequiredObjectBuilder:
         """Generate the freezer for the arena."""
         return RequiredObject(
             name=ObjectInstanceId.parse("FridgeUpper_02_1"),
-            state=[RequiredObjectState.from_parts("isOpen", "true" if is_open else "false")],
+            state=[
+                RequiredObjectState.from_parts("isOpen", "true" if is_open else "false"),
+                RequiredObjectState.from_parts("removeInitialContainedItems", "true"),
+            ],
             roomLocation=[room],
         )
 
@@ -150,8 +156,8 @@ class RequiredObjectBuilder:
 
     def breakroom_table(self) -> RequiredObject:
         """Create the round table in the breakroom."""
-        table = RequiredObject(
-            name=ObjectInstanceId.parse("TableRound_02_1"), roomLocation=["BreakRoom"]
+        return RequiredObject(
+            name=ObjectInstanceId.parse("TableRound_02_1"),
+            state=[RequiredObjectState.from_parts("removeInitialContainedItems", "true")],
+            roomLocation=["BreakRoom"],
         )
-        table.update_state("removeInitialContainedItems", "true")
-        return table
