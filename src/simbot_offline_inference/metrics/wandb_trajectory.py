@@ -1,3 +1,5 @@
+from typing import Literal
+
 import wandb
 
 from arena_missions.structures import CDFScene, HighLevelKey
@@ -50,7 +52,14 @@ class WandBTrajectoryTracker:
             },
         )
 
-    def finish_trajectory(self, *, is_success: bool) -> None:
+    def finish_trajectory(
+        self, *, is_success: bool, subgoal_completion_status: list[Literal[0, 1]]
+    ) -> None:
         """Finish a trajectory."""
-        wandb.log({"is_success": int(is_success)})
+        try:
+            subgoal_success_rate = sum(subgoal_completion_status) / len(subgoal_completion_status)
+        except ZeroDivisionError:
+            subgoal_success_rate = 0
+
+        wandb.log({"is_success": int(is_success), "subgoal_success_rate": subgoal_success_rate})
         wandb.finish()

@@ -88,7 +88,10 @@ class SimBotArenaEvaluator:
 
         # Stop tracking the trajectory on WandB
         if self._wandb_trajectory_tracker is not None:
-            self._wandb_trajectory_tracker.finish_trajectory(is_success=goal_completion_status)
+            self._wandb_trajectory_tracker.finish_trajectory(
+                is_success=goal_completion_status,
+                subgoal_completion_status=subgoal_completion_status,
+            )
 
     def prepare_arena(self, preparation_scene_id: str, trajectory: MissionTrajectory) -> None:
         """Prepare the arena with the CDF."""
