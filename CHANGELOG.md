@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.2.0...v4.3.0) (2023-04-17)
+
+
+### Features
+
+* use subprocess to run the experience hub because its easier to consistently kill ([bfaeea2](https://github.com/emma-simbot/simbot-offline-inference/commit/bfaeea2499fb69178f8d40a53af380176f6b1f62))
+
+
+### Bug Fixes
+
+* disable fast mode ([d894ef2](https://github.com/emma-simbot/simbot-offline-inference/commit/d894ef2bde809591e97530b8ae9ce4075df70593))
+* disable look actions in random walk ([6060c33](https://github.com/emma-simbot/simbot-offline-inference/commit/6060c33601238e679aaf18d22a6f1803f7eeb486))
+* increase number of healthcheck attempts for experience hub ([a6737a2](https://github.com/emma-simbot/simbot-offline-inference/commit/a6737a27173dabafe373266022657f2fc3148067))
+* plan for placing objects in container ([f522c26](https://github.com/emma-simbot/simbot-offline-inference/commit/f522c2665c8060add37a63b691c48800fedce4b3))
+* remove initial contained items from various containers ([d53b7a0](https://github.com/emma-simbot/simbot-offline-inference/commit/d53b7a06b92f9f642979a50f2601eb317d4941b2))
+
 ## [4.2.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.1.0...v4.2.0) (2023-04-16)
 
 
