@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.4.0...v4.4.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* command that starts the experience hub ([f187fef](https://github.com/emma-simbot/simbot-offline-inference/commit/f187fef18711f47cbe7c7584abbc6316eac11bde))
+* command used to kill the experience hub ([5e8bd3d](https://github.com/emma-simbot/simbot-offline-inference/commit/5e8bd3d5f588b29a5bba9e4c003acdc23cd0d961))
+* if failed to go to a random viewpoint, just go to the first one in the room ([bb3d652](https://github.com/emma-simbot/simbot-offline-inference/commit/bb3d6523e6acf9e8725dc1c8318b1efcdf65730e))
+* use 2 workers to hopefully stop the experience hub from crashing ([daa17a0](https://github.com/emma-simbot/simbot-offline-inference/commit/daa17a0ab4f76dd120b1d264ac1f330954a44f44))
+
 ## [4.4.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.3.0...v4.4.0) (2023-04-17)
 
 
