@@ -20,8 +20,9 @@ class WandBTrajectoryTracker:
     ) -> None:
         """Submit a generated trajectory to WandB."""
         wandb.init(
-            project=self.project,
+            name=session_id,
             entity=self.entity,
+            project=self.project,
             group=self.group,
             config={
                 "session_id": session_id,
