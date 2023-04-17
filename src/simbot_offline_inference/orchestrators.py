@@ -202,7 +202,7 @@ class ExperienceHubOrchestrator:
     def __exit__(self, *args: Any, **kwargs: Any) -> None:
         """Try to kill the experience hub."""
         subprocess.run(
-            "kill -9 ps -ax | grep 'python -m emma_experience_hub simbot run-controler-api' | awk '{print $1}'",
+            "kill -9 ps -ax | grep 'python -m emma_experience_hub simbot run-controller-api' | awk '{print $1}'",
             shell=True,
         )
 
