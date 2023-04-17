@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.3.0...v4.4.0) (2023-04-17)
+
+
+### Features
+
+* also send subgoal completion success rate to wandb per session ([3a789f0](https://github.com/emma-simbot/simbot-offline-inference/commit/3a789f0ece7443058b1fad536bcb92248983e44d))
+* set the session id as the run name ([1960040](https://github.com/emma-simbot/simbot-offline-inference/commit/196004061d6f08939967b3926f298b195df6a5a4))
+
 ## [4.3.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.2.0...v4.3.0) (2023-04-17)
 
 
