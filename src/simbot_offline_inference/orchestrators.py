@@ -126,7 +126,12 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
         )
 
         if not return_val:
-            raise AssertionError("Failed to go to random viewpoint")
+            logger.warning(
+                "Failed to go to a random viewpoint, going to the first one in the room"
+            )
+            self.execute_action(
+                [action_builder.viewpoint(f"{room}_1")], ObjectOutputType.OBJECT_MASK, None
+            )
 
     def randomise_start_position(
         self,
