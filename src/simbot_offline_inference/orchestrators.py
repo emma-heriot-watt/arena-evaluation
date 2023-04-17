@@ -370,7 +370,7 @@ class ExperienceHubOrchestrator:
 
     def _build_experience_hub_command(self) -> str:
         """Build the command to run the experience hub."""
-        command = "python -m emma_experience_hub simbot run-controller-api --auxiliary-metadata-dir {auxiliary_metadata_dir} --auxiliary-metadata-cache-dir {auxiliary_metadata_cache_dir}  --extracted-features-cache-dir {extracted_features_cache_dir} --timeout 10000000000 &"
+        command = "python -m emma_experience_hub simbot run-controller-api --auxiliary-metadata-dir {auxiliary_metadata_dir} --auxiliary-metadata-cache-dir {auxiliary_metadata_cache_dir}  --extracted-features-cache-dir {extracted_features_cache_dir} --workers 2 --timeout 10000000000 &"
         return command.format(
             auxiliary_metadata_dir=self._auxiliary_metadata_dir,
             auxiliary_metadata_cache_dir=self._auxiliary_metadata_cache_dir,
