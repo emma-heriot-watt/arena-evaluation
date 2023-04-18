@@ -584,6 +584,7 @@ wandb/
 
 # Ignore the docker dir symlink
 docker/
+docker
 
 # Handle ignoring files within the bin
 bin/**/build
