@@ -3,6 +3,7 @@ from typing import Literal
 import wandb
 
 from arena_missions.structures import CDFScene, HighLevelKey
+from emma_experience_hub._version import __version__ as experience_hub_version  # noqa: WPS436
 
 
 class WandBTrajectoryTracker:
@@ -27,6 +28,7 @@ class WandBTrajectoryTracker:
             project=self.project,
             group=self.group,
             config={
+                "version/experience_hub": experience_hub_version,
                 "session_id": session_id,
                 "preparation_session_id": preparation_session_id,
                 # CDF
