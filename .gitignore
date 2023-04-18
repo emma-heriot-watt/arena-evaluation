@@ -582,6 +582,9 @@ storage/cdfs/missions/
 # ignore wandb
 wandb/
 
+# Ignore the docker dir symlink
+docker/
+
 # Handle ignoring files within the bin
 bin/**/build
 !bin/**/*.png
