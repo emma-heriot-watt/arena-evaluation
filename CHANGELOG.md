@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.5.0...v4.6.0) (2023-04-18)
+
+
+### Features
+
+* Add more pickable objects for fridge/freezer ([#18](https://github.com/emma-simbot/simbot-offline-inference/issues/18)) ([baf6850](https://github.com/emma-simbot/simbot-offline-inference/commit/baf68504e39212ad16e9bab3fce08f4bfbca8a11))
+* save the mission trajectory file and the output file to wandb ([211bd8c](https://github.com/emma-simbot/simbot-offline-inference/commit/211bd8c47034806128fbfe6cbd3ab25c4513e019))
+
 ## [4.5.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.4.1...v4.5.0) (2023-04-18)
 
 
