@@ -35,7 +35,11 @@ def run_trajectories_in_arena(instances: list[MissionTrajectory]) -> None:
         settings.evaluation_output_dir, settings.metrics_file, settings.s3_evaluation_output_dir
     )
     wandb_trajectory_tracker = WandBTrajectoryTracker(
-        project=settings.wandb_project, entity=settings.wandb_entity, group="run"
+        project=settings.wandb_project,
+        entity=settings.wandb_entity,
+        group="run",
+        mission_trajectory_dir=settings.missions_dir,
+        mission_trajectory_outputs_dir=settings.evaluation_output_dir,
     )
 
     evaluator = SimBotArenaEvaluator(

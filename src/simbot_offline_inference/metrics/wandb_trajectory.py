@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Literal
 
 import wandb
@@ -9,10 +10,19 @@ from emma_experience_hub._version import __version__ as experience_hub_version  
 class WandBTrajectoryTracker:
     """Track trajectories with WandB."""
 
-    def __init__(self, project: str, entity: str, group: str) -> None:
+    def __init__(
+        self,
+        project: str,
+        entity: str,
+        group: str,
+        mission_trajectory_dir: Path,
+        mission_trajectory_outputs_dir: Path,
+    ) -> None:
         self.project = project
         self.entity = entity
         self.group = group
+        self.mission_trajectory_dir = mission_trajectory_dir
+        self.mission_trajectory_outputs_dir = mission_trajectory_outputs_dir
 
     def start_trajectory(
         self,
@@ -52,6 +62,15 @@ class WandBTrajectoryTracker:
                 "high_level_key/to_receptacle_color": high_level_key.to_receptacle_color,
                 "high_level_key/to_receptacle_is_container": high_level_key.to_receptacle_is_container,
             },
+        )
+
+        # Upload the mission trajectory file
+        wandb.save(str(self.mission_trajectory_dir.joinpath(f"{session_id}.json")))
+
+        # Upload the trajectory results on run completion
+        # According to wandb docs, this command is correct
+        wandb.save(  # type: ignore[call-arg]
+            str(self.mission_trajectory_outputs_dir.joinpath(f"{session_id}.json")), policy="end"
         )
 
     def finish_trajectory(
