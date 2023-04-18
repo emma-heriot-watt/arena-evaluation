@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.4.1...v4.5.0) (2023-04-18)
+
+
+### Features
+
+* log the experience hub version with the wandb run ([45c17fb](https://github.com/emma-simbot/simbot-offline-inference/commit/45c17fb4bbb12605f9f2b4b3c5b7b9ea2464f58d))
+
 ## [4.4.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.4.0...v4.4.1) (2023-04-17)
 
 
