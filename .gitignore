@@ -577,6 +577,10 @@ terragrunt-debug.tfvars.json
 storage/*
 !storage/**/.gitkeep
 !storage/cdfs
+storage/cdfs/missions/
+
+# ignore wandb
+wandb/
 
 # Handle ignoring files within the bin
 bin/**/build
