@@ -82,7 +82,7 @@ def create_operate_carrot_maker_challenges(
     # Create mission
     def create_mission() -> ChallengeBuilderOutput:
         return ChallengeBuilderOutput(
-            start_room="BreakRoom",
+            start_room="Lab2",
             required_objects={
                 carrot_maker.name: carrot_maker,
                 target_object.name: target_object,
@@ -97,7 +97,7 @@ def create_operate_carrot_maker_challenges(
                 "pick up the carrot",
             ],
             preparation_plan=[
-                "go to the breakroom table",
+                "go to the breakroom",
                 f"pick up the {target_object.readable_name}",
                 "go to the quantum lab",
             ],
