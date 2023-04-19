@@ -73,7 +73,7 @@ def create_operate_printer_challenges(
     # Create mission
     def create_mission() -> ChallengeBuilderOutput:
         return ChallengeBuilderOutput(
-            start_room="BreakRoom",
+            start_room="Lab1",
             required_objects={
                 printer.name: printer,
                 printer_cartridge.name: printer_cartridge,
