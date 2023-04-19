@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.9.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.8.0...v4.9.0) (2023-04-19)
+
+
+### Features
+
+* coffee unmaker with additional objects ([#22](https://github.com/emma-simbot/simbot-offline-inference/issues/22)) ([7f284f9](https://github.com/emma-simbot/simbot-offline-inference/commit/7f284f937ef572deb4cd9acc318d29a6006f80fd))
+
 ## [4.8.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.7.0...v4.8.0) (2023-04-19)
 
 
