@@ -164,3 +164,54 @@ def register_repair_broken_things() -> None:
             ],
             with_color_variants=True,
         )
+
+
+def register_repair_carrots() -> None:
+    """Register challenges to repair carrots."""
+    converted_object_instance_ids = [
+        ObjectInstanceId.parse("Apple_1"),
+        ObjectInstanceId.parse("Banana_01_1"),
+        ObjectInstanceId.parse("BananaBunch_01_1"),
+        ObjectInstanceId.parse("BreadLoaf_1"),
+        ObjectInstanceId.parse("BreadSlice_01_1"),
+        ObjectInstanceId.parse("Bowl_01_1"),
+        ObjectInstanceId.parse("Burger_04_1"),
+        ObjectInstanceId.parse("Cake_02_1"),
+        ObjectInstanceId.parse("CakeSlice_02_1"),
+        ObjectInstanceId.parse("CandyBar_01_1"),
+        ObjectInstanceId.parse("CanSodaNew_01_1"),
+        ObjectInstanceId.parse("CanSodaNew_Crushed_01_1"),
+        ObjectInstanceId.parse("CanSodaNew_Open_01_1"),
+        ObjectInstanceId.parse("CoffeeBeans_01_1"),
+        ObjectInstanceId.parse("CoffeeMug_Boss_1"),
+        ObjectInstanceId.parse("CoffeeMug_Yellow_1"),
+        ObjectInstanceId.parse("Donut_01_1"),
+        ObjectInstanceId.parse("FoodPlate_01_1"),
+        ObjectInstanceId.parse("Fork_01_1"),
+        ObjectInstanceId.parse("Jar_Jam_01_1"),
+        ObjectInstanceId.parse("Jar_PeanutButter_01_1"),
+        ObjectInstanceId.parse("Knife_01_1"),
+        ObjectInstanceId.parse("PaperCup_01_1"),
+        ObjectInstanceId.parse("PaperCup_Crushed_01_1"),
+        ObjectInstanceId.parse("PBJ_Sandwich_1"),
+        ObjectInstanceId.parse("PieFruitSlice_01_1"),
+        ObjectInstanceId.parse("PieFruit_01_1"),
+        ObjectInstanceId.parse("SandwichHalf_01_1"),
+        ObjectInstanceId.parse("Spoon_01_1"),
+        ObjectInstanceId.parse("Toast_01_1"),
+        ObjectInstanceId.parse("Toast_02_1"),
+        ObjectInstanceId.parse("Toast_03_1"),
+        ObjectInstanceId.parse("Toast_04_1"),
+        ObjectInstanceId.parse("Toast_04_Jam_1"),
+        ObjectInstanceId.parse("Toast_04_PBJ_1"),
+    ]
+
+    for converted_object_instance_id in converted_object_instance_ids:
+        converted_object = converted_object_instance_id.object_id
+        create_operate_time_machine_challenges(
+            target_object=RequiredObject(
+                name=ObjectInstanceId.parse("Carrot_01_1"), yesterdayState=converted_object
+            ),
+            converted_object=converted_object,
+            additional_conditions_for_converted_object=[],
+        )
