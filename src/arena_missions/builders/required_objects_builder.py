@@ -25,6 +25,7 @@ class RequiredObjectBuilder:
         ]
 
     def color_changer(self) -> RequiredObject:
+        """Generate the color changer for the arena."""
         return RequiredObject.from_string("ColorChangerStation_1")
 
     def doors(self, *, is_open: bool = True) -> list[RequiredObject]:
@@ -124,6 +125,10 @@ class RequiredObjectBuilder:
         return RequiredObject(
             name=ObjectInstanceId.parse("YesterdayMachine_01_1"), roomLocation=[room]
         )
+
+    def microwave(self, *, room: OfficeRoom = "BreakRoom") -> RequiredObject:
+        """Generate the microwave for the arena."""
+        return RequiredObject(name=ObjectInstanceId.parse("Microwave_01_1"), roomLocation=[room])
 
     def robotic_arm(self, *, is_arm_lifted: bool = True) -> RequiredObject:
         """Generate the robotic arm for the arena."""
