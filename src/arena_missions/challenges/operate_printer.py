@@ -7,7 +7,7 @@ from arena_missions.structures import (
     ContainsExpression,
     HighLevelKey,
     IsPickedUpExpression,
-    IsToggledOnExpression,
+    ObjectGoalState,
     ObjectInstanceId,
     RequiredObject,
     StateCondition,
@@ -18,7 +18,7 @@ from arena_missions.structures import (
 
 def create_operate_printer_challenges(
     printer_cartridge: RequiredObject,
-    converted_object: ObjectInstanceId,
+    printer_spawned_object: ObjectInstanceId,
     with_color_variants: bool = False,
 ) -> None:
     """Register challenges."""
@@ -52,12 +52,16 @@ def create_operate_printer_challenges(
         ),
         # Ensure the machine is used on the target
         StateCondition(
-            stateName="MachineUsedOnTarget",
+            stateName="PrinterUsed",
             context=printer.name,
             expression=StateExpression.from_expression(
                 AndExpression.from_expressions(
-                    IsToggledOnExpression(target=printer.name, value=True),
-                    ContainsExpression(target=printer.name, contains=printer_cartridge.name),
+                    ContainsExpression(
+                        target=printer.name, contains=printer_spawned_object.with_asterisk
+                    ),
+                    ContainsExpression(
+                        target=printer.name, contains=printer_cartridge.name.with_asterisk
+                    ),
                 )
             ),
         ),
@@ -67,9 +71,16 @@ def create_operate_printer_challenges(
             context=printer_cartridge.name,
             expression=StateExpression.from_expression(
                 AndExpression.from_expressions(
-                    IsPickedUpExpression(target=converted_object, value=True),
+                    IsPickedUpExpression(target=printer_spawned_object, value=True),
                 )
             ),
+        ),
+    ]
+
+    goals = [
+        *[TaskGoal.from_state_condition(condition) for condition in conditions],
+        TaskGoal.from_object_goal_states(
+            [ObjectGoalState.from_parts(printer_spawned_object.with_asterisk, "PickedUp", "true")]
         ),
     ]
 
@@ -84,12 +95,12 @@ def create_operate_printer_challenges(
                 robotic_arm.name: robotic_arm,
             },
             state_conditions=conditions,
-            task_goals=[TaskGoal.from_state_condition(condition) for condition in conditions],
+            task_goals=goals,
             plan=[
                 "go printer",
                 f"put the {printer_cartridge.readable_name} in the printer",
                 "turn on the printer",
-                f"pick up the {converted_object.readable_name}",
+                f"pick up the {printer_spawned_object.readable_name}",
             ],
             preparation_plan=[
                 "go to the breakroom table",
@@ -103,7 +114,7 @@ def create_operate_printer_challenges(
         action="interact",
         interaction_object=printer.object_id,
         target_object=printer_cartridge.object_id,
-        converted_object=converted_object.object_id,
+        converted_object=printer_spawned_object.object_id,
     )
 
     ChallengeBuilder.register(high_level_key)(create_mission)
@@ -121,7 +132,7 @@ def create_operate_printer_challenges(
                 interaction_object=printer.object_id,
                 target_object=printer_cartridge.object_id,
                 target_object_color=color,
-                converted_object=converted_object.object_id,
+                converted_object=printer_spawned_object.object_id,
             )
             # Register the challenge builder with the modifications
             ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
@@ -153,6 +164,6 @@ def register_print_things() -> None:
     for object_instance_id, converted_object_id in object_instance_ids:
         create_operate_printer_challenges(
             printer_cartridge=RequiredObject(name=object_instance_id),
-            converted_object=converted_object_id,
+            printer_spawned_object=converted_object_id,
             with_color_variants=False,
         )
