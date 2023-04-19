@@ -173,3 +173,7 @@ class RequiredObjectBuilder:
             state=[RequiredObjectState.from_parts("removeInitialContainedItems", "true")],
             roomLocation=["BreakRoom"],
         )
+
+    def printer(self) -> RequiredObject:
+        """Generate the printer for the arena."""
+        return RequiredObject(name=ObjectInstanceId.parse("Printer_3D_1"))

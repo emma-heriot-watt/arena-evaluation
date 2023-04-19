@@ -6,6 +6,7 @@ from arena_missions.challenges.objects_in_containers import (
 )
 from arena_missions.challenges.operate_carrot_maker import register_carrot_maker_challenges
 from arena_missions.challenges.operate_microwave import register_heat_things
+from arena_missions.challenges.operate_printer import register_print_things
 from arena_missions.challenges.operate_time_machine import (
     register_repair_broken_things,
     register_repair_carrots,
@@ -25,4 +26,5 @@ def load_challenges() -> None:
     register_coffee_unmaker_challenges()
     register_heat_things()
     register_color_changer_challenges()
+    register_print_things()
     register_repair_carrots()
