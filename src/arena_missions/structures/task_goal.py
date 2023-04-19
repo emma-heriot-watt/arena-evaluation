@@ -105,14 +105,14 @@ class ObjectGoalState(BaseModel):
     @classmethod
     def from_parts(
         cls,
-        object_id: ObjectInstanceId,
+        object_instance_id: ObjectInstanceId,
         state_condition_key: Union[str, GoalStateExpressionKey],
         state_condition_value: GoalStateExpressionValue,
     ) -> Self:
         """Create a goal object state from its parts."""
         return cls(
             __root__={
-                object_id: ObjectGoalStateExpression.from_parts(
+                object_instance_id: ObjectGoalStateExpression.from_parts(
                     state_condition_key, state_condition_value
                 )
             }
