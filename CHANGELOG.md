@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.7.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.6.0...v4.7.0) (2023-04-19)
+
+
+### Features
+
+* support setting wandb group name from run command ([9b72cc8](https://github.com/emma-simbot/simbot-offline-inference/commit/9b72cc898e36474b00c691f9330b659bb767bf8a))
+
+
+### Bug Fixes
+
+* kill command for the experience hub ([9852ce8](https://github.com/emma-simbot/simbot-offline-inference/commit/9852ce852600549e071a9469d65b560231d4b7a5))
+* use the preparation plan to toggle the sink ([4d3c266](https://github.com/emma-simbot/simbot-offline-inference/commit/4d3c26666702eb682c8ffc9e3848db157a0b7b09))
+
 ## [4.6.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.5.0...v4.6.0) (2023-04-18)
 
 
