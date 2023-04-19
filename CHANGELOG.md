@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.12.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.11.0...v4.12.0) (2023-04-19)
+
+
+### Features
+
+* add printer challenges ([#26](https://github.com/emma-simbot/simbot-offline-inference/issues/26)) ([f895cd4](https://github.com/emma-simbot/simbot-offline-inference/commit/f895cd43da9d001ba003a9a902498bfa7896be55))
+
 ## [4.11.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.10.0...v4.11.0) (2023-04-19)
 
 
