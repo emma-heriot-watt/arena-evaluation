@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.12.1...v4.13.0) (2023-04-19)
+
+
+### Features
+
+* add more helper methods to structures ([893f0b6](https://github.com/emma-simbot/simbot-offline-inference/commit/893f0b6ac690f4fcb77973ce0ca9948423833408))
+
+
+### Bug Fixes
+
+* change starting room to robotics lab ([518425a](https://github.com/emma-simbot/simbot-offline-inference/commit/518425afe0df928959e9ee91819cd0114bdf568b))
+* let object instance ID's end in a * ([f3d7713](https://github.com/emma-simbot/simbot-offline-inference/commit/f3d7713bd6b98b84fe031c4f243e8cf61c17b879))
+* make the argument name be more descriptive to what is needed ([93e1760](https://github.com/emma-simbot/simbot-offline-inference/commit/93e1760f230d7782c0383418834523e6d675a457))
+* operate printer challenges ([82ce622](https://github.com/emma-simbot/simbot-offline-inference/commit/82ce6222f12862ae7d987d8dc66cba56b70c3587))
+* **operate printer:** make sure robotic arm is out the way ([1dca91b](https://github.com/emma-simbot/simbot-offline-inference/commit/1dca91b45747039a54e3e62dd3b73fa863c122e2))
+* operate time machine with carrots ([1f85703](https://github.com/emma-simbot/simbot-offline-inference/commit/1f8570371a577218810a2c59ffa60ba6fd3616e0))
+* printer cartridge name in the preparation plan ([b8250fa](https://github.com/emma-simbot/simbot-offline-inference/commit/b8250fa6d61260a6ebe73d023e637c150993166f))
+* typo ([0355636](https://github.com/emma-simbot/simbot-offline-inference/commit/0355636fe90418f94c73ad994d4fc2de5bd10fd2))
+* validator condition for object instance id suffix ([d8fb10f](https://github.com/emma-simbot/simbot-offline-inference/commit/d8fb10f3cccf97334a7f542da141039f50abee7c))
+
 ## [4.12.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.12.0...v4.12.1) (2023-04-19)
 
 
