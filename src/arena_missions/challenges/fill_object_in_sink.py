@@ -30,7 +30,6 @@ def create_fill_object_in_sink(
     sink = RequiredObject(
         name=ObjectInstanceId.parse("KitchenCounterSink_01_1"), roomLocation=[room]
     )
-    sink.update_state("isToggledOn", "false")
 
     # Create object
     target_object = RequiredObject(name=object_instance_id)
@@ -110,6 +109,12 @@ def create_fill_object_in_sink(
             "go to the sink",
             f"fill the {object_instance_id.readable_name} in the sink",
             "toggle the sink",
+        ]
+        builder_output.preparation_plan = [
+            "find the sink",
+            "toggle the sink",
+            "go to the breakroom table",
+            "pick up the plate",
         ]
         return builder_output
 

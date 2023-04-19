@@ -20,7 +20,7 @@ def create_clean_dirty_plate_challenge(
     room: Literal["BreakRoom", "Warehouse"],
     office_layout: Optional[OfficeLayout] = None,
     *,
-    with_color_variants: bool = False
+    with_color_variants: bool = False,
 ) -> None:
     """Clean a dirty plate."""
     required_object_builder = RequiredObjectBuilder()
@@ -28,7 +28,6 @@ def create_clean_dirty_plate_challenge(
     sink = RequiredObject(
         name=ObjectInstanceId.parse("KitchenCounterSink_01_1"), roomLocation=[room]
     )
-    sink.update_state("isToggledOn", "false")
 
     plate = RequiredObject(name=ObjectInstanceId.parse("FoodPlate_01_1"))
     plate.add_state("Unique", "true")
@@ -100,7 +99,7 @@ def create_clean_dirty_plate_challenge(
             state_conditions=conditions,
             task_goals=[TaskGoal.from_state_condition(condition) for condition in conditions],
             plan=[
-                "go to the sink",
+                "find the sink",
                 "toggle the sink",
                 "clean the plate in the sink",
                 "toggle the sink",
@@ -116,9 +115,15 @@ def create_clean_dirty_plate_challenge(
         builder_output = fill_sink_before_cleaning_plate()
         builder_output.required_objects[sink.name].update_state("isToggledOn", "true")
         builder_output.plan = [
-            "go to the sink",
+            "find the sink",
             "clean the plate in the sink",
             "toggle the sink",
+        ]
+        builder_output.preparation_plan = [
+            "find the sink",
+            "toggle the sink",
+            "go to the breakroom table",
+            "pick up the plate",
         ]
         return builder_output
 
