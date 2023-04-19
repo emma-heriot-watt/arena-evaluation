@@ -21,7 +21,7 @@ def create_operate_printer_challenges(
     converted_object: ObjectInstanceId,
     with_color_variants: bool = False,
 ) -> None:
-    """Register challeneges."""
+    """Register challenges."""
     required_object_builder = RequiredObjectBuilder()
 
     # Make the target object unique
