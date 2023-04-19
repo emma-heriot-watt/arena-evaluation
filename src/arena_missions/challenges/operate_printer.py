@@ -35,6 +35,9 @@ def create_operate_printer_challenges(
     breakroom_table = required_object_builder.breakroom_table()
     printer_cartridge.update_receptacle(breakroom_table.name)
 
+    # Ensure the robotic arm is out the way
+    robotic_arm = required_object_builder.robotic_arm()
+
     # Success conditions
     conditions = [
         # Pick up the target object
@@ -78,6 +81,7 @@ def create_operate_printer_challenges(
                 printer.name: printer,
                 printer_cartridge.name: printer_cartridge,
                 breakroom_table.name: breakroom_table,
+                robotic_arm.name: robotic_arm,
             },
             state_conditions=conditions,
             task_goals=[TaskGoal.from_state_condition(condition) for condition in conditions],
