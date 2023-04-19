@@ -89,7 +89,7 @@ def create_operate_printer_challenges(
             ],
             preparation_plan=[
                 "go to the breakroom table",
-                f"pick up the {printer_cartridge.name}",
+                f"pick up the {printer_cartridge.readable_name}",
                 "go to the robotics lab",
             ],
         )
