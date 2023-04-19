@@ -76,7 +76,7 @@ class ObjectInstanceId(str):  # noqa: WPS600
         if instance_number.startswith("0"):
             raise ValueError("Object instance ID cannot have leading 0s")
 
-        if not instance_number.isdigit() or instance_number != "*":
+        if not (instance_number.isdigit() or instance_number == "*"):
             raise ValueError("Object instance ID end with a digit or a '*'")
 
         return cls(v)
