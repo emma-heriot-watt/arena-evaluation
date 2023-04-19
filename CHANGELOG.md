@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.11.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.10.0...v4.11.0) (2023-04-19)
+
+
+### Features
+
+* Add carrot machine challenges ([#23](https://github.com/emma-simbot/simbot-offline-inference/issues/23)) ([dabbc47](https://github.com/emma-simbot/simbot-offline-inference/commit/dabbc474163ec653860a0757aa647b41fb54e3ff))
+
 ## [4.10.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.9.0...v4.10.0) (2023-04-19)
 
 
