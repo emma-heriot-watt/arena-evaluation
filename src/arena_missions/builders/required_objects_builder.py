@@ -24,6 +24,9 @@ class RequiredObjectBuilder:
             *self.computer_monitors(),
         ]
 
+    def color_changer(self) -> RequiredObject:
+        return RequiredObject.from_string("ColorChangerStation_1")
+
     def doors(self, *, is_open: bool = True) -> list[RequiredObject]:
         """Generate all 7 doors for the arena."""
         return [

@@ -6,16 +6,15 @@ from arena_missions.challenges.objects_in_containers import (
 )
 from arena_missions.challenges.operate_time_machine import register_repair_broken_things
 from arena_missions.challenges.using_coffee_unmaker import register_coffee_unmaker_challenges
+from arena_missions.challenges.using_color_changer import register_color_changer_challenges
 
 
 def load_challenges() -> None:
     """Run all the register functions to load the challenges."""
     register_repair_broken_things()
-
     register_objects_with_fridge_challenges()
     register_objects_with_freezer_challenges()
-
     register_clean_dirty_plates()
-
     register_fill_objects_in_sink()
     register_coffee_unmaker_challenges()
+    register_color_changer_challenges()
