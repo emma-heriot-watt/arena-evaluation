@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.8.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.7.0...v4.8.0) (2023-04-19)
+
+
+### Features
+
+* Add microwave challenge ([#21](https://github.com/emma-simbot/simbot-offline-inference/issues/21)) ([f62b996](https://github.com/emma-simbot/simbot-offline-inference/commit/f62b99650c73603e23b592e981718e3450f4fc91))
+* object transformations ([#19](https://github.com/emma-simbot/simbot-offline-inference/issues/19)) ([f76c4c2](https://github.com/emma-simbot/simbot-offline-inference/commit/f76c4c29bbf1e9f6926f37dbf9ca7515beb5c8bf))
+
 ## [4.7.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.6.0...v4.7.0) (2023-04-19)
 
 
