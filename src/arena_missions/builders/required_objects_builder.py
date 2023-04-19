@@ -126,6 +126,10 @@ class RequiredObjectBuilder:
             name=ObjectInstanceId.parse("YesterdayMachine_01_1"), roomLocation=[room]
         )
 
+    def carrot_maker(self, *, room: OfficeRoom = "Lab2") -> RequiredObject:
+        """Generate the carrot maker for the arena."""
+        return RequiredObject(name=ObjectInstanceId.parse("EAC_Machine_1"), roomLocation=[room])
+
     def microwave(self, *, room: OfficeRoom = "BreakRoom") -> RequiredObject:
         """Generate the microwave for the arena."""
         return RequiredObject(name=ObjectInstanceId.parse("Microwave_01_1"), roomLocation=[room])

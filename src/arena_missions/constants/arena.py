@@ -138,6 +138,7 @@ ObjectIds = Literal[
     "Donut_01",
     "Door_01",
     "EAC_Machine",
+    "EAC_Machine_Spawned_Carrot_01",
     "Embiggenator",
     "EmptyPaperTray",
     "FireAlarm_01",
