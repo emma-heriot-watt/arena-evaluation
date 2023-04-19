@@ -122,6 +122,14 @@ class RequiredObject(BaseModel, validate_assignment=True):
         return yesterday_state
 
     @property
+    def object_instance_id(self) -> ObjectInstanceId:
+        """Return the object instance ID for this object.
+
+        This is just here for convenience because 'name' isn't the most descriptive name.
+        """
+        return self.name
+
+    @property
     def object_id(self) -> ObjectId:
         """Return the object ID for this object."""
         return self.name.object_id

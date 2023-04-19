@@ -1,5 +1,5 @@
 from collections.abc import Generator
-from typing import Any, Callable, cast, get_args
+from typing import Any, Callable, Literal, Union, cast, get_args
 from typing_extensions import Self
 
 from arena_missions.constants.arena import ObjectIds, load_object_id_to_readable_name_map
@@ -46,6 +46,10 @@ class ObjectId(str):  # noqa: WPS600
     def readable_name(self) -> str:
         """Return the readable name of the object."""
         return load_object_id_to_readable_name_map()[cast(ObjectIds, self)]
+
+    def as_instance(self, instance_id: Union[int, Literal["*"]]) -> "ObjectInstanceId":
+        """Return the object instance ID."""
+        return ObjectInstanceId(f"{self}_{instance_id}")
 
 
 class ObjectInstanceId(str):  # noqa: WPS600
@@ -95,3 +99,8 @@ class ObjectInstanceId(str):  # noqa: WPS600
     def readable_name(self) -> str:
         """Return the readable name of the object instance."""
         return self.object_id.readable_name
+
+    @property
+    def with_asterisk(self) -> Self:
+        """Create the object instance with an asterisk."""
+        return self.parse(f"{self.object_id}_*")
