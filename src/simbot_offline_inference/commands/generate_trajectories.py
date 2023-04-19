@@ -47,6 +47,7 @@ def generate_trajectories(
 
 def run_trajectories(
     trajectories_dir: Path,
+    wandb_group_name: str,
     *,
     randomise_order: bool = False,
 ) -> None:
@@ -68,4 +69,4 @@ def run_trajectories(
     if randomise_order:
         random.shuffle(trajectories)
 
-    run_trajectories_in_arena(trajectories)
+    run_trajectories_in_arena(trajectories, wandb_group_name=wandb_group_name)

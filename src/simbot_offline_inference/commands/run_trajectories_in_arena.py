@@ -1,3 +1,5 @@
+from typing import Optional
+
 from loguru import logger
 
 from arena_missions.structures import MissionTrajectory
@@ -9,7 +11,9 @@ from simbot_offline_inference.orchestrators import ArenaOrchestrator, Experience
 from simbot_offline_inference.settings import Settings
 
 
-def run_trajectories_in_arena(instances: list[MissionTrajectory]) -> None:
+def run_trajectories_in_arena(
+    instances: list[MissionTrajectory], *, wandb_group_name: Optional[str] = None
+) -> None:
     """Run the evaluation."""
     settings = Settings()
     settings.put_settings_in_environment()
@@ -37,7 +41,7 @@ def run_trajectories_in_arena(instances: list[MissionTrajectory]) -> None:
     wandb_trajectory_tracker = WandBTrajectoryTracker(
         project=settings.wandb_project,
         entity=settings.wandb_entity,
-        group="run",
+        group=wandb_group_name,
         mission_trajectory_dir=settings.missions_dir,
         mission_trajectory_outputs_dir=settings.evaluation_output_dir,
     )

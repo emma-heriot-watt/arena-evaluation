@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Literal
+from typing import Literal, Optional
 
 import wandb
 
@@ -14,7 +14,7 @@ class WandBTrajectoryTracker:
         self,
         project: str,
         entity: str,
-        group: str,
+        group: Optional[str],
         mission_trajectory_dir: Path,
         mission_trajectory_outputs_dir: Path,
     ) -> None:
