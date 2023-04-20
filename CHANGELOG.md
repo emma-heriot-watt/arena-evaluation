@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.3](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.13.2...v4.13.3) (2023-04-20)
+
+
+### Bug Fixes
+
+* Color changer interaction object in High Level Key ([#28](https://github.com/emma-simbot/simbot-offline-inference/issues/28)) ([c0468d9](https://github.com/emma-simbot/simbot-offline-inference/commit/c0468d9a4e4c039abba7d4e23685f6879a01ec4a))
+
 ## [4.13.2](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.13.1...v4.13.2) (2023-04-20)
 
 
