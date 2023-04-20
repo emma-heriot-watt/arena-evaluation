@@ -8,9 +8,6 @@ from simbot_offline_inference.inference_controller import SimBotInferenceControl
 from simbot_offline_inference.metrics import SimBotEvaluationMetrics, WandBTrajectoryTracker
 
 
-EXPERIENCE_HUB_HEALTHCHECK_ATTEMPTS = 40
-
-
 class SimBotArenaEvaluator:
     """Handle the evaluation of the experience hub on the arena."""
 
