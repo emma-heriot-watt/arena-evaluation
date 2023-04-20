@@ -102,7 +102,7 @@ def create_change_object_color_challenge(
 
         high_level_key = HighLevelKey(
             action="interact",
-            interaction_object=target_object.object_id,
+            interaction_object=color_changer.object_id,
             target_object=target_object.object_id,
             target_object_color=start_color,
             converted_object_color=converted_object_color,
