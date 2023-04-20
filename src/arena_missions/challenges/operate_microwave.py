@@ -98,7 +98,10 @@ def create_heat_with_microwave_challenges(
                 f"pick up the {converted_object.readable_name} from the microwave",
                 "close the microwave",
             ],
-            preparation_plan=["go to the breakroom table", f"pick up the {target_object.name}"],
+            preparation_plan=[
+                "go to the breakroom table",
+                f"pick up the {target_object.readable_name}",
+            ],
         )
 
     def create_mission_with_door_open() -> ChallengeBuilderOutput:
@@ -228,7 +231,10 @@ def create_break_with_microwave_challenges(
                 f"pick up the {converted_object.readable_name} from the microwave",
                 "close the microwave",
             ],
-            preparation_plan=["go to the breakroom table", f"pick up the {target_object.name}"],
+            preparation_plan=[
+                "go to the breakroom table",
+                f"pick up the {target_object.readable_name}",
+            ],
         )
 
     def create_mission_with_door_open() -> ChallengeBuilderOutput:
