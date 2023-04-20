@@ -65,22 +65,16 @@ def create_operate_printer_challenges(
                 )
             ),
         ),
-        # Pick up the converted object
-        StateCondition(
-            stateName="ConvertedPickedUp",
-            context=printer_cartridge.name,
-            expression=StateExpression.from_expression(
-                AndExpression.from_expressions(
-                    IsPickedUpExpression(target=printer_spawned_object, value=True),
-                )
-            ),
-        ),
     ]
 
     goals = [
         *[TaskGoal.from_state_condition(condition) for condition in conditions],
         TaskGoal.from_object_goal_states(
-            [ObjectGoalState.from_parts(printer_spawned_object.with_asterisk, "PickedUp", "true")]
+            [
+                ObjectGoalState.from_parts(
+                    printer_spawned_object.with_asterisk, "isPickedUp", "true"
+                )
+            ]
         ),
     ]
 
