@@ -28,21 +28,26 @@ class SimBotArenaEvaluator:
         """Run the evaluation on all the test data."""
         with self._inference_controller:
             for instance in trajectories:
-                try:
-                    self.run_evaluation_step(instance)
-                except httpx.ConnectTimeout:
-                    logger.error("Failed to establish a connection to the arena.")
-                    if self._inference_controller.restart_arena():
-                        logger.info("Restarted the arena. Retrying...")
-                        self.run_evaluation_step(instance)
-
+                self.run_evaluation_step(instance)
             logger.info("Finished evaluation!")
 
         self._evaluation_metrics.log_overall_metrics()
         self._evaluation_metrics.send_to_s3()
 
     def run_evaluation_step(self, trajectory: MissionTrajectory) -> None:
-        """Run the evaluation on a single instance of the test data."""
+        """Run a single evaluation step, with guard in case something goes wrong."""
+        try:
+            return self.run_evaluation_step(trajectory)
+        except httpx.ConnectTimeout:
+            logger.error("Failed to establish a connection to the arena.")
+            if self._inference_controller.restart_arena():
+                logger.info("Restarted the arena. Retrying...")
+                return self.run_evaluation_step(trajectory)
+
+        raise RuntimeError("Failed to run the trajectory in the arena.")
+
+    def run_trajectory_in_the_arena(self, trajectory: MissionTrajectory) -> None:
+        """Run a single trajectory in the arena, from start to finish."""
         prep_session_id = trajectory.create_preparation_session_id()
         session_id = trajectory.session_id
 
