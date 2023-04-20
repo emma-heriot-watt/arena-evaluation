@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.14.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.14.0...v4.14.1) (2023-04-20)
+
+
+### Bug Fixes
+
+* attempt to handle the 408 connection error ([467f5c7](https://github.com/emma-simbot/simbot-offline-inference/commit/467f5c7fc2c58a876b249c934e9e602758af1535))
+
 ## [4.14.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.13.3...v4.14.0) (2023-04-20)
 
 
