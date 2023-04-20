@@ -67,16 +67,6 @@ def create_operate_carrot_maker_challenges(
                 )
             ),
         ),
-        # The target object is picked up
-        StateCondition(
-            stateName="CarrotPickedUp",
-            context=carrot_maker.name,
-            expression=StateExpression.from_expression(
-                AndExpression.from_expressions(
-                    IsPickedUpExpression(target=spawned_carrot, value=True),
-                )
-            ),
-        ),
     ]
 
     # Create mission
@@ -94,7 +84,6 @@ def create_operate_carrot_maker_challenges(
                 "go to the carrot maker",
                 f"put the {target_object.readable_name} on the carrot maker",
                 "toggle the carrot maker",
-                "pick up the carrot",
             ],
             preparation_plan=[
                 "go to the breakroom",

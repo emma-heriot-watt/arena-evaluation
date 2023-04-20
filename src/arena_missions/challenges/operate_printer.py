@@ -7,7 +7,6 @@ from arena_missions.structures import (
     ContainsExpression,
     HighLevelKey,
     IsPickedUpExpression,
-    ObjectGoalState,
     ObjectInstanceId,
     RequiredObject,
     StateCondition,
@@ -67,16 +66,7 @@ def create_operate_printer_challenges(
         ),
     ]
 
-    goals = [
-        *[TaskGoal.from_state_condition(condition) for condition in conditions],
-        TaskGoal.from_object_goal_states(
-            [
-                ObjectGoalState.from_parts(
-                    printer_spawned_object.with_asterisk, "isPickedUp", "true"
-                )
-            ]
-        ),
-    ]
+    goals = [TaskGoal.from_state_condition(condition) for condition in conditions]
 
     # Create mission
     def create_mission() -> ChallengeBuilderOutput:
@@ -94,7 +84,6 @@ def create_operate_printer_challenges(
                 "go printer",
                 f"put the {printer_cartridge.readable_name} in the printer",
                 "turn on the printer",
-                f"pick up the {printer_spawned_object.readable_name}",
             ],
             preparation_plan=[
                 "go to the breakroom table",
