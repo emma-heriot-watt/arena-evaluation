@@ -44,6 +44,7 @@ def run_trajectories_in_arena(
         group=wandb_group_name,
         mission_trajectory_dir=settings.missions_dir,
         mission_trajectory_outputs_dir=settings.evaluation_output_dir,
+        unity_logs=settings.unity_log_path,
     )
 
     evaluator = SimBotArenaEvaluator(

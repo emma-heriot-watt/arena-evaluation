@@ -17,12 +17,15 @@ class WandBTrajectoryTracker:
         group: Optional[str],
         mission_trajectory_dir: Path,
         mission_trajectory_outputs_dir: Path,
+        unity_logs: Path,
     ) -> None:
         self.project = project
         self.entity = entity
         self.group = group
         self.mission_trajectory_dir = mission_trajectory_dir
         self.mission_trajectory_outputs_dir = mission_trajectory_outputs_dir
+
+        self._unity_logs = unity_logs
 
     def start_trajectory(
         self,
@@ -72,6 +75,8 @@ class WandBTrajectoryTracker:
         wandb.save(  # type: ignore[call-arg]
             str(self.mission_trajectory_outputs_dir.joinpath(f"{session_id}.json")), policy="end"
         )
+        # Also upload the unity logs
+        wandb.save(str(self._unity_logs), policy="end")  # type: ignore[call-arg]
 
     def finish_trajectory(
         self, *, is_success: bool, subgoal_completion_status: list[Literal[0, 1]]
