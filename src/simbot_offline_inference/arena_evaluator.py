@@ -63,7 +63,7 @@ class SimBotArenaEvaluator:
                 cdf_scene=trajectory.cdf.scene,
             )
 
-        self.prepare_arena(prep_session_id, trajectory)
+        self.prepare_arena_for_trajectory(prep_session_id, trajectory)
 
         actions_for_session = []
         processed_utterance_counter = 0
@@ -102,7 +102,9 @@ class SimBotArenaEvaluator:
                 subgoal_completion_status=subgoal_completion_status,
             )
 
-    def prepare_arena(self, preparation_scene_id: str, trajectory: MissionTrajectory) -> None:
+    def prepare_arena_for_trajectory(
+        self, preparation_session_id: str, trajectory: MissionTrajectory
+    ) -> None:
         """Prepare the arena with the CDF."""
         logger.info("Launching mission in the Arena")
         self._inference_controller.launch_game(trajectory.cdf)
@@ -116,7 +118,7 @@ class SimBotArenaEvaluator:
             logger.debug("Running preparation steps")
 
             for prep_utterance in trajectory.preparation_utterances:
-                self._inference_controller.handle_utterance(preparation_scene_id, prep_utterance)
+                self._inference_controller.handle_utterance(preparation_session_id, prep_utterance)
 
         # Go to random viewpoint
         logger.debug("Going to random viewpoint")
