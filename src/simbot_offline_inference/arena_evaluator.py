@@ -1,5 +1,6 @@
 from typing import Optional
 
+import httpx
 from loguru import logger
 
 from arena_missions.structures import MissionTrajectory
@@ -27,7 +28,13 @@ class SimBotArenaEvaluator:
         """Run the evaluation on all the test data."""
         with self._inference_controller:
             for instance in trajectories:
-                self.run_evaluation_step(instance)
+                try:
+                    self.run_evaluation_step(instance)
+                except httpx.ConnectTimeout:
+                    logger.error("Failed to establish a connection to the arena.")
+                    if self._inference_controller.restart_arena():
+                        logger.info("Restarted the arena. Retrying...")
+                        self.run_evaluation_step(instance)
 
             logger.info("Finished evaluation!")
 

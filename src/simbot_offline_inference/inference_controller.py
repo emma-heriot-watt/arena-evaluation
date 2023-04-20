@@ -191,3 +191,7 @@ class SimBotInferenceController:
                 finished_goal_count += 1
 
         return num_goals == finished_goal_count
+
+    def restart_arena(self) -> bool:
+        """Restart the Arena."""
+        return self._arena_orchestrator.init_unity_instance()

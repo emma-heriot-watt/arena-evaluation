@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from typing import Any
 
 import cv2
+import httpx
 import numpy as np
 from loguru import logger
 
@@ -115,6 +116,9 @@ class ArenaOrchestrator:
                     last_action_success = self.response["lastActionSuccess"]
                 except KeyError:
                     self.response["lastActionSuccess"] = "ActionExecutionError"
+
+                if "408 Request Timeout" in str(ex):
+                    raise httpx.ConnectTimeout(f"Stream closed due to timeout: {ex}")
 
                 self.logger.error(
                     f"Exception while executing actions with status {last_action_success}: {ex}"
