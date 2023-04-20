@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.14.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.13.3...v4.14.0) (2023-04-20)
+
+
+### Features
+
+* include unity logs with each run ([bdea65e](https://github.com/emma-simbot/simbot-offline-inference/commit/bdea65e4e677028028b1cc991fb70d1087029810))
+
+
+### Bug Fixes
+
+* preparation steps for operate microwave missions ([e23eb24](https://github.com/emma-simbot/simbot-offline-inference/commit/e23eb249b4624f2edf772726f3da0d3963bdffc2))
+* Remove final pick ups ([#29](https://github.com/emma-simbot/simbot-offline-inference/issues/29)) ([fa71470](https://github.com/emma-simbot/simbot-offline-inference/commit/fa71470b50bcd5a6316f1965a95a02da40c7035a))
+
 ## [4.13.3](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.13.2...v4.13.3) (2023-04-20)
 
 
