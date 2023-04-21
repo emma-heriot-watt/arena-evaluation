@@ -37,6 +37,11 @@ class HighLevelKey(BaseModel, validate_assignment=True, frozen=True, extra="forb
     converted_object: Optional[ObjectId] = None
     converted_object_color: Optional[ObjectColor] = None
 
+    # A stacked object is one that is on top of a plate, and is used for "with" phrases.
+    #   For example, "pick up the plate with the apple" would have the apple as the stacked object.
+    stacked_object: Optional[ObjectId] = None
+    stacked_object_color: Optional[ObjectColor] = None
+
     from_receptacle: Optional[ObjectId] = None
     from_receptacle_color: Optional[ObjectColor] = None
     from_receptacle_is_container: bool = False
@@ -87,6 +92,8 @@ class HighLevelKey(BaseModel, validate_assignment=True, frozen=True, extra="forb
         "converted_object_color",
         "from_receptacle_color",
         "to_receptacle_color",
+        "interaction_object_color",
+        "stacked_object_color",
         pre=True,
     )
     @classmethod
