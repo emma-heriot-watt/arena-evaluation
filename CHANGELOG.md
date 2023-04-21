@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.15.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.15.0...v4.15.1) (2023-04-21)
+
+
+### Bug Fixes
+
+* color changer preparation step ([cc548ec](https://github.com/emma-simbot/simbot-offline-inference/commit/cc548ec415a371431d68e45e328d1697db65a080))
+
 ## [4.15.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.14.2...v4.15.0) (2023-04-21)
 
 
