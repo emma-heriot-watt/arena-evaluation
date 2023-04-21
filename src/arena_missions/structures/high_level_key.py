@@ -20,7 +20,6 @@ InstructionAction = Literal[
     "pour",
     "scan",
     "toggle",
-    "change_color",
 ]
 
 
