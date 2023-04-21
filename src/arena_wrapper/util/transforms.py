@@ -12,7 +12,6 @@ def transform_real_2_sim(real_position):
     :param real_position: dictionary with 'x', 'y' and 'z' keys to floating point values
     :return: position in sim space as dictionary with 'x', 'y' and 'z' keys to floating point values
     """
-
     real_pos = np.array([real_position["x"], real_position["y"], 1])
 
     sim_pos_np = np.dot(REAL_2_SIM_TRANSFORM, real_pos)

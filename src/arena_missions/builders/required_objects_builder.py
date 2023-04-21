@@ -180,6 +180,51 @@ class RequiredObjectBuilder:
             roomLocation=["BreakRoom"],
         )
 
+    def breakroom_countertop(self) -> RequiredObject:
+        """Create the countertop in the breakroom."""
+        return RequiredObject(
+            name=ObjectInstanceId.parse("KitchenCounterTop_02_1"),
+            state=[RequiredObjectState.from_parts("removeInitialContainedItems", "true")],
+            roomLocation=["BreakRoom"],
+        )
+
     def printer(self) -> RequiredObject:
         """Generate the printer for the arena."""
         return RequiredObject(name=ObjectInstanceId.parse("Printer_3D_1"))
+
+    def main_office_desks(self) -> list[RequiredObject]:
+        """Returns office desks in main office."""
+        desk_names = [
+            "AP_Prop_Desk_Blue",
+            "AP_Prop_Desk_Green",
+            "AP_Prop_Desk_Red",
+        ]
+
+        desk_objects = []
+
+        for desk_name in desk_names:
+            desk_objects.append(
+                RequiredObject(
+                    name=ObjectInstanceId.parse(f"{desk_name}_1"),
+                    state=[RequiredObjectState.from_parts("removeInitialContainedItems", "true")],
+                    roomLocation=["MainOffice"],
+                )
+            )
+
+        return desk_objects
+
+    def reception_desk(self) -> RequiredObject:
+        """Returns the reception desk in the reception."""
+        return RequiredObject(
+            name=ObjectInstanceId.parse("ReceptionDesk_1"),
+            state=[RequiredObjectState.from_parts("removeInitialContainedItems", "true")],
+            roomLocation=["Reception"],
+        )
+
+    def manager_desk(self) -> RequiredObject:
+        """Returns the manager desk in the small office."""
+        return RequiredObject(
+            name=ObjectInstanceId.parse("ManagerDesk_1"),
+            state=[RequiredObjectState.from_parts("removeInitialContainedItems", "true")],
+            roomLocation=["SmallOffice"],
+        )

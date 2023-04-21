@@ -49,7 +49,6 @@ def trial_runner(controller, number, metric, compute_running_metric=False):
     :param compute_running_metric: bool whether or not to compute the metric after every trial
     :return: tuple(controller, float) with the controller and the metric after every trial
     """
-
     metric.init_trials(number, controller.last_event.metadata)
 
     for trial_index in range(number):
