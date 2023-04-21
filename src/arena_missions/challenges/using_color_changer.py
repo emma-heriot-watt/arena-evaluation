@@ -78,7 +78,7 @@ def create_change_object_color_challenge(
                 f"press the {converted_object_color} button",
             ],
             preparation_plan=[
-                f"go to the {receptacle.readable_name}",
+                "go to the breakroom",
                 f"pick up the {target_object_instance_id.readable_name}",
             ],
         )
