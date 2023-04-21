@@ -34,12 +34,12 @@ class SimBotArenaEvaluator:
     def run_evaluation_step(self, trajectory: MissionTrajectory) -> None:
         """Run a single evaluation step, with guard in case something goes wrong."""
         try:
-            return self.run_evaluation_step(trajectory)
+            return self.run_trajectory_in_the_arena(trajectory)
         except httpx.ConnectTimeout:
             logger.error("Failed to establish a connection to the arena.")
             if self._inference_controller.restart_arena():
                 logger.info("Restarted the arena. Retrying...")
-                return self.run_evaluation_step(trajectory)
+                return self.run_trajectory_in_the_arena(trajectory)
 
         raise RuntimeError("Failed to run the trajectory in the arena.")
 
