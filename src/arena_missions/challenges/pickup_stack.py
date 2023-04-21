@@ -45,8 +45,8 @@ def create_plate_stack_challenge(
     plate.add_state("isDirty", "false")
 
     # Put it in the container
-    target_object.update_receptacle(receptacle.name)
     plate.update_receptacle(receptacle.name)
+    target_object.update_receptacle(plate.name)
 
     conditions = [
         # Ensure we pick up the plate
