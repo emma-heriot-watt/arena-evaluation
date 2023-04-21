@@ -12,6 +12,11 @@ from arena_missions.structures import (
     TaskGoal,
 )
 from arena_missions.structures.object_id import ObjectId
+from arena_missions.structures.state_condition import (
+    AndExpression,
+    ContainsExpression,
+    IsOpenExpression,
+)
 
 
 def get_color_from_id(object_id: ObjectId) -> Optional[ObjectColor]:
@@ -28,13 +33,14 @@ def get_color_from_id(object_id: ObjectId) -> Optional[ObjectColor]:
     return None
 
 
-def create_plate_stack_challenge(
+def create_place_plate_stack_challenge(
     target_object_instance_id: ObjectInstanceId,
-    receptacle: RequiredObject,
+    container: RequiredObject,
     *,
     with_stacked_object_color_variants: bool = False,
 ) -> None:
     """Generate challenes to pick up objects from containers."""
+    required_object_builder = RequiredObjectBuilder()
     # Create the target object
     target_object = RequiredObject(name=target_object_instance_id)
     target_object.add_state("Unique", "true")
@@ -44,17 +50,27 @@ def create_plate_stack_challenge(
     plate.add_state("Unique", "true")
     plate.add_state("isDirty", "false")
 
-    # Put it in the container
-    plate.update_receptacle(receptacle.name)
-    target_object.update_receptacle(plate.name)
+    # Create the breakroom table
+    breakroom_table = required_object_builder.breakroom_table()
+
+    # Put the target object on the table
+    target_object.update_receptacle(breakroom_table.name)
+
+    # Put plate in the container
+    plate.update_receptacle(container.name)
 
     conditions = [
-        # Ensure we pick up the plate
+        # Place object on the plate which is in the container while its open
         StateCondition(
-            stateName="PickedUpPlate",
-            context=plate.name,
+            stateName="PlacedOnPlateInContainer",
+            context=target_object.name,
             expression=StateExpression.from_expression(
-                IsPickedUpExpression(target=plate.name, value=True),
+                AndExpression.from_expressions(
+                    IsOpenExpression(target=container.name, value=True),
+                    ContainsExpression(target=container.name, contains=plate.name),
+                    ContainsExpression(target=plate.name, contains=target_object.name),
+                    IsPickedUpExpression(target=target_object.name, value=False),
+                )
             ),
         ),
     ]
@@ -63,21 +79,27 @@ def create_plate_stack_challenge(
 
     def create_mission() -> ChallengeBuilderOutput:
         """Create the mission."""
-        if not receptacle.room:
-            raise ValueError(f"Receptacle {receptacle.name} must have a room set")
+        if not container.room:
+            raise ValueError(f"Receptacle {container.name} must have a room set")
 
         return ChallengeBuilderOutput(
-            start_room=receptacle.room,
+            start_room=container.room,
             required_objects={
-                receptacle.name: receptacle,
+                container.name: container,
                 target_object.name: target_object,
                 plate.name: plate,
             },
             task_goals=goals,
             state_conditions=conditions,
             plan=[
-                f"go to the {receptacle.readable_name}",
-                "pick up the plate",
+                f"go to the {container.readable_name}",
+                f"open the {container.readable_name}",
+                f"put the {target_object_instance_id.readable_name} on the plate",
+                f"close the {container.readable_name}",
+            ],
+            preparation_plan=[
+                "go to the breakroom table",
+                f"pick up the {target_object.readable_name}",
             ],
         )
 
@@ -91,12 +113,12 @@ def create_plate_stack_challenge(
                 {plate.name: {"colors": [plate_color]}}
             )
         high_level_key = HighLevelKey(
-            action="pickup",
+            action="place",
             target_object=plate.object_id,
             target_object_color=plate_color,
             stacked_object=target_object.object_id,
-            from_receptacle=receptacle.object_id,
-            from_receptacle_color=get_color_from_id(receptacle.object_id),
+            from_receptacle=container.object_id,
+            from_receptacle_color=get_color_from_id(container.object_id),
             from_receptacle_is_container=False,
         )
         # Register the challenge builder with the modifications
@@ -110,13 +132,13 @@ def create_plate_stack_challenge(
                     {target_object.name: {"colors": [target_color]}}
                 )
                 high_level_key = HighLevelKey(
-                    action="pickup",
+                    action="place",
                     target_object=plate.object_id,
                     target_object_color=plate_color,
                     stacked_object=target_object.object_id,
                     stacked_object_color=target_color,
-                    from_receptacle=receptacle.object_id,
-                    from_receptacle_color=get_color_from_id(receptacle.object_id),
+                    from_receptacle=container.object_id,
+                    from_receptacle_color=get_color_from_id(container.object_id),
                     from_receptacle_is_container=False,
                 )
                 # Register the challenge builder with the modifications
@@ -125,15 +147,11 @@ def create_plate_stack_challenge(
                 )(create_mission)
 
 
-def register_pickup_plate_stack_challenges() -> None:
+def register_place_plate_stack_challenges() -> None:
     """Register challenges to pick up and place objects in the fridge."""
     required_objects_builder = RequiredObjectBuilder()
 
-    receptacles = [
-        required_objects_builder.breakroom_table(),
-        required_objects_builder.breakroom_countertop(),
-        *required_objects_builder.main_office_desks(),
-    ]
+    containers = [required_objects_builder.fridge(), required_objects_builder.freezer()]
 
     target_object_iterator = [
         (ObjectInstanceId.parse("Apple_1"), True),
@@ -165,7 +183,7 @@ def register_pickup_plate_stack_challenges() -> None:
     ]
 
     for target_object, with_color_variants in target_object_iterator:
-        for receptacle in receptacles:
-            create_plate_stack_challenge(
-                target_object, receptacle, with_stacked_object_color_variants=with_color_variants
+        for container in containers:
+            create_place_plate_stack_challenge(
+                target_object, container, with_stacked_object_color_variants=with_color_variants
             )

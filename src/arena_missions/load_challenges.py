@@ -12,7 +12,8 @@ from arena_missions.challenges.operate_time_machine import (
     register_repair_broken_things,
     register_repair_carrots,
 )
-from arena_missions.challenges.pickup_stack import register_plate_stack_challenges
+from arena_missions.challenges.pickup_stack import register_pickup_plate_stack_challenges
+from arena_missions.challenges.place_stack import register_place_plate_stack_challenges
 from arena_missions.challenges.using_coffee_unmaker import register_coffee_unmaker_challenges
 from arena_missions.challenges.using_color_changer import register_color_changer_challenges
 
@@ -32,4 +33,5 @@ def load_challenges() -> None:
     register_print_things()
     register_repair_carrots()
 
-    register_plate_stack_challenges()
+    register_pickup_plate_stack_challenges()
+    register_place_plate_stack_challenges()
