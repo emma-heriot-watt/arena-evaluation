@@ -5,8 +5,7 @@ from arena_missions.challenges.objects_in_containers import (
     register_objects_with_fridge_challenges,
     register_warehouse_cabinet_challenges,
 )
-
-# from arena_missions.challenges.operate_carrot_maker import register_carrot_maker_challenges
+from arena_missions.challenges.operate_carrot_maker import register_carrot_maker_challenges
 from arena_missions.challenges.operate_microwave import register_heat_things
 from arena_missions.challenges.operate_printer import register_print_things
 from arena_missions.challenges.operate_time_machine import (
@@ -25,7 +24,7 @@ def load_challenges() -> None:
     register_objects_with_freezer_challenges()
     register_warehouse_cabinet_challenges()
     register_fill_objects_in_sink()
-    # register_carrot_maker_challenges()
+    register_carrot_maker_challenges()
     register_clean_dirty_plates()
     register_coffee_unmaker_challenges()
     register_heat_things()
