@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.15.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.14.2...v4.15.0) (2023-04-21)
+
+
+### Features
+
+* Add container challenges for the warehouse sink ([#30](https://github.com/emma-simbot/simbot-offline-inference/issues/30)) ([460dbe1](https://github.com/emma-simbot/simbot-offline-inference/commit/460dbe1900af203d0a5d6dad24a1eb6a4fb7d614))
+
+
+### Bug Fixes
+
+* use color variants for both boss mug and normal mug ([a7b5371](https://github.com/emma-simbot/simbot-offline-inference/commit/a7b537191fd4729f4edef905470d1e15b8055307))
+
 ## [4.14.2](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.14.1...v4.14.2) (2023-04-21)
 
 
