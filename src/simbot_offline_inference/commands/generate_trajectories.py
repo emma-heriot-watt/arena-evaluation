@@ -24,6 +24,7 @@ def generate_trajectories(
     settings = Settings()
     settings.put_settings_in_environment()
     settings.prepare_file_system()
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     logger.info("Loading missions...")
     missions = list(
