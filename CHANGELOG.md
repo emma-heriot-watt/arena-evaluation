@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.17.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.16.1...v4.17.0) (2023-04-21)
+
+
+### Features
+
+* stack food plate ([#32](https://github.com/emma-simbot/simbot-offline-inference/issues/32)) ([2ef14db](https://github.com/emma-simbot/simbot-offline-inference/commit/2ef14db383bb8f253b52b36291b20c978004d488))
+
 ## [4.16.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.16.0...v4.16.1) (2023-04-21)
 
 
