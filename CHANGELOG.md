@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.14.2](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.14.1...v4.14.2) (2023-04-21)
+
+
+### Bug Fixes
+
+* incorrect function call ([af355fd](https://github.com/emma-simbot/simbot-offline-inference/commit/af355fd9b5bd7a2f89baf1d18078b05d0861b0ec))
+
 ## [4.14.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.14.0...v4.14.1) (2023-04-20)
 
 
