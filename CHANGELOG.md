@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.18.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.17.0...v4.18.0) (2023-04-21)
+
+
+### Features
+
+* enable carrot machine challenges ([321d7a6](https://github.com/emma-simbot/simbot-offline-inference/commit/321d7a60edb6e5c1450dac0ab195e769a1a146ed))
+
+
+### Bug Fixes
+
+* kill the unity instance before trying to restart it ([1274ae2](https://github.com/emma-simbot/simbot-offline-inference/commit/1274ae218082d77c280bb96a203416fb4b4f6b39))
+
 ## [4.17.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.16.1...v4.17.0) (2023-04-21)
 
 
