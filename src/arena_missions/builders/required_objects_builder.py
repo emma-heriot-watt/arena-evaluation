@@ -132,7 +132,13 @@ class RequiredObjectBuilder:
 
     def microwave(self, *, room: OfficeRoom = "BreakRoom") -> RequiredObject:
         """Generate the microwave for the arena."""
-        return RequiredObject(name=ObjectInstanceId.parse("Microwave_01_1"), roomLocation=[room])
+        return RequiredObject(
+            name=ObjectInstanceId.parse("Microwave_01_1"),
+            state=[
+                RequiredObjectState.from_parts("removeInitialContainedItems", "true"),
+            ],
+            roomLocation=[room],
+        )
 
     def robotic_arm(self, *, is_arm_lifted: bool = True) -> RequiredObject:
         """Generate the robotic arm for the arena."""
