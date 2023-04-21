@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.16.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.15.1...v4.16.0) (2023-04-21)
+
+
+### Features
+
+* include stacked objects in the high level key ([3f937e7](https://github.com/emma-simbot/simbot-offline-inference/commit/3f937e76af5b7cbc1ba8c1afbf14d4c5cb654702))
+
+
+### Bug Fixes
+
+* remove the `change_color` instruction action ([d53cbaa](https://github.com/emma-simbot/simbot-offline-inference/commit/d53cbaa0e62698cde5343254be8bbdc3b77a203c))
+
 ## [4.15.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.15.0...v4.15.1) (2023-04-21)
 
 
