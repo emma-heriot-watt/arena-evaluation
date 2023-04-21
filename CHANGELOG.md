@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.20.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.19.1...v4.20.0) (2023-04-21)
+
+
+### Features
+
+* place object onto plate in container ([#33](https://github.com/emma-simbot/simbot-offline-inference/issues/33)) ([ae16713](https://github.com/emma-simbot/simbot-offline-inference/commit/ae16713e85483736fce93529a7b301f21d6048bc))
+
 ## [4.19.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.19.0...v4.19.1) (2023-04-21)
 
 
