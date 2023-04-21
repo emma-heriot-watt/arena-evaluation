@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.19.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.18.0...v4.19.0) (2023-04-21)
+
+
+### Features
+
+* make it easier to generate trajectories in a different folder ([4215037](https://github.com/emma-simbot/simbot-offline-inference/commit/4215037258cf58945db50bfdf6e86b5ed8701c87))
+
+
+### Bug Fixes
+
+* make the output dir for generated trajectories ([fcedc65](https://github.com/emma-simbot/simbot-offline-inference/commit/fcedc65825904e3dbcda5cba3c9c67eb470b17c0))
+
 ## [4.18.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.17.0...v4.18.0) (2023-04-21)
 
 
