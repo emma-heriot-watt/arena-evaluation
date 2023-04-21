@@ -9,8 +9,16 @@ from simbot_offline_inference.commands.run_trajectories_in_arena import run_traj
 from simbot_offline_inference.settings import Settings
 
 
+def _get_default_mission_dir() -> Path:
+    """Return the default mission dir."""
+    return Settings().missions_dir
+
+
 def generate_trajectories(
-    *, session_id_prefix: str = "T", enable_randomisation_in_session_id: bool = True
+    output_dir: Path = _get_default_mission_dir(),  # noqa: WPS404
+    *,
+    session_id_prefix: str = "T",
+    enable_randomisation_in_session_id: bool = True,
 ) -> None:
     """Generate trajectories from the missions."""
     settings = Settings()
@@ -35,7 +43,7 @@ def generate_trajectories(
     saved_trajectories_paths = set()
 
     for trajectory in trajectories:
-        output_path = settings.missions_dir.joinpath(f"{trajectory.session_id}.json")
+        output_path = output_dir.joinpath(f"{trajectory.session_id}.json")
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(trajectory.json(by_alias=True))
 
