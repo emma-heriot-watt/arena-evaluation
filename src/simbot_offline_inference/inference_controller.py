@@ -1,3 +1,4 @@
+import time
 from contextlib import ExitStack
 from typing import Any, Literal
 
@@ -194,4 +195,9 @@ class SimBotInferenceController:
 
     def restart_arena(self) -> bool:
         """Restart the Arena."""
+        self._arena_orchestrator.kill_unity_instance()
+
+        logger.info("Waiting for 30 seconds before restarting the arena...")
+        time.sleep(30)  # noqa: WPS432
+
         return self._arena_orchestrator.init_unity_instance()
