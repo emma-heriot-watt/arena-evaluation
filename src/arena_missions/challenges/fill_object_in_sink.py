@@ -156,7 +156,7 @@ def register_fill_objects_in_sink() -> None:
     object_iterator = [
         (ObjectInstanceId.parse("Bowl_01_1"), True),
         (ObjectInstanceId.parse("CoffeeMug_Boss_1"), True),
-        (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), False),
+        (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
         (ObjectInstanceId.parse("CoffeePot_01_1"), False),
     ]
 

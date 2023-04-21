@@ -301,7 +301,7 @@ def register_heat_things() -> None:
         (ObjectInstanceId.parse("CandyBar_01_1"), False),
         (ObjectInstanceId.parse("CanSodaNew_01_1"), False),
         (ObjectInstanceId.parse("Carrot_01_1"), True),
-        (ObjectInstanceId.parse("CoffeeMug_Boss_1"), False),
+        (ObjectInstanceId.parse("CoffeeMug_Boss_1"), True),
         (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
         (ObjectInstanceId.parse("CoffeePot_01_1"), False),
         (ObjectInstanceId.parse("Donut_01_1"), True),
