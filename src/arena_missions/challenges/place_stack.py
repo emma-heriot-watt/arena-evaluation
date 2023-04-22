@@ -3,19 +3,17 @@ from typing import Any, Optional, get_args
 from arena_missions.builders import ChallengeBuilder, ChallengeBuilderOutput, RequiredObjectBuilder
 from arena_missions.constants.arena import ColorChangerObjectColor, ObjectColor
 from arena_missions.structures import (
+    AndExpression,
+    ContainsExpression,
     HighLevelKey,
+    IsOpenExpression,
     IsPickedUpExpression,
+    ObjectId,
     ObjectInstanceId,
     RequiredObject,
     StateCondition,
     StateExpression,
     TaskGoal,
-)
-from arena_missions.structures.object_id import ObjectId
-from arena_missions.structures.state_condition import (
-    AndExpression,
-    ContainsExpression,
-    IsOpenExpression,
 )
 
 
@@ -39,7 +37,7 @@ def create_place_plate_stack_challenge(
     *,
     with_stacked_object_color_variants: bool = False,
 ) -> None:
-    """Generate challenes to pick up objects from containers."""
+    """Generate challenges to pick up objects from containers."""
     required_object_builder = RequiredObjectBuilder()
     # Create the target object
     target_object = RequiredObject(name=target_object_instance_id)
@@ -49,6 +47,7 @@ def create_place_plate_stack_challenge(
     plate = RequiredObject(name=ObjectInstanceId.parse("FoodPlate_01_1"))
     plate.add_state("Unique", "true")
     plate.add_state("isDirty", "false")
+    plate.add_state("isEmpty", "true")
 
     # Create the breakroom table
     breakroom_table = required_object_builder.breakroom_table()
@@ -60,6 +59,14 @@ def create_place_plate_stack_challenge(
     plate.update_receptacle(container.name)
 
     conditions = [
+        # [PREP] Ensure the item is picked up
+        StateCondition(
+            stateName="ObjectPickedUp",
+            context=target_object.name,
+            expression=StateExpression.from_expression(
+                IsPickedUpExpression(target=target_object.name, value=True),
+            ),
+        ),
         # Place object on the plate which is in the container while its open
         StateCondition(
             stateName="PlacedOnPlateInContainer",
@@ -98,7 +105,7 @@ def create_place_plate_stack_challenge(
                 f"close the {container.readable_name}",
             ],
             preparation_plan=[
-                "go to the breakroom table",
+                "go to the breakroom",
                 f"pick up the {target_object.readable_name}",
             ],
         )
@@ -148,7 +155,7 @@ def create_place_plate_stack_challenge(
 
 
 def register_place_plate_stack_challenges() -> None:
-    """Register challenges to pick up and place objects in the fridge."""
+    """Register challenges to pick up and place objects in the fridge/freezer."""
     required_objects_builder = RequiredObjectBuilder()
 
     containers = [required_objects_builder.fridge(), required_objects_builder.freezer()]

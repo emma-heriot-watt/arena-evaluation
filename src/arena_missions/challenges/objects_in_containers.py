@@ -25,7 +25,7 @@ def create_pick_up_from_container_challenge(
     *,
     with_color_variants: bool = False,
 ) -> None:
-    """Generate challenes to pick up objects from containers."""
+    """Generate challegnes to pick up objects from containers."""
     # Create the target object
     target_object = RequiredObject(name=target_object_instance_id)
     target_object.add_state("Unique", "true")
@@ -142,7 +142,7 @@ def create_place_in_container_challenge(
     *,
     with_color_variants: bool = False,
 ) -> None:
-    """Generate challenes to pick up objects from containers."""
+    """Generate challenges to pick up objects from containers."""
     required_object_builder = RequiredObjectBuilder()
 
     # Create the target object

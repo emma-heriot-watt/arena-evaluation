@@ -3,15 +3,16 @@ from typing import Any, Optional, get_args
 from arena_missions.builders import ChallengeBuilder, ChallengeBuilderOutput, RequiredObjectBuilder
 from arena_missions.constants.arena import ColorChangerObjectColor, ObjectColor
 from arena_missions.structures import (
+    ContainsExpression,
     HighLevelKey,
     IsPickedUpExpression,
+    ObjectId,
     ObjectInstanceId,
     RequiredObject,
     StateCondition,
     StateExpression,
     TaskGoal,
 )
-from arena_missions.structures.object_id import ObjectId
 
 
 def get_color_from_id(object_id: ObjectId) -> Optional[ObjectColor]:
@@ -49,6 +50,22 @@ def create_plate_stack_challenge(
     target_object.update_receptacle(plate.name)
 
     conditions = [
+        # [PREP] Ensure the plate is in the receptacle
+        StateCondition(
+            stateName="InReceptacle",
+            context=plate.name,
+            expression=StateExpression.from_expression(
+                ContainsExpression(target=receptacle.name, contains=plate.name),
+            ),
+        ),
+        # [PREP] Ensure the target object is on the plate
+        StateCondition(
+            stateName="OnObject",
+            context=target_object.name,
+            expression=StateExpression.from_expression(
+                ContainsExpression(target=plate.name, contains=target_object.name),
+            ),
+        ),
         # Ensure we pick up the plate
         StateCondition(
             stateName="PickedUpPlate",
