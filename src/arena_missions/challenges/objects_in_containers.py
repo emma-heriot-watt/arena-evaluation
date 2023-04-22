@@ -273,55 +273,55 @@ def register_objects_with_fridge_challenges() -> None:
     container.update_room("BreakRoom")
 
     target_object_iterator = [
-        (ObjectInstanceId.parse("Apple_1"), True),
-        (ObjectInstanceId.parse("AppleSlice_01_1"), False),
-        (ObjectInstanceId.parse("Banana_01_1"), False),
-        (ObjectInstanceId.parse("BananaBunch_01_1"), False),
-        (ObjectInstanceId.parse("BreadLoaf_1"), False),
-        (ObjectInstanceId.parse("BreadSlice_01_1"), False),
-        (ObjectInstanceId.parse("Bowl_01_1"), True),
-        (ObjectInstanceId.parse("Burger_04_1"), False),
-        (ObjectInstanceId.parse("Cake_02_1"), True),
-        (ObjectInstanceId.parse("CakeSlice_02_1"), False),
-        (ObjectInstanceId.parse("CandyBar_01_1"), False),
-        (ObjectInstanceId.parse("CanSodaNew_01_1"), False),
-        (ObjectInstanceId.parse("CanSodaNew_Crushed_01_1"), False),
-        (ObjectInstanceId.parse("CanSodaNew_Open_01_1"), False),
-        (ObjectInstanceId.parse("Carrot_01_1"), True),
-        (ObjectInstanceId.parse("Cereal_Box_01_1"), False),
-        (ObjectInstanceId.parse("CoffeeBeans_01_1"), False),
-        (ObjectInstanceId.parse("CoffeeCup_Open_Empty_02_1"), False),
-        (ObjectInstanceId.parse("CoffeeMug_Boss_1"), True),
-        (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
-        (ObjectInstanceId.parse("Donut_01_1"), True),
-        (ObjectInstanceId.parse("FoodPlate_01_1"), True),
-        (ObjectInstanceId.parse("Fork_01_1"), False),
-        (ObjectInstanceId.parse("Jar_Jam_01_1"), False),
-        (ObjectInstanceId.parse("Jar_PeanutButter_01_1"), False),
-        (ObjectInstanceId.parse("Knife_01_1"), False),
-        (ObjectInstanceId.parse("MilkCarton_01_1"), False),
-        (ObjectInstanceId.parse("PaperCup_01_1"), False),
-        (ObjectInstanceId.parse("PaperCup_Crushed_01_1"), False),
-        (ObjectInstanceId.parse("PBJ_Sandwich_1"), False),
-        (ObjectInstanceId.parse("Pear_01_1"), True),
-        (ObjectInstanceId.parse("PieFruitSlice_01_1"), False),
-        (ObjectInstanceId.parse("PieFruit_01_1"), False),
-        (ObjectInstanceId.parse("SandwichHalf_01_1"), False),
-        (ObjectInstanceId.parse("Spoon_01_1"), False),
-        (ObjectInstanceId.parse("Toast_01_1"), False),
-        (ObjectInstanceId.parse("Toast_02_1"), False),
-        (ObjectInstanceId.parse("Toast_03_1"), False),
-        (ObjectInstanceId.parse("Toast_04_1"), False),
-        (ObjectInstanceId.parse("Toast_04_Jam_1"), False),
-        (ObjectInstanceId.parse("Toast_04_PBJ_1"), False),
+        (ObjectInstanceId.parse("Apple_1"), True, True),
+        (ObjectInstanceId.parse("AppleSlice_01_1"), False, False),
+        (ObjectInstanceId.parse("Banana_01_1"), False, False),
+        (ObjectInstanceId.parse("BananaBunch_01_1"), False, False),
+        (ObjectInstanceId.parse("BreadLoaf_1"), False, False),
+        (ObjectInstanceId.parse("BreadSlice_01_1"), False, False),
+        (ObjectInstanceId.parse("Bowl_01_1"), True, True),
+        (ObjectInstanceId.parse("Burger_04_1"), False, False),
+        (ObjectInstanceId.parse("Cake_02_1"), True, True),
+        (ObjectInstanceId.parse("CakeSlice_02_1"), False, False),
+        (ObjectInstanceId.parse("CandyBar_01_1"), False, False),
+        (ObjectInstanceId.parse("CanSodaNew_01_1"), False, False),
+        (ObjectInstanceId.parse("CanSodaNew_Crushed_01_1"), False, False),
+        (ObjectInstanceId.parse("CanSodaNew_Open_01_1"), False, False),
+        (ObjectInstanceId.parse("Carrot_01_1"), True, True),
+        (ObjectInstanceId.parse("Cereal_Box_01_1"), False, False),
+        (ObjectInstanceId.parse("CoffeeBeans_01_1"), False, False),
+        (ObjectInstanceId.parse("CoffeeCup_Open_Empty_02_1"), False, False),
+        (ObjectInstanceId.parse("CoffeeMug_Boss_1"), True, True),
+        (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True, True),
+        (ObjectInstanceId.parse("Donut_01_1"), False, True),
+        (ObjectInstanceId.parse("FoodPlate_01_1"), True, True),
+        (ObjectInstanceId.parse("Fork_01_1"), False, False),
+        (ObjectInstanceId.parse("Jar_Jam_01_1"), False, False),
+        (ObjectInstanceId.parse("Jar_PeanutButter_01_1"), False, False),
+        (ObjectInstanceId.parse("Knife_01_1"), False, False),
+        (ObjectInstanceId.parse("MilkCarton_01_1"), False, False),
+        (ObjectInstanceId.parse("PaperCup_01_1"), False, False),
+        (ObjectInstanceId.parse("PaperCup_Crushed_01_1"), False, False),
+        (ObjectInstanceId.parse("PBJ_Sandwich_1"), False, False),
+        (ObjectInstanceId.parse("Pear_01_1"), True, True),
+        (ObjectInstanceId.parse("PieFruitSlice_01_1"), False, False),
+        (ObjectInstanceId.parse("PieFruit_01_1"), False, False),
+        (ObjectInstanceId.parse("SandwichHalf_01_1"), False, False),
+        (ObjectInstanceId.parse("Spoon_01_1"), False, False),
+        (ObjectInstanceId.parse("Toast_01_1"), False, False),
+        (ObjectInstanceId.parse("Toast_02_1"), False, False),
+        (ObjectInstanceId.parse("Toast_03_1"), False, False),
+        (ObjectInstanceId.parse("Toast_04_1"), False, False),
+        (ObjectInstanceId.parse("Toast_04_Jam_1"), False, False),
+        (ObjectInstanceId.parse("Toast_04_PBJ_1"), False, False),
     ]
 
-    for target_object, with_color_variants in target_object_iterator:
+    for target_object, pickup_color_variants, place_color_variants in target_object_iterator:
         create_pick_up_from_container_challenge(
-            target_object, container, with_color_variants=with_color_variants
+            target_object, container, with_color_variants=pickup_color_variants
         )
         create_place_in_container_challenge(
-            target_object, container, with_color_variants=with_color_variants
+            target_object, container, with_color_variants=place_color_variants
         )
 
 
@@ -329,57 +329,59 @@ def register_objects_with_freezer_challenges() -> None:
     """Register challenges to pick up and place objects in the freezer."""
     required_objects_builder = RequiredObjectBuilder()
 
-    container = required_objects_builder.fridge()
+    container = required_objects_builder.freezer()
 
     # Ensure each container is in the breakroom
     container.update_room("BreakRoom")
 
     target_object_iterator = [
-        (ObjectInstanceId.parse("Apple_1"), True),
-        (ObjectInstanceId.parse("AppleSlice_01_1"), False),
-        (ObjectInstanceId.parse("Banana_01_1"), False),
-        (ObjectInstanceId.parse("BananaBunch_01_1"), False),
-        (ObjectInstanceId.parse("BreadLoaf_1"), False),
-        (ObjectInstanceId.parse("BreadSlice_01_1"), False),
-        (ObjectInstanceId.parse("Bowl_01_1"), True),
-        (ObjectInstanceId.parse("Burger_04_1"), False),
-        (ObjectInstanceId.parse("Cake_02_1"), True),
-        (ObjectInstanceId.parse("CakeSlice_02_1"), False),
-        (ObjectInstanceId.parse("CandyBar_01_1"), False),
-        (ObjectInstanceId.parse("Carrot_01_1"), True),
-        (ObjectInstanceId.parse("CanSodaNew_01_1"), False),
-        (ObjectInstanceId.parse("CanSodaNew_Crushed_01_1"), False),
-        (ObjectInstanceId.parse("CanSodaNew_Open_01_1"), False),
-        (ObjectInstanceId.parse("CoffeeBeans_01_1"), False),
-        (ObjectInstanceId.parse("CoffeeMug_Boss_1"), True),
-        (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
-        (ObjectInstanceId.parse("Donut_01_1"), True),
-        (ObjectInstanceId.parse("FoodPlate_01_1"), True),
-        (ObjectInstanceId.parse("Fork_01_1"), False),
-        (ObjectInstanceId.parse("Jar_Jam_01_1"), False),
-        (ObjectInstanceId.parse("Jar_PeanutButter_01_1"), False),
-        (ObjectInstanceId.parse("Knife_01_1"), False),
-        (ObjectInstanceId.parse("PaperCup_01_1"), False),
-        (ObjectInstanceId.parse("PaperCup_Crushed_01_1"), False),
-        (ObjectInstanceId.parse("PBJ_Sandwich_1"), False),
-        (ObjectInstanceId.parse("PieFruitSlice_01_1"), False),
-        (ObjectInstanceId.parse("PieFruit_01_1"), False),
-        (ObjectInstanceId.parse("SandwichHalf_01_1"), False),
-        (ObjectInstanceId.parse("Spoon_01_1"), False),
-        (ObjectInstanceId.parse("Toast_01_1"), False),
-        (ObjectInstanceId.parse("Toast_02_1"), False),
-        (ObjectInstanceId.parse("Toast_03_1"), False),
-        (ObjectInstanceId.parse("Toast_04_1"), False),
-        (ObjectInstanceId.parse("Toast_04_Jam_1"), False),
-        (ObjectInstanceId.parse("Toast_04_PBJ_1"), False),
+        (ObjectInstanceId.parse("Apple_1"), True, True),
+        (ObjectInstanceId.parse("AppleSlice_01_1"), False, False),
+        (ObjectInstanceId.parse("Banana_01_1"), False, False),
+        (ObjectInstanceId.parse("BananaBunch_01_1"), False, False),
+        (ObjectInstanceId.parse("BreadLoaf_1"), False, False),
+        (ObjectInstanceId.parse("BreadSlice_01_1"), False, False),
+        (ObjectInstanceId.parse("Bowl_01_1"), True, True),
+        (ObjectInstanceId.parse("Burger_04_1"), False, False),
+        (ObjectInstanceId.parse("Cake_02_1"), True, True),
+        (ObjectInstanceId.parse("CakeSlice_02_1"), False, False),
+        (ObjectInstanceId.parse("CandyBar_01_1"), False, False),
+        (ObjectInstanceId.parse("CanSodaNew_01_1"), False, False),
+        (ObjectInstanceId.parse("CanSodaNew_Crushed_01_1"), False, False),
+        (ObjectInstanceId.parse("CanSodaNew_Open_01_1"), False, False),
+        (ObjectInstanceId.parse("Carrot_01_1"), True, True),
+        (ObjectInstanceId.parse("Cereal_Box_01_1"), False, False),
+        (ObjectInstanceId.parse("CoffeeBeans_01_1"), False, False),
+        (ObjectInstanceId.parse("CoffeeCup_Open_Empty_02_1"), False, False),
+        (ObjectInstanceId.parse("CoffeeMug_Boss_1"), True, True),
+        (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True, True),
+        (ObjectInstanceId.parse("Donut_01_1"), False, True),
+        (ObjectInstanceId.parse("FoodPlate_01_1"), True, True),
+        (ObjectInstanceId.parse("Fork_01_1"), False, False),
+        (ObjectInstanceId.parse("Jar_Jam_01_1"), False, False),
+        (ObjectInstanceId.parse("Jar_PeanutButter_01_1"), False, False),
+        (ObjectInstanceId.parse("Knife_01_1"), False, False),
+        (ObjectInstanceId.parse("PaperCup_01_1"), False, False),
+        (ObjectInstanceId.parse("PaperCup_Crushed_01_1"), False, False),
+        (ObjectInstanceId.parse("PBJ_Sandwich_1"), False, False),
+        (ObjectInstanceId.parse("Pear_01_1"), True, True),
+        (ObjectInstanceId.parse("PieFruitSlice_01_1"), False, False),
+        (ObjectInstanceId.parse("PieFruit_01_1"), False, False),
+        (ObjectInstanceId.parse("SandwichHalf_01_1"), False, False),
+        (ObjectInstanceId.parse("Spoon_01_1"), False, False),
+        (ObjectInstanceId.parse("Toast_01_1"), False, False),
+        (ObjectInstanceId.parse("Toast_02_1"), False, False),
+        (ObjectInstanceId.parse("Toast_03_1"), False, False),
+        (ObjectInstanceId.parse("Toast_04_1"), False, False),
+        (ObjectInstanceId.parse("Toast_04_Jam_1"), False, False),
+        (ObjectInstanceId.parse("Toast_04_PBJ_1"), False, False),
     ]
-
-    for target_object, with_color_variants in target_object_iterator:
+    for target_object, pickup_color_variants, place_color_variants in target_object_iterator:
         create_pick_up_from_container_challenge(
-            target_object, container, with_color_variants=with_color_variants
+            target_object, container, with_color_variants=pickup_color_variants
         )
         create_place_in_container_challenge(
-            target_object, container, with_color_variants=with_color_variants
+            target_object, container, with_color_variants=place_color_variants
         )
 
 
