@@ -30,6 +30,9 @@ class HighLevelKey(BaseModel, validate_assignment=True, frozen=True, extra="forb
 
     target_object: ObjectId
     target_object_color: Optional[ObjectColor] = None
+    # An ambiguous target object is one where there are multiple objects in the scene, but the
+    # agent should be able to distinguish the correct one by color
+    target_object_is_ambiguous: bool = False
 
     interaction_object: Optional[ObjectId] = None
     interaction_object_color: Optional[ObjectColor] = None
