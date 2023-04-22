@@ -91,4 +91,7 @@ class WandBTrajectoryTracker:
             subgoal_success_rate = 0
 
         wandb.log({"is_success": int(is_success), "subgoal_success_rate": subgoal_success_rate})
-        wandb.finish()
+
+        # If subgoal success rate is 0, then it means the preparation also failed, therefore mark
+        # the run as failed.
+        wandb.finish(exit_code=1 if subgoal_success_rate == 0 else None)
