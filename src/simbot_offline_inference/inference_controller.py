@@ -52,9 +52,17 @@ class SimBotInferenceController:
         return self._arena_orchestrator.is_unity_running
 
     @property
-    def subgoal_status_above_threshold(self) -> bool:
+    def trajectory_preparation_completed(self) -> bool:
         """Return True if the subgoal status is above 0."""
-        return sum(self.get_goal_completion_status()[1]) > 0
+        subgoal_completion_status = self.get_goal_completion_status()[1]
+
+        subgoals_completed = sum(subgoal_completion_status)
+        logger.debug(f"Subgoals completed: {subgoals_completed}")
+
+        first_subgoal_completed = subgoal_completion_status[0] != 0
+        logger.debug(f"First subgoal completed: {first_subgoal_completed}")
+
+        return subgoals_completed > 0 and first_subgoal_completed
 
     def healthcheck(self) -> bool:
         """Healthcheck the services."""

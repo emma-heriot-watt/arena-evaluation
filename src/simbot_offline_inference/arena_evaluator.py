@@ -105,7 +105,7 @@ class SimBotArenaEvaluator:
             for prep_utterance in trajectory.preparation_utterances:
                 self._inference_controller.handle_utterance(preparation_session_id, prep_utterance)
 
-        if not self._inference_controller.subgoal_status_above_threshold:
+        if not self._inference_controller.trajectory_preparation_completed:
             raise AssertionError("The subgoal status is 0, so preparation failed")
 
         # Go to random viewpoint
