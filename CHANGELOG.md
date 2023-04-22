@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.24.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.24.0...v4.24.1) (2023-04-22)
+
+
+### Bug Fixes
+
+* expliticly ensure at least the first subgoal has been completed ([f61f810](https://github.com/emma-simbot/simbot-offline-inference/commit/f61f810b94c3b569b533475fd79a24ab4edc0981))
+* return after logging the failed trajectory ([940d400](https://github.com/emma-simbot/simbot-offline-inference/commit/940d40085493805275afa6072fd3eaab2dfaaa40))
+
 ## [4.24.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.23.0...v4.24.0) (2023-04-22)
 
 
