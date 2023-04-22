@@ -73,6 +73,7 @@ class SimBotArenaEvaluator:
             self._log_trajectory_results(
                 trajectory, actions_for_session, processed_utterance_counter
             )
+            return
 
         for utterance in trajectory.utterances:
             if self._inference_controller.is_all_goals_complete():
