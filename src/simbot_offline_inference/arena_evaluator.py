@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 import httpx
 from loguru import logger
@@ -63,10 +63,16 @@ class SimBotArenaEvaluator:
                 cdf_scene=trajectory.cdf.scene,
             )
 
-        self.prepare_arena_for_trajectory(prep_session_id, trajectory)
-
-        actions_for_session = []
+        actions_for_session: list[Any] = []
         processed_utterance_counter = 0
+
+        try:
+            self.prepare_arena_for_trajectory(prep_session_id, trajectory)
+        except AssertionError:
+            logger.warning("Preparation failed. Skipping...")
+            self._log_trajectory_results(
+                trajectory, actions_for_session, processed_utterance_counter
+            )
 
         for utterance in trajectory.utterances:
             if self._inference_controller.is_all_goals_complete():
@@ -79,28 +85,7 @@ class SimBotArenaEvaluator:
             actions_for_session.extend(actions_for_utterance)
             processed_utterance_counter += 1
 
-        # Check goal status and get results
-        logger.debug("Calculating metrics for test")
-        (
-            goal_completion_status,
-            subgoal_completion_status,
-        ) = self._inference_controller.get_goal_completion_status()
-        self._evaluation_metrics.add_mission_metrics(
-            session_id=session_id,
-            mission_group=trajectory.mission_group,
-            is_mission_completed=goal_completion_status,
-            subgoal_completion_status=subgoal_completion_status,
-            predicted_actions=actions_for_session,
-            last_game_state=self._inference_controller.get_latest_game_state(),
-            remaining_utterances=trajectory.utterances[processed_utterance_counter:],
-        )
-
-        # Stop tracking the trajectory on WandB
-        if self._wandb_trajectory_tracker is not None:
-            self._wandb_trajectory_tracker.finish_trajectory(
-                is_success=goal_completion_status,
-                subgoal_completion_status=subgoal_completion_status,
-            )
+        self._log_trajectory_results(trajectory, actions_for_session, processed_utterance_counter)
 
     def prepare_arena_for_trajectory(
         self, preparation_session_id: str, trajectory: MissionTrajectory
@@ -120,6 +105,9 @@ class SimBotArenaEvaluator:
             for prep_utterance in trajectory.preparation_utterances:
                 self._inference_controller.handle_utterance(preparation_session_id, prep_utterance)
 
+        if not self._inference_controller.subgoal_status_above_threshold:
+            raise AssertionError("The subgoal status is 0, so preparation failed")
+
         # Go to random viewpoint
         logger.debug("Going to random viewpoint")
         self._inference_controller.go_to_random_viewpoint(trajectory.cdf.start_room)
@@ -127,3 +115,32 @@ class SimBotArenaEvaluator:
         # Randomise the start position
         logger.debug("Randomising start position")
         self._inference_controller.randomise_start_position()
+
+    def _log_trajectory_results(
+        self,
+        trajectory: MissionTrajectory,
+        actions_for_session: list[Any],
+        processed_utterance_counter: int,
+    ) -> None:
+        """Log the results for the trajectory."""
+        logger.debug("Calculating metrics")
+        (
+            goal_completion_status,
+            subgoal_completion_status,
+        ) = self._inference_controller.get_goal_completion_status()
+        self._evaluation_metrics.add_mission_metrics(
+            session_id=trajectory.session_id,
+            mission_group=trajectory.mission_group,
+            is_mission_completed=goal_completion_status,
+            subgoal_completion_status=subgoal_completion_status,
+            predicted_actions=actions_for_session,
+            last_game_state=self._inference_controller.get_latest_game_state(),
+            remaining_utterances=trajectory.utterances[processed_utterance_counter:],
+        )
+
+        # Stop tracking the trajectory on WandB
+        if self._wandb_trajectory_tracker is not None:
+            self._wandb_trajectory_tracker.finish_trajectory(
+                is_success=goal_completion_status,
+                subgoal_completion_status=subgoal_completion_status,
+            )

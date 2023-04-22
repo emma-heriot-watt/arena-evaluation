@@ -51,6 +51,11 @@ class SimBotInferenceController:
         """Check if the arena is running."""
         return self._arena_orchestrator.is_unity_running
 
+    @property
+    def subgoal_status_above_threshold(self) -> bool:
+        """Return True if the subgoal status is above 0."""
+        return sum(self.get_goal_completion_status()[1]) > 0
+
     def healthcheck(self) -> bool:
         """Healthcheck the services."""
         return self._experience_hub_orchestrator.healthcheck()
