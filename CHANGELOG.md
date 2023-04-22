@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.22.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.21.0...v4.22.0) (2023-04-22)
+
+
+### Features
+
+* add goal for prep steps ([7742128](https://github.com/emma-simbot/simbot-offline-inference/commit/7742128de7952519e6042e3183c561e97d932e1d))
+* add goals to ensure the "objects in containers" missions are setup correctly ([606a4c3](https://github.com/emma-simbot/simbot-offline-inference/commit/606a4c3dcccac07e960310999a32aa276b932546))
+* mark the run as failed if the preparation steps did not succeed ([4830023](https://github.com/emma-simbot/simbot-offline-inference/commit/48300234304ef524fe4fb85f9c3142b3a5d03eeb))
+* mark the run as failed if the subgoal success is 0 ([f3659b3](https://github.com/emma-simbot/simbot-offline-inference/commit/f3659b35abaa77f0cb63ac4de619339e9f681c1a))
+
+
+### Bug Fixes
+
+* disable color variants usage for pickup and place missions separately ([b941892](https://github.com/emma-simbot/simbot-offline-inference/commit/b941892e05640fac81775394776ed349bf8e3c87))
+
 ## [4.21.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.20.0...v4.21.0) (2023-04-22)
 
 
