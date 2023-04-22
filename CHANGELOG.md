@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.20.0...v4.21.0) (2023-04-22)
+
+
+### Features
+
+* add the `target-object-is-ambiguous` high-level key ([f534502](https://github.com/emma-simbot/simbot-offline-inference/commit/f534502965f217fb8e87f667f3e0d95012de9417))
+
+
+### Bug Fixes
+
+* update high-level key config within wandb tracker ([3bbc069](https://github.com/emma-simbot/simbot-offline-inference/commit/3bbc0697d9730224062a4615458862353a144399))
+
 ## [4.20.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.19.1...v4.20.0) (2023-04-21)
 
 
