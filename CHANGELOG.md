@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.24.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.23.0...v4.24.0) (2023-04-22)
+
+
+### Features
+
+* pickup target among distractors ([#34](https://github.com/emma-simbot/simbot-offline-inference/issues/34)) ([8264204](https://github.com/emma-simbot/simbot-offline-inference/commit/826420490dfb667b4cf8030d1d1a7e209b133662))
+
 ## [4.23.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.22.0...v4.23.0) (2023-04-22)
 
 
