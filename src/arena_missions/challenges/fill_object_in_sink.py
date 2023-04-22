@@ -42,6 +42,14 @@ def create_fill_object_in_sink(
     target_object.update_receptacle(breakroom_table.name)
 
     conditions = [
+        # [PREP] Hold the unfilled object
+        StateCondition(
+            stateName="HoldingUnfilledObject",
+            context=target_object.name,
+            expression=StateExpression.from_expression(
+                IsPickedUpExpression(target=target_object.name, value=True)
+            ),
+        ),
         # Hold the unfilled object with the sink turned on
         StateCondition(
             stateName="HoldingUnfilledObjectWithSinkOn",

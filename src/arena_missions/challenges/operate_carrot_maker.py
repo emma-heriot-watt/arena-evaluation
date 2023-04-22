@@ -3,11 +3,10 @@ from typing import get_args
 from arena_missions.builders import ChallengeBuilder, ChallengeBuilderOutput, RequiredObjectBuilder
 from arena_missions.constants.arena import ColorChangerObjectColor
 from arena_missions.structures import (
-    AndExpression,
     ContainsExpression,
     HighLevelKey,
     IsPickedUpExpression,
-    IsToggledOnExpression,
+    ObjectGoalState,
     ObjectInstanceId,
     RequiredObject,
     StateCondition,
@@ -33,18 +32,15 @@ def create_operate_carrot_maker_challenges(
     # Create the breakroom table
     breakroom_table = required_object_builder.breakroom_table()
     target_object.update_receptacle(breakroom_table.name)
-    spawned_carrot = ObjectInstanceId.parse(f"{carrot_maker.object_id}_Spawned_Carrot_01_1")
 
     # Success conditions
     conditions = [
-        # The target object is picked up
+        # [PREP] The target object is picked up
         StateCondition(
             stateName="OriginalPickedUp",
             context=target_object.name,
             expression=StateExpression.from_expression(
-                AndExpression.from_expressions(
-                    IsPickedUpExpression(target=target_object.name, value=True),
-                )
+                IsPickedUpExpression(target=target_object.name, value=True),
             ),
         ),
         # The target object is placed on the carrot machine
@@ -52,20 +48,16 @@ def create_operate_carrot_maker_challenges(
             stateName="MachineContainsTarget",
             context=carrot_maker.name,
             expression=StateExpression.from_expression(
-                AndExpression.from_expressions(
-                    ContainsExpression(target=carrot_maker.name, contains=target_object.name)
-                )
+                ContainsExpression(target=carrot_maker.name, contains=target_object.name)
             ),
         ),
+    ]
+
+    goals = [
+        *[TaskGoal.from_state_condition(condition) for condition in conditions],
         # Ensure the machine is used on the target
-        StateCondition(
-            stateName="MachineUsedOnTarget",
-            context=carrot_maker.name,
-            expression=StateExpression.from_expression(
-                AndExpression.from_expressions(
-                    IsToggledOnExpression(target=carrot_maker.name, value=True),
-                )
-            ),
+        TaskGoal.from_object_goal_states(
+            [ObjectGoalState.from_parts(carrot_maker.name, "isToggledOn", "true")]
         ),
     ]
 
@@ -79,7 +71,7 @@ def create_operate_carrot_maker_challenges(
                 breakroom_table.name: breakroom_table,
             },
             state_conditions=conditions,
-            task_goals=[TaskGoal.from_state_condition(condition) for condition in conditions],
+            task_goals=goals,
             plan=[
                 "go to the carrot maker",
                 f"put the {target_object.readable_name} on the carrot maker",
@@ -97,7 +89,6 @@ def create_operate_carrot_maker_challenges(
         action="interact",
         interaction_object=carrot_maker.object_id,
         target_object=target_object.object_id,
-        converted_object=spawned_carrot.object_id,
     )
 
     ChallengeBuilder.register(high_level_key)(create_mission)
@@ -115,7 +106,6 @@ def create_operate_carrot_maker_challenges(
                 interaction_object=carrot_maker.object_id,
                 target_object=target_object.object_id,
                 target_object_color=color,
-                converted_object=spawned_carrot.object_id,
             )
             # Register the challenge builder with the modifications
             ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(

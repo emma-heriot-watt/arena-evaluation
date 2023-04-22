@@ -1,7 +1,4 @@
-from typing import get_args
-
 from arena_missions.builders import ChallengeBuilder, ChallengeBuilderOutput, RequiredObjectBuilder
-from arena_missions.constants.arena import ColorChangerObjectColor
 from arena_missions.structures import (
     AndExpression,
     ContainsExpression,
@@ -18,7 +15,6 @@ from arena_missions.structures import (
 def create_operate_printer_challenges(
     printer_cartridge: RequiredObject,
     printer_spawned_object: ObjectInstanceId,
-    with_color_variants: bool = False,
 ) -> None:
     """Register challenges."""
     required_object_builder = RequiredObjectBuilder()
@@ -102,26 +98,6 @@ def create_operate_printer_challenges(
 
     ChallengeBuilder.register(high_level_key)(create_mission)
 
-    # Register versions of the challenges with color variants
-    if with_color_variants:
-        for color in get_args(ColorChangerObjectColor):
-            colored_target_object_kwargs = {
-                "required_objects": {
-                    printer_cartridge.name: {"colors": [color]},
-                }
-            }
-            high_level_key = HighLevelKey(
-                action="interact",
-                interaction_object=printer.object_id,
-                target_object=printer_cartridge.object_id,
-                target_object_color=color,
-                converted_object=printer_spawned_object.object_id,
-            )
-            # Register the challenge builder with the modifications
-            ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
-                create_mission
-            )
-
 
 def register_print_things() -> None:
     """Register challenges to print things using the 3D printer."""
@@ -148,5 +124,4 @@ def register_print_things() -> None:
         create_operate_printer_challenges(
             printer_cartridge=RequiredObject(name=object_instance_id),
             printer_spawned_object=converted_object_id,
-            with_color_variants=False,
         )

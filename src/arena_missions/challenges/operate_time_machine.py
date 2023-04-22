@@ -46,6 +46,14 @@ def create_operate_time_machine_challenges(
 
     # Success conditions
     conditions = [
+        # [PREP] The target object is picked up
+        StateCondition(
+            stateName="OriginalPickedUp",
+            context=target_object.name,
+            expression=StateExpression.from_expression(
+                IsPickedUpExpression(target=target_object.name, value=True),
+            ),
+        ),
         # Ensure the machine is used on the target
         StateCondition(
             stateName="MachineUsedOnTarget",
@@ -92,7 +100,7 @@ def create_operate_time_machine_challenges(
                 f"pick up the {converted_object.readable_name} from the time machine",
                 "close the time machine",
             ],
-            preparation_plan=["go to the breakroom table", f"pick up the {target_object.name}"],
+            preparation_plan=["go to the breakroom", f"pick up the {target_object.name}"],
         )
 
     def create_mission_with_door_open() -> ChallengeBuilderOutput:
