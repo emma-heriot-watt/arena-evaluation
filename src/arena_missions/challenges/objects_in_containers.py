@@ -6,9 +6,11 @@ from arena_missions.structures import (
     AndExpression,
     ContainsExpression,
     HighLevelKey,
+    IsFullOfItemsExpression,
     IsOpenExpression,
     IsPickedUpExpression,
     NotExpression,
+    ObjectGoalState,
     ObjectInstanceId,
     RequiredObject,
     StateCondition,
@@ -59,7 +61,13 @@ def create_pick_up_from_container_challenge(
         ),
     ]
 
-    goals = [TaskGoal.from_state_condition(condition) for condition in conditions]
+    goals = [
+        # Ensure the object starts within the container at the start of the mission
+        TaskGoal.from_object_goal_states(
+            [ObjectGoalState.from_parts(container.name, "Contains", target_object.name)]
+        ),
+        *[TaskGoal.from_state_condition(condition) for condition in conditions],
+    ]
 
     def create_mission() -> ChallengeBuilderOutput:
         """Create the mission."""
@@ -148,6 +156,14 @@ def create_place_in_container_challenge(
     target_object.update_receptacle(breakroom_table.name)
 
     conditions = [
+        # Ensure the container is not full of items at the start of the mission
+        StateCondition(
+            stateName="ContainerNotFull",
+            context=container.name,
+            expression=StateExpression.from_expression(
+                IsFullOfItemsExpression(target=container.name, value=False)
+            ),
+        ),
         # Place it in the container while its open
         StateCondition(
             stateName="PlacedInContainer",
@@ -196,7 +212,7 @@ def create_place_in_container_challenge(
                 f"close the {container.readable_name}",
             ],
             preparation_plan=[
-                "go to the breakroom table",
+                "go to the breakroom",
                 f"pick up the {target_object.readable_name}",
             ],
         )
