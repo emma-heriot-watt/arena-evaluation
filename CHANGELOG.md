@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.23.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.22.0...v4.23.0) (2023-04-22)
+
+
+### Features
+
+* add goal for prep steps ([f3db7ec](https://github.com/emma-simbot/simbot-offline-inference/commit/f3db7ecdb5b1fc7b9e264b9d8ae72fecc50ccd2d))
+
 ## [4.22.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.21.0...v4.22.0) (2023-04-22)
 
 
