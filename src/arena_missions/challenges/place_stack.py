@@ -187,7 +187,10 @@ def create_place_plate_on_gravity_pad_challenge(
             stateName="ObjectPickedUp",
             context=target_object.name,
             expression=StateExpression.from_expression(
-                IsPickedUpExpression(target=target_object.name, value=True),
+                AndExpression.from_expressions(
+                    IsPickedUpExpression(target=target_object.name, value=True),
+                    ContainsExpression(target=gravity_pad.name, contains=plate.name),
+                )
             ),
         ),
         # Place object on the plate which is in the container while its open
