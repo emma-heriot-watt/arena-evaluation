@@ -101,6 +101,7 @@ def create_ambiguous_pickup_challenge(  # noqa: WPS231
             action="pickup",
             target_object=target_object.object_id,
             target_object_color=target_color,
+            target_object_is_ambiguous=True,
             from_receptacle=receptacle.object_id,
             from_receptacle_is_container=False,
         )
