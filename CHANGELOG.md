@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.27.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.26.0...v4.27.0) (2023-04-23)
+
+
+### Features
+
+* added color variants flag ([#37](https://github.com/emma-simbot/simbot-offline-inference/issues/37)) ([6823c47](https://github.com/emma-simbot/simbot-offline-inference/commit/6823c478271c80634731d8df0e6a266a56d28c82))
+
 ## [4.26.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.25.0...v4.26.0) (2023-04-23)
 
 
