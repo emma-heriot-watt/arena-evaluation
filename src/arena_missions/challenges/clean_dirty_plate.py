@@ -160,12 +160,12 @@ def create_clean_dirty_plate_challenge(
             )
 
 
-def register_clean_dirty_plates() -> None:
+def register_clean_dirty_plates(enable_color_variants: bool = True) -> None:
     """Register all the the clean dirty plate challenges."""
     for layout in get_args(OfficeLayout):
         create_clean_dirty_plate_challenge(
-            "BreakRoom", office_layout=layout, with_color_variants=True
+            "BreakRoom", office_layout=layout, with_color_variants=enable_color_variants
         )
         create_clean_dirty_plate_challenge(
-            "Warehouse", office_layout=layout, with_color_variants=True
+            "Warehouse", office_layout=layout, with_color_variants=enable_color_variants
         )

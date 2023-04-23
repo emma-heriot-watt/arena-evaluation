@@ -159,7 +159,7 @@ def create_fill_object_in_sink(
             )
 
 
-def register_fill_objects_in_sink() -> None:
+def register_fill_objects_in_sink(enable_color_variants: bool = True) -> None:
     """Register challenges about filling an object in sink challenges."""
     object_iterator = [
         (ObjectInstanceId.parse("Bowl_01_1"), True),
@@ -174,11 +174,11 @@ def register_fill_objects_in_sink() -> None:
                 object_instance_id,
                 room="BreakRoom",
                 office_layout=layout,
-                with_color_variants=with_color_variants,
+                with_color_variants=enable_color_variants & with_color_variants,
             )
             create_fill_object_in_sink(
                 object_instance_id,
                 room="Warehouse",
                 office_layout=layout,
-                with_color_variants=with_color_variants,
+                with_color_variants=enable_color_variants & with_color_variants,
             )

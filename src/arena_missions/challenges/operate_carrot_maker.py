@@ -113,7 +113,7 @@ def create_operate_carrot_maker_challenges(
             )
 
 
-def register_carrot_maker_challenges() -> None:
+def register_carrot_maker_challenges(enable_color_variants: bool = True) -> None:
     """Register challenges with the carrot maker."""
     target_object_iterator = [
         (ObjectInstanceId.parse("Apple_1"), True),
@@ -158,5 +158,5 @@ def register_carrot_maker_challenges() -> None:
             target_object=RequiredObject(
                 name=target_object,
             ),
-            with_color_variants=with_color_variants,
+            with_color_variants=enable_color_variants & with_color_variants,
         )

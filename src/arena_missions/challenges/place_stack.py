@@ -154,7 +154,7 @@ def create_place_plate_stack_challenge(
                 )(create_mission)
 
 
-def register_place_plate_stack_challenges() -> None:
+def register_place_plate_stack_challenges(enable_color_variants: bool = True) -> None:
     """Register challenges to pick up and place objects in the fridge/freezer."""
     required_objects_builder = RequiredObjectBuilder()
 
@@ -192,5 +192,7 @@ def register_place_plate_stack_challenges() -> None:
     for target_object, with_color_variants in target_object_iterator:
         for container in containers:
             create_place_plate_stack_challenge(
-                target_object, container, with_stacked_object_color_variants=with_color_variants
+                target_object,
+                container,
+                with_stacked_object_color_variants=enable_color_variants & with_color_variants,
             )

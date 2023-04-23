@@ -304,7 +304,7 @@ def create_operate_time_machine_with_carrot(
             )
 
 
-def register_repair_broken_things() -> None:
+def register_repair_broken_things(enable_color_variants: bool = True) -> None:
     """Register challenges to repair broken things."""
     object_instance_ids = [
         ObjectInstanceId.parse("Bowl_01_1"),
@@ -321,11 +321,11 @@ def register_repair_broken_things() -> None:
             additional_conditions_for_converted_object=[
                 IsBrokenExpression(target=object_instance_id, value=False)
             ],
-            with_color_variants=True,
+            with_color_variants=enable_color_variants,
         )
 
 
-def register_repair_carrots() -> None:
+def register_repair_carrots(enable_color_variants: bool = True) -> None:
     """Register challenges to repair carrots."""
     converted_object_instance_ids = [
         ObjectInstanceId.parse("Apple_1"),
@@ -366,4 +366,6 @@ def register_repair_carrots() -> None:
     ]
 
     for converted_object in converted_object_instance_ids:
-        create_operate_time_machine_with_carrot(converted_object, with_color_variants=True)
+        create_operate_time_machine_with_carrot(
+            converted_object, with_color_variants=enable_color_variants
+        )

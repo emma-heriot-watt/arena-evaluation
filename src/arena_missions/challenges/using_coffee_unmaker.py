@@ -200,7 +200,7 @@ def convert_coffee_from_target_object_to_beans(
             )
 
 
-def register_coffee_unmaker_challenges() -> None:
+def register_coffee_unmaker_challenges(enable_color_variants: bool = True) -> None:
     """Register challenges with the coffee unmaker."""
     target_object_iterator = [
         (ObjectInstanceId.parse("Bowl_01_1"), True),
@@ -211,5 +211,5 @@ def register_coffee_unmaker_challenges() -> None:
     for target_object, with_color_variants in target_object_iterator:
         convert_coffee_from_target_object_to_beans(
             target_object_instance_id=target_object,
-            with_color_variants=with_color_variants,
+            with_color_variants=enable_color_variants & with_color_variants,
         )

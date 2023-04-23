@@ -385,7 +385,7 @@ def register_objects_with_freezer_challenges() -> None:
         )
 
 
-def register_warehouse_cabinet_challenges() -> None:
+def register_warehouse_cabinet_challenges(enable_color_variants: bool = True) -> None:
     """Register challenges to pick up and place objects in the warehouse cabinet."""
     container = RequiredObject(
         name=ObjectInstanceId.parse("KitchenCabinet_02_1"), roomLocation=["Warehouse"]
@@ -433,8 +433,12 @@ def register_warehouse_cabinet_challenges() -> None:
 
     for target_object, with_color_variants in target_object_iterator:
         create_pick_up_from_container_challenge(
-            target_object, container, with_color_variants=with_color_variants
+            target_object,
+            container,
+            with_color_variants=enable_color_variants & with_color_variants,
         )
         create_place_in_container_challenge(
-            target_object, container, with_color_variants=with_color_variants
+            target_object,
+            container,
+            with_color_variants=enable_color_variants & with_color_variants,
         )

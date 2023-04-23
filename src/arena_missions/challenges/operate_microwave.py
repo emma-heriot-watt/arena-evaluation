@@ -286,7 +286,7 @@ def create_break_with_microwave_challenges(
             )
 
 
-def register_heat_things() -> None:
+def register_heat_things(enable_color_variants: bool = True) -> None:
     """Register challenges to heat different things."""
     heatable_target_object_iterator = [
         (ObjectInstanceId.parse("Apple_1"), True),
@@ -340,5 +340,5 @@ def register_heat_things() -> None:
                 name=breakable_target_object,
             ),
             converted_object=breakable_target_object.object_id,
-            with_color_variants=breakable_with_color_variants,
+            with_color_variants=enable_color_variants & breakable_with_color_variants,
         )
