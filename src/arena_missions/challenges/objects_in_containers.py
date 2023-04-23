@@ -263,7 +263,7 @@ def create_place_in_container_challenge(
             )
 
 
-def register_objects_with_fridge_challenges() -> None:
+def register_objects_with_fridge_challenges(enable_color_variants: bool = True) -> None:
     """Register challenges to pick up and place objects in the fridge."""
     required_objects_builder = RequiredObjectBuilder()
 
@@ -318,14 +318,18 @@ def register_objects_with_fridge_challenges() -> None:
 
     for target_object, pickup_color_variants, place_color_variants in target_object_iterator:
         create_pick_up_from_container_challenge(
-            target_object, container, with_color_variants=pickup_color_variants
+            target_object,
+            container,
+            with_color_variants=pickup_color_variants & enable_color_variants,
         )
         create_place_in_container_challenge(
-            target_object, container, with_color_variants=place_color_variants
+            target_object,
+            container,
+            with_color_variants=place_color_variants & enable_color_variants,
         )
 
 
-def register_objects_with_freezer_challenges() -> None:
+def register_objects_with_freezer_challenges(enable_color_variants: bool = True) -> None:
     """Register challenges to pick up and place objects in the freezer."""
     required_objects_builder = RequiredObjectBuilder()
 
@@ -378,10 +382,14 @@ def register_objects_with_freezer_challenges() -> None:
     ]
     for target_object, pickup_color_variants, place_color_variants in target_object_iterator:
         create_pick_up_from_container_challenge(
-            target_object, container, with_color_variants=pickup_color_variants
+            target_object,
+            container,
+            with_color_variants=pickup_color_variants & enable_color_variants,
         )
         create_place_in_container_challenge(
-            target_object, container, with_color_variants=place_color_variants
+            target_object,
+            container,
+            with_color_variants=place_color_variants & enable_color_variants,
         )
 
 

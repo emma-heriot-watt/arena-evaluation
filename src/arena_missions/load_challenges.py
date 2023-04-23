@@ -27,8 +27,8 @@ from arena_missions.challenges.using_color_changer import register_color_changer
 def load_challenges() -> None:
     """Run all the register functions to load the challenges."""
     register_repair_broken_things(enable_color_variants=False)
-    register_objects_with_fridge_challenges()
-    register_objects_with_freezer_challenges()
+    register_objects_with_fridge_challenges(enable_color_variants=False)
+    register_objects_with_freezer_challenges(enable_color_variants=False)
     register_warehouse_cabinet_challenges(enable_color_variants=False)
     register_fill_objects_in_sink(enable_color_variants=False)
     register_carrot_maker_challenges(enable_color_variants=False)
