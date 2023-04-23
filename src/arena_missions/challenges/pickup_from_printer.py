@@ -23,11 +23,6 @@ def create_pickup_from_printer_challenges(
     """Register challenges."""
     required_object_builder = RequiredObjectBuilder()
 
-    # Make the spawned object
-    printer_spawned_object = RequiredObject(name=printer_spawned_object_id)
-    # Make the target object unique
-    printer_spawned_object.add_state("Unique", "true")
-
     # Create the printer
     printer = required_object_builder.printer()
 
@@ -66,7 +61,7 @@ def create_pickup_from_printer_challenges(
         TaskGoal.from_object_goal_states(
             [
                 ObjectGoalState.from_parts(
-                    printer_spawned_object.name.with_asterisk, "isPickedUp", "true"
+                    printer_spawned_object_id.with_asterisk, "isPickedUp", "true"
                 )
             ]
         ),
@@ -85,7 +80,7 @@ def create_pickup_from_printer_challenges(
             state_conditions=conditions,
             task_goals=goals,
             plan=[
-                f"pick up the {printer_spawned_object.readable_name} from the printer",
+                f"pick up the {printer_spawned_object_id.readable_name} from the printer",
             ],
             preparation_plan=[
                 "go to the breakroom",
