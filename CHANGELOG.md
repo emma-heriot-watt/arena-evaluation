@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.29.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.0...v4.29.1) (2023-04-23)
+
+
+### Bug Fixes
+
+* high level keys and plans ([b1dfde9](https://github.com/emma-simbot/simbot-offline-inference/commit/b1dfde9b82f6a64eff7a720f59a350e816c4ead8))
+* include from_receptacle in breaking challenges ([0f236ba](https://github.com/emma-simbot/simbot-offline-inference/commit/0f236ba228ae8265cc13564b07077281e0d27545))
+* remove the from receptacle from high level key in break challenges ([8db7588](https://github.com/emma-simbot/simbot-offline-inference/commit/8db75880e298f3f39e59bc51ceadb006b238ce05))
+
 ## [4.29.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.28.0...v4.29.0) (2023-04-23)
 
 
