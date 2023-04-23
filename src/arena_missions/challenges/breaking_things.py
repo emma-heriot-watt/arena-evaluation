@@ -4,18 +4,16 @@ from typing import get_args
 from arena_missions.builders import ChallengeBuilder, ChallengeBuilderOutput, RequiredObjectBuilder
 from arena_missions.constants.arena import ColorChangerObjectColor
 from arena_missions.structures import (
+    AndExpression,
+    ContainsExpression,
     HighLevelKey,
+    IsBrokenExpression,
     IsPickedUpExpression,
     ObjectInstanceId,
     RequiredObject,
     StateCondition,
     StateExpression,
     TaskGoal,
-)
-from arena_missions.structures.state_condition import (
-    AndExpression,
-    ContainsExpression,
-    IsBrokenExpression,
 )
 
 
