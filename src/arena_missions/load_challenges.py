@@ -26,22 +26,23 @@ from arena_missions.challenges.using_color_changer import register_color_changer
 
 def load_challenges() -> None:
     """Run all the register functions to load the challenges."""
-    register_repair_broken_things(enable_color_variants=False)
     register_objects_with_fridge_challenges(enable_color_variants=False)
     register_objects_with_freezer_challenges(enable_color_variants=False)
     register_warehouse_cabinet_challenges(enable_color_variants=False)
-    register_fill_objects_in_sink(enable_color_variants=False)
-    register_carrot_maker_challenges(enable_color_variants=False)
-    register_clean_dirty_plates(enable_color_variants=False)
-    register_coffee_unmaker_challenges(enable_color_variants=False)
-    register_heat_things(enable_color_variants=False)
-    register_color_changer_challenges()
-    register_print_things()
-    register_repair_carrots(enable_color_variants=False)
-
+    register_ambiguous_pickup_challenges()
     register_pickup_plate_stack_challenges(enable_color_variants=False)
     register_place_plate_stack_challenges(enable_color_variants=False)
-    register_ambiguous_pickup_challenges()
+
+    # "Interaction" challenges / ones that are "nicher"
+    register_repair_broken_things(enable_color_variants=False)
+    register_carrot_maker_challenges(enable_color_variants=False)
+    register_fill_objects_in_sink(enable_color_variants=False)
+    register_heat_things(enable_color_variants=False)
+    register_clean_dirty_plates(enable_color_variants=False)
+    register_coffee_unmaker_challenges(enable_color_variants=False)
+    register_print_things()
+    register_color_changer_challenges()
+    register_repair_carrots(enable_color_variants=False)
     register_pickup_from_printer_challenges()
-    register_breaking_things_challenges(enable_color_variants=False)
     register_place_bowl_stack_from_gravity_pad(enable_color_variants=True)
+    register_breaking_things_challenges(enable_color_variants=False)
