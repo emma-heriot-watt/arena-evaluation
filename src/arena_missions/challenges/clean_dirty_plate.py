@@ -105,7 +105,7 @@ def create_clean_dirty_plate_challenge(
                 "toggle the sink",
             ],
             preparation_plan=[
-                "go to the breakroom table",
+                "go to the breakroom",
                 "pick up the plate",
             ],
         )
@@ -122,7 +122,7 @@ def create_clean_dirty_plate_challenge(
         builder_output.preparation_plan = [
             "find the sink",
             "toggle the sink",
-            "go to the breakroom table",
+            "go to the breakroom",
             "pick up the plate",
         ]
         return builder_output

@@ -1,14 +1,13 @@
-from typing import Any, Optional, get_args
+from typing import Any, get_args
 
 from arena_missions.builders import ChallengeBuilder, ChallengeBuilderOutput, RequiredObjectBuilder
-from arena_missions.constants.arena import ColorChangerObjectColor, ObjectColor
+from arena_missions.constants.arena import ColorChangerObjectColor
 from arena_missions.structures import (
     AndExpression,
     ContainsExpression,
     HighLevelKey,
     IsOpenExpression,
     IsPickedUpExpression,
-    ObjectId,
     ObjectInstanceId,
     RequiredObject,
     StateCondition,
@@ -17,21 +16,7 @@ from arena_missions.structures import (
 )
 
 
-def get_color_from_id(object_id: ObjectId) -> Optional[ObjectColor]:
-    """Extracts the color from the object id."""
-    if "green" in object_id.lower():
-        return "Green"
-
-    if "blue" in object_id.lower():
-        return "Blue"
-
-    if "red" in object_id.lower():
-        return "Red"
-
-    return None
-
-
-def create_place_plate_stack_challenge(
+def create_place_plate_stack_container_challenge(
     target_object_instance_id: ObjectInstanceId,
     container: RequiredObject,
     *,
@@ -124,9 +109,8 @@ def create_place_plate_stack_challenge(
             target_object=plate.object_id,
             target_object_color=plate_color,
             stacked_object=target_object.object_id,
-            from_receptacle=container.object_id,
-            from_receptacle_color=get_color_from_id(container.object_id),
-            from_receptacle_is_container=False,
+            to_receptacle=container.object_id,
+            to_receptacle_is_container=True,
         )
         # Register the challenge builder with the modifications
         ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
@@ -144,9 +128,8 @@ def create_place_plate_stack_challenge(
                     target_object_color=plate_color,
                     stacked_object=target_object.object_id,
                     stacked_object_color=target_color,
-                    from_receptacle=container.object_id,
-                    from_receptacle_color=get_color_from_id(container.object_id),
-                    from_receptacle_is_container=False,
+                    to_receptacle=container.object_id,
+                    to_receptacle_is_container=True,
                 )
                 # Register the challenge builder with the modifications
                 ChallengeBuilder.register_with_modifiers(
@@ -242,11 +225,9 @@ def create_place_plate_on_gravity_pad_challenge(
             )
         high_level_key = HighLevelKey(
             action="place",
-            target_object=plate.object_id,
-            target_object_color=plate_color,
-            stacked_object=target_object.object_id,
-            from_receptacle=gravity_pad.object_id,
-            from_receptacle_is_container=False,
+            target_object=target_object.object_id,
+            to_receptacle=plate.object_id,
+            to_receptacle_color=plate_color,
         )
         # Register the challenge builder with the modifications
         ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
@@ -260,12 +241,10 @@ def create_place_plate_on_gravity_pad_challenge(
                 )
                 high_level_key = HighLevelKey(
                     action="place",
-                    target_object=plate.object_id,
-                    target_object_color=plate_color,
-                    stacked_object=target_object.object_id,
-                    stacked_object_color=target_color,
-                    from_receptacle=gravity_pad.object_id,
-                    from_receptacle_is_container=False,
+                    target_object=target_object.object_id,
+                    target_object_color=target_color,
+                    to_receptacle=plate.object_id,
+                    to_receptacle_color=plate_color,
                 )
                 # Register the challenge builder with the modifications
                 ChallengeBuilder.register_with_modifiers(
@@ -310,7 +289,7 @@ def register_place_plate_stack_challenges(enable_color_variants: bool = True) ->
 
     for target_object, with_color_variants in target_object_iterator:
         for container in containers:
-            create_place_plate_stack_challenge(
+            create_place_plate_stack_container_challenge(
                 target_object,
                 container,
                 with_stacked_object_color_variants=enable_color_variants & with_color_variants,

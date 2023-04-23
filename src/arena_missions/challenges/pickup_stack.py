@@ -3,6 +3,7 @@ from typing import Any, Optional, get_args
 from arena_missions.builders import ChallengeBuilder, ChallengeBuilderOutput, RequiredObjectBuilder
 from arena_missions.constants.arena import ColorChangerObjectColor, ObjectColor
 from arena_missions.structures import (
+    AndExpression,
     ContainsExpression,
     HighLevelKey,
     IsPickedUpExpression,
@@ -55,15 +56,10 @@ def create_plate_stack_challenge(
             stateName="InReceptacle",
             context=plate.name,
             expression=StateExpression.from_expression(
-                ContainsExpression(target=receptacle.name, contains=plate.name),
-            ),
-        ),
-        # [PREP] Ensure the target object is on the plate
-        StateCondition(
-            stateName="OnObject",
-            context=target_object.name,
-            expression=StateExpression.from_expression(
-                ContainsExpression(target=plate.name, contains=target_object.name),
+                AndExpression.from_expressions(
+                    ContainsExpression(target=receptacle.name, contains=plate.name),
+                    ContainsExpression(target=plate.name, contains=target_object.name),
+                ),
             ),
         ),
         # Ensure we pick up the plate
