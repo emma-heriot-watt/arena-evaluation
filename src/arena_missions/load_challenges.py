@@ -13,6 +13,7 @@ from arena_missions.challenges.operate_time_machine import (
     register_repair_broken_things,
     register_repair_carrots,
 )
+from arena_missions.challenges.pickup_from_printer import register_pickup_from_printer_challenges
 from arena_missions.challenges.pickup_stack import register_pickup_plate_stack_challenges
 from arena_missions.challenges.place_stack import register_place_plate_stack_challenges
 from arena_missions.challenges.using_coffee_unmaker import register_coffee_unmaker_challenges
@@ -37,3 +38,4 @@ def load_challenges() -> None:
     register_pickup_plate_stack_challenges()
     register_place_plate_stack_challenges()
     register_ambiguous_pickup_challenges()
+    register_pickup_from_printer_challenges()

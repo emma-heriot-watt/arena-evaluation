@@ -6,7 +6,7 @@ from arena_missions.structures import (
     AndExpression,
     ContainsExpression,
     HighLevelKey,
-    IsPickedUpExpression,
+    ObjectGoalState,
     ObjectInstanceId,
     RequiredObject,
     StateCondition,
@@ -15,48 +15,42 @@ from arena_missions.structures import (
 )
 
 
-def create_operate_printer_challenges(
+def create_pickup_from_printer_challenges(
     printer_cartridge: RequiredObject,
-    printer_spawned_object: ObjectInstanceId,
+    printer_spawned_object_id: ObjectInstanceId,
     office_layout: OfficeLayout,
 ) -> None:
     """Register challenges."""
     required_object_builder = RequiredObjectBuilder()
 
+    # Make the spawned object
+    printer_spawned_object = RequiredObject(name=printer_spawned_object_id)
     # Make the target object unique
+    printer_spawned_object.add_state("Unique", "true")
+
+    # Create the printer
+    printer = required_object_builder.printer()
+
+    # Make sure the cartridge is unique
     printer_cartridge.add_state("Unique", "true")
 
-    # Create the time machine
-    printer = required_object_builder.printer()
-    printer.add_state("Unique", "true")
+    # Ensure the robotic arm is out the way
+    robotic_arm = required_object_builder.robotic_arm()
 
     # Create the breakroom table
     breakroom_table = required_object_builder.breakroom_table()
     printer_cartridge.update_receptacle(breakroom_table.name)
 
-    # Ensure the robotic arm is out the way
-    robotic_arm = required_object_builder.robotic_arm()
-
     # Success conditions
     conditions = [
-        # Pick up the target object
-        StateCondition(
-            stateName="TargetPickedUp",
-            context=printer_cartridge.name,
-            expression=StateExpression.from_expression(
-                AndExpression.from_expressions(
-                    IsPickedUpExpression(target=printer_cartridge.name, value=True),
-                )
-            ),
-        ),
-        # Ensure the machine is used on the target
+        # [PREP] Ensure the machine is used on the target
         StateCondition(
             stateName="PrinterUsed",
             context=printer.name,
             expression=StateExpression.from_expression(
                 AndExpression.from_expressions(
                     ContainsExpression(
-                        target=printer.name, contains=printer_spawned_object.with_asterisk
+                        target=printer.name, contains=printer_spawned_object_id.with_asterisk
                     ),
                     ContainsExpression(
                         target=printer.name, contains=printer_cartridge.name.with_asterisk
@@ -66,7 +60,17 @@ def create_operate_printer_challenges(
         ),
     ]
 
-    goals = [TaskGoal.from_state_condition(condition) for condition in conditions]
+    goals = [
+        *[TaskGoal.from_state_condition(condition) for condition in conditions],
+        # Pick up the target object
+        TaskGoal.from_object_goal_states(
+            [
+                ObjectGoalState.from_parts(
+                    printer_spawned_object.name.with_asterisk, "isPickedUp", "true"
+                )
+            ]
+        ),
+    ]
 
     # Create mission
     def create_mission() -> ChallengeBuilderOutput:
@@ -75,36 +79,35 @@ def create_operate_printer_challenges(
             office_layout=office_layout,
             required_objects={
                 printer.name: printer,
-                printer_cartridge.name: printer_cartridge,
-                breakroom_table.name: breakroom_table,
+                printer_spawned_object.name: printer_spawned_object,
                 robotic_arm.name: robotic_arm,
             },
             state_conditions=conditions,
             task_goals=goals,
             plan=[
-                "go printer",
-                f"put the {printer_cartridge.readable_name} in the printer",
-                "turn on the printer",
+                f"pick up the {printer_spawned_object.readable_name} from the printer",
             ],
             preparation_plan=[
-                "go to the breakroom table",
+                "go to the breakroom",
                 f"pick up the {printer_cartridge.readable_name}",
                 "go to the robotics lab",
+                "go to the printer",
+                f"put the {printer_cartridge.readable_name} in the printer",
+                "turn on the printer",
             ],
         )
 
     # Register versions of the challenges without color variants
     high_level_key = HighLevelKey(
-        action="interact",
-        interaction_object=printer.object_id,
-        target_object=printer_cartridge.object_id,
-        converted_object=printer_spawned_object.object_id,
+        action="pickup",
+        target_object=printer_spawned_object_id.object_id,
+        from_receptacle=printer.object_id,
     )
 
     ChallengeBuilder.register(high_level_key)(create_mission)
 
 
-def register_print_things() -> None:
+def register_pickup_from_printer_challenges() -> None:
     """Register challenges to print things using the 3D printer."""
     object_instance_ids = [
         (
@@ -124,10 +127,11 @@ def register_print_things() -> None:
             ObjectInstanceId.parse("Printer_3D_1_Spawned_CoffeeMug_Yellow_1"),
         ),
     ]
+
     for office_layout in get_args(OfficeLayout):
-        for object_instance_id, converted_object_id in object_instance_ids:
-            create_operate_printer_challenges(
-                printer_cartridge=RequiredObject(name=object_instance_id),
-                printer_spawned_object=converted_object_id,
+        for printer_cartridge_id, converted_object_id in object_instance_ids:
+            create_pickup_from_printer_challenges(
+                printer_cartridge=RequiredObject(name=printer_cartridge_id),
+                printer_spawned_object_id=converted_object_id,
                 office_layout=office_layout,
             )
