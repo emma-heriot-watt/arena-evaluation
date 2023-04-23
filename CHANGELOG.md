@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.25.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.24.1...v4.25.0) (2023-04-23)
+
+
+### Features
+
+* pickup object from printer ([#35](https://github.com/emma-simbot/simbot-offline-inference/issues/35)) ([b5f1cb3](https://github.com/emma-simbot/simbot-offline-inference/commit/b5f1cb35c660149e46910fda9342dc8e0740bb1e))
+
+
+### Bug Fixes
+
+* add breakroom table to required objects list ([4e6d8b6](https://github.com/emma-simbot/simbot-offline-inference/commit/4e6d8b6daae52c837d1a0eda757239aa6acdd073))
+* dont make the spawned object into a required one ([987a287](https://github.com/emma-simbot/simbot-offline-inference/commit/987a287e8819b0b8374b72815fedc11e04a29322))
+* replace the spawned object with the printer cartridge ([172fb7a](https://github.com/emma-simbot/simbot-offline-inference/commit/172fb7a757dea6d1a4062623f64d4ad68434c246))
+
 ## [4.24.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.24.0...v4.24.1) (2023-04-22)
 
 
