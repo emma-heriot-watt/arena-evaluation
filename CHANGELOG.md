@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.29.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.28.0...v4.29.0) (2023-04-23)
+
+
+### Features
+
+* break objects on random desks ([#39](https://github.com/emma-simbot/simbot-offline-inference/issues/39)) ([4e2afe9](https://github.com/emma-simbot/simbot-offline-inference/commit/4e2afe9858d346f811b4eec709cdcf119904f3cf))
+
+
+### Bug Fixes
+
+* desks should not be unique ([9f3f1f2](https://github.com/emma-simbot/simbot-offline-inference/commit/9f3f1f24ccafe77ae26012dcc2cd7f9884d30abb))
+* do not use the colour changer to make the object the same color ([80d9a90](https://github.com/emma-simbot/simbot-offline-inference/commit/80d9a9076e39af74005d4341ed1d4ee1937a6e8e))
+
 ## [4.28.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.27.0...v4.28.0) (2023-04-23)
 
 
