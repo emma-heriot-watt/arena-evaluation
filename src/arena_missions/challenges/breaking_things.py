@@ -101,6 +101,7 @@ def create_break_object_challenges(
     high_level_key = HighLevelKey(
         action="break",
         target_object=target_object.object_id,
+        from_receptacle=receptacle.object_id,
     )
 
     ChallengeBuilder.register(high_level_key)(create_mission)
@@ -114,7 +115,10 @@ def create_break_object_challenges(
                 }
             }
             high_level_key = HighLevelKey(
-                action="break", target_object=target_object.object_id, target_object_color=color
+                action="break",
+                target_object=target_object.object_id,
+                target_object_color=color,
+                from_receptacle=receptacle.object_id,
             )
             # Register the challenge builder with the modifications
             ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
@@ -243,6 +247,7 @@ def create_break_object_on_desks_challenges(
     high_level_key = HighLevelKey(
         action="break",
         target_object=target_object.object_id,
+        from_receptacle=target_desk.object_id,
     )
 
     ChallengeBuilder.register(high_level_key)(create_mission)
@@ -259,6 +264,7 @@ def create_break_object_on_desks_challenges(
                 action="break",
                 target_object=target_object.object_id,
                 target_object_color=color,
+                from_receptacle=target_desk.object_id,
             )
             # Register the challenge builder with the modifications
             ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
