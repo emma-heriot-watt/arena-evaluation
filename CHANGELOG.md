@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.26.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.25.0...v4.26.0) (2023-04-23)
+
+
+### Features
+
+* breaking things with the hammer ([#36](https://github.com/emma-simbot/simbot-offline-inference/issues/36)) ([0bed877](https://github.com/emma-simbot/simbot-offline-inference/commit/0bed87733900834c3cbbc8612cdebebb434319a3))
+
 ## [4.25.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.24.1...v4.25.0) (2023-04-23)
 
 
