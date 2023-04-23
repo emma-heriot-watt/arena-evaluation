@@ -1,4 +1,5 @@
 from arena_missions.challenges.ambiguous_pickup import register_ambiguous_pickup_challenges
+from arena_missions.challenges.breaking_things import register_breaking_things_challenges
 from arena_missions.challenges.clean_dirty_plate import register_clean_dirty_plates
 from arena_missions.challenges.fill_object_in_sink import register_fill_objects_in_sink
 from arena_missions.challenges.objects_in_containers import (
@@ -39,3 +40,4 @@ def load_challenges() -> None:
     register_place_plate_stack_challenges()
     register_ambiguous_pickup_challenges()
     register_pickup_from_printer_challenges()
+    register_breaking_things_challenges(enable_color_variants=False)

@@ -149,6 +149,17 @@ class RequiredObjectBuilder:
             ],
         )
 
+    def fork_lift(self, *, is_fork_lifted: bool = True) -> RequiredObject:
+        """Generate the fork lift for the arena."""
+        return RequiredObject(
+            name=ObjectInstanceId.parse("ForkLift_1"),
+            state=[
+                RequiredObjectState.from_parts(
+                    "isToggledOn", "true" if is_fork_lifted else "false"
+                )
+            ],
+        )
+
     def coffee_pot(
         self, *, fill_with: Optional[Literal["Coffee", "Water"]] = None
     ) -> RequiredObject:
@@ -227,4 +238,22 @@ class RequiredObjectBuilder:
             name=ObjectInstanceId.parse("ManagerDesk_1"),
             state=[RequiredObjectState.from_parts("removeInitialContainedItems", "true")],
             roomLocation=["SmallOffice"],
+        )
+
+    def warehouse_cabinet(self) -> RequiredObject:
+        """Returns the warehouse cabinet."""
+        return RequiredObject(
+            name=ObjectInstanceId.parse("KitchenCabinet_02_1"), roomLocation=["Warehouse"]
+        )
+
+    def warehouse_metal_table(self) -> RequiredObject:
+        """Returns the warehouse metal table."""
+        return RequiredObject(
+            name=ObjectInstanceId.parse("Table_Metal_01_1"), roomLocation=["Warehouse"]
+        )
+
+    def warehouse_wooden_table(self) -> RequiredObject:
+        """Returns the warehouse wooden table."""
+        return RequiredObject(
+            name=ObjectInstanceId.parse("MissionItemHolder_1"), roomLocation=["Warehouse"]
         )
