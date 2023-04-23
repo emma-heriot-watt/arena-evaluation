@@ -177,7 +177,7 @@ class RequiredObject(BaseModel, validate_assignment=True):
             self.room_location.clear()
             return
 
-        self.room_location[0] = room
+        self.room_location = [room]  # noqa: WPS601
 
     def update_color(self, color: Optional[ObjectColor]) -> None:
         """Set the color of this object."""
@@ -185,7 +185,7 @@ class RequiredObject(BaseModel, validate_assignment=True):
             self.colors.clear()
             return
 
-        self.colors[0] = color
+        self.colors = [color]  # noqa: WPS601
 
     def update_state(
         self, state_name: RequiredObjectStateName, state_value: Optional[RequiredObjectStateValue]
