@@ -79,7 +79,7 @@ def create_pickup_from_printer_challenges(
             office_layout=office_layout,
             required_objects={
                 printer.name: printer,
-                printer_spawned_object.name: printer_spawned_object,
+                printer_cartridge.name: printer_cartridge,
                 robotic_arm.name: robotic_arm,
             },
             state_conditions=conditions,
