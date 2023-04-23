@@ -16,7 +16,10 @@ from arena_missions.challenges.operate_time_machine import (
 )
 from arena_missions.challenges.pickup_from_printer import register_pickup_from_printer_challenges
 from arena_missions.challenges.pickup_stack import register_pickup_plate_stack_challenges
-from arena_missions.challenges.place_stack import register_place_plate_stack_challenges
+from arena_missions.challenges.place_stack import (
+    register_place_bowl_stack_from_gravity_pad,
+    register_place_plate_stack_challenges,
+)
 from arena_missions.challenges.using_coffee_unmaker import register_coffee_unmaker_challenges
 from arena_missions.challenges.using_color_changer import register_color_changer_challenges
 
@@ -41,3 +44,4 @@ def load_challenges() -> None:
     register_ambiguous_pickup_challenges()
     register_pickup_from_printer_challenges()
     register_breaking_things_challenges(enable_color_variants=False)
+    register_place_bowl_stack_from_gravity_pad(enable_color_variants=True)
