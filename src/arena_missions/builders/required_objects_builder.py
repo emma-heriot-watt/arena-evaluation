@@ -269,7 +269,6 @@ class RequiredObjectBuilder:
         for desk_idx in range(1, self.max_num_lab1_desks + 1):
             desk_id = ObjectInstanceId.parse(desk_format.format(instance_count=desk_idx))
             desk = RequiredObject(name=desk_id)
-            desk.add_state("Unique", "true")
             desk.update_room("Lab1")
             desks.append(desk)
 
@@ -284,7 +283,6 @@ class RequiredObjectBuilder:
         for desk_idx in range(1, self.max_num_lab2_desks + 1):
             desk_id = ObjectInstanceId.parse(desk_format.format(instance_count=desk_idx))
             desk = RequiredObject(name=desk_id)
-            desk.add_state("Unique", "true")
             desk.update_room("Lab2")
             desks.append(desk)
 
