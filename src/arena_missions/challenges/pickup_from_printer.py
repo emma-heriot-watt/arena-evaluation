@@ -73,6 +73,7 @@ def create_pickup_from_printer_challenges(
             start_room="Lab1",
             office_layout=office_layout,
             required_objects={
+                breakroom_table.name: breakroom_table,
                 printer.name: printer,
                 printer_cartridge.name: printer_cartridge,
                 robotic_arm.name: robotic_arm,
