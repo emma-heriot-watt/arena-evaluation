@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.28.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.27.0...v4.28.0) (2023-04-23)
+
+
+### Features
+
+* place bowl on plate on gravity pad ([#38](https://github.com/emma-simbot/simbot-offline-inference/issues/38)) ([e058d15](https://github.com/emma-simbot/simbot-offline-inference/commit/e058d152c8d26945e0680f3328807218398725c5))
+
+
+### Bug Fixes
+
+* check that the gravity pad contains the plate during prep subgoal ([6ec8b31](https://github.com/emma-simbot/simbot-offline-inference/commit/6ec8b31532f5c9ae3e0c3662fd9d1edaa08a20e6))
+* disable color variants for fridge/freezer challenges ([1778d72](https://github.com/emma-simbot/simbot-offline-inference/commit/1778d720632ecf629fd7d8c947679df09d530ca8))
+* update room/colour was failing because there was no 0th index ([a57bb0c](https://github.com/emma-simbot/simbot-offline-inference/commit/a57bb0ccfe9946ab025c5fd27097d3afdf0a906e))
+
 ## [4.27.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.26.0...v4.27.0) (2023-04-23)
 
 
