@@ -13,6 +13,8 @@ class RequiredObjectBuilder:
     num_gray_fuse_boxes: int = 2
     num_red_fuse_boxes: int = 1
     num_computer_monitors: int = 5
+    max_num_lab1_desks: int = 5
+    max_num_lab2_desks: int = 3
 
     def default_objects(self) -> list[RequiredObject]:
         """Generate all default objects for the arena."""
@@ -255,5 +257,35 @@ class RequiredObjectBuilder:
     def warehouse_wooden_table(self) -> RequiredObject:
         """Returns the warehouse wooden table."""
         return RequiredObject(
-            name=ObjectInstanceId.parse("MissionItemHolder_1"), roomLocation=["Warehouse"]
+            name=ObjectInstanceId.parse("SM_Prop_Table_02_1"), roomLocation=["Warehouse"]
         )
+
+    def lab1_desks(self) -> list[RequiredObject]:
+        """Returns desks in the Lab1."""
+        desk_format = "Desk_01_{instance_count}"
+
+        desks = []
+
+        for desk_idx in range(1, self.max_num_lab1_desks + 1):
+            desk_id = ObjectInstanceId.parse(desk_format.format(instance_count=desk_idx))
+            desk = RequiredObject(name=desk_id)
+            desk.add_state("Unique", "true")
+            desk.update_room("Lab1")
+            desks.append(desk)
+
+        return desks
+
+    def lab2_desks(self) -> list[RequiredObject]:
+        """Returns desks in the Lab2."""
+        desk_format = "Desk_01_{instance_count}"
+
+        desks = []
+
+        for desk_idx in range(1, self.max_num_lab2_desks + 1):
+            desk_id = ObjectInstanceId.parse(desk_format.format(instance_count=desk_idx))
+            desk = RequiredObject(name=desk_id)
+            desk.add_state("Unique", "true")
+            desk.update_room("Lab2")
+            desks.append(desk)
+
+        return desks
