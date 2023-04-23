@@ -94,6 +94,10 @@ def create_change_object_color_challenge(
 
     # Register versions of the challenges with color variants
     for start_color in get_args(ColorChangerObjectColor):
+        # Do not try to turn an object into the same color
+        if converted_object_color == start_color:
+            continue
+
         colored_target_object_kwargs = {
             "required_objects": {
                 target_object.name: {"colors": [start_color]},
