@@ -159,9 +159,12 @@ def create_place_in_container_challenge(
         # Ensure the container is not full of items at the start of the mission
         StateCondition(
             stateName="ContainerNotFull",
-            context=container.name,
+            context=target_object.name,
             expression=StateExpression.from_expression(
-                IsFullOfItemsExpression(target=container.name, value=False)
+                AndExpression.from_expressions(
+                    IsFullOfItemsExpression(target=container.name, value=False),
+                    IsPickedUpExpression(target=target_object.name, value=True),
+                )
             ),
         ),
         # Place it in the container while its open
