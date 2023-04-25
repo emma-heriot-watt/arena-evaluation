@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.29.4](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.3...v4.29.4) (2023-04-25)
+
+
+### Bug Fixes
+
+* disable start colour variants for the colour changer challenges ([a1e39cb](https://github.com/emma-simbot/simbot-offline-inference/commit/a1e39cb79454a2f8c916d77c29319898fd416936))
+* remove objects that cannot be color-changed ([66451f1](https://github.com/emma-simbot/simbot-offline-inference/commit/66451f13515900b59830cc674a20ea254dcf971f))
+* update plans for the challenges ([b4269d1](https://github.com/emma-simbot/simbot-offline-inference/commit/b4269d1b9e9ab1e857a4434e9ecc1161f0bb9b00))
+
 ## [4.29.3](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.2...v4.29.3) (2023-04-25)
 
 
