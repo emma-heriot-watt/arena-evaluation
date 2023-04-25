@@ -327,7 +327,7 @@ def register_heat_things(enable_color_variants: bool = True) -> None:
                 name=heatable_target_object,
             ),
             converted_object=heatable_target_object.object_id,
-            with_color_variants=heatable_with_color_variants,
+            with_color_variants=heatable_with_color_variants & enable_color_variants,
         )
 
     breakable_target_object_iterator = [
