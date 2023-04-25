@@ -10,7 +10,6 @@ from arena_missions.structures import (
     IsOpenExpression,
     IsPickedUpExpression,
     NotExpression,
-    ObjectGoalState,
     ObjectInstanceId,
     RequiredObject,
     StateCondition,
@@ -34,6 +33,14 @@ def create_pick_up_from_container_challenge(
     target_object.update_receptacle(container.name)
 
     conditions = [
+        # [PREP] Ensure the object is in the container
+        StateCondition(
+            stateName="InContainer",
+            context=container.name,
+            expression=StateExpression.from_expression(
+                ContainsExpression(target=container.name, contains=target_object.name)
+            ),
+        ),
         # Ensure the object is picked up from the container
         StateCondition(
             stateName="PickedUpFromContainer",
@@ -61,13 +68,7 @@ def create_pick_up_from_container_challenge(
         ),
     ]
 
-    goals = [
-        # Ensure the object starts within the container at the start of the mission
-        TaskGoal.from_object_goal_states(
-            [ObjectGoalState.from_parts(container.name, "Contains", target_object.name)]
-        ),
-        *[TaskGoal.from_state_condition(condition) for condition in conditions],
-    ]
+    goals = [TaskGoal.from_state_condition(condition) for condition in conditions]
 
     def create_mission() -> ChallengeBuilderOutput:
         """Create the mission."""
@@ -88,17 +89,23 @@ def create_pick_up_from_container_challenge(
                 f"pick up the {target_object_instance_id.readable_name}",
                 f"close the {container.readable_name}",
             ],
+            preparation_plan=[
+                f"find the {container.readable_name}",
+                f"open the {container.readable_name}",
+                f"close the {container.readable_name}",
+            ],
         )
 
     def create_mission_with_container_open() -> ChallengeBuilderOutput:
         builder_output = create_mission()
-        # Open the time machine
-        builder_output.required_objects[container.name].add_state("isOpen", "true")
-        # Change the plans
         builder_output.plan = [
             f"find the {container.readable_name}",
             f"pick up the {target_object_instance_id.readable_name}",
             f"close the {container.readable_name}",
+        ]
+        builder_output.preparation_plan = [
+            f"find the {container.readable_name}",
+            f"open the {container.readable_name}",
         ]
         return builder_output
 
