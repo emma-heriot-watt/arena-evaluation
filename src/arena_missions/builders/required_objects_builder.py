@@ -138,6 +138,7 @@ class RequiredObjectBuilder:
             name=ObjectInstanceId.parse("Microwave_01_1"),
             state=[
                 RequiredObjectState.from_parts("removeInitialContainedItems", "true"),
+                RequiredObjectState.from_parts("isEmpty", "true"),
             ],
             roomLocation=[room],
         )
