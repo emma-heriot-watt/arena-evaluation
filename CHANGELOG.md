@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.29.6](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.5...v4.29.6) (2023-04-25)
+
+
+### Bug Fixes
+
+* disabling color variants with microwave challenges ([0d8ad3a](https://github.com/emma-simbot/simbot-offline-inference/commit/0d8ad3aba632293be9f1cb637d42db5ac02d9b86))
+
 ## [4.29.5](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.4...v4.29.5) (2023-04-25)
 
 
