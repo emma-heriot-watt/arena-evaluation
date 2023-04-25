@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.29.7](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.6...v4.29.7) (2023-04-25)
+
+
+### Bug Fixes
+
+* ensure the microwave is empty ([a4c454a](https://github.com/emma-simbot/simbot-offline-inference/commit/a4c454aa86792d1213172b5aa6f6aa43c5e91791))
+* remove the boss coffee mug from the colour changer missions ([eee16b4](https://github.com/emma-simbot/simbot-offline-inference/commit/eee16b45369978fc75668d64ce24d277efa0340b))
+
 ## [4.29.6](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.5...v4.29.6) (2023-04-25)
 
 
