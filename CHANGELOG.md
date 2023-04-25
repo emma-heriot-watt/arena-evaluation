@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.29.5](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.4...v4.29.5) (2023-04-25)
+
+
+### Bug Fixes
+
+* prep condition for pickup objects from containers ([ab9a60c](https://github.com/emma-simbot/simbot-offline-inference/commit/ab9a60cc14f30c79d2354965c11470127d4dae4e))
+* prep goal condition for place object in container challenge ([40769c4](https://github.com/emma-simbot/simbot-offline-inference/commit/40769c4c72f24e23880c70706fa192cba112aa49))
+
 ## [4.29.4](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.3...v4.29.4) (2023-04-25)
 
 
