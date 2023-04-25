@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.29.8](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.7...v4.29.8) (2023-04-25)
+
+
+### Bug Fixes
+
+* **coffee unmaker:** improve plans, add pot to beans, and iterate layouts ([30a6a0d](https://github.com/emma-simbot/simbot-offline-inference/commit/30a6a0daff08057972ba940f7b776b6978831297))
+
 ## [4.29.7](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.6...v4.29.7) (2023-04-25)
 
 
