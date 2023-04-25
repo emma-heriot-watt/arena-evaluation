@@ -125,7 +125,6 @@ def register_color_changer_challenges(enable_start_color_variants: bool = True) 
         ObjectInstanceId.parse("Apple_1"),
         ObjectInstanceId.parse("Bowl_01_1"),
         ObjectInstanceId.parse("Carrot_01_1"),
-        ObjectInstanceId.parse("CoffeeMug_Boss_1"),
         ObjectInstanceId.parse("CoffeeMug_Yellow_1"),
         ObjectInstanceId.parse("DeskFan_New_01_1"),
         ObjectInstanceId.parse("FoodPlate_01_1"),
