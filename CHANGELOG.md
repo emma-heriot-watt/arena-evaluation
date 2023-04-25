@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.29.3](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.2...v4.29.3) (2023-04-25)
+
+
+### Bug Fixes
+
+* sink-related challenges ([e44408c](https://github.com/emma-simbot/simbot-offline-inference/commit/e44408c22707ffd5b522e673102a8bbc0f43469d))
+* sink-related goal conditions and plans ([ed27162](https://github.com/emma-simbot/simbot-offline-inference/commit/ed271629859ca609e38270b18c66fb722fa47b70))
+
 ## [4.29.2](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.1...v4.29.2) (2023-04-23)
 
 
