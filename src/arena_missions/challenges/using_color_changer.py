@@ -18,6 +18,7 @@ from arena_missions.structures import (
 def create_change_object_color_challenge(
     target_object_instance_id: ObjectInstanceId,
     converted_object_color: ColorChangerObjectColor,
+    with_color_variants: bool = False,
 ) -> None:
     """Generate challenes to transform an object's color using the color changer."""
     # Create the target object
@@ -93,31 +94,32 @@ def create_change_object_color_challenge(
     ChallengeBuilder.register(high_level_key)(create_mission)
 
     # Register versions of the challenges with color variants
-    for start_color in get_args(ColorChangerObjectColor):
-        # Do not try to turn an object into the same color
-        if converted_object_color == start_color:
-            continue
+    if with_color_variants:
+        for start_color in get_args(ColorChangerObjectColor):
+            # Do not try to turn an object into the same color
+            if converted_object_color == start_color:
+                continue
 
-        colored_target_object_kwargs = {
-            "required_objects": {
-                target_object.name: {"colors": [start_color]},
+            colored_target_object_kwargs = {
+                "required_objects": {
+                    target_object.name: {"colors": [start_color]},
+                }
             }
-        }
 
-        high_level_key = HighLevelKey(
-            action="interact",
-            interaction_object=color_changer.object_id,
-            target_object=target_object.object_id,
-            target_object_color=start_color,
-            converted_object_color=converted_object_color,
-        )
+            high_level_key = HighLevelKey(
+                action="interact",
+                interaction_object=color_changer.object_id,
+                target_object=target_object.object_id,
+                target_object_color=start_color,
+                converted_object_color=converted_object_color,
+            )
 
-        ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
-            create_mission
-        )
+            ChallengeBuilder.register_with_modifiers(high_level_key, colored_target_object_kwargs)(
+                create_mission
+            )
 
 
-def register_color_changer_challenges() -> None:
+def register_color_changer_challenges(enable_start_color_variants: bool = True) -> None:
     """Register challenges to change object color using the color changer."""
     target_object_iterator = [
         ObjectInstanceId.parse("Apple_1"),
@@ -136,4 +138,6 @@ def register_color_changer_challenges() -> None:
 
     for target_object in target_object_iterator:
         for object_color in color_changer_colors:
-            create_change_object_color_challenge(target_object, object_color)
+            create_change_object_color_challenge(
+                target_object, object_color, enable_start_color_variants
+            )

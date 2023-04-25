@@ -44,7 +44,7 @@ def load_challenges() -> None:
     register_clean_dirty_plates(enable_color_variants=False)
     register_coffee_unmaker_challenges(enable_color_variants=False)
     register_print_things()
-    register_color_changer_challenges()
+    register_color_changer_challenges(enable_start_color_variants=False)
     register_repair_carrots(enable_color_variants=False)
     register_pickup_from_printer_challenges()
     register_place_bowl_stack_from_gravity_pad(enable_color_variants=True)
