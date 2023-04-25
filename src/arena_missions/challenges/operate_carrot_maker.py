@@ -73,7 +73,7 @@ def create_operate_carrot_maker_challenges(
             state_conditions=conditions,
             task_goals=goals,
             plan=[
-                "go to the carrot maker",
+                "find the carrot maker",
                 f"put the {target_object.readable_name} on the carrot maker",
                 "toggle the carrot maker",
             ],

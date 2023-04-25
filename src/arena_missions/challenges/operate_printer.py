@@ -82,12 +82,12 @@ def create_operate_printer_challenges(
             state_conditions=conditions,
             task_goals=goals,
             plan=[
-                "go printer",
+                "find the printer",
                 f"put the {printer_cartridge.readable_name} in the printer",
                 "turn on the printer",
             ],
             preparation_plan=[
-                "go to the breakroom table",
+                "go to the breakroom",
                 f"pick up the {printer_cartridge.readable_name}",
                 "go to the robotics lab",
             ],

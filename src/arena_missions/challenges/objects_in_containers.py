@@ -83,7 +83,7 @@ def create_pick_up_from_container_challenge(
             task_goals=goals,
             state_conditions=conditions,
             plan=[
-                f"go to the {container.readable_name}",
+                f"find the {container.readable_name}",
                 f"open the {container.readable_name}",
                 f"pick up the {target_object_instance_id.readable_name}",
                 f"close the {container.readable_name}",
@@ -96,7 +96,7 @@ def create_pick_up_from_container_challenge(
         builder_output.required_objects[container.name].add_state("isOpen", "true")
         # Change the plans
         builder_output.plan = [
-            f"go to the {container.readable_name}",
+            f"find the {container.readable_name}",
             f"pick up the {target_object_instance_id.readable_name}",
             f"close the {container.readable_name}",
         ]
@@ -206,7 +206,7 @@ def create_place_in_container_challenge(
             task_goals=goals,
             state_conditions=conditions,
             plan=[
-                f"go to the {container.readable_name}",
+                f"find the {container.readable_name}",
                 f"open the {container.readable_name}",
                 f"put the {target_object_instance_id.readable_name} in the {container.readable_name}",
                 f"close the {container.readable_name}",
@@ -223,7 +223,7 @@ def create_place_in_container_challenge(
         builder_output.required_objects[container.name].add_state("isOpen", "true")
         # Change the plans
         builder_output.plan = [
-            f"go to the {container.readable_name}",
+            f"find the {container.readable_name}",
             f"put the {target_object_instance_id.readable_name} in the {container.readable_name}",
             f"close the {container.readable_name}",
         ]

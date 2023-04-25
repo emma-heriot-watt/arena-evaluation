@@ -89,7 +89,7 @@ def create_heat_with_microwave_challenges(
             state_conditions=conditions,
             task_goals=[TaskGoal.from_state_condition(condition) for condition in conditions],
             plan=[
-                "go to the microwave",
+                "find the microwave",
                 "open the microwave",
                 f"put the {target_object.readable_name} in the microwave",
                 "close the microwave",
@@ -99,7 +99,7 @@ def create_heat_with_microwave_challenges(
                 "close the microwave",
             ],
             preparation_plan=[
-                "go to the breakroom table",
+                "go to the breakroom",
                 f"pick up the {target_object.readable_name}",
             ],
         )
@@ -110,7 +110,7 @@ def create_heat_with_microwave_challenges(
         builder_output.required_objects[microwave.name].add_state("isOpen", "true")
         # Change the plans
         builder_output.plan = [
-            "go to the microwave",
+            "find the microwave",
             f"put the {target_object.readable_name} in the microwave",
             "close the microwave",
             "turn on the microwave",

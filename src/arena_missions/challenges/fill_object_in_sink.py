@@ -82,13 +82,13 @@ def create_fill_object_in_sink(
                 TaskGoal.from_state_condition(condition) for condition in mission_conditions
             ],
             plan=[
-                "go to the sink",
+                "find the sink",
                 "toggle the sink",
                 f"fill the {object_instance_id.readable_name} in the sink",
                 "toggle the sink",
             ],
             preparation_plan=[
-                "go to the breakroom table",
+                "go to the breakroom",
                 f"pick up the {object_instance_id.readable_name}",
             ],
         )
@@ -112,14 +112,14 @@ def create_fill_object_in_sink(
             TaskGoal.from_state_condition(condition) for condition in mission_conditions
         ]
         builder_output.plan = [
-            "go to the sink",
+            "find the sink",
             f"fill the {object_instance_id.readable_name} in the sink",
             "toggle the sink",
         ]
         builder_output.preparation_plan = [
             "find the sink",
             "toggle the sink",
-            "go to the breakroom table",
+            "go to the breakroom",
             f"pick up the {object_instance_id.readable_name}",
         ]
         return builder_output
