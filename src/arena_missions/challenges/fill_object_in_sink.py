@@ -8,7 +8,6 @@ from arena_missions.structures import (
     IsFilledWithExpression,
     IsPickedUpExpression,
     IsToggledOnExpression,
-    NotExpression,
     ObjectInstanceId,
     RequiredObject,
     StateCondition,
@@ -55,14 +54,7 @@ def create_fill_object_in_sink(
             stateName="DrainedSink",
             context=sink.name,
             expression=StateExpression.from_expression(
-                AndExpression.from_expressions(
-                    IsToggledOnExpression(target=sink.name, value=False),
-                    NotExpression(
-                        expression=StateExpression.from_expression(
-                            IsFilledWithExpression(target=sink.name, fluid="Water")
-                        )
-                    ),
-                )
+                IsToggledOnExpression(target=sink.name, value=False),
             ),
         ),
     ]
@@ -109,11 +101,6 @@ def create_fill_object_in_sink(
                 AndExpression.from_expressions(
                     IsPickedUpExpression(target=target_object.name, value=True),
                     IsToggledOnExpression(target=sink.name, value=True),
-                    NotExpression(
-                        expression=StateExpression.from_expression(
-                            IsFilledWithExpression(target=target_object.name, fluid="Water")
-                        )
-                    ),
                 )
             ),
         )
@@ -133,7 +120,7 @@ def create_fill_object_in_sink(
             "find the sink",
             "toggle the sink",
             "go to the breakroom table",
-            "pick up the plate",
+            f"pick up the {object_instance_id.readable_name}",
         ]
         return builder_output
 
