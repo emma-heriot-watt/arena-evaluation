@@ -42,30 +42,6 @@ def create_fill_object_in_sink(
     target_object.update_receptacle(breakroom_table.name)
 
     conditions = [
-        # [PREP] Hold the unfilled object
-        StateCondition(
-            stateName="HoldingUnfilledObject",
-            context=target_object.name,
-            expression=StateExpression.from_expression(
-                IsPickedUpExpression(target=target_object.name, value=True)
-            ),
-        ),
-        # Hold the unfilled object with the sink turned on
-        StateCondition(
-            stateName="HoldingUnfilledObjectWithSinkOn",
-            context=sink.name,
-            expression=StateExpression.from_expression(
-                AndExpression.from_expressions(
-                    IsPickedUpExpression(target=target_object.name, value=True),
-                    IsToggledOnExpression(target=sink.name, value=True),
-                    NotExpression(
-                        expression=StateExpression.from_expression(
-                            IsFilledWithExpression(target=target_object.name, fluid="Water")
-                        )
-                    ),
-                )
-            ),
-        ),
         # Fill the object with water
         StateCondition(
             stateName="FilledObjectWithWater",
@@ -81,13 +57,26 @@ def create_fill_object_in_sink(
             expression=StateExpression.from_expression(
                 AndExpression.from_expressions(
                     IsToggledOnExpression(target=sink.name, value=False),
-                    IsFilledWithExpression(target=sink.name, fluid="Water"),
+                    NotExpression(
+                        expression=StateExpression.from_expression(
+                            IsFilledWithExpression(target=sink.name, fluid="Water")
+                        )
+                    ),
                 )
             ),
         ),
     ]
 
     def fill_from_off_sink() -> ChallengeBuilderOutput:
+        prep_condition = StateCondition(
+            stateName="HoldingUnfilledObject",
+            context=target_object.name,
+            expression=StateExpression.from_expression(
+                IsPickedUpExpression(target=target_object.name, value=True)
+            ),
+        )
+        mission_conditions = [prep_condition, *conditions]
+
         return ChallengeBuilderOutput(
             start_room=room,
             office_layout=office_layout,
@@ -96,8 +85,10 @@ def create_fill_object_in_sink(
                 target_object.name: target_object,
                 breakroom_table.name: breakroom_table,
             },
-            state_conditions=conditions,
-            task_goals=[TaskGoal.from_state_condition(condition) for condition in conditions],
+            state_conditions=mission_conditions,
+            task_goals=[
+                TaskGoal.from_state_condition(condition) for condition in mission_conditions
+            ],
             plan=[
                 "go to the sink",
                 "toggle the sink",
@@ -111,8 +102,28 @@ def create_fill_object_in_sink(
         )
 
     def fill_from_on_sink() -> ChallengeBuilderOutput:
+        prep_condition = StateCondition(
+            stateName="HoldingUnfilledObjectWithSinkOn",
+            context=sink.name,
+            expression=StateExpression.from_expression(
+                AndExpression.from_expressions(
+                    IsPickedUpExpression(target=target_object.name, value=True),
+                    IsToggledOnExpression(target=sink.name, value=True),
+                    NotExpression(
+                        expression=StateExpression.from_expression(
+                            IsFilledWithExpression(target=target_object.name, fluid="Water")
+                        )
+                    ),
+                )
+            ),
+        )
+        mission_conditions = [prep_condition, *conditions]
+
         builder_output = fill_from_off_sink()
-        builder_output.required_objects[sink.name].update_state("isToggledOn", "true")
+        builder_output.state_conditions = mission_conditions
+        builder_output.task_goals = [
+            TaskGoal.from_state_condition(condition) for condition in mission_conditions
+        ]
         builder_output.plan = [
             "go to the sink",
             f"fill the {object_instance_id.readable_name} in the sink",

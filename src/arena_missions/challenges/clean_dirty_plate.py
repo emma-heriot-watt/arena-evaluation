@@ -40,17 +40,6 @@ def create_clean_dirty_plate_challenge(
     plate.update_receptacle(breakroom_table.name)
 
     conditions = [
-        # Holding a dirty plate
-        StateCondition(
-            stateName="HoldingDirtyPlate",
-            context=sink.name,
-            expression=StateExpression.from_expression(
-                AndExpression.from_expressions(
-                    IsDirtyExpression(target=plate.name, value=True),
-                    IsPickedUpExpression(target=plate.name, value=True),
-                )
-            ),
-        ),
         # Fill the sink before cleaning the plate
         StateCondition(
             stateName="FilledSinkBeforeCleaningPlate",
@@ -88,6 +77,17 @@ def create_clean_dirty_plate_challenge(
 
     def fill_sink_before_cleaning_plate() -> ChallengeBuilderOutput:
         """Fill the sink before cleaning the plate."""
+        prep_condition = StateCondition(
+            stateName="HoldingDirtyPlate",
+            context=sink.name,
+            expression=StateExpression.from_expression(
+                AndExpression.from_expressions(
+                    IsDirtyExpression(target=plate.name, value=True),
+                    IsPickedUpExpression(target=plate.name, value=True),
+                )
+            ),
+        )
+        mission_conditions = [prep_condition, *conditions]
         return ChallengeBuilderOutput(
             start_room=room,
             office_layout=office_layout,
@@ -96,8 +96,10 @@ def create_clean_dirty_plate_challenge(
                 plate.name: plate,
                 breakroom_table.name: breakroom_table,
             },
-            state_conditions=conditions,
-            task_goals=[TaskGoal.from_state_condition(condition) for condition in conditions],
+            state_conditions=mission_conditions,
+            task_goals=[
+                TaskGoal.from_state_condition(condition) for condition in mission_conditions
+            ],
             plan=[
                 "find the sink",
                 "toggle the sink",
@@ -112,8 +114,24 @@ def create_clean_dirty_plate_challenge(
 
     def sink_already_filled_before_cleaning() -> ChallengeBuilderOutput:
         """Do not toggle the sink singce it's already filled."""
+        prep_condition = StateCondition(
+            stateName="HoldingDirtyPlateWithSinkOn",
+            context=sink.name,
+            expression=StateExpression.from_expression(
+                AndExpression.from_expressions(
+                    IsDirtyExpression(target=plate.name, value=True),
+                    IsPickedUpExpression(target=plate.name, value=True),
+                    IsToggledOnExpression(target=sink.name, value=True),
+                )
+            ),
+        )
+        mission_conditions = [prep_condition, *conditions]
+
         builder_output = fill_sink_before_cleaning_plate()
-        builder_output.required_objects[sink.name].update_state("isToggledOn", "true")
+        builder_output.state_conditions = mission_conditions
+        builder_output.task_goals = [
+            TaskGoal.from_state_condition(condition) for condition in mission_conditions
+        ]
         builder_output.plan = [
             "find the sink",
             "clean the plate in the sink",
