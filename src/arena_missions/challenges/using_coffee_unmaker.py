@@ -1,7 +1,7 @@
 from typing import get_args
 
 from arena_missions.builders import ChallengeBuilder, ChallengeBuilderOutput, RequiredObjectBuilder
-from arena_missions.constants.arena import ColorChangerObjectColor
+from arena_missions.constants.arena import ColorChangerObjectColor, OfficeLayout
 from arena_missions.structures import (
     AndExpression,
     HighLevelKey,
@@ -17,7 +17,7 @@ from arena_missions.structures import (
 )
 
 
-def convert_coffee_from_pot_to_beans() -> ChallengeBuilderOutput:
+def convert_coffee_from_pot_to_beans(*, office_layout: OfficeLayout) -> ChallengeBuilderOutput:
     """Convert coffee back to beans with the coffee unmaker."""
     required_objects_builder = RequiredObjectBuilder()
 
@@ -69,6 +69,7 @@ def convert_coffee_from_pot_to_beans() -> ChallengeBuilderOutput:
 
     return ChallengeBuilderOutput(
         start_room="BreakRoom",
+        office_layout=office_layout,
         required_objects={
             coffee_pot.name: coffee_pot,
             coffee_unmaker.name: coffee_unmaker,
@@ -77,8 +78,8 @@ def convert_coffee_from_pot_to_beans() -> ChallengeBuilderOutput:
         task_goals=goals,
         state_conditions=conditions,
         plan=[
-            "go to the coffee unmaker",
-            "pour the coffee unto the coffee unmaker",
+            "find the coffee unmaker",
+            "pour the coffee into the coffee unmaker",
             "toggle the coffee unmaker",
         ],
         preparation_plan=[
@@ -89,7 +90,10 @@ def convert_coffee_from_pot_to_beans() -> ChallengeBuilderOutput:
 
 
 def convert_coffee_from_target_object_to_beans(
-    *, target_object_instance_id: ObjectInstanceId, with_color_variants: bool = True
+    *,
+    target_object_instance_id: ObjectInstanceId,
+    office_layout: OfficeLayout,
+    with_color_variants: bool = True,
 ) -> None:
     """Convert coffee back to beans with the coffee unmaker."""
     required_objects_builder = RequiredObjectBuilder()
@@ -151,6 +155,7 @@ def convert_coffee_from_target_object_to_beans(
     def create_mission() -> ChallengeBuilderOutput:
         return ChallengeBuilderOutput(
             start_room="BreakRoom",
+            office_layout=office_layout,
             required_objects={
                 breakroom_table.name: breakroom_table,
                 target_object.name: target_object,
@@ -160,8 +165,8 @@ def convert_coffee_from_target_object_to_beans(
             task_goals=goals,
             state_conditions=conditions,
             plan=[
-                "go to the coffee unmaker",
-                "pour the coffee unto the coffee unmaker",
+                "find the coffee unmaker",
+                "pour the coffee into the coffee unmaker",
                 "toggle the coffee unmaker",
             ],
             preparation_plan=[
@@ -208,8 +213,12 @@ def register_coffee_unmaker_challenges(enable_color_variants: bool = True) -> No
         (ObjectInstanceId.parse("CoffeeMug_Boss_1"), True),
         (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
     ]
-    for target_object, with_color_variants in target_object_iterator:
-        convert_coffee_from_target_object_to_beans(
-            target_object_instance_id=target_object,
-            with_color_variants=enable_color_variants & with_color_variants,
-        )
+    for layout in get_args(OfficeLayout):
+        for target_object, with_color_variants in target_object_iterator:
+            convert_coffee_from_target_object_to_beans(
+                target_object_instance_id=target_object,
+                office_layout=layout,
+                with_color_variants=enable_color_variants & with_color_variants,
+            )
+
+        convert_coffee_from_pot_to_beans(office_layout=layout)
