@@ -106,8 +106,6 @@ def create_heat_with_microwave_challenges(
 
     def create_mission_with_door_open() -> ChallengeBuilderOutput:
         builder_output = create_mission()
-        # Open the microwave
-        builder_output.required_objects[microwave.name].add_state("isOpen", "true")
         # Change the plans
         builder_output.plan = [
             "find the microwave",
@@ -117,6 +115,11 @@ def create_heat_with_microwave_challenges(
             "open the microwave",
             f"pick up the {converted_object.readable_name} from the microwave",
             "close the microwave",
+        ]
+        builder_output.preparation_plan = [
+            "find the microwave",
+            "open the microwave",
+            f"pick up the {target_object.readable_name}",
         ]
         return builder_output
 
@@ -239,9 +242,6 @@ def create_break_with_microwave_challenges(
 
     def create_mission_with_door_open() -> ChallengeBuilderOutput:
         builder_output = create_mission()
-        # Open the microwave
-        builder_output.required_objects[microwave.name].add_state("isOpen", "true")
-        # Change the plans
         builder_output.plan = [
             "go to the microwave",
             f"put the {target_object.readable_name} in the microwave",
@@ -250,6 +250,11 @@ def create_break_with_microwave_challenges(
             "open the microwave",
             f"pick up the {converted_object.readable_name} from the microwave",
             "close the microwave",
+        ]
+        builder_output.preparation_plan = [
+            "find the microwave",
+            "open the microwave",
+            f"pick up the {target_object.readable_name}",
         ]
         return builder_output
 
@@ -289,36 +294,13 @@ def create_break_with_microwave_challenges(
 def register_heat_things(enable_color_variants: bool = True) -> None:
     """Register challenges to heat different things."""
     heatable_target_object_iterator = [
-        (ObjectInstanceId.parse("Apple_1"), True),
-        (ObjectInstanceId.parse("AppleSlice_01_1"), False),
-        (ObjectInstanceId.parse("Banana_01_1"), False),
-        (ObjectInstanceId.parse("BananaBunch_01_1"), False),
-        (ObjectInstanceId.parse("BreadLoaf_1"), False),
-        (ObjectInstanceId.parse("BreadSlice_01_1"), False),
         (ObjectInstanceId.parse("Bowl_01_1"), True),
-        (ObjectInstanceId.parse("Burger_04_1"), False),
         (ObjectInstanceId.parse("Cake_02_1"), True),
-        (ObjectInstanceId.parse("CandyBar_01_1"), False),
         (ObjectInstanceId.parse("CanSodaNew_01_1"), False),
-        (ObjectInstanceId.parse("Carrot_01_1"), True),
+        (ObjectInstanceId.parse("CanSodaNew_Open_01_1"), False),
         (ObjectInstanceId.parse("CoffeeMug_Boss_1"), True),
         (ObjectInstanceId.parse("CoffeeMug_Yellow_1"), True),
         (ObjectInstanceId.parse("CoffeePot_01_1"), False),
-        (ObjectInstanceId.parse("Donut_01_1"), True),
-        (ObjectInstanceId.parse("FoodPlate_01_1"), True),
-        (ObjectInstanceId.parse("Jar_Jam_01_1"), False),
-        (ObjectInstanceId.parse("Jar_PeanutButter_01_1"), False),
-        (ObjectInstanceId.parse("PBJ_Sandwich_1"), False),
-        (ObjectInstanceId.parse("Pear_01_1"), True),
-        (ObjectInstanceId.parse("PieFruitSlice_01_1"), False),
-        (ObjectInstanceId.parse("PieFruit_01_1"), False),
-        (ObjectInstanceId.parse("SandwichHalf_01_1"), False),
-        (ObjectInstanceId.parse("Toast_01_1"), False),
-        (ObjectInstanceId.parse("Toast_02_1"), False),
-        (ObjectInstanceId.parse("Toast_03_1"), False),
-        (ObjectInstanceId.parse("Toast_04_1"), False),
-        (ObjectInstanceId.parse("Toast_04_Jam_1"), False),
-        (ObjectInstanceId.parse("Toast_04_PBJ_1"), False),
     ]
 
     for heatable_target_object, heatable_with_color_variants in heatable_target_object_iterator:
