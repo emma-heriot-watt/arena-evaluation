@@ -1,0 +1,8 @@
+{
+	"mission_id": 0,
+	"plans": [
+		["plan1", "plan2", "plan3"],
+		["plan4", "plan5", "plan6"]
+	],
+	"cdf": {}
+}
