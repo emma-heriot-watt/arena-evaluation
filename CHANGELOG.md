@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.29.9](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.8...v4.29.9) (2023-04-26)
+
+
+### Bug Fixes
+
+* operate microwave challenges ([59b8b44](https://github.com/emma-simbot/simbot-offline-inference/commit/59b8b441c73d447a2e9e43c7db2488053e785951))
+
 ## [4.29.8](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.7...v4.29.8) (2023-04-25)
 
 
