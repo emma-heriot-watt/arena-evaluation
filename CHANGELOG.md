@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.30.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.9...v4.30.0) (2023-04-26)
+
+
+### Features
+
+* **T3:** add mission 1 ([455d023](https://github.com/emma-simbot/simbot-offline-inference/commit/455d023b07055ce23895e4768d647968f1e3b349))
+
 ## [4.29.9](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.8...v4.29.9) (2023-04-26)
 
 
