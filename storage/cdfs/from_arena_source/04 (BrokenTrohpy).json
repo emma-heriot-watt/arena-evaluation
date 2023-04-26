@@ -9,11 +9,15 @@
 		"required_objects": [
 			{
 				"name": "Broken_Cord_01_1",
-				"state": [],
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -23,11 +27,15 @@
 			},
 			{
 				"name": "Broken_Cord_01_2",
-				"state": [],
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -37,11 +45,15 @@
 			},
 			{
 				"name": "Broken_Cord_01_3",
-				"state": [],
+				"state": [
+					{
+						"isToggledOn": "false"
+					}
+				],
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -55,7 +67,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -69,7 +81,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -83,7 +95,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -97,7 +109,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -107,11 +119,15 @@
 			},
 			{
 				"name": "Door_01_1",
-				"state": [],
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -121,11 +137,15 @@
 			},
 			{
 				"name": "Door_01_2",
-				"state": [],
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -135,11 +155,15 @@
 			},
 			{
 				"name": "Door_01_3",
-				"state": [],
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -149,11 +173,15 @@
 			},
 			{
 				"name": "Door_01_4",
-				"state": [],
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -163,11 +191,15 @@
 			},
 			{
 				"name": "Door_01_5",
-				"state": [],
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -177,11 +209,15 @@
 			},
 			{
 				"name": "Door_01_6",
-				"state": [],
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -191,11 +227,15 @@
 			},
 			{
 				"name": "Door_01_7",
-				"state": [],
+				"state": [
+					{
+						"isOpen": "true"
+					}
+				],
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -209,7 +249,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -223,7 +263,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -237,7 +277,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -251,7 +291,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -265,7 +305,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -279,7 +319,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -293,7 +333,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -307,7 +347,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -321,7 +361,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -335,7 +375,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -349,7 +389,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -363,7 +403,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -381,7 +421,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -395,7 +435,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -409,7 +449,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -423,7 +463,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -441,7 +481,7 @@
 				"location": [],
 				"roomLocation": ["SmallOffice"],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -459,7 +499,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -473,7 +513,7 @@
 				"location": [],
 				"roomLocation": ["SmallOffice"],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -487,7 +527,7 @@
 				"location": [],
 				"roomLocation": ["Warehouse"],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -501,7 +541,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -519,7 +559,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -533,7 +573,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -547,7 +587,7 @@
 				"location": [],
 				"roomLocation": ["Lab1"],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -561,7 +601,7 @@
 				"location": [],
 				"roomLocation": [],
 				"condition": {},
-				"color": "Default",
+				"colors": [],
 				"printingObject": "",
 				"associatedPastPortals": [],
 				"associatedFuturePortals": [],
@@ -607,9 +647,9 @@
 			"preconditions": [],
 			"description": "Find a Hammer in the Warehouse",
 			"visibility": {
-				"isHidden": true,
-				"activationInteractable": "StickyNote_1",
-				"stickyNoteIndex": 1
+				"isHidden": false,
+				"activationInteractable": "ALWAYS UNLOCKED",
+				"stickyNoteIndex": 0
 			},
 			"canReset": false
 		},
@@ -627,9 +667,9 @@
 			"preconditions": [],
 			"description": "Use the 3D Printer in the Robotics Lab to make a Hammer",
 			"visibility": {
-				"isHidden": true,
-				"activationInteractable": "StickyNote_2",
-				"stickyNoteIndex": 2
+				"isHidden": false,
+				"activationInteractable": "ALWAYS UNLOCKED",
+				"stickyNoteIndex": 0
 			},
 			"canReset": false
 		},
