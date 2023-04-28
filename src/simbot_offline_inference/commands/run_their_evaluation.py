@@ -68,6 +68,7 @@ def process_their_trajectory_data(
                 session_id=f"{session_id_prefix}_{task_description}_{annotation_idx}",
                 cdf=task["CDF"],
                 utterances=list(utterances),
+                randomise_start_position=False,
             )
 
             test_instances.append(test_instance)

@@ -78,4 +78,4 @@ def run_trajectories(
     if randomise_order:
         random.shuffle(trajectories)
 
-    run_trajectories_in_arena(trajectories, wandb_group_name=wandb_group_name)
+    run_trajectories_in_arena(trajectories, enable_wandb=True, wandb_group_name=wandb_group_name)

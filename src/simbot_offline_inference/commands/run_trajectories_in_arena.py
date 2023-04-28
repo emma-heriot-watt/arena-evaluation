@@ -12,7 +12,10 @@ from simbot_offline_inference.settings import Settings
 
 
 def run_trajectories_in_arena(
-    instances: list[MissionTrajectory], *, wandb_group_name: Optional[str] = None
+    instances: list[MissionTrajectory],
+    *,
+    enable_wandb: bool = False,
+    wandb_group_name: Optional[str] = None,
 ) -> None:
     """Run the evaluation."""
     settings = Settings()
@@ -38,19 +41,21 @@ def run_trajectories_in_arena(
     evaluation_metrics = SimBotEvaluationMetrics(
         settings.evaluation_output_dir, settings.metrics_file, settings.s3_evaluation_output_dir
     )
-    wandb_trajectory_tracker = WandBTrajectoryTracker(
-        project=settings.wandb_project,
-        entity=settings.wandb_entity,
-        group=wandb_group_name,
-        mission_trajectory_dir=settings.missions_dir,
-        mission_trajectory_outputs_dir=settings.evaluation_output_dir,
-        unity_logs=settings.unity_log_path,
+    wandb_trajectory_tracker = (
+        WandBTrajectoryTracker(
+            project=settings.wandb_project,
+            entity=settings.wandb_entity,
+            group=wandb_group_name,
+            mission_trajectory_dir=settings.missions_dir,
+            mission_trajectory_outputs_dir=settings.evaluation_output_dir,
+            unity_logs=settings.unity_log_path,
+        )
+        if enable_wandb
+        else None
     )
 
     evaluator = SimBotArenaEvaluator(
-        inference_controller,
-        evaluation_metrics,
-        wandb_trajectory_tracker,
+        inference_controller, evaluation_metrics, wandb_trajectory_tracker
     )
 
     logger.info(f"Running evaluation for {len(instances)} instances...")
