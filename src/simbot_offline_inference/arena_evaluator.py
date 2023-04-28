@@ -109,13 +109,16 @@ class SimBotArenaEvaluator:
         if not self._inference_controller.trajectory_preparation_completed:
             raise AssertionError("The subgoal status is 0, so preparation failed")
 
-        # Go to random viewpoint
-        logger.debug("Going to random viewpoint")
-        self._inference_controller.go_to_random_viewpoint(trajectory.cdf.start_room)
+        if trajectory.randomise_start_position:
+            # Go to random viewpoint
+            logger.debug("Going to random viewpoint")
+            self._inference_controller.go_to_random_viewpoint(trajectory.cdf.start_room)
 
-        # Randomise the start position
-        logger.debug("Randomising start position")
-        self._inference_controller.randomise_start_position()
+            # Randomise the start position
+            logger.debug("Randomising start position")
+            self._inference_controller.randomise_start_position()
+        else:
+            logger.debug("Start position randomisation is disabled.")
 
     def _log_trajectory_results(
         self,

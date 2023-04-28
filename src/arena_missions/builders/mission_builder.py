@@ -49,6 +49,7 @@ class MissionBuilder:
             plan=builder_output.plan,
             cdf=cdf,
             preparation_plan=builder_output.preparation_plan,
+            randomise_start_position=builder_output.randomise_start_position,
         )
 
     def generate_cdf(self, challenge_builder_output: ChallengeBuilderOutput) -> CDF:

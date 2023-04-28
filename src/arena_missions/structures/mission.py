@@ -27,6 +27,8 @@ class MissionTrajectory(BaseModel):
     # Used by T1/T2 data
     mission_group: Optional[str] = None
 
+    randomise_start_position: bool = True
+
     def create_preparation_session_id(self, prefix: str = "T") -> str:
         """Create a session ID for the preparation utterances."""
         now = datetime.now()
@@ -48,8 +50,14 @@ class Mission(BaseModel):
     # Used by T1/T2 data
     mission_group: Optional[str] = None
 
+    randomise_start_position: bool = True
+
     def convert_to_trajectory(
-        self, session_id_prefix: str, *, include_randomness: bool = True
+        self,
+        session_id_prefix: str,
+        *,
+        include_randomness: bool = True,
+        randomise_start_position: bool = True,
     ) -> MissionTrajectory:
         """Convert the challenge to a list of single trajectories."""
         return MissionTrajectory(
@@ -61,6 +69,7 @@ class Mission(BaseModel):
             preparation_utterances=self.preparation_plan,
             cdf=self.cdf,
             mission_group=self.mission_group,
+            randomise_start_position=randomise_start_position,
         )
 
     def create_session_id(self, prefix: str, *, include_randomness: bool = True) -> str:

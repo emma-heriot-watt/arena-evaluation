@@ -29,6 +29,8 @@ class ChallengeBuilderOutput(BaseModel):
     # If you don't care, just ignore it.
     include_all_default_objects: Optional[bool] = True
 
+    randomise_start_position: bool = True
+
     @property
     def required_objects_list(self) -> list[RequiredObject]:
         """Return a list of lists of required objects."""
