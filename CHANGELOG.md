@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.31.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.30.0...v4.31.0) (2023-04-28)
+
+
+### Features
+
+* add setting for fastmode ([b891a94](https://github.com/emma-simbot/simbot-offline-inference/commit/b891a94f431a86459a31ae92472899b7a7b3dc9f))
+* added flag randomise start position ([#41](https://github.com/emma-simbot/simbot-offline-inference/issues/41)) ([741abc8](https://github.com/emma-simbot/simbot-offline-inference/commit/741abc8bae77aacfce0e891dd439166e75b8ae7f))
+
+
+### Bug Fixes
+
+* arena source cdfs ([be81cb8](https://github.com/emma-simbot/simbot-offline-inference/commit/be81cb89affc94d355ffaacc7765b04c3873c204))
+* restore support for running the T1 trajectories ([75d545c](https://github.com/emma-simbot/simbot-offline-inference/commit/75d545c996c8acd4959b82ca6e3071a9719411b7))
+
 ## [4.30.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.29.9...v4.30.0) (2023-04-26)
 
 
