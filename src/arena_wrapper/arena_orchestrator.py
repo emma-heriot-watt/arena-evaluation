@@ -16,6 +16,7 @@ from arena_wrapper.arena_controller import ArenaController
 from arena_wrapper.arena_request_builder import ArenaRequestBuilder
 from arena_wrapper.constants import ACTIONS_REQUIRING_MASK, OBJECT_CLASS_ALLOW_LIST
 from arena_wrapper.enums.object_output_wrapper import ObjectOutputType
+from arena_wrapper.exceptions import RaycastMissedException
 from arena_wrapper.util import object_class_decoder
 
 
@@ -119,6 +120,9 @@ class ArenaOrchestrator:
 
                 if "408 Request Timeout" in str(ex):
                     raise httpx.ConnectTimeout(f"Stream closed due to timeout: {ex}")
+
+                if "RaycastMissed" in str(ex):
+                    raise RaycastMissedException(f"Failed to handle raycast: {ex}")
 
                 self.logger.error(
                     f"Exception while executing actions with status {last_action_success}: {ex}"

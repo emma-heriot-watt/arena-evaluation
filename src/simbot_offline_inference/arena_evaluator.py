@@ -4,6 +4,7 @@ import httpx
 from loguru import logger
 
 from arena_missions.structures import MissionTrajectory
+from arena_wrapper.exceptions import RaycastMissedException
 from simbot_offline_inference.inference_controller import SimBotInferenceController
 from simbot_offline_inference.metrics import SimBotEvaluationMetrics, WandBTrajectoryTracker
 
@@ -40,6 +41,11 @@ class SimBotArenaEvaluator:
             if self._inference_controller.restart_arena():
                 logger.info("Restarted the arena. Retrying...")
                 return self.run_trajectory_in_the_arena(trajectory)
+        except RaycastMissedException:
+            logger.error("Current trajectory will be ignored due to a RaycastMissed exception.")
+            if self._inference_controller.restart_arena():
+                logger.info("Successfully restarted arena. Skipping current trajectory...")
+                return None
 
         raise RuntimeError("Failed to run the trajectory in the arena.")
 
