@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.31.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.31.0...v4.31.1) (2023-05-12)
+
+
+### Bug Fixes
+
+* raycast missed exception handling ([#40](https://github.com/emma-simbot/simbot-offline-inference/issues/40)) ([7a3d3c4](https://github.com/emma-simbot/simbot-offline-inference/commit/7a3d3c4abeecffb553d258873bcfaafbf5d2f025))
+
 ## [4.31.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.30.0...v4.31.0) (2023-04-28)
 
 
