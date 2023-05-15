@@ -47,5 +47,10 @@ sudo ldconfig
 echo "[SimBot] Downloading arena mission data"
 sh ./scripts/fetch-arena-data.sh
 
+# Setup symlinks for Docker and storage/models
+echo "[SimBot] Setting up symlinks"
+ln -s ./storage/experience-hub/docker/ ./docker
+ln -s ./storage/experience-hub/storage/models/ ./storage/models
+
 # Done
 echo "[SimBot] Done!"
