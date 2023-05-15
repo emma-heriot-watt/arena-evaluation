@@ -1,79 +1,52 @@
 # Offline Inference on the SimBot arena
 
-## Creating the instance
 
-Use the terraform configuation included to build/destroy the instance.
+## Installing dependencies
 
-#### Terraform commands you need to know to do things
+You can run the convenience script at `scripts/prepare-user-area.sh`. I **HIGHLY RECOMMEND** reading the script to know what it does, because you might not need all of it! 
 
-- `terraform init` — Initialise your terraform environment
-- `terraform plan` — Verify things can be deployed correctly on AWS, and catch _most_ confirmation errors
-- `terraform apply` — Create the instances and connect all the resources.[^1]
-- `terraform destroy` — Terminate the instance and remove any resources that were newly-created.[^2]
+## Running things
 
-[^1]: _You can use the [EC2 serial console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-serial-console.html) to watch the instance start up and watch the outputs of the `user-data` script. There is no history so if the serial console is blank, you have missed whatever it said before._
-[^2]: _Only resources that were created will be removed, and nothing that existed beforehand. Therefore, you can call this whenever you want and trust that nothing else will be destroyed._
+> **Note**
+>
+> If you need sudo to run Docker, prefix the `poetry run` command with: `sudo -E env PATH=$PATH`.
 
-## Running the evaluation
+### T1 evaluation (the one for [evai.ai](https://eval.ai/web/challenges/challenge-page/1903/overview))
 
-The session IDs are all prefixed with `T2-`, ~~and therefore can be found in OpenSearch with all the other session turns~~.
+When running T1, progress is sent to [wandb.ai/emma-simbot/alexa-arena-evaluation](https://wandb.ai/emma-simbot/alexa-arena-evaluation). All session IDs are prefixed with `T1-`.
 
-> **Warning**
-> There are a lot of settings in `src/simbot_offline_inference/settings.py` which control and change the behaviour when running things. I recommend knowing what exists there.
+#### Steps
 
-1. Create the tmux session with `tmux -CC new -A -s main`
-2. Create 3 tmux panes
-3. In one pane, run `sudo /usr/bin/X :1 &`
-4. In the other pane, first run:
+1. Create a new tmux session.
+2. In one tmux pane, run `sudo /usr/bin/X :1 &`
+3. In the other pane, run:
 
    ```bash
-   cd offline-inference \
-   && poetry env use $(pyenv which python) \
-   && poetry install \
-   && poetry shell
+   poetry run python -m simbot_offline_inference run-background-services
    ```
-
-   and then run:
+4. Finally, in a third pane, run:
 
    ```bash
-   sudo -E env PATH=$PATH poetry run python -m simbot_offline_inference run-background-services
+   poetry run python -m simbot_offline_inference run-their-evaluation T1
    ```
+5. Let it run.
 
-5. Finally, in a third pane, run:
+### Running the trajectory generation
+
+When running trajectories, each one is a new "run", and all the runs are tracked at [wandb.ai/emma-simbot/arena-high-level-trajectories](https://wandb.ai/emma-simbot/arena-high-level-trajectories).
+
+#### Steps
+
+1. Create a new tmux session.
+2. In one tmux pane, run `sudo /usr/bin/X :1 &`
+3. In the other pane, run:
 
    ```bash
-   sudo -E env PATH=$PATH LOG_LEVEL=DEBUG poetry run python -m simbot_offline_inference run-their-evaluation T1
+   poetry run python -m simbot_offline_inference run-background-services
    ```
-
-6. Let it run.
-
-## Running the trajectory generation
-
-> **Warning**
-> There are a lot of settings in `src/simbot_offline_inference/settings.py` which control and change the behaviour when running things. I recommend knowing what exists there.
-
-1. Create the tmux session with `tmux -CC new -A -s main`
-2. Create 3 tmux panes
-3. In one pane, run `sudo /usr/bin/X :1 &`
-4. In the other pane, first run:
+4. Finally, in a third pane, run:
 
    ```bash
-   cd offline-inference \
-   && poetry env use $(pyenv which python) \
-   && poetry install \
-   && poetry shell
+   poetry run python -m simbot_offline_inference generate-trajectories
    ```
-
-   and then run:
-
-   ```bash
-   sudo -E env PATH=$PATH poetry run python -m simbot_offline_inference run-background-services
-   ```
-
-5. Finally, in a third pane, run:
-
-   ```bash
-   sudo -E env PATH=$PATH LOG_LEVEL=DEBUG poetry run python -m simbot_offline_inference run-their-evaluation T1
-   ```
-
-6. Let it run.
+5. Let it run.
