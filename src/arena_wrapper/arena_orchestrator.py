@@ -62,6 +62,9 @@ class ArenaOrchestrator:
         if action_type.lower() == "pickup":
             action_type = "Pickup"
 
+        if self.response["lastActionSuccess"] == "InterruptedByNewCommandBatch":
+            raise AssertionError("Unable to recover from `InterruptedByNewCommandBatch`")
+
         return {
             "id": last_action["commandNum"],
             "type": action_type,

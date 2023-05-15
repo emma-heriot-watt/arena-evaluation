@@ -86,9 +86,14 @@ class SimBotArenaEvaluator:
                 logger.warning("All goals are complete but there are still utterances left.")
                 break
 
-            actions_for_utterance = self._inference_controller.handle_utterance(
-                session_id, utterance
-            )
+            try:
+                actions_for_utterance = self._inference_controller.handle_utterance(
+                    session_id, utterance
+                )
+            except AssertionError:
+                logger.error("Unrecoverable exception occurred, exiting...")
+                break
+
             actions_for_session.extend(actions_for_utterance)
             processed_utterance_counter += 1
 
