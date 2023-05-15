@@ -35,8 +35,12 @@ The session IDs are all prefixed with `T2-`, and therefore can be found in OpenS
 
    ```bash
    sudo -E env PATH=$PATH poetry run python -m simbot_offline_inference run-background-services
-   sudo -E env PATH=$PATH LOG_LEVEL=DEBUG poetry run python -m simbot_offline_inference run_evaluation [ARGS]
+   ```
+
+1. Finally, in a third pane, run:
+
+   ```bash
+   sudo -E env PATH=$PATH LOG_LEVEL=DEBUG poetry run python -m simbot_offline_inference run-their-evaluation T1
    ```
 
 1. Let it run.
-1. When you are done, **be sure to clean up the resources!**
