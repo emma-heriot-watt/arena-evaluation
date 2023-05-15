@@ -7,9 +7,12 @@ import yaml
 
 from arena_missions.structures import CDF, MissionTrajectory
 from emma_experience_hub._version import __version__ as experience_hub_version  # noqa: WPS436
-from emma_experience_hub.constants.simbot import get_service_registry_file_path
+from emma_experience_hub.constants import constants_absolute_path
 from emma_experience_hub.datamodels.registry import ServiceRegistry
 from simbot_offline_inference.metrics.evaluation import EvaluationMetrics
+
+
+SERVICE_REGISTRY_PATH = constants_absolute_path.joinpath("simbot", "registry.yaml")
 
 
 class WandBCallback(ABC):
@@ -62,7 +65,7 @@ class WandBCallback(ABC):
     def extract_service_versions_from_registry(self) -> dict[str, str]:
         """Get service and model versions from the service registry."""
         service_registry = ServiceRegistry.parse_obj(
-            yaml.safe_load(get_service_registry_file_path().read_bytes())
+            yaml.safe_load(SERVICE_REGISTRY_PATH.read_bytes())
         )
 
         output_dict = {}
