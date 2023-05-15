@@ -17,10 +17,13 @@ class SimBotArenaEvaluator:
         inference_controller: SimBotInferenceController,
         evaluation_metrics: SimBotEvaluationMetrics,
         wandb_trajectory_tracker: Optional[WandBTrajectoryTracker] = None,
+        *,
+        enforce_successful_preparation: bool = False,
     ) -> None:
         self._inference_controller = inference_controller
         self._evaluation_metrics = evaluation_metrics
         self._wandb_trajectory_tracker = wandb_trajectory_tracker
+        self._enforce_successful_preparation = enforce_successful_preparation
 
     def run_evaluation(self, trajectories: list[MissionTrajectory]) -> None:
         """Run the evaluation on all the test data."""
@@ -117,8 +120,9 @@ class SimBotArenaEvaluator:
             for prep_utterance in trajectory.preparation_utterances:
                 self._inference_controller.handle_utterance(preparation_session_id, prep_utterance)
 
-        if not self._inference_controller.trajectory_preparation_completed:
-            raise AssertionError("The subgoal status is 0, so preparation failed")
+        if self._enforce_successful_preparation:
+            if not self._inference_controller.trajectory_preparation_completed:
+                raise AssertionError("The subgoal status is 0, so preparation failed")
 
         if trajectory.randomise_start_position:
             # Go to random viewpoint

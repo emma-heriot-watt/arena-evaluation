@@ -43,6 +43,9 @@ class Settings(BaseSettings):
     display: Union[str, int] = 1
     enable_fast_mode: bool = False
 
+    # Evaluator settings
+    enforce_successful_preparation: bool = False
+
     def put_settings_in_environment(self) -> None:
         """Put settings in the environment variables."""
         for env_name, env_var in self:

@@ -55,7 +55,10 @@ def run_trajectories_in_arena(
     )
 
     evaluator = SimBotArenaEvaluator(
-        inference_controller, evaluation_metrics, wandb_trajectory_tracker
+        inference_controller,
+        evaluation_metrics,
+        wandb_trajectory_tracker,
+        enforce_successful_preparation=settings.enforce_successful_preparation,
     )
 
     logger.info(f"Running evaluation for {len(instances)} instances...")
