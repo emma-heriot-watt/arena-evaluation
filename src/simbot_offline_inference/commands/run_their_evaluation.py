@@ -2,13 +2,15 @@ import json
 from collections.abc import Iterator
 from enum import Enum
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional, cast
+from uuid import uuid4
 
 from loguru import logger
 from rich.progress import track
 
 from arena_missions.structures import MissionTrajectory
 from simbot_offline_inference.commands.run_trajectories_in_arena import run_trajectories_in_arena
+from simbot_offline_inference.metrics import MissionGroup, WandBEvaluationCallback
 from simbot_offline_inference.settings import Settings
 
 
@@ -19,9 +21,9 @@ class EvaluationType(Enum):
     t2 = "T2"
 
 
-def extract_mission_group_from_description(mission_desc: str) -> Optional[str]:
+def extract_mission_group_from_description(mission_desc: str) -> Optional[MissionGroup]:
     """Extract the group from the mission description."""
-    switcher = {
+    switcher: dict[str, MissionGroup] = {
         "Break_Object": "breakObject",
         "Clean_and_Deliver": "clean&deliver",
         "Color_and_Deliver": "color&deliver",
@@ -65,8 +67,9 @@ def process_their_trajectory_data(
 
             test_instance = MissionTrajectory(
                 mission_group=extract_mission_group_from_description(task_description),
-                session_id=f"{session_id_prefix}_{task_description}_{annotation_idx}",
-                cdf=task["CDF"],
+                mission_id=f"{task_description}_{annotation_idx}",
+                session_id=f"{session_id_prefix}_{str(uuid4())}",
+                cdf=cast(dict[str, Any], task["CDF"]),
                 utterances=list(utterances),
                 randomise_start_position=False,
             )
@@ -76,53 +79,31 @@ def process_their_trajectory_data(
     return test_instances
 
 
-def limit_instances_to_evaluate(
-    instances: list[MissionTrajectory],
-    num_instances: int,
-    start_index: int = 0,
-) -> list[MissionTrajectory]:
-    """Limit the number of instances evaluated."""
-    end_index = start_index + num_instances
-    instances = instances[start_index:end_index]
-    logger.info(f"Running {len(instances)} instance from subset [{start_index}:{end_index}]")
-    return instances
-
-
-def run_evaluation_on_t1(start_index: int = 0, num_instances: Optional[int] = None) -> None:
-    """Run the evaluation on the T1 test set."""
-    settings = Settings()
-    trajectory_data_path = settings.trajectory_dir.joinpath("valid.json")
-
-    logger.info(f"Loading test data from {trajectory_data_path}")
-    instances = process_their_trajectory_data(trajectory_data_path, session_id_prefix="T1")
-
-    if num_instances is not None:
-        instances = limit_instances_to_evaluate(instances, num_instances, start_index)
-
-    run_trajectories_in_arena(instances)
-
-
-def run_evaluation_on_t2(start_index: int = 0, num_instances: Optional[int] = None) -> None:
-    """Run the evaluation on the T2 test set."""
-    settings = Settings()
-    trajectory_data_path = settings.trajectory_dir.joinpath("test.json")
-
-    logger.info(f"Loading test data from {trajectory_data_path}")
-    instances = process_their_trajectory_data(trajectory_data_path, session_id_prefix="T2")
-
-    if num_instances is not None:
-        instances = limit_instances_to_evaluate(instances, num_instances, start_index)
-
-    run_trajectories_in_arena(instances)
-
-
 def run_their_evaluation(
-    evaluation_type: EvaluationType, start_index: int = 0, num_instances: Optional[int] = None
+    evaluation_type: EvaluationType, wandb_project: str = "alexa-arena-evaluation"
 ) -> None:
     """Run the evaluation on the test set."""
-    if evaluation_type == EvaluationType.t1:
-        return run_evaluation_on_t1(start_index, num_instances)
-    if evaluation_type == EvaluationType.t2:
-        return run_evaluation_on_t2(start_index, num_instances)
+    settings = Settings()
 
-    raise ValueError(f"Unknown evaluation type: {evaluation_type}")
+    trajectory_data_per_evaluation_type: dict[EvaluationType, Path] = {
+        EvaluationType.t1: settings.trajectory_dir.joinpath("valid.json"),
+        EvaluationType.t2: settings.trajectory_dir.joinpath("test.json"),
+    }
+    trajectory_data_path = trajectory_data_per_evaluation_type[evaluation_type]
+
+    logger.info(f"Loading test data from {trajectory_data_path}")
+    instances = process_their_trajectory_data(
+        trajectory_data_path, session_id_prefix=evaluation_type.value
+    )
+
+    run_trajectories_in_arena(
+        instances,
+        wandb_callback=WandBEvaluationCallback(
+            project=wandb_project,
+            entity=settings.wandb_entity,
+            group=evaluation_type.value,
+            mission_trajectory_dir=settings.missions_dir,
+            mission_trajectory_outputs_dir=settings.evaluation_output_dir,
+            unity_logs=settings.unity_log_path,
+        ),
+    )

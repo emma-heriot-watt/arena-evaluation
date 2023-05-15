@@ -6,6 +6,7 @@ from loguru import logger
 from arena_missions.builders import ChallengeBuilder, MissionBuilder, RequiredObjectBuilder
 from arena_missions.structures import MissionTrajectory
 from simbot_offline_inference.commands.run_trajectories_in_arena import run_trajectories_in_arena
+from simbot_offline_inference.metrics import WandBTrajectoryGenerationCallback
 from simbot_offline_inference.settings import Settings
 
 
@@ -57,7 +58,7 @@ def generate_trajectories(
 def run_trajectories(
     trajectories_dir: Path,
     wandb_group_name: str,
-    *,
+    wandb_project: str = "arena-high-level-trajectories",
     randomise_order: bool = False,
 ) -> None:
     """Run trajectories from disk."""
@@ -78,4 +79,13 @@ def run_trajectories(
     if randomise_order:
         random.shuffle(trajectories)
 
-    run_trajectories_in_arena(trajectories, enable_wandb=True, wandb_group_name=wandb_group_name)
+    wandb_callback = WandBTrajectoryGenerationCallback(
+        project=wandb_project,
+        entity=settings.wandb_entity,
+        group=wandb_group_name,
+        mission_trajectory_dir=settings.missions_dir,
+        mission_trajectory_outputs_dir=settings.evaluation_output_dir,
+        unity_logs=settings.unity_log_path,
+    )
+
+    run_trajectories_in_arena(trajectories, wandb_callback=wandb_callback)

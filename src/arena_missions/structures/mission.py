@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Any, Optional, Union
 from uuid import uuid4
 
 import shortuuid
@@ -22,12 +22,21 @@ class MissionTrajectory(BaseModel):
     high_level_key: Optional[HighLevelKey] = None
 
     # Challenge definition
-    cdf: CDF
+
+    cdf: Union[CDF, dict[str, Any]]
 
     # Used by T1/T2 data
+    mission_id: Optional[str] = None
     mission_group: Optional[str] = None
 
     randomise_start_position: bool = True
+
+    @property
+    def cdf_as_dict(self) -> dict[str, Any]:
+        """Get the CDF as a dict."""
+        if isinstance(self.cdf, dict):
+            return self.cdf
+        return self.cdf.dict(by_alias=True)
 
     def create_preparation_session_id(self, prefix: str = "T") -> str:
         """Create a session ID for the preparation utterances."""

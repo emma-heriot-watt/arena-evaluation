@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 from typing import Union
 
-from cloudpathlib import S3Path
 from pydantic import BaseSettings
 
 
@@ -19,15 +18,10 @@ class Settings(BaseSettings):
     models_dir: Path = experience_hub_dir.joinpath("storage/models/")
     cdf_dir: Path = storage_dir.joinpath("cdfs/")
     missions_dir: Path = cdf_dir.joinpath("missions/")
-    metrics_file: Path = storage_dir.joinpath("metrics.json")
 
     evaluation_output_dir: Path = storage_dir.joinpath("action_outputs/")
-    s3_evaluation_output_dir: S3Path = S3Path(
-        "s3://emma-simbot/results/simbot-trajectories/missions/"
-    )
 
     # WandB
-    wandb_project: str = "arena-high-level-trajectories"
     wandb_entity: str = "emma-simbot"
 
     # Experience hub
@@ -45,6 +39,7 @@ class Settings(BaseSettings):
 
     # Evaluator settings
     enforce_successful_preparation: bool = False
+    resume_previous_wandb_session: bool = False
 
     def put_settings_in_environment(self) -> None:
         """Put settings in the environment variables."""
