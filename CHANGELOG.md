@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.32.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.31.1...v4.32.0) (2023-05-15)
+
+
+### Features
+
+* create flag to enforce/ignore successful preparation steps ([4af06aa](https://github.com/emma-simbot/simbot-offline-inference/commit/4af06aad214e57367e8be390878811f35a3c5098))
+* **script:** create script that prepares user area for running the offline inference ([951080a](https://github.com/emma-simbot/simbot-offline-inference/commit/951080a0d4b2deeda7630a1ccbe0105dedd04f75))
+
+
+### Bug Fixes
+
+* guard against `InterruptedByNewCommandBatch` ([6b8c239](https://github.com/emma-simbot/simbot-offline-inference/commit/6b8c2390304a38cfe597e42e98192a0a9259426a))
+* **scripts:** automatically setup necessary symlinks ([b45cff7](https://github.com/emma-simbot/simbot-offline-inference/commit/b45cff7584c0ac4e285e2260dc6136b1f7074cd3))
+
 ## [4.31.1](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.31.0...v4.31.1) (2023-05-12)
 
 
