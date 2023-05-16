@@ -224,6 +224,7 @@ class WandBEvaluationCallback(WandBCallback):
                     for mission_group, success_rate in evaluation_metrics.per_mission_group_success_rate.items()
                 },
                 commit=False,
+                step=evaluation_metrics.games_played.compute().item(),
             )
 
         wandb.log(
@@ -232,21 +233,5 @@ class WandBEvaluationCallback(WandBCallback):
                 "subgoal_success_rate": evaluation_metrics.subgoal_completion_rate.compute(),
             },
             commit=True,
+            step=evaluation_metrics.games_played.compute().item(),
         )
-
-        # Update the number of games in the run config
-        current_num_games = wandb.config.get("num_games", 1)
-        # Create a dict to update the config
-        wandb_config_change = {"num_games": current_num_games}
-
-        # Try to add mission group information, if exists
-        if trajectory.mission_group:
-            count_per_mission_group_config_name = (
-                f"count_per_mission_group/{trajectory.mission_group}"
-            )
-            count_per_mission_group = wandb.config.get(count_per_mission_group_config_name, 1)
-            wandb_config_change.update(
-                {count_per_mission_group_config_name: count_per_mission_group}
-            )
-
-        wandb.config.update(wandb_config_change, allow_val_change=True)

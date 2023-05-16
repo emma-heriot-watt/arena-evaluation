@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Any, Literal, Optional, get_args
 
 import orjson
-from torchmetrics import MeanMetric
+from torchmetrics import MeanMetric, SumMetric
 
 
 MissionGroup = Literal[
@@ -33,6 +33,8 @@ class EvaluationMetrics:
     ) -> None:
         self._output_path = evaluation_output_dir
 
+        self.games_played = SumMetric()
+
         self.success_rate = success_rate_metric
         self.subgoal_completion_rate = subgoal_completion_rate_metric
 
@@ -55,6 +57,7 @@ class EvaluationMetrics:
         remaining_utterances: list[str],
     ) -> None:
         """Add metrics from a recently-evaluated mission."""
+        self.games_played.update(1)
         self.success_rate.update(1 if is_mission_completed else 0)
 
         for subgoal_completion in subgoal_completion_status:
