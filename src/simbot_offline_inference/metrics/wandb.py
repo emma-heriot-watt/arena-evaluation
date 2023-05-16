@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Literal, Optional
 
+import torch
 import wandb
 import yaml
 
@@ -219,7 +220,7 @@ class WandBEvaluationCallback(WandBCallback):
         if evaluation_metrics.per_mission_group_success_rate:
             wandb.log(
                 {
-                    f"success_rate/{mission_group}": success_rate.compute()
+                    f"success_rate/{mission_group}": torch.nan_to_num(success_rate.compute())
                     for mission_group, success_rate in evaluation_metrics.per_mission_group_success_rate.items()
                 },
                 commit=False,
