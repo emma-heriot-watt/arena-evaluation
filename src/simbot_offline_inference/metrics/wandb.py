@@ -224,7 +224,7 @@ class WandBEvaluationCallback(WandBCallback):
         if evaluation_metrics.per_mission_group_success_rate:
             wandb.log(
                 {
-                    mission_group: success_rate.compute()
+                    f"success_rate/{mission_group}": success_rate.compute()
                     for mission_group, success_rate in evaluation_metrics.per_mission_group_success_rate.items()
                 },
                 commit=False,
