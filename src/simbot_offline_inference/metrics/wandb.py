@@ -185,7 +185,6 @@ class WandBEvaluationCallback(WandBCallback):
             group=self.group,
             resume=resume,
             config={
-                "num_games": 0,
                 "version/experience_hub": experience_hub_version,
                 **self.extract_service_versions_from_registry(),
             },
@@ -224,7 +223,7 @@ class WandBEvaluationCallback(WandBCallback):
                     for mission_group, success_rate in evaluation_metrics.per_mission_group_success_rate.items()
                 },
                 commit=False,
-                step=evaluation_metrics.games_played.compute().item(),
+                step=int(evaluation_metrics.games_played.compute().item()),
             )
 
         wandb.log(
@@ -233,5 +232,5 @@ class WandBEvaluationCallback(WandBCallback):
                 "subgoal_success_rate": evaluation_metrics.subgoal_completion_rate.compute(),
             },
             commit=True,
-            step=evaluation_metrics.games_played.compute().item(),
+            step=int(evaluation_metrics.games_played.compute().item()),
         )
