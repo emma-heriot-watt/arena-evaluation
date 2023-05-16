@@ -2,7 +2,7 @@ import json
 from collections.abc import Iterator
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional, cast
+from typing import Optional
 from uuid import uuid4
 
 from loguru import logger
@@ -69,7 +69,7 @@ def process_their_trajectory_data(
                 mission_group=extract_mission_group_from_description(task_description),
                 mission_id=f"{task_description}_{annotation_idx}",
                 session_id=f"{session_id_prefix}_{str(uuid4())}",
-                cdf=cast(dict[str, Any], task["CDF"]),
+                cdf=task["CDF"],
                 utterances=list(utterances),
                 randomise_start_position=False,
             )

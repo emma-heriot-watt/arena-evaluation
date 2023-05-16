@@ -9,7 +9,7 @@ from arena_missions.structures.cdf import CDF
 from arena_missions.structures.high_level_key import HighLevelKey
 
 
-class MissionTrajectory(BaseModel):
+class MissionTrajectory(BaseModel, smart_union=True):
     """Single trajectory for a given mission."""
 
     session_id: str
