@@ -190,14 +190,9 @@ class WandBEvaluationCallback(WandBCallback):
             },
         )
 
-        # Upload the mission trajectory file
-        wandb.save(  # type: ignore[call-arg]
-            glob_str="**/*.json", base_path=str(self.mission_trajectory_dir)
-        )
-
         # Upload the trajectory results on run completion
         wandb.save(  # type: ignore[call-arg]
-            glob_str="**/*.json", base_path=str(self.mission_trajectory_outputs_dir), policy="end"
+            str(self.mission_trajectory_outputs_dir), policy="end"
         )
 
         # Also upload the unity logs
