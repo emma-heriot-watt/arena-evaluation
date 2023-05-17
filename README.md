@@ -1,9 +1,8 @@
 # Offline Inference on the SimBot arena
 
-
 ## Installing dependencies
 
-You can run the convenience script at `scripts/prepare-user-area.sh`. I **HIGHLY RECOMMEND** reading the script to know what it does, because you might not need all of it! 
+You can run the convenience script at `scripts/prepare-user-area.sh`. I **HIGHLY RECOMMEND** reading the script to know what it does, because you might not need all of it!
 
 ## Running things
 
@@ -24,11 +23,13 @@ When running T1, progress is sent to [wandb.ai/emma-simbot/alexa-arena-evaluatio
    ```bash
    poetry run python -m simbot_offline_inference run-background-services
    ```
+
 4. Finally, in a third pane, run:
 
    ```bash
    poetry run python -m simbot_offline_inference run-their-evaluation T1
    ```
+
 5. Let it run.
 
 ### Running the trajectory generation
@@ -44,9 +45,11 @@ When running trajectories, each one is a new "run", and all the runs are tracked
    ```bash
    poetry run python -m simbot_offline_inference run-background-services
    ```
+
 4. Finally, in a third pane, run:
 
    ```bash
    poetry run python -m simbot_offline_inference generate-trajectories
    ```
+
 5. Let it run.
