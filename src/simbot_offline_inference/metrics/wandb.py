@@ -11,6 +11,9 @@ from arena_missions.structures import CDF, MissionTrajectory
 from emma_experience_hub._version import __version__ as experience_hub_version  # noqa: WPS436
 from emma_experience_hub.constants import constants_absolute_path
 from emma_experience_hub.datamodels.registry import ServiceRegistry
+from simbot_offline_inference._version import (  # noqa: WPS436
+    __version__ as offline_inference_version,
+)
 from simbot_offline_inference.metrics.evaluation import EvaluationMetrics
 
 
@@ -110,6 +113,7 @@ class WandBTrajectoryGenerationCallback(WandBCallback):
             group=self.group,
             config={
                 "version/experience_hub": experience_hub_version,
+                "version/offline_inference": offline_inference_version,
                 **self.extract_service_versions_from_registry(),
                 "session_id": trajectory.session_id,
                 "preparation_session_id": preparation_session_id,
@@ -190,6 +194,7 @@ class WandBEvaluationCallback(WandBCallback):
             resume=resume,
             config={
                 "version/experience_hub": experience_hub_version,
+                "version/offline_inference": offline_inference_version,
                 **self.extract_service_versions_from_registry(),
             },
         )
