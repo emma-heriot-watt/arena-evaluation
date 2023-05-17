@@ -58,6 +58,10 @@ class EvaluationMetrics:
         """Create a checkpoint for the evaluation metrics."""
         torch.save(self, self._evaluation_metrics_checkpoint_path)
 
+    def delete_checkpoint(self) -> None:
+        """Delete the checkpoint for the evaluation metrics."""
+        self._evaluation_metrics_checkpoint_path.unlink(missing_ok=True)
+
     def has_mission_been_evaluated(self, mission_id: str) -> bool:
         """Check if the mission has already been evaluated."""
         return self._output_path.joinpath(f"{mission_id}.json").exists()

@@ -40,6 +40,7 @@ class SimBotArenaEvaluator:
                 self.run_evaluation_step(instance)
 
             self._wandb_callback.finish_evaluation()
+            self._evaluation_metrics.delete_checkpoint()
 
             logger.info("Finished evaluation!")
 
