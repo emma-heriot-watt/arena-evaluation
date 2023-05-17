@@ -2,6 +2,7 @@ import json
 from collections.abc import Iterator
 from enum import Enum
 from pathlib import Path
+from shutil import rmtree
 from typing import Optional
 from uuid import uuid4
 
@@ -80,10 +81,19 @@ def process_their_trajectory_data(
 
 
 def run_their_evaluation(
-    evaluation_type: EvaluationType, wandb_project: str = "alexa-arena-evaluation"
+    evaluation_type: EvaluationType,
+    wandb_project: str = "alexa-arena-evaluation",
+    *,
+    force_from_scratch: bool = False,
 ) -> None:
     """Run the evaluation on the test set."""
     settings = Settings()
+
+    if force_from_scratch:
+        logger.info(
+            "Removing any previously run missions so that all missions can be run from scratch."
+        )
+        rmtree(settings.evaluation_output_dir)
 
     trajectory_data_per_evaluation_type: dict[EvaluationType, Path] = {
         EvaluationType.t1: settings.trajectory_dir.joinpath("valid.json"),
