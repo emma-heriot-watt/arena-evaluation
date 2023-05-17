@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from copy import copy
 from pathlib import Path
 from typing import Literal, Optional
 
@@ -39,6 +40,16 @@ class WandBCallback(ABC):
         self.mission_trajectory_outputs_dir = mission_trajectory_outputs_dir
 
         self._unity_logs = unity_logs
+
+        self.__post_init__()
+
+    @abstractmethod
+    def __post_init__(self) -> None:
+        """Post init actions to perform, if needed.
+
+        This is important to avoid changing the signature of the `__init__` method.
+        """
+        pass  # noqa: WPS420
 
     @abstractmethod
     def start_evaluation(self, *, resume: bool = False) -> None:
@@ -84,6 +95,10 @@ class WandBCallback(ABC):
 
 class WandBTrajectoryGenerationCallback(WandBCallback):
     """Track each trajectory as a new run in WandB."""
+
+    def __post_init__(self) -> None:
+        """Post init actions to perform, if needed."""
+        pass  # noqa: WPS420
 
     def start_evaluation(self, *, resume: bool = False) -> None:
         """No-op on start evaluation."""
@@ -182,6 +197,12 @@ class WandBEvaluationCallback(WandBCallback):
     According to wandb docs, the various save commands are correct.
     """
 
+    def __post_init__(self) -> None:
+        """Post init actions to perform."""
+        # The `mission_success_table` tracks the success of each mission during the course of an
+        # entire run, and also the session ID for that mission.`
+        self._mission_success_table = wandb.Table(columns=["mission_id", "session_id", "success"])
+
     def start_evaluation(self, *, resume: bool = False) -> None:
         """Start running an evaluation."""
         if resume:
@@ -225,6 +246,19 @@ class WandBEvaluationCallback(WandBCallback):
     ) -> None:
         """Finish a trajectory."""
         step_idx = int(evaluation_metrics.games_played.compute().item())
+
+        if trajectory.mission_id:
+            # Update the table with the mission output
+            self._mission_success_table.add_data(
+                trajectory.mission_id, trajectory.session_id, 1 if is_success else 0
+            )
+
+            # Log the table to wandb
+            wandb.log(
+                {"mission_success_table": copy(self._mission_success_table)},
+                commit=False,
+                step=step_idx,
+            )
 
         # If we have mission groups, log them
         if evaluation_metrics.per_mission_group_success_rate:
