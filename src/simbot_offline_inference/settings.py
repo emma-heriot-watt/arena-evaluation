@@ -48,6 +48,11 @@ class Settings(BaseSettings):
         If the `storage/action_outputs/` dir is empty, then we should not resume.
         """
         is_evaluation_output_dir_empty = bool(list(self.evaluation_output_dir.glob("*")))
+
+        # If the directory is empty, be sure to delete any existing metric checkpoints
+        if is_evaluation_output_dir_empty:
+            self.evaluation_metrics_checkpoint.unlink(missing_ok=True)
+
         return not is_evaluation_output_dir_empty
 
     def put_settings_in_environment(self) -> None:
