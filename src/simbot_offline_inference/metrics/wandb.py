@@ -224,6 +224,8 @@ class WandBEvaluationCallback(WandBCallback):
         subgoal_completion_status: list[Literal[0, 1]],
     ) -> None:
         """Finish a trajectory."""
+        step_idx = int(evaluation_metrics.games_played.compute().item())
+
         # If we have mission groups, log them
         if evaluation_metrics.per_mission_group_success_rate:
             wandb.log(
@@ -232,7 +234,7 @@ class WandBEvaluationCallback(WandBCallback):
                     for mission_group, success_rate in evaluation_metrics.per_mission_group_success_rate.items()
                 },
                 commit=False,
-                step=int(evaluation_metrics.games_played.compute().item()),
+                step=step_idx,
             )
 
         wandb.log(
@@ -241,7 +243,7 @@ class WandBEvaluationCallback(WandBCallback):
                 "subgoal_success_rate": evaluation_metrics.subgoal_completion_rate.compute(),
             },
             commit=True,
-            step=int(evaluation_metrics.games_played.compute().item()),
+            step=step_idx,
         )
 
         # Save a checkpoint of the evaluation metrics
