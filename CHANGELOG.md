@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.33.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.32.0...v4.33.0) (2023-05-17)
+
+
+### Features
+
+* **commands:** add `--force-from-scratch` cli arg when running their evaluation to force delete any previous mission information ([ae2793c](https://github.com/emma-simbot/simbot-offline-inference/commit/ae2793c394e3cf4085f7d76ccd128c5b6e660db2))
+* **metrics:** delete evaluation metrics checkpoint at the end of a run to prevent accidentally resuming ([6e77b7a](https://github.com/emma-simbot/simbot-offline-inference/commit/6e77b7a6c35320a687f2cff246d90b7306da171e))
+* **metrics:** if the action outputs dir is empty and we are not resuming, delete the checkpoint file ([b88c03d](https://github.com/emma-simbot/simbot-offline-inference/commit/b88c03dcaabf92a1618e0a872934e8cebb5bb191))
+* **metrics:** support creating and restoring checkpoints of evaluation metrics if resuming runs ([bef8c1f](https://github.com/emma-simbot/simbot-offline-inference/commit/bef8c1f222440a3ca748bca9ada721cc31ed0081))
+* **wandb:** automatically determine whether we should start a new run instead of using an environment variable ([82d6ace](https://github.com/emma-simbot/simbot-offline-inference/commit/82d6aceadb2985522c0628da364f6d7e53bacb9b))
+* **wandb:** include the offline inference version used in the run config ([6505c7f](https://github.com/emma-simbot/simbot-offline-inference/commit/6505c7f7dd6e387acfea3c862c2c167bedfe108b))
+* **wandb:** track session ids and success per mission across runs ([1260998](https://github.com/emma-simbot/simbot-offline-inference/commit/1260998a4d1b488f4d6a89741b30dc95716991d0))
+
+
+### Bug Fixes
+
+* just manually point to the service registry path ([612315b](https://github.com/emma-simbot/simbot-offline-inference/commit/612315b8b240c0f436a3d0ae743170990617f971))
+* **metrics:** log the step number instead of trying to modify the config ([871ca3f](https://github.com/emma-simbot/simbot-offline-inference/commit/871ca3f4013aecfe660440e034895f813f7b14e8))
+* prevent type coercion for the CDFs (within `MissionTrajectory`) ([90b9613](https://github.com/emma-simbot/simbot-offline-inference/commit/90b9613b1a826df9dd2c1fefc2505b04c6a2b7e2))
+* **scripts:** symlink commands in the prepare-user-data script ([e5af1e5](https://github.com/emma-simbot/simbot-offline-inference/commit/e5af1e5fbca210072e37c8cb11d951b4ae67dcd8))
+* **settings:** boolean whether we resume the run or not ([99d3dbc](https://github.com/emma-simbot/simbot-offline-inference/commit/99d3dbc7e17dc0eee35ba73bfbd44f49e490d55c))
+* **wandb:** allow config value changes during a run ([bb9499c](https://github.com/emma-simbot/simbot-offline-inference/commit/bb9499c7f65237b615bb7dd371fedcf95f828ebe))
+* **wandb:** column name for the per mission group success rate ([e732ee8](https://github.com/emma-simbot/simbot-offline-inference/commit/e732ee839e7707128b599b29562185052b12e39f))
+* **wandb:** saving output files during the evaluation run ([ade01ff](https://github.com/emma-simbot/simbot-offline-inference/commit/ade01ff11a6c2c9d304355c91bfa3722a7350e05))
+* **wandb:** set the default success rate to 0 if there are nan's ([eec3a00](https://github.com/emma-simbot/simbot-offline-inference/commit/eec3a0028b021459dbabd3af73d89f11174d3d2b))
+* **wandb:** step needs to be an int ([b65310a](https://github.com/emma-simbot/simbot-offline-inference/commit/b65310a79294640b32b59309769514b31015bd57))
+
 ## [4.32.0](https://github.com/emma-simbot/simbot-offline-inference/compare/v4.31.1...v4.32.0) (2023-05-15)
 
 
