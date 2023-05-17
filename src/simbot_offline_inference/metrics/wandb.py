@@ -5,6 +5,7 @@ from typing import Literal, Optional
 import torch
 import wandb
 import yaml
+from loguru import logger
 
 from arena_missions.structures import CDF, MissionTrajectory
 from emma_experience_hub._version import __version__ as experience_hub_version  # noqa: WPS436
@@ -179,6 +180,9 @@ class WandBEvaluationCallback(WandBCallback):
 
     def start_evaluation(self, *, resume: bool = False) -> None:
         """Start running an evaluation."""
+        if resume:
+            logger.info("Resuming previous wandb run.")
+
         wandb.init(
             entity=self.entity,
             project=self.project,

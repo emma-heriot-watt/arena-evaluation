@@ -19,19 +19,19 @@ class SimBotArenaEvaluator:
         wandb_callback: WandBCallback,
         *,
         enforce_successful_preparation: bool = False,
-        resume_previous_wandb_session: bool = False,
+        should_resume_previous_wandb_run: bool = False,
     ) -> None:
         self._inference_controller = inference_controller
         self._evaluation_metrics = evaluation_metrics
         self._wandb_callback = wandb_callback
 
         self._enforce_successful_preparation = enforce_successful_preparation
-        self._resume_previous_wandb_session = resume_previous_wandb_session
+        self._should_resume_previous_wandb_run = should_resume_previous_wandb_run
 
     def run_evaluation(self, trajectories: list[MissionTrajectory]) -> None:
         """Run the evaluation on all the test data."""
         with self._inference_controller:
-            self._wandb_callback.start_evaluation(resume=self._resume_previous_wandb_session)
+            self._wandb_callback.start_evaluation(resume=self._should_resume_previous_wandb_run)
 
             for instance in trajectories:
                 self.run_evaluation_step(instance)

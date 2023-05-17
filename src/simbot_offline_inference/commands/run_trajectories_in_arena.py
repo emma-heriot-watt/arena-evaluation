@@ -43,7 +43,7 @@ def run_trajectories_in_arena(
         evaluation_metrics,
         wandb_callback,
         enforce_successful_preparation=settings.enforce_successful_preparation,
-        resume_previous_wandb_session=settings.resume_previous_wandb_session,
+        should_resume_previous_wandb_run=settings.should_resume_previous_wandb_run,
     )
 
     logger.info(f"Running evaluation for {len(instances)} instances...")

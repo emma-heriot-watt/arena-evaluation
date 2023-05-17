@@ -39,7 +39,14 @@ class Settings(BaseSettings):
 
     # Evaluator settings
     enforce_successful_preparation: bool = False
-    resume_previous_wandb_session: bool = False
+
+    @property
+    def should_resume_previous_wandb_run(self) -> bool:
+        """Determine whether or not we should resume the previous wandb run.
+
+        If the `storage/action_outputs/` dir is empty, then we should not resume.
+        """
+        return bool(list(self.evaluation_output_dir.glob("*")))
 
     def put_settings_in_environment(self) -> None:
         """Put settings in the environment variables."""
