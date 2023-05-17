@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Any, Literal, Optional, get_args
 
 import orjson
+import torch
 from torchmetrics import MeanMetric, SumMetric
 
 
@@ -27,11 +28,13 @@ class EvaluationMetrics:
     def __init__(
         self,
         evaluation_output_dir: Path,
+        evaluation_metrics_checkpoint_path: Path,
         success_rate_metric: MeanMetric,
         subgoal_completion_rate_metric: MeanMetric,
         per_mission_group_success_rate: Optional[dict[str, MeanMetric]] = None,
     ) -> None:
         self._output_path = evaluation_output_dir
+        self._evaluation_metrics_checkpoint_path = evaluation_metrics_checkpoint_path
 
         self.games_played = SumMetric()
 
@@ -41,6 +44,19 @@ class EvaluationMetrics:
         self.per_mission_group_success_rate = per_mission_group_success_rate or {
             mission_group: MeanMetric() for mission_group in get_args(MissionGroup)
         }
+
+    def restore_checkpoint(self) -> "EvaluationMetrics":
+        """Restore the evaluation metrics from the checkpoint."""
+        if not self._evaluation_metrics_checkpoint_path.exists():
+            raise FileNotFoundError(
+                "Evaluation metrics checkpoint does not exist. Why are we resuming?"
+            )
+
+        return torch.load(self._evaluation_metrics_checkpoint_path)
+
+    def save_checkpoint(self) -> None:
+        """Create a checkpoint for the evaluation metrics."""
+        torch.save(self, self._evaluation_metrics_checkpoint_path)
 
     def has_mission_been_evaluated(self, mission_id: str) -> bool:
         """Check if the mission has already been evaluated."""

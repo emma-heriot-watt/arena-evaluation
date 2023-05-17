@@ -35,7 +35,10 @@ def run_trajectories_in_arena(
         arena_orchestrator, experience_hub_orchestrator
     )
     evaluation_metrics = EvaluationMetrics(
-        settings.evaluation_output_dir, MeanMetric(), MeanMetric()
+        settings.evaluation_output_dir,
+        settings.evaluation_metrics_checkpoint,
+        MeanMetric(),
+        MeanMetric(),
     )
 
     evaluator = SimBotArenaEvaluator(

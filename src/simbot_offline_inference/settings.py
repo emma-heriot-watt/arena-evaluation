@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     missions_dir: Path = cdf_dir.joinpath("missions/")
 
     evaluation_output_dir: Path = storage_dir.joinpath("action_outputs/")
+    evaluation_metrics_checkpoint: Path = storage_dir.joinpath("evaluation_metrics_checkpoint.pt")
 
     # WandB
     wandb_entity: str = "emma-simbot"

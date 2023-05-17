@@ -33,6 +33,9 @@ class SimBotArenaEvaluator:
         with self._inference_controller:
             self._wandb_callback.start_evaluation(resume=self._should_resume_previous_wandb_run)
 
+            if self._should_resume_previous_wandb_run:
+                self._evaluation_metrics.restore_checkpoint()
+
             for instance in trajectories:
                 self.run_evaluation_step(instance)
 

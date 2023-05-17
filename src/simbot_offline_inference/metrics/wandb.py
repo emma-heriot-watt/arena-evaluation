@@ -238,3 +238,6 @@ class WandBEvaluationCallback(WandBCallback):
             commit=True,
             step=int(evaluation_metrics.games_played.compute().item()),
         )
+
+        # Save a checkpoint of the evaluation metrics
+        evaluation_metrics.save_checkpoint()
