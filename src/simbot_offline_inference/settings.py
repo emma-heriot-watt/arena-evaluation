@@ -46,7 +46,8 @@ class Settings(BaseSettings):
 
         If the `storage/action_outputs/` dir is empty, then we should not resume.
         """
-        return bool(list(self.evaluation_output_dir.glob("*")))
+        is_evaluation_output_dir_empty = bool(list(self.evaluation_output_dir.glob("*")))
+        return not is_evaluation_output_dir_empty
 
     def put_settings_in_environment(self) -> None:
         """Put settings in the environment variables."""
