@@ -1,6 +1,5 @@
 import json
 from collections.abc import Iterator
-from enum import Enum
 from pathlib import Path
 from shutil import rmtree
 from typing import Optional
@@ -15,11 +14,6 @@ from simbot_offline_inference.metrics import MissionGroup, WandBEvaluationCallba
 from simbot_offline_inference.settings import Settings
 
 
-class EvaluationType(Enum):
-    """Types of evaluation datasets."""
-
-    t1 = "T1"
-    t2 = "T2"
 
 
 def extract_mission_group_from_description(mission_desc: str) -> Optional[MissionGroup]:
@@ -81,7 +75,6 @@ def process_their_trajectory_data(
 
 
 def run_their_evaluation(
-    evaluation_type: EvaluationType,
     wandb_project: str = "alexa-arena-evaluation",
     *,
     force_from_scratch: bool = False,
@@ -95,15 +88,11 @@ def run_their_evaluation(
         )
         rmtree(settings.evaluation_output_dir)
 
-    trajectory_data_per_evaluation_type: dict[EvaluationType, Path] = {
-        EvaluationType.t1: settings.trajectory_dir.joinpath("valid.json"),
-        EvaluationType.t2: settings.trajectory_dir.joinpath("test.json"),
-    }
-    trajectory_data_path = trajectory_data_per_evaluation_type[evaluation_type]
+    trajectory_data_path = settings.trajectory_dir.joinpath("valid.json")
 
     logger.info(f"Loading test data from {trajectory_data_path}")
     instances = process_their_trajectory_data(
-        trajectory_data_path, session_id_prefix=evaluation_type.value
+        trajectory_data_path, session_id_prefix="T1"
     )
 
     run_trajectories_in_arena(
@@ -111,7 +100,7 @@ def run_their_evaluation(
         wandb_callback=WandBEvaluationCallback(
             project=wandb_project,
             entity=settings.wandb_entity,
-            group=evaluation_type.value,
+            group="T1",
             mission_trajectory_dir=settings.missions_dir,
             mission_trajectory_outputs_dir=settings.evaluation_output_dir,
             unity_logs=settings.unity_log_path,

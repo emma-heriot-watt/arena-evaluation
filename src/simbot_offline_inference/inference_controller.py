@@ -100,7 +100,7 @@ class SimBotInferenceController:
         if self.is_all_goals_complete():
             raise AssertionError(
                 "Do not send an utterance when all goals are complete. Arena will crash. If you are wanting to do this, there is something wrong in the challenge definition."
-            ) from None
+            )
 
         for loop_idx in range(self._max_loops_for_single_utterance):
             if self.is_all_goals_complete():

@@ -168,9 +168,6 @@ class ArenaOrchestrator(AlexaArenaOrchestrator):
             + str(settings.unity_log_path)
         )
 
-        if settings.enable_fast_mode:
-            command = f"{command} -FastMode "
-
         command = f"{command} &"
         return command
 

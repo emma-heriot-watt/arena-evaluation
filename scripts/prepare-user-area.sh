@@ -1,4 +1,6 @@
 #! /bin/bash
+set -e
+set -o pipefail
 
 # This script prepares the user area for the user to run the offline inference
 
@@ -26,7 +28,7 @@ poetry install --without emma
 
 # Clone the experience hub into the storage dir
 echo "[SimBot] Installing experience hub as editable"
-git clone https://github.com/emma-simbot/experience-hub storage/experience-hub
+git clone https://github.com/emma-heriot-watt/experience-hub storage/experience-hub
 pip install -e storage/experience-hub
 
 # Fetch the arena
@@ -40,6 +42,21 @@ chmod 777 storage/arena/Linux/Arena.x86_64
 
 # Install the arena dependencies by copying the files they want us to copy
 echo "[SimBot] Installing arena dependencies"
+# Warn the user in bright red
+echo -e "\e[1;31m"
+echo "WARNING!!!!!!!"
+echo "THIS WILL CHANGE FILES ON YOUR MACHINE!!!!!"
+echo "EITHER RUN THIS INSIDE A CONTAINER OR BACKUP THAT FOLDER BEFORE YOU RUN THIS."
+# Reset the colour
+echo -e "\e[0m"
+# Ask the user if they want to continue
+read -p "Do you want to continue? (y/n) " -n 1 -r
+
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+	echo
+	echo "Aborting."
+	exit 1
+fi
 sudo cp -r storage/arena/Dependencies/* /usr/lib/
 sudo ldconfig
 

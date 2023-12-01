@@ -1,4 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,jetbrains+all,python,jupyternotebooks,node,data,images,video
+
+.rtx.toml
+
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,jetbrains+all,python,jupyternotebooks,node,data,images,video
 
 ### Data ###

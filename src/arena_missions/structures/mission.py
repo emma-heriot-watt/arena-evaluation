@@ -22,7 +22,6 @@ class MissionTrajectory(BaseModel, smart_union=True):
     high_level_key: Optional[HighLevelKey] = None
 
     # Challenge definition
-
     cdf: Union[CDF, dict[str, Any]]
 
     # Used by T1/T2 data

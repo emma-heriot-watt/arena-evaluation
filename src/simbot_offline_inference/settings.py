@@ -36,7 +36,6 @@ class Settings(BaseSettings):
     arena_path: Path = storage_dir.joinpath("arena", platform, "Arena.x86_64")
     unity_log_path: Path = storage_dir.joinpath("logs", "unity_logs.log")
     display: Union[str, int] = 1
-    enable_fast_mode: bool = False
 
     # Evaluator settings
     enforce_successful_preparation: bool = False

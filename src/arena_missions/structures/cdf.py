@@ -115,4 +115,3 @@ class CDF(BaseModel):
         """Get the starting room."""
         return self.scene.room_location[0]
 
-    # TODO: Verify that the task goal object state keys are in the cdf scene required objects

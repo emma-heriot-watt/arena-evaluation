@@ -391,35 +391,6 @@ ColorChangerObjectColor = Literal[
     "Blue",
 ]
 
-# ObjectStateName = Literal[
-#     "isPickedUp",
-#     "isBroken",
-#     "isScanned",
-#     "isOpen",
-#     "isToggledOn",
-#     "isPowered",
-#     "isUsed",
-#     "isCut",
-#     "isEaten",
-#     "isHot",
-#     "isCold",
-#     "isFilled",
-#     "isDirty",
-#     "isCooked",
-#     "isSparking",
-#     "isEmbiggenated",
-#     "isOverloaded",
-#     "isExamined",
-#     "isColorChanged",
-#     # Only works on receptacles
-#     "isEmpty",
-#     # Will only work for the emotion tester
-#     "isNeutral",
-#     "isHappy",
-#     "isSad",
-#     "isAngry",
-#     "isScared",
-# ]
 
 RequiredObjectStateName = Literal[
     "isToggledOn",

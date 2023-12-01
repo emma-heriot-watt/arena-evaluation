@@ -8,21 +8,13 @@ import time
 from flask import abort
 from loguru import logger
 
-from arena_wrapper import server
 
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
 
-class ArenaController(server.Server):
-    def __init__(
-        self,
-        width=300,
-        height=300,
-        depth_format=server.DepthFormat.Meters,
-        add_depth_noise=False,
-        host="127.0.0.1",
-    ):
+class ArenaController:
+    def __init__(self, host='127.0.0.1'):
         self.last_rate_timestamp = time.time()
         self.frame_counter = 0
         self.debug_frames_per_interval = 50
@@ -34,8 +26,6 @@ class ArenaController(server.Server):
         self.currentBatchNum = 0
         self.currentRespNum = 0
         self.isUnityConnected = threading.Event()
-        # used to ensure that we are receiving frames for the action we sent
-        super().__init__(width, height, depth_format, add_depth_noise)
 
     def interact(self, actions):
         batchNum = self.currentBatchNum
