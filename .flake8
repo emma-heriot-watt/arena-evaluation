@@ -46,6 +46,8 @@ extend-ignore =
     WPS348,
 		# Allow logic in __init__ modules
     WPS412,
+		# we use magics because we need to.
+		WPS609,
 		# Google Python style is not RST until after processed by Napoleon
 		# See https://github.com/peterjc/flake8-rst-docstrings/issues/17
 		RST201,RST203,RST301,
