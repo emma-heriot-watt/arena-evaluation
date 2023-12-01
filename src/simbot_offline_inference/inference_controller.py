@@ -39,11 +39,11 @@ class SimBotInferenceController:
         logger.info("Checking experience hub is ready...")
         self._experience_hub_orchestrator.healthcheck(self._experience_hub_healthcheck_attempts, 5)
 
-        return self._exit_stack.__enter__()  # type: ignore[return-value] # noqa: WPS609
+        return self._exit_stack.__enter__()  # type: ignore[return-value]
 
     def __exit__(self, *args: Any, **kwargs: Any) -> bool:
         """Exit the services."""
-        return self._exit_stack.__exit__(*args, **kwargs)  # noqa: WPS609
+        return self._exit_stack.__exit__(*args, **kwargs)
 
     @property
     def is_arena_running(self) -> bool:

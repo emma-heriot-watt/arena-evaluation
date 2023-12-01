@@ -9,12 +9,11 @@ from flask import abort
 from loguru import logger
 
 
-
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
 
 class ArenaController:
-    def __init__(self, host='127.0.0.1'):
+    def __init__(self, host="127.0.0.1"):
         self.last_rate_timestamp = time.time()
         self.frame_counter = 0
         self.debug_frames_per_interval = 50

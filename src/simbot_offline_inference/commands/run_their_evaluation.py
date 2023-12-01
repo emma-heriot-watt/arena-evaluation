@@ -14,8 +14,6 @@ from simbot_offline_inference.metrics import MissionGroup, WandBEvaluationCallba
 from simbot_offline_inference.settings import Settings
 
 
-
-
 def extract_mission_group_from_description(mission_desc: str) -> Optional[MissionGroup]:
     """Extract the group from the mission description."""
     switcher: dict[str, MissionGroup] = {
@@ -91,9 +89,7 @@ def run_their_evaluation(
     trajectory_data_path = settings.trajectory_dir.joinpath("valid.json")
 
     logger.info(f"Loading test data from {trajectory_data_path}")
-    instances = process_their_trajectory_data(
-        trajectory_data_path, session_id_prefix="T1"
-    )
+    instances = process_their_trajectory_data(trajectory_data_path, session_id_prefix="T1")
 
     run_trajectories_in_arena(
         instances,

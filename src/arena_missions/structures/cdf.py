@@ -114,4 +114,3 @@ class CDF(BaseModel):
     def start_room(self) -> OfficeRoom:
         """Get the starting room."""
         return self.scene.room_location[0]
-
