@@ -1,0 +1,49 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug Tests",
+			"type": "python",
+			"request": "launch",
+			"console": "integratedTerminal",
+			"purpose": ["debug-test"],
+			"justMyCode": false,
+			"env": {
+				"_PYTEST_RAISE": "1"
+			}
+		},
+		{
+			"name": "Run command",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/src/simbot_offline_inference/__main__.py",
+			"console": "integratedTerminal",
+			"justMyCode": false,
+			"subProcess": true,
+			"sudo": true
+		},
+		{
+			"name": "Generate trajectories",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/src/simbot_offline_inference/__main__.py",
+			"console": "integratedTerminal",
+			"justMyCode": false,
+			"subProcess": true,
+			"args": ["generate-trajectories", "./storage/cdfs/missions"]
+		},
+		{
+			"name": "Validate generated missions",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/src/simbot_offline_inference/__main__.py",
+			"console": "integratedTerminal",
+			"justMyCode": false,
+			"subProcess": true,
+			"args": ["validate-generated-missions"]
+		}
+	]
+}
